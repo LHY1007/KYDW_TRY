@@ -261,6 +261,11 @@ details.fold[open] summary::after { content: "−"; }
 .faq-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: start; }
 .faq-grid details { margin: 0; }
 .faq-grid .fold-body { font-size: 14px; }
+.faq-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.faq-column { min-width: 0; }
+.faq-column > h2 { margin: 0 0 12px; font-size: clamp(21px, 2.2vw, 28px); }
+.faq-stack { display: grid; gap: 10px; }
+.faq-stack .fold-body { font-size: 14px; }
 .source-box { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 17px 19px; border: 1px dashed var(--line); border-radius: 16px; background: var(--surface-2); }
 .source-box p { margin: 0; color: var(--muted); }
 
@@ -373,7 +378,7 @@ details.fold[open] summary::after { content: "−"; }
   .hero h1 { font-size: 34px; text-wrap: balance; }
   .section-head { display: block; }
   .section-link { display: inline-block; margin-top: 9px; }
-  .detail-grid, .card-grid, .faq-grid, .leader-grid, .resource-grid { grid-template-columns: 1fr; }
+  .detail-grid, .card-grid, .faq-grid, .faq-columns, .leader-grid, .resource-grid { grid-template-columns: 1fr; }
   .home-output-grid, .project-split, .project-tier-grid, .material-grid, .week-card-grid { grid-template-columns: 1fr; }
   .feature-points { grid-template-columns: 1fr; }
   .home-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }

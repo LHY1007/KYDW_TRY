@@ -196,7 +196,7 @@
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
       <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><div class="home-project-list">${homeProjects.map(homeProjectCard).join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情 →</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>山东大学项目、科研入门培训、复旦项目和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
     </section>
-    <section class="section">${sectionHead("资源中心", "专业解读、项目资料与教学文档分开整理，进入相应合集即可浏览。", "resources/index.html", "进入资源中心")}
+    <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "进入资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
     </section>
     <section class="section">${sectionHead("负责人", null, "team/people.html", "查看详细介绍")}<div class="leader-list">${t.leaders.map(leaderPreview).join("")}</div></section>`);
@@ -207,9 +207,9 @@
     layout(`${hero({ eyebrow: t.label, title: "团队介绍", lead: t.lead, actions: [{ label: "查看项目与活动", href: "programs/index.html", primary: true }, { label: "进入资源中心", href: "resources/index.html" }] })}
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}</div></section>
     <section class="section">${sectionHead("团队概况", "83 名成员，已毕业成员去向与在校本科生高校网络如下。", null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
-    <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>围绕医学、工程、计算机、人工智能与生物信息学等交叉方向开展交流。</p></article><article class="card"><h3>从研究任务进入方法</h3><p>通过项目、培训和专题合作，讨论数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
+    <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>成员来自不同学校、专业和课题组，交流医学、工程、计算机、人工智能与生物信息学等方向。</p></article><article class="card"><h3>从研究任务进入方法</h3><p>项目、培训和专题合作都从具体任务出发，讨论数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
     <section class="section">${sectionHead("代表性成果", null, "team/achievements.html", "查看完整成果")}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
-    <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向 →</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦本科生科研技能训练、2501 期联合项目与生物医学人工智能专题交流，覆盖入门训练、跨校协作和专题讨论。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系 →</a></div></article></div></section>
+    <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向 →</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦本科生科研技能训练、2501 期联合项目和生物医学人工智能专题交流，分别提供训练、合作与讨论内容。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系 →</a></div></article></div></section>
     <section class="section">${sectionHead("负责人和历届骨干", "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", "team/people.html", "查看成员介绍")}<div class="leader-list">${t.leaders.map(leaderPreview).join("")}</div></section>
     <section class="section"><div class="callout"><b>联系 KYDW</b><p>关注“科研大王”公众号，或添加负责人微信 <b>${esc(data.site.wechat)}</b> 了解团队活动和项目入口。</p></div><p class="small muted">网站公开资料免费阅读，请勿用于牟利性销售。</p></section>`);
   }
@@ -220,7 +220,7 @@
     const configs = {
       achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果", lead: "", back: "team/index.html" },
       destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向均为研究型硕士（2年及以上）或直博。", back: "team/index.html" },
-      activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "从科研入门培训、跨校项目到复旦方向试点和生物医学人工智能专题交流，进入对应页面查看活动内容。", back: "team/index.html" },
+      activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦方向试点和生物医学人工智能专题交流。", back: "team/index.html" },
       people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", back: "team/index.html" }
     };
     const cfg = configs[section] || configs.achievements;
@@ -235,7 +235,7 @@
 
   function programs() {
     layout(`${hero({ eyebrow: "项目与活动", title: "项目与活动", lead: "KYDW 的培训、合作项目、科研体验和专题交流。", actions: [{ label: "进入科研体验项目", href: "experience/index.html", primary: true }, { label: "进入资源中心", href: "resources/index.html" }] })}
-    <section class="section">${sectionHead("项目与活动", "本科生科研入门体验项目单独展示，其他项目与活动按时间顺序列出。", null)}<div class="activity-timeline">${sortedModules().map(moduleCard).join("")}</div></section>`);
+    <section class="section">${sectionHead("项目与活动", "当前重点为本科生科研入门体验项目；其他培训、合作项目与专题交流收录在下方目录。", null)}<div class="activity-timeline">${sortedModules().map(moduleCard).join("")}</div></section>`);
   }
 
   function modulePage() {
@@ -248,8 +248,8 @@
   }
 
   function resources() {
-    layout(`${hero({ eyebrow: "资源中心", title: "资源中心", lead: "把团队公开的专业解读、项目资料和教学文档按合集整理。", actions: [{ label: "浏览资源合集", href: "#resource-directory", primary: true }, { label: "查看项目与活动", href: "programs/index.html" }] })}
-    <section class="section" id="resource-directory">${sectionHead("资源合集", "按主题进入对应资料集合。", null)}<div class="resource-grid">${sortedResources().map((collection) => resourceCollectionCard(collection)).join("")}</div></section>`);
+    layout(`${hero({ eyebrow: "资源中心", title: "资源中心", lead: "专业解读、项目与活动资料、教学文档库。", actions: [{ label: "浏览资源合集", href: "#resource-directory", primary: true }, { label: "查看项目与活动", href: "programs/index.html" }] })}
+    <section class="section" id="resource-directory">${sectionHead("资源合集", null, null)}<div class="resource-grid">${sortedResources().map((collection) => resourceCollectionCard(collection)).join("")}</div></section>`);
   }
 
   function experience() {
@@ -259,7 +259,7 @@
     <section class="section"><div class="card feature-callout"><h2>项目目标</h2><p>${esc(e.goal)}</p></div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
     <section class="section">${sectionHead("面向对象与学习安排", null, null)}${statGrid(e.facts)}<div class="prose participation-prose"><p><strong>面向对象：</strong>${esc(e.audience)}</p><p><strong>学习安排：</strong>${esc(e.schedule)}</p><p><strong>学习形式：</strong>${esc(e.participation)}</p></div></section>
-    <section class="section" id="project-directory">${sectionHead("项目目录", "按主题周进入项目详情。", null)}<div class="week-card-grid">${e.weeks.map(weekCard).filter(Boolean).join("")}</div></section>
+    <section class="section" id="project-directory">${sectionHead("项目目录", "本科生科研入门体验项目按周组织，每周包含三个项目。", null)}<div class="week-card-grid">${e.weeks.map(weekCard).filter(Boolean).join("")}</div></section>
     <section class="section">${sectionHead("后续发展", null, null)}<div class="path-rail">${e.path.map((item) => `<article class="path-step"><b>${esc(item.title)}</b><span>${esc(item.text)}</span></article>`).join("")}</div></section>
     <section class="section">${sectionHead("培养路径对比", null, null)}<div class="card-grid">${e.comparison.map((item) => `<article class="card"><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
     <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.access)}</p></div></section>`);
@@ -311,8 +311,10 @@
 
   function professionalFaq() {
     const p = data.professional;
-    layout(`${hero({ eyebrow: "专业解读 / 答疑", title: "生物医学工程专业答疑", lead: "集中回答课程、科研、升学、就业与费用等问题。", actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}
-    <section class="section"><div class="faq-grid">${p.faq.map((item) => `<details class="fold"><summary>${esc(item.q)}</summary><div class="fold-body"><p>${esc(item.a)}</p></div></details>`).join("")}</div></section>`);
+    const groups = ["专业本身", "升学与职业"].map((title) => ({ title, items: p.faq.filter((item) => item.group === title) }));
+    const faqColumn = (group) => `<article class="faq-column"><h2>${esc(group.title)}</h2><div class="faq-stack">${group.items.map((item) => `<details class="fold"><summary>${esc(item.q)}</summary><div class="fold-body"><p>${esc(item.a)}</p></div></details>`).join("")}</div></article>`;
+    layout(`${hero({ eyebrow: "专业解读 / 答疑", title: "生物医学工程专业答疑", lead: "左侧介绍专业本身，右侧整理升学与职业问题。", actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}
+    <section class="section"><div class="faq-columns">${groups.map(faqColumn).join("")}</div></section>`);
   }
 
   const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, resources, experience, "experience-week": weekPage, project: projectPage, professional, "professional-faq": professionalFaq };
