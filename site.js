@@ -213,15 +213,14 @@
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
     <section class="section" id="team-overview">${sectionHead("团队概况", "83 名成员；已毕业成员高校按直博和研究型硕士分列，另列在校本科生成员高校。", "team/index.html", "完整团队介绍")}
-      <div class="home-intro-grid"><article class="card home-team-copy"><h3>连接科研信息、学术资源与合作机会</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}</article><article class="card university-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div></div>
+      <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>连接科研信息、学术资源与合作机会</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card home-leaders-card"><div class="card-kicker">负责人</div><div class="leader-list">${t.leaders.map(leaderPreview).join("")}</div><div class="card-footer"><a class="outline-btn" href="${rootHref("team/people.html")}">查看详细介绍 →</a></div></article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}</article><article class="card university-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
       <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><div class="home-project-list">${homeProjects.map(homeProjectCard).join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情 →</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>山东大学项目、科研入门培训、复旦项目和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
     </section>
     <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "进入资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
-    </section>
-    <section class="section">${sectionHead("负责人", null, "team/people.html", "查看详细介绍")}<div class="leader-list">${t.leaders.map(leaderPreview).join("")}</div></section>`);
+    </section>`);
   }
 
   function team() {
