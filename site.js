@@ -151,8 +151,9 @@
 
   function leaderPreview(leader) {
     const preview = leader.preview || "";
-    if (!leader.text) return `<div class="leader-fold leader-fold-empty"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small></span></div>`;
-    const detail = leader.text ? `<div class="fold-body"><p>${esc(leader.text)}</p></div>` : `<div class="fold-body"></div>`;
+    const detailParagraphs = leader.paragraphs || (leader.text ? [leader.text] : []);
+    if (!detailParagraphs.length) return `<div class="leader-fold leader-fold-empty"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small></span></div>`;
+    const detail = `<div class="fold-body">${paragraphs(detailParagraphs)}</div>`;
     return `<details class="leader-fold"><summary><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small>${preview ? `<em>${esc(preview)}</em>` : ""}</span><span class="leader-toggle">查看简介</span></summary>${detail}</details>`;
   }
 
