@@ -340,7 +340,7 @@ details.fold[open] summary::after { content: "−"; }
 .feature-points b { color: var(--primary); font-size: 14px; }
 .feature-points span { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .activity-timeline { display: grid; gap: 14px; }
-.activity-row { display: grid; grid-template-columns: 125px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 18px 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow-soft); }
+.activity-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 18px 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow-soft); }
 .activity-period { color: var(--primary); font-weight: 800; font-size: 14px; }
 .activity-row h3 { margin: 4px 0 3px; font-size: 21px; }
 .activity-row p { margin: 0; color: var(--muted); }
@@ -408,8 +408,8 @@ details.fold[open] summary::after { content: "−"; }
   .home-intro-grid { grid-template-columns: 1fr; }
   .week-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .material-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .activity-row { grid-template-columns: 105px minmax(0, 1fr); }
-  .activity-row > .outline-btn { grid-column: 2; justify-self: start; }
+  .activity-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .activity-row > .outline-btn { grid-column: auto; justify-self: start; }
   .featured-showcase { min-height: 0; }
   .showcase-scroll { max-height: 420px; }
   .quick-link-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
