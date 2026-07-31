@@ -136,6 +136,11 @@ button { font: inherit; }
 .university-card { min-height: 0; }
 .university-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
 .university-cloud span { display: inline-flex; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); font-size: 13px; line-height: 1.2; }
+.member-network { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 15px; }
+.network-group { min-width: 0; }
+.network-group h4 { margin: 0; color: var(--text); font-size: 15px; }
+.network-note { color: var(--muted); font-size: 12px; margin: 5px 0 0; }
+.network-group .university-cloud { margin-top: 10px; }
 .team-universities { margin-top: 16px; }
 .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .three-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -380,5 +385,6 @@ details.fold[open] summary::after { content: "−"; }
   .timeline-grade { width: 70px; padding: 7px 3px; font-size: 13px; }
   .top-actions .outline-btn { display: none; }
   .showcase-scroll { max-height: none; overflow: visible; padding-right: 0; }
+  .member-network { grid-template-columns: 1fr; gap: 16px; }
   .prose-section h2 { font-size: 22px; }
 }

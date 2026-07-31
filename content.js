@@ -19,20 +19,41 @@ window.KYDW = {
     title: "科研大王（KYDW）",
     lead: "学生自主运营的跨校、跨学科科研协作团队。",
     paragraphs: [
-      "KYDW 前身是东北大学医学与生物信息工程学院学生发起的科研协作网络，2023 年 12 月成立。团队连接不同学校、专业与课题组，围绕医学、工程、计算机、人工智能与生物信息学等交叉方向开展学习、项目实践和经验分享。",
-      "团队目前公开的内容包括科研入门培训、本科生科研入门体验项目、跨校合作项目、专业解读与教学文档，成员围绕医学影像、生物信息学和人工智能等方向交流；具体项目和资料分别收在“项目与活动”和“资源中心”。",
+      "KYDW 前身是东北大学医学与生物信息工程学院学生发起的科研协作网络，2023 年 12 月成立。团队连接不同学校、专业与课题组，围绕医学、工程、计算机、人工智能与生物信息学等交叉方向分享科研信息与学术资源，促进国内外高校及课题组之间的交流、合作与成员推荐。",
+      "团队的作用，是把分散在不同学校和研究方向中的信息、项目与经验整理成可阅读、可参与的内容，帮助成员寻找合作对象、了解研究方向，并在实际项目中建立持续联系。",
+      "团队目前整理科研入门培训、本科生科研入门体验项目、跨校合作项目、专业解读与教学文档，成员可在“项目与活动”和“资源中心”进入对应内容。",
       "团队由学生自发组织、自主运营。成员来自不同学校、专业和课题组，按项目组成协作小组，持续维护网站内容、实践材料和专题交流。"
     ],
     facts: [
       { value: "83", label: "团队成员" },
-      { value: "18", label: "成员高校" },
-      { value: "多学科", label: "协作范围" },
+      { value: "跨校", label: "协作范围" },
+      { value: "多学科", label: "研究方向" },
       { value: "持续", label: "项目与活动" }
     ],
-    universities: [
-      "清华大学", "北京大学", "复旦大学", "上海交通大学", "浙江大学", "剑桥大学", "邓迪大学", "康奈尔大学",
-      "约翰·霍普金斯大学", "帝国理工学院", "哈佛大学", "香港科技大学", "香港中文大学", "同济大学", "南方医科大学",
-      "苏州大学", "河南农业大学", "辽宁大学"
+    destinationRecords: [
+      { region: "中国大陆", name: "清华大学", degree: "硕士", count: 1 },
+      { region: "中国大陆", name: "北京大学", degree: "PhD", count: 1 },
+      { region: "中国大陆", name: "北京大学医学部", degree: "PhD", count: 1 },
+      { region: "中国大陆", name: "复旦大学", degree: "PhD", count: 2 },
+      { region: "中国大陆", name: "复旦大学", degree: "硕士", count: 1 },
+      { region: "中国大陆", name: "上海交通大学", degree: "PhD", count: 1 },
+      { region: "中国大陆", name: "上海交通大学", degree: "硕士", count: 1 },
+      { region: "中国大陆", name: "浙江大学", degree: "硕士", count: 2 },
+      { region: "中国大陆", name: "中国科学技术大学", degree: "PhD", count: 1 },
+      { region: "英国", name: "剑桥大学", degree: "PhD", count: 1 },
+      { region: "英国", name: "剑桥大学", degree: "一年制 MPhil", count: 1 },
+      { region: "英国", name: "邓迪大学", degree: "PhD", count: 1 },
+      { region: "英国", name: "邓迪大学", degree: "两年制 MPhil", count: 1 },
+      { region: "英国", name: "帝国理工学院", degree: "MRes", count: 1 },
+      { region: "美国", name: "康奈尔大学", degree: "PhD", count: 1 },
+      { region: "美国", name: "约翰·霍普金斯大学", degree: "PhD", count: 1 },
+      { region: "美国", name: "哈佛大学", degree: "PhD", count: 1 },
+      { region: "中国香港与新加坡", name: "香港科技大学", degree: "两年制 MPhil", count: 1 },
+      { region: "中国香港与新加坡", name: "香港中文大学", degree: "两年制 MPhil", count: 1 },
+      { region: "中国香港与新加坡", name: "新加坡国立大学", degree: "两年制 MPhil", count: 1 }
+    ],
+    undergraduateNetwork: [
+      "东北大学", "复旦大学", "山东大学", "同济大学", "华南师范大学", "辽宁大学", "南方医科大学", "苏州大学", "河南农业大学"
     ],
     achievementMetrics: [
       { value: "13", label: "论文总数" },
@@ -41,12 +62,7 @@ window.KYDW = {
       { value: "5", label: "一等奖竞赛" },
       { value: "5", label: "国家级优秀项目" }
     ],
-    destinations: [
-      { group: "剑桥与英国", items: ["剑桥大学 PhD × 1", "剑桥大学一年制 MPhil × 1", "邓迪大学 PhD × 1", "邓迪大学两年制 MPhil × 1"] },
-      { group: "国内高校", items: ["北京大学 PhD × 1", "北京大学医学部 PhD × 1", "清华大学 × 1", "浙江大学硕士 × 1", "中国科学技术大学 PhD × 1"] },
-      { group: "复旦、上交与港校", items: ["复旦大学 PhD × 2、硕士 × 1", "上海交通大学 PhD × 1、硕士 × 1", "香港科技大学两年制 MPhil × 1"] }
-    ],
-    destinationNote: "成员去向包括剑桥大学、邓迪大学、清华大学、北京大学、复旦大学、上海交通大学、浙江大学及香港科技大学等高校。",
+    destinationNote: "已毕业成员去向均为研究型硕士（2年及以上）或直博。",
     achievements: [
       { title: "论文产出", text: "CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）；CCF B 类会议 1 篇（MICCAI）；研讨会论文 3 篇（CMMCA）；SCI 一区 Top 论文 4 篇；SCI 二区论文 3 篇。", lines: ["CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）", "CCF B 类会议 1 篇（MICCAI）", "研讨会论文 3 篇（CMMCA）", "SCI 一区 Top 论文 4 篇", "SCI 二区论文 3 篇"] },
       { title: "国家级项目", text: "全国大学生数学建模竞赛 Outstanding Winner 1 项；国家级大学生创新创业训练计划优秀项目 5 项。", lines: ["全国大学生数学建模竞赛 Outstanding Winner 1 项", "国家级大学生创新创业训练计划优秀项目 5 项"] },
