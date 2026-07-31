@@ -17,76 +17,70 @@ window.KYDW = {
   team: {
     label: "KYDW / 团队",
     title: "科研大王（KYDW）",
-    lead: "一个由学生自主运营的跨校、跨学科科研协作团队。",
+    lead: "学生自主运营的跨校、跨学科科研协作团队。",
     paragraphs: [
       "KYDW 前身是东北大学医学与生物信息工程学院学生发起的科研协作网络，2023 年 12 月成立。团队连接不同学校、专业与课题组，围绕医学、工程、计算机、人工智能与生物信息学等交叉方向开展学习、项目实践和经验分享。",
-      "这里的内容面向两类人：想了解科研流程的本科生，以及已经确定方向、希望继续做项目和研究的同学。我们把复杂的研究流程拆成可以理解、可以运行、可以复盘的任务，帮助第一次接触科研的同学逐步认识不同方向。",
-      "KYDW 由学生自发组织、自主运营，连接不同学校、专业和课题组的同学，持续整理团队活动、项目实践与学习资料。"
+      "团队目前公开的内容包括科研入门培训、本科生科研入门体验项目、跨校合作项目、专业解读与教学文档，成员围绕医学影像、生物信息学和人工智能等方向交流；具体项目和资料分别收在“项目与活动”和“资源中心”。",
+      "团队由学生自发组织、自主运营。成员来自不同学校、专业和课题组，按项目组成协作小组，持续维护网站内容、实践材料和专题交流。"
     ],
     facts: [
-      { value: "2023.12", label: "团队成立" },
-      { value: "约 61 人", label: "跨校协作网络（截至 2025-10 整理）" },
-      { value: "线上为主", label: "学习、项目与交流方式" },
-      { value: "公开阅读", label: "网站学习资料" }
+      { value: "83", label: "团队成员" },
+      { value: "18", label: "成员高校" },
+      { value: "多学科", label: "协作范围" },
+      { value: "持续", label: "项目与活动" }
+    ],
+    universities: [
+      "清华大学", "北京大学", "复旦大学", "上海交通大学", "浙江大学", "剑桥大学", "邓迪大学", "康奈尔大学",
+      "约翰·霍普金斯大学", "帝国理工学院", "哈佛大学", "香港科技大学", "香港中文大学", "同济大学", "南方医科大学",
+      "苏州大学", "河南农业大学", "辽宁大学"
+    ],
+    achievementMetrics: [
+      { value: "13", label: "论文总数" },
+      { value: "2", label: "CCF A" },
+      { value: "4", label: "SCI 一区 Top" },
+      { value: "5", label: "一等奖竞赛" },
+      { value: "5", label: "国家级优秀项目" }
     ],
     destinations: [
       { group: "剑桥与英国", items: ["剑桥大学 PhD × 1", "剑桥大学一年制 MPhil × 1", "邓迪大学 PhD × 1", "邓迪大学两年制 MPhil × 1"] },
       { group: "国内高校", items: ["北京大学 PhD × 1", "北京大学医学部 PhD × 1", "清华大学 × 1", "浙江大学硕士 × 1", "中国科学技术大学 PhD × 1"] },
       { group: "复旦、上交与港校", items: ["复旦大学 PhD × 2、硕士 × 1", "上海交通大学 PhD × 1、硕士 × 1", "香港科技大学两年制 MPhil × 1"] }
     ],
-    destinationNote: "以上为 21–22 届成员已整理确认的部分去向，按国家、学校和学位类型分类展示。",
+    destinationNote: "成员去向包括剑桥大学、邓迪大学、清华大学、北京大学、复旦大学、上海交通大学、浙江大学及香港科技大学等高校。",
     achievements: [
-      { title: "论文与会议", text: "成员第一作者成果（2023.11—至今整理）：CCF A 国际会议 1 项；SCI Q1 6 篇（其中顶级期刊 2 篇）；CCF B 顶级医学影像 1 项；CCF B Workshop 3 项（Oral 1 项）；SCI Q2 3 篇。" },
-      { title: "国家级项目", text: "全国大学生数学建模竞赛 Outstanding Winner 1 项；国家级大学生创新创业训练计划优秀 3 项、良好 5 项。" },
-      { title: "学科竞赛", text: "全国生物医学工程创新设计竞赛一等奖 3 项、二等奖 5 项；其他国家级学科竞赛一等奖 7 项、二等奖 10 项。" }
+      { title: "论文产出", text: "CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）；CCF B 类会议 1 篇（MICCAI）；研讨会论文 3 篇（CMMCA）；SCI 一区 Top 论文 4 篇；SCI 二区论文 3 篇。", lines: ["CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）", "CCF B 类会议 1 篇（MICCAI）", "研讨会论文 3 篇（CMMCA）", "SCI 一区 Top 论文 4 篇", "SCI 二区论文 3 篇"] },
+      { title: "国家级项目", text: "全国大学生数学建模竞赛 Outstanding Winner 1 项；国家级大学生创新创业训练计划优秀项目 5 项。", lines: ["全国大学生数学建模竞赛 Outstanding Winner 1 项", "国家级大学生创新创业训练计划优秀项目 5 项"] },
+      { title: "学科竞赛", text: "全国生物医学工程创新设计竞赛一等奖 5 项、二等奖 13 项；其他国家级学科竞赛一等奖 7 项、二等奖 10 项。", lines: ["全国生物医学工程创新设计竞赛一等奖 5 项、二等奖 13 项", "其他国家级学科竞赛一等奖 7 项、二等奖 10 项"] }
     ],
     activities: [
       "每学期面向有兴趣同学的新成员科研入门培训",
       "核心成员与校友群体发起的多校联合科研项目（如 2501 期）",
       "面向医工学生的学业与科研规划分享",
-      "每周 Bio-AI Workshop",
+      "每周生物医学人工智能专题交流",
       "面向有一定研究能力同学的专项合作，例如空间转录组学基准研究",
       "复旦本科生科研技能训练、剑桥/复旦方向试点项目"
     ],
     leaders: [
-      { name: "刘涵瑜", role: "创始人 / 2021 级负责人", text: "东北大学医学与生物工程 2021 级，现剑桥大学数学院 PhD；发起 KYDW 并整理本科生科研入门材料。" },
-      { name: "伍东辰", role: "2023 级负责人", text: "东北大学医学与生物工程 2023 级，曾获 MCM Outstanding Winner、国家奖学金。" },
-      { name: "汤昊天", role: "2024 级负责人", text: "东北大学医学与生物工程 2024 级，参与 CMBBE、MICCAI2025-CMMCA 等研究工作。" },
-      { name: "吴熙东", role: "2022 级负责人", text: "东北大学医学与生物工程 2023 级，参与 CMBBE、BSPC、MICCAI CMMCA Oral 等研究工作。" }
+      { name: "伍东辰", role: "2023 级负责人", preview: "曾获 MCM Outstanding Winner、国家奖学金。", text: "东北大学医学与生物工程 2023 级，曾获 MCM Outstanding Winner、国家奖学金。" },
+      { name: "姜逸轩", role: "负责人", preview: "", text: "" },
+      { name: "汤昊天", role: "2024 级负责人", preview: "参与 CMBBE、MICCAI2025-CMMCA 等研究工作。", text: "东北大学医学与生物工程 2024 级，参与 CMBBE、MICCAI2025-CMMCA 等研究工作。" },
+      { name: "吴熙东", role: "2022 级负责人", preview: "参与 CMBBE、BSPC、MICCAI CMMCA Oral 等研究工作。", text: "东北大学医学与生物工程 2022 级，参与 CMBBE、BSPC、MICCAI CMMCA Oral 等研究工作。" },
+      { name: "刘涵瑜", role: "创始人 / 2021 级负责人", preview: "发起 KYDW 并整理本科生科研入门材料。", text: "东北大学医学与生物工程 2021 级，现剑桥大学数学院 PhD；发起 KYDW 并整理本科生科研入门材料。" }
     ]
   },
 
   resourceCollections: [
     {
-      id: "announcements",
-      label: "公告与动态",
-      title: "公告与动态",
-      subtitle: "团队活动与资料更新",
-      text: "集中查看新项目、新活动与网站资料更新。",
-      audience: "查看近期内容变化",
-      status: "持续更新",
-      badges: ["公告", "动态"],
-      href: "resources/index.html#announcements",
-      home: true,
-      homeOrder: 1,
-      items: [
-        { title: "本科生科研入门体验项目", text: "项目目录与已发布内容的入口。", href: "experience/index.html", home: true },
-        { title: "项目与活动目录", text: "培训、合作项目与专题交流的详情入口。", href: "programs/index.html", home: true },
-        { title: "教学文档库", text: "已发布的交互式教学页面集中陈列。", href: "resources/index.html#teaching-library", home: true }
-      ]
-    },
-    {
       id: "professional",
       label: "专业解读",
       title: "专业解读",
       subtitle: "专业、行业与细分方向",
-      text: "围绕生物医学工程及其交叉方向整理专业认知、课程路径、科研起步和发展主题；内容按主题继续扩展。",
+      text: "从专业性质、课程结构、科研方向和发展路径介绍生物医学工程，并收纳相关行业与细分方向的专题。",
       audience: "浏览专业、行业或研究方向",
       status: "专题合集",
-      badges: ["专业解读", "主题扩展"],
       href: "professional/index.html",
       home: true,
-      homeOrder: 2,
+      homeOrder: 1,
       items: [
         { title: "生物医学工程专业解读", text: "从专业性质、培养结构到科研、升学与就业的完整介绍。", href: "professional/index.html", home: true },
         { title: "生物医学工程专业答疑", text: "集中回答课程、科研、升学、就业与费用等问题。", href: "professional/faq.html", home: false }
@@ -97,18 +91,17 @@ window.KYDW = {
       label: "项目与活动资料",
       title: "项目与活动资料",
       subtitle: "活动说明、项目资料与实践入口",
-      text: "把科研入门培训、山大项目、复旦项目和专题交流分别放回对应详情页，相关学习材料从项目页面进入。",
+      text: "科研入门培训、山东大学项目、复旦项目和专题交流的说明与资料入口。",
       audience: "查找项目说明与活动资料",
       status: "按项目整理",
-      badges: ["项目资料", "活动资料"],
       href: "programs/index.html",
       home: true,
-      homeOrder: 3,
+      homeOrder: 2,
       items: [
-        { title: "山大项目", text: "本科生科研入门体验项目的说明与项目目录。", href: "programs/sdu.html", home: true },
+        { title: "山东大学项目", text: "早期本科生科研实践材料与相关项目说明。", href: "programs/sdu.html", home: true },
         { title: "科研入门培训", text: "从研究问题、方法到一次完整实践。", href: "programs/training.html", home: true },
         { title: "复旦项目", text: "本科生科研技能训练与跨校合作方向。", href: "programs/fudan.html", home: true },
-        { title: "Bio-AI Workshop", text: "围绕论文、代码与研究问题的专题交流。", href: "programs/workshop.html", home: true }
+        { title: "生物医学人工智能专题交流", text: "围绕论文、代码与研究问题的专题交流。", href: "programs/workshop.html", home: true }
       ]
     },
     {
@@ -119,10 +112,9 @@ window.KYDW = {
       text: "以书籍形式陈列基础编程、医学影像、计算病理和多模态预测等方向的进阶教学材料。",
       audience: "阅读某个研究方向的教学材料",
       status: "5 份教学文档",
-      badges: ["教学文档", "交互阅读"],
       href: "resources/index.html#teaching-library",
       home: true,
-      homeOrder: 4,
+      homeOrder: 3,
       items: [
         { title: "基础编程与人工智能", text: "从数据、模型和结果建立医学人工智能实践的共同语言。", href: "experience/advanced/project-01.html", kind: "book", home: false },
         { title: "MRI 肿瘤图像分割", text: "从多序列 MRI、专家标注进入像素/体素级分割。", href: "experience/advanced/project-02.html", kind: "book", home: false },
@@ -139,10 +131,9 @@ window.KYDW = {
       label: "培训项目",
       title: "KYDW 科研入门培训",
       subtitle: "从研究问题到一次完整实践。",
-      text: "按基础学习、项目实践、复盘与后续发展组织内容，帮助同学在理解数据、代码和结果后选择感兴趣的方向。",
+      text: "围绕研究问题、数据处理、模型搭建和结果分析，组织入门讲解与实践材料。",
       audience: "适合还没有明确方向的本科生",
       status: "持续整理",
-      badges: ["线上为主", "零基础友好"],
       href: "programs/training.html",
       order: 2,
       period: "持续开展",
@@ -150,16 +141,15 @@ window.KYDW = {
     },
     {
       id: "sdu",
-      label: "山东大学方向",
-      title: "山大项目",
-      subtitle: "本科生科研入门体验项目",
-      text: "山东大学方向的本科生实践材料围绕医学影像、生物信息学与人工智能交叉研究展开。项目包含交互式教学 HTML、体验项目说明和代码实践，适合从一个具体研究任务开始认识研究流程。",
+      label: "山东大学项目",
+      title: "山东大学项目",
+      subtitle: "本科生科研实践材料",
+      text: "已整理的山东大学方向实践材料，围绕医学影像、生物信息学与人工智能交叉研究展开，作为团队早期项目资料陈列。",
       audience: "适合大一至大三、来自不同专业和院校的本科生",
       status: "首批内容",
-      badges: ["新增", "推荐入门"],
       href: "programs/sdu.html",
       order: 1,
-      period: "当前重点",
+      period: "历史项目",
       home: true
     },
     {
@@ -170,7 +160,6 @@ window.KYDW = {
       text: "KYDW 活动体系中的合作方向，聚焦本科生科研技能、研究任务拆解和跨校交流。",
       audience: "适合关注医学、工程、计算机与人工智能交叉研究的本科生",
       status: "合作项目",
-      badges: ["合作方向", "按项目开放"],
       href: "programs/fudan.html",
       order: 3,
       period: "合作项目",
@@ -179,12 +168,11 @@ window.KYDW = {
     {
       id: "workshop",
       label: "专题交流",
-      title: "Bio-AI Workshop",
+      title: "生物医学人工智能专题交流",
       subtitle: "围绕一个问题，讨论数据、方法与结果。",
       text: "以定期交流和专题讨论为主要形式，帮助成员把论文阅读、代码实践和研究问题放在同一条线上。",
       audience: "适合已经开始阅读论文或参与项目、希望交流方法的本科生",
       status: "持续开展",
-      badges: ["学术交流", "跨校协作"],
       href: "programs/workshop.html",
       order: 4,
       period: "持续开展",
@@ -195,7 +183,14 @@ window.KYDW = {
   experience: {
     title: "本科生科研入门体验项目",
     label: "项目与活动 / 本科生科研入门",
+    homeProjectIds: ["project-01", "project-02", "project-03"],
+    homeProjectSummaries: {
+      "project-01": "用一段可运行的代码，把数据、模型和结果串成一次完整的人工智能实践。",
+      "project-02": "从多序列 MRI 和专家标注出发，观察模型如何圈出肿瘤区域并评价边界。",
+      "project-03": "从 X 射线投影理解图像重建，再看变分自编码器如何恢复结构。"
+    },
     lead: "从一个具体研究任务开始，认识医学与人工智能的交叉方向。",
+    goal: "以较低的试错成本接触更多专业研究方向，在实际任务中发现自己的兴趣偏好与能力优势。",
     paragraphs: [
       "本项目由原 KYDW 科研入门指南升级而来。它以体验科研为核心，把领域前沿研究拆成一组简单、易懂、可以上手的体验项目，让新同学看到一个研究任务如何从数据开始，经过处理和建模，形成结果与解释。",
       "每个方向由两层内容组成：体验项目用于接触研究任务；进阶实践用于继续阅读、运行和复盘更完整的研究流程。完成进阶实践后，可以按方向要求准备研究报告并联系对应课题组。",
@@ -217,8 +212,7 @@ window.KYDW = {
     ],
     structure: [
       { no: "01", title: "理论知识讲解", text: "每个项目约 1—2 小时，先建立完成实践所需的最小知识储备。" },
-      { no: "02", title: "体验实践", text: "用交互式代码逐步观察数据处理、模型搭建和结果分析，不要求先学完全部理论。" },
-      { no: "03", title: "兴趣记录", text: "完成后记录自己理解了哪些内容、对哪个环节感兴趣，以及希望继续阅读哪个方向。" }
+      { no: "02", title: "实践项目", text: "用交互式代码逐步观察数据处理、模型搭建和结果分析，不要求先学完全部理论。" }
     ],
     path: [
       { title: "体验项目", text: "从一个项目的真实输入和输出开始。" },
@@ -227,11 +221,11 @@ window.KYDW = {
       { title: "方向报告", text: "按方向要求整理研究报告，作为继续跟学的材料。" }
     ],
     weeks: [
-      { id: 1, title: "从代码到医学影像", note: "数据、模型与结果的基础概念。", badge: "新增", projects: ["project-01", "project-02", "project-03"] },
-      { id: 2, title: "从图像到风险预测", note: "图像分类与多模态风险预测。", badge: "推荐入门", projects: ["project-04", "project-05", "project-06"] },
-      { id: 3, title: "从空间信息到生理信号", note: "空间组学、生理信号与图像翻译。", badge: "方向拓展", projects: ["project-07", "project-08", "project-09"] },
-      { id: 4, title: "新增方向", note: "研究方向持续加入项目目录。", badge: "新增", projects: ["project-10", "project-11", "project-12"] },
-      { id: 5, title: "新增方向", note: "研究方向持续加入项目目录。", badge: "新增", projects: ["project-13", "project-14", "project-15"] }
+      { id: 1, title: "从代码到医学影像", note: "数据、模型与结果的基础概念。", projects: ["project-01", "project-02", "project-03"] },
+      { id: 2, title: "从图像到风险预测", note: "图像分类与多模态风险预测。", projects: ["project-04", "project-05", "project-06"] },
+      { id: 3, title: "从空间信息到生理信号", note: "空间组学、生理信号与图像翻译。", projects: ["project-07", "project-08", "project-09"] },
+      { id: 4, title: "新增方向", note: "研究方向持续加入项目目录。", projects: ["project-10", "project-11", "project-12"] },
+      { id: 5, title: "新增方向", note: "研究方向持续加入项目目录。", projects: ["project-13", "project-14", "project-15"] }
     ]
   },
 
