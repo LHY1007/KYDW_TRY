@@ -249,7 +249,7 @@
 
   function projectMode(project, advanced = false) {
     if (advanced && !project.single) {
-      return `<article class="project-mode advanced-mode"><div class="mode-kicker">进阶项目</div><p>继续阅读教学项目，完成实践并整理方向报告。</p></article>`;
+      return `<article class="project-mode advanced-mode"><div class="mode-kicker">进阶项目</div><p>${esc(project.tierText || project.summary)}</p></article>`;
     }
     const title = project.advanced && !project.single ? "体验项目" : "项目";
     return `<article class="project-mode"><div class="mode-kicker">${title}</div><p>${esc(project.experience || project.short)}</p></article>`;
@@ -390,7 +390,7 @@
     if (!project) return layout(hero({ eyebrow: "科研体验项目", title: "项目不存在", lead: "请返回本科生科研入门体验项目主页选择方向。", actions: [{ label: "返回项目主页", href: "experience/index.html", primary: true }] }));
     const answerHref = project.answer || project.referenceAnswer;
     const practiceHref = project.kaggle || project.practice;
-    const singleTeaching = project.single ? project.advanced : null;
+    const singleTeaching = project.single ? (project.teaching || project.advanced) : null;
     const singlePractice = project.single ? practiceHref : null;
     const singleAnswer = project.single ? answerHref : null;
     const experienceTeaching = project.experienceTeaching || null;
@@ -399,10 +399,10 @@
     const advancedTeaching = project.single ? null : project.advanced;
     const advancedPractice = project.advancedPractice || null;
     const advancedAnswer = project.advancedAnswer || null;
-    const tier = (title, text, teachingHref, practiceLink, answerLink) => `<article class="project-tier"><div class="mode-kicker">${esc(title)}</div>${text ? `<p class="project-tier-text">${esc(text)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref)}${materialCard("实践项目", "实践", "", practiceLink, !!practiceLink)}${materialCard("参考答案", "答案", "", answerLink)}</div></article>`;
+    const tier = (title, text, teachingHref, practiceLink, answerLink) => `<article class="project-tier"><div class="mode-kicker">${esc(title)}</div>${text ? `<p class="project-tier-text">${esc(text)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref)}${materialCard("实践项目", "实践", "", practiceLink, /^https?:/i.test(practiceLink || ""))}${materialCard("参考答案", "答案", "", answerLink)}</div></article>`;
     const projectContent = project.single
-      ? tier("项目", "", singleTeaching, singlePractice, singleAnswer)
-      : `<div class="project-tier-grid">${tier("体验项目", "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", "", advancedTeaching, advancedPractice, advancedAnswer)}</div>`;
+      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
+      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.tierText || "", advancedTeaching, advancedPractice, advancedAnswer)}</div>`;
     layout(`${hero({ eyebrow: `第 ${project.week} 周 / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属周次", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section">${sectionHead("项目材料", null, null)}${projectContent}</section>`);
   }
