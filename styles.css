@@ -149,6 +149,15 @@ button { font: inherit; }
 .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .three-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .resource-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; grid-auto-rows: 1fr; }
+.training-chapter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.training-topic-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.training-path-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.training-chapter-card, .training-topic-card, .training-path-card { display: flex; flex-direction: column; min-width: 0; }
+.training-chapter-card .card-footer, .training-topic-card .card-footer, .training-path-card .card-footer { margin-top: auto; }
+.training-chapter-card h3 { margin-top: 10px; }
+.training-topic-card h3, .training-path-card h2 { margin-top: 5px; }
+.chapter-number { color: var(--primary-2); font-size: 13px; font-weight: 800; letter-spacing: .12em; }
+.training-path-card { min-height: 220px; }
 .resource-card { display: flex; flex-direction: column; height: 100%; min-height: 258px; }
 .resource-card .card-footer { margin-top: auto; }
 .resource-items { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 9px; }
@@ -370,7 +379,8 @@ details.fold[open] summary::after { content: "−"; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .home-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .project-grid, .three-grid { grid-template-columns: 1fr; }
-  .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resource-grid, .training-chapter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .training-path-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .showcase-grid { grid-template-columns: 1fr; }
   .home-intro-grid { grid-template-columns: 1fr; }
   .week-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -391,7 +401,7 @@ details.fold[open] summary::after { content: "−"; }
   .hero h1 { font-size: 34px; text-wrap: balance; }
   .section-head { display: block; }
   .section-link { display: inline-block; margin-top: 9px; }
-  .detail-grid, .card-grid, .faq-grid, .faq-columns, .leader-grid, .resource-grid { grid-template-columns: 1fr; }
+  .detail-grid, .card-grid, .faq-grid, .faq-columns, .leader-grid, .resource-grid, .training-chapter-grid, .training-topic-grid, .training-path-grid { grid-template-columns: 1fr; }
   .home-output-grid, .project-split, .project-tier-grid, .material-grid, .week-card-grid { grid-template-columns: 1fr; }
   .feature-points { grid-template-columns: 1fr; }
   .home-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -10,7 +10,7 @@ window.KYDW = {
 
   collections: [
     { id: "team", label: "团队介绍", href: "team/index.html", pages: ["team", "team-section"], home: true, homeMode: "intro" },
-    { id: "programs", label: "项目与活动", href: "programs/index.html", pages: ["programs", "module", "experience", "experience-week", "project"], home: true, homeMode: "showcase" },
+    { id: "programs", label: "项目与活动", href: "programs/index.html", pages: ["programs", "module", "training-module", "training-plan", "experience", "experience-week", "project"], home: true, homeMode: "showcase" },
     { id: "resources", label: "资源中心", href: "resources/index.html", pages: ["resources", "professional"], home: true, homeMode: "cards" }
   ],
 
@@ -78,7 +78,7 @@ window.KYDW = {
       "面向医工学生的学业与科研规划分享",
       "每周生物医学人工智能专题交流",
       "面向有一定研究能力同学的专项合作，例如空间转录组学基准研究",
-      "复旦本科生科研技能训练、剑桥/复旦方向试点项目"
+      "复旦大学秋季学期本科生践悟课程"
     ],
     leaders: [
       { name: "伍东辰", role: "2023 级负责人", preview: "东北大学医学与生物工程 2023 级，现任 KYDW 2023 级负责人。曾获国际大学生数学建模竞赛特等奖 Outstanding Winner、国家奖学金。", paragraphs: [
@@ -141,9 +141,9 @@ window.KYDW = {
       home: true,
       homeOrder: 2,
       items: [
-        { title: "山东大学项目", text: "山东大学方向的本科生实践材料。", href: "programs/sdu.html", home: true },
-        { title: "科研入门培训", text: "新成员招募、科研入门与团队协作训练。", href: "programs/training.html", home: true },
-        { title: "复旦项目", text: "研究方法、实践技能与医学人工智能项目。", href: "programs/fudan.html", home: true },
+        { title: "山东大学本科生暑期名校课程-神经影像学与人工智能", text: "面向本科生的神经影像学与人工智能课程实践材料。", href: "programs/sdu.html", home: true },
+        { title: "KYDW科研入门培训", text: "从基础知识、人工智能到科研实践的分章培训内容。", href: "programs/training.html", home: true },
+        { title: "复旦大学秋季学期本科生践悟课程", text: "面向本科生的研究方法、实践技能与医学人工智能课程。", href: "programs/fudan.html", home: true },
         { title: "生物医学人工智能专题交流", text: "生物学与人工智能交叉主题的定期讨论。", href: "programs/workshop.html", home: true }
       ]
     },
@@ -171,8 +171,8 @@ window.KYDW = {
   modules: [
     {
       id: "training",
-      label: "培训项目",
-      title: "KYDW 科研入门培训",
+      label: "科研入门培训",
+      title: "KYDW科研入门培训",
       subtitle: "新成员招募与科研训练",
       text: "每学期面向对科研感兴趣的本科生开展新成员招募与训练，内容包括研究入门和团队协作。",
       audience: "大一至大三、来自不同专业和院校的本科生",
@@ -180,14 +180,15 @@ window.KYDW = {
       href: "programs/training.html",
       order: 2,
       period: "持续开展",
-      home: true
+      home: true,
+      training: true
     },
     {
       id: "sdu",
-      label: "山东大学项目",
-      title: "山东大学项目",
-      subtitle: "本科生科研实践材料",
-      text: "山东大学方向的本科生实践材料，内容涉及医学影像、生物信息学和人工智能等主题。",
+      label: "山东大学本科生暑期名校课程-神经影像学与人工智能",
+      title: "山东大学本科生暑期名校课程-神经影像学与人工智能",
+      subtitle: "本科生暑期课程与实践材料",
+      text: "面向本科生的神经影像学与人工智能课程实践材料，围绕神经影像、医学人工智能和相关数据任务展开。",
       audience: "大一至大三、来自不同专业和院校的本科生",
       status: "首批内容",
       href: "programs/sdu.html",
@@ -197,10 +198,10 @@ window.KYDW = {
     },
     {
       id: "fudan",
-      label: "复旦大学方向",
-      title: "复旦项目",
-      subtitle: "本科生科研技能训练",
-      text: "剑桥大学与复旦大学联合推出的本科生科研技能训练试点，公开研究方法、实践技能和医学人工智能项目。",
+      label: "复旦大学秋季学期本科生践悟课程",
+      title: "复旦大学秋季学期本科生践悟课程",
+      subtitle: "本科生研究方法与实践课程",
+      text: "面向本科生的研究方法、实践技能与医学人工智能课程，整理剑桥大学与复旦大学联合试点中的公开内容。",
       audience: "关注医学、工程、计算机与人工智能交叉研究的本科生",
       status: "合作项目",
       href: "programs/fudan.html",
@@ -222,6 +223,144 @@ window.KYDW = {
       home: true
     }
   ],
+
+  training: {
+    title: "KYDW科研入门培训",
+    lead: "从基础知识、人工智能到科研实践，按章节建立进入研究任务所需的知识、工具与方法。",
+    paragraphs: [
+      "科研入门培训面向准备接触科研的本科生，先从电脑、文献和数据等基本工作开始，再进入 Python、人工智能、深度学习和研究实践。每个章节都对应一组可以继续阅读或动手完成的内容。",
+      "培训内容既包括基础知识，也包括文献阅读、代码环境、挑战赛和实战项目。学习时可以按照章节顺序进入，也可以根据已有基础直接选择需要的模块。"
+    ],
+    chapters: [
+      {
+        id: "preface",
+        title: "序言：如何制作世界上最好吃的面包",
+        lead: "从准备材料、掌握方法到完成实践，建立一条可以反复使用的学习路径。",
+        topics: [
+          { title: "先形成完整流程", text: "从研究问题、资料、工具和实践任务开始，先完成一次完整的学习闭环。" },
+          { title: "再逐步增加难度", text: "在看懂结果、复盘过程之后，再进入更复杂的数据、模型和研究问题。" }
+        ]
+      },
+      {
+        id: "foundation",
+        title: "基础知识",
+        lead: "为后续阅读和实践补齐电脑操作、文献、数据与科研表达基础。",
+        topics: [
+          { title: "认识基本电脑知识", text: "文件管理、常用操作、编辑器、开发环境以及代码运行和调试。" },
+          { title: "文献是什么", text: "从研究问题、方法、结果和讨论认识一篇论文如何组织信息。" },
+          { title: "文献检索", text: "使用关键词和数据库寻找与研究问题相关的论文和资料。" },
+          { title: "认识数据", text: "从表格、数组和图像理解数据的结构、形状与基本处理方式。" },
+          { title: "面向初学者的阅读文献思路", text: "从摘要、图表和方法入手，逐步建立对论文的整体判断。" },
+          { title: "实践：文献阅读", text: "把检索、筛选和梳理论文的方法用于一次具体阅读。" },
+          { title: "实践：绘制科研海报", text: "将研究问题、方法、结果和结论组织成清晰的科研表达。" }
+        ]
+      },
+      {
+        id: "ai-basics",
+        title: "初识人工智能",
+        lead: "从 Python 和基础概念进入回归、分类以及医学数据任务。",
+        topics: [
+          { title: "人工智能基础知识", text: "认识数据、特征、标签、训练、预测和评价等基本概念。" },
+          { title: "Python 安装与使用", text: "完成运行环境配置，掌握变量、函数、数组和基础数据处理。" },
+          { title: "基于人工智能的自主学习", text: "用人工智能工具辅助查找资料、理解代码和拆分学习任务。" },
+          { title: "人工智能时代也要讲人话", text: "把问题、输入、输出和限制条件说明白，再与工具进行有效交流。" },
+          { title: "人工智能与 Python 入门", text: "通过短小的 Python 练习观察人工智能任务如何运行。" },
+          { title: "机器学习：回归与分类", text: "从连续数值预测和类别判断理解最基本的监督学习任务。" },
+          { title: "医学数据与人工智能任务", text: "把医学问题转化为数据、模型和结果可以表达的任务。" },
+          { title: "实践：Python 与人工智能", text: "完成一次从数据输入到结果解释的入门实践。" }
+        ]
+      },
+      {
+        id: "challenges",
+        title: "挑战赛",
+        lead: "以限时任务训练数据处理、模型实践和研究表达。",
+        topics: [
+          { title: "医学人工智能挑战赛", text: "围绕医学影像、生理信号等方向完成数据任务，依据性能指标和学术报告评价结果。" },
+          { title: "任务拆解与限时实践", text: "在有限时间内明确输入、输出、评价指标和实现路径。" },
+          { title: "学术报告", text: "把任务背景、方法选择、实验结果和问题分析组织成完整报告。" }
+        ]
+      },
+      {
+        id: "research-basics",
+        title: "基础科研",
+        lead: "从深度学习环境和代码基础进入信号、图像与模型实践。",
+        topics: [
+          { title: "深度学习基础", text: "理解神经网络、训练过程和常见深度学习任务的基本结构。" },
+          { title: "深度学习环境", text: "安装并检查深度学习项目所需的软件环境和依赖。" },
+          { title: "信号分析实践", text: "从信号的表示、处理和特征观察进入实际分析任务。" },
+          { title: "图像生成实践", text: "通过图像生成任务观察模型如何学习数据分布和视觉结构。" },
+          { title: "PyTorch 代码复盘", text: "回顾数据集、模型、训练、验证和结果保存等代码环节。" }
+        ]
+      },
+      {
+        id: "advanced-research",
+        title: "进阶科研",
+        lead: "把基础代码、数据处理、模型训练和结果分析放进更完整的研究任务。",
+        topics: [
+          { title: "完整研究任务", text: "围绕研究问题完成数据准备、方法选择、实验设计和结果分析。" },
+          { title: "研究过程复盘", text: "从数据质量、模型表现和实验结论中找出下一步需要验证的问题。" }
+        ]
+      },
+      {
+        id: "frontiers",
+        title: "探索学科前沿",
+        lead: "从论文、数据和研究问题出发，持续追踪医学与人工智能交叉方向。",
+        topics: [
+          { title: "阅读前沿论文", text: "关注研究问题、数据来源、方法设计和结果解释，而不只记录名词。" },
+          { title: "追踪研究方向", text: "比较不同论文如何处理同一类问题，并寻找可以继续验证的切入点。" }
+        ]
+      },
+      {
+        id: "practice",
+        title: "知行合一 自强不息",
+        lead: "把知识学习、代码实践和研究表达放在同一个任务中完成。",
+        topics: [
+          { title: "从学习进入行动", text: "将章节中的概念落实到一次可运行、可观察、可解释的实践。" },
+          { title: "从行动回到思考", text: "根据运行结果重新检查问题、方法和结论，形成自己的研究判断。" }
+        ]
+      },
+      {
+        id: "tools",
+        title: "科研工具与技能",
+        lead: "整理科研过程中常用的代码环境、文献资料、结果表达与协作方法。",
+        topics: [
+          { title: "代码环境", text: "配置编辑器、运行环境和项目依赖，使实践可以稳定复现。" },
+          { title: "文献与资料", text: "建立检索、阅读、记录和整理研究资料的工作方式。" },
+          { title: "结果表达", text: "用图表、海报、汇报和报告说明研究问题、方法与结果。" },
+          { title: "协作与复盘", text: "在共享代码和资料的同时，清楚记录修改、实验和结论。" }
+        ]
+      },
+      {
+        id: "cooperation",
+        title: "附录：KYDW合作项目表",
+        lead: "整理团队关联的合作项目、研究方向与参与入口。",
+        topics: [
+          { title: "合作项目目录", text: "按研究方向查看团队公开的合作项目与活动内容。" },
+          { title: "方向与任务", text: "从项目任务了解不同课题组和研究方向的工作方式。" }
+        ]
+      },
+      {
+        id: "practice-projects",
+        title: "附录：实战项目",
+        lead: "把前面章节的知识带入完整的医学与人工智能实践任务。",
+        topics: [
+          { title: "从数据到结果", text: "按项目查看数据处理、模型搭建、结果分析和研究表达。" },
+          { title: "从体验到进阶", text: "先完成入门实践，再根据兴趣进入更完整的教学与代码材料。" }
+        ]
+      }
+    ],
+    plan: {
+      title: "培训路径",
+      lead: "基础学习、项目考核、实践进阶和合作渠道共同组成培训路径。",
+      parts: [
+        { title: "基础学习", text: "学习基础知识和人工智能章节，建立完成后续实践所需的知识与工具基础。" },
+        { title: "项目考核", text: "围绕基础章节完成四项实践，把文献、数据、代码和结果表达落实到具体任务。" },
+        { title: "实践进阶", text: "可选择医学人工智能挑战赛或国内竞赛专项培训，继续训练研究任务或竞赛项目的完整执行。" },
+        { title: "合作渠道", text: "完成前面的学习与实践后，根据兴趣、能力和发展目标交流纯科研、竞赛与科研、纯竞赛或进组了解等方向。" }
+      ],
+      note: "外校学生也可以依托 KYDW 参与关联创新团队与课题组的科研或竞赛活动。"
+    }
+  },
 
   experience: {
     title: "本科生科研入门体验项目",
