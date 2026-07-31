@@ -80,45 +80,66 @@
     return `<div class="university-cloud">${(items || []).map((item) => `<span>${esc(item)}</span>`).join("")}</div>`;
   }
 
-  function destinationUniversityNames(team) {
-    const names = [];
-    for (const item of (team.destinationRecords || [])) {
-      if (!names.includes(item.name)) names.push(item.name);
-    }
-    return names;
+  function isDoctoralDegree(degree) {
+    return /phd|博士/i.test(degree || "");
   }
 
-  function destinationGroups(team) {
-    const groups = [];
-    const byRegion = new Map();
+  function universityOrder(team) {
+    return new Map((team.destinationUniversityOrder || []).map((name, index) => [name, index]));
+  }
+
+  function sortUniversityNames(names, team) {
+    const order = universityOrder(team);
+    return [...new Set(names)].sort((a, b) => {
+      const ar = order.has(a) ? order.get(a) : Number.MAX_SAFE_INTEGER;
+      const br = order.has(b) ? order.get(b) : Number.MAX_SAFE_INTEGER;
+      return ar - br || a.localeCompare(b, "zh-CN");
+    });
+  }
+
+  function destinationUniversityNames(team, doctoral = null) {
+    const names = (team.destinationRecords || [])
+      .filter((item) => doctoral === null || isDoctoralDegree(item.degree) === doctoral)
+      .map((item) => item.name);
+    return sortUniversityNames(names, team);
+  }
+
+  function destinationEntries(team, doctoral) {
+    const entries = new Map();
     for (const item of (team.destinationRecords || [])) {
-      let group = byRegion.get(item.region);
-      if (!group) {
-        group = { group: item.region, items: [] };
-        byRegion.set(item.region, group);
-        groups.push(group);
-      }
-      const existing = group.items.find((entry) => entry.name === item.name && entry.degree === item.degree);
+      if (isDoctoralDegree(item.degree) !== doctoral) continue;
+      const key = `${item.name}__${item.degree}`;
+      const existing = entries.get(key);
       if (existing) existing.count += Number(item.count) || 0;
-      else group.items.push({ name: item.name, degree: item.degree, count: Number(item.count) || 0 });
+      else entries.set(key, { name: item.name, degree: item.degree, count: Number(item.count) || 0 });
     }
-    return groups.map((group) => ({
-      group: group.group,
-      items: group.items.map((item) => `${item.name} ${item.degree} × ${item.count}`)
-    }));
+    const order = universityOrder(team);
+    return [...entries.values()].sort((a, b) => {
+      const ar = order.has(a.name) ? order.get(a.name) : Number.MAX_SAFE_INTEGER;
+      const br = order.has(b.name) ? order.get(b.name) : Number.MAX_SAFE_INTEGER;
+      return ar - br || a.name.localeCompare(b.name, "zh-CN") || a.degree.localeCompare(b.degree, "zh-CN");
+    });
+  }
+
+  function destinationDegreeGroups(team) {
+    return [
+      { title: "直博", doctoral: true, entries: destinationEntries(team, true) },
+      { title: "研究型硕士", doctoral: false, entries: destinationEntries(team, false) }
+    ];
+  }
+
+  function destinationDegreeCards(team) {
+    return destinationDegreeGroups(team).map((group) => `<article class="card destination-degree-card"><h2>${esc(group.title)}</h2><ul class="destination-entry-list">${group.entries.map((item) => `<li><b>${esc(item.name)}</b><span>${esc(item.degree)} × ${item.count}</span></li>`).join("")}</ul></article>`).join("");
   }
 
   function destinationSummary(team) {
-    const totals = new Map();
-    for (const item of (team.destinationRecords || [])) totals.set(item.name, (totals.get(item.name) || 0) + (Number(item.count) || 0));
-    const highlights = ["剑桥大学", "北京大学", "复旦大学", "浙江大学", "邓迪大学"]
-      .filter((name) => totals.has(name))
-      .map((name) => `${name} ${totals.get(name)} 人`);
-    return `已毕业成员去向包括${highlights.join("、")}等，均为研究型硕士（2年及以上）或直博。`;
+    const highlights = destinationUniversityNames(team).slice(0, 5);
+    return `已毕业成员去向包括${highlights.join("、")}等高校，分为直博和研究型硕士两类。`;
   }
 
   function memberNetwork(team) {
-    return `<div class="member-network"><div class="network-group"><h4>已毕业成员高校</h4><p class="network-note">研究型硕士（2年及以上）或直博</p>${universityCloud(destinationUniversityNames(team))}</div><div class="network-group"><h4>在校本科生成员高校</h4>${universityCloud(team.undergraduateNetwork)}</div></div>`;
+    const degreeBlocks = destinationDegreeGroups(team).map((group) => `<div class="destination-degree-block"><h5>${esc(group.title)}</h5>${universityCloud(destinationUniversityNames(team, group.doctoral))}</div>`).join("");
+    return `<div class="member-network"><div class="network-group graduated-network"><h4>已毕业成员高校</h4>${degreeBlocks}</div><div class="network-group undergraduate-network"><h4>在校本科生成员高校</h4>${universityCloud(team.undergraduateNetwork)}</div></div>`;
   }
 
   function achievementBody(item) {
@@ -190,8 +211,8 @@
       lead: "学生自主运营的跨校、跨学科科研协作团队。",
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
-    <section class="section" id="team-overview">${sectionHead("团队概况", "83 名成员，已毕业成员去向与在校本科生高校网络如下。", "team/index.html", "完整团队介绍")}
-      <div class="home-intro-grid"><article class="card home-team-copy"><h3>连接科研信息、学术资源与合作机会</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果</div>${metricGrid(t.achievementMetrics)}</article><article class="card university-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div></div>
+    <section class="section" id="team-overview">${sectionHead("团队概况", "83 名成员；已毕业成员高校按直博和研究型硕士分列，另列在校本科生成员高校。", "team/index.html", "完整团队介绍")}
+      <div class="home-intro-grid"><article class="card home-team-copy"><h3>连接科研信息、学术资源与合作机会</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}</article><article class="card university-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
       <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><div class="home-project-list">${homeProjects.map(homeProjectCard).join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情 →</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>山东大学项目、科研入门培训、复旦项目和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
@@ -206,9 +227,9 @@
     const t = data.team;
     layout(`${hero({ eyebrow: t.label, title: "团队介绍", lead: t.lead, actions: [{ label: "查看项目与活动", href: "programs/index.html", primary: true }, { label: "进入资源中心", href: "resources/index.html" }] })}
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}</div></section>
-    <section class="section">${sectionHead("团队概况", "83 名成员，已毕业成员去向与在校本科生高校网络如下。", null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
+    <section class="section">${sectionHead("团队概况", "83 名成员；已毕业成员高校按直博和研究型硕士分列，另列在校本科生成员高校。", null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
     <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>成员来自不同学校、专业和课题组，交流医学、工程、计算机、人工智能与生物信息学等方向。</p></article><article class="card"><h3>从研究任务进入方法</h3><p>项目、培训和专题合作都从具体任务出发，讨论数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
-    <section class="section">${sectionHead("代表性成果", null, "team/achievements.html", "查看完整成果")}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
+    <section class="section">${sectionHead("代表性成果（成员一作/项目负责人）", null, "team/achievements.html", "查看完整成果")}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
     <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向 →</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦本科生科研技能训练、2501 期联合项目和生物医学人工智能专题交流，分别提供训练、合作与讨论内容。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系 →</a></div></article></div></section>
     <section class="section">${sectionHead("负责人和历届骨干", "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", "team/people.html", "查看成员介绍")}<div class="leader-list">${t.leaders.map(leaderPreview).join("")}</div></section>
     <section class="section"><div class="callout"><b>联系 KYDW</b><p>关注“科研大王”公众号，或添加负责人微信 <b>${esc(data.site.wechat)}</b> 了解团队活动和项目入口。</p></div><p class="small muted">网站公开资料免费阅读，请勿用于牟利性销售。</p></section>`);
@@ -218,7 +239,7 @@
     const section = body.dataset.teamSection || "achievements";
     const t = data.team;
     const configs = {
-      achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果", lead: "", back: "team/index.html" },
+      achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果（成员一作/项目负责人）", lead: "", back: "team/index.html" },
       destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向均为研究型硕士（2年及以上）或直博。", back: "team/index.html" },
       activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦方向试点和生物医学人工智能专题交流。", back: "team/index.html" },
       people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", back: "team/index.html" }
@@ -226,7 +247,7 @@
     const cfg = configs[section] || configs.achievements;
     let inner = hero({ eyebrow: cfg.eyebrow, title: cfg.title, lead: cfg.lead, actions: [{ label: "返回团队介绍", href: cfg.back, primary: true }, { label: "项目与活动", href: "programs/index.html" }] });
     if (section === "achievements") inner += `<section class="section"><div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>`;
-    if (section === "destinations") inner += `<section class="section">${sectionHead("已毕业成员去向", null, null)}<div class="card-grid">${destinationGroups(t).map((group) => `<article class="card"><h3>${esc(group.group)}</h3><ul>${group.items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></article>`).join("")}</div><p class="small muted">${esc(t.destinationNote)}</p><div class="card university-card section-card"><div class="card-kicker">在校本科生成员高校</div>${universityCloud(t.undergraduateNetwork)}</div></section>`;
+    if (section === "destinations") inner += `<section class="section">${sectionHead("已毕业成员去向", null, null)}<div class="destination-degree-sections">${destinationDegreeCards(t)}</div><p class="small muted">${esc(t.destinationNote)}</p><div class="card university-card section-card"><div class="card-kicker">在校本科生成员高校</div>${universityCloud(t.undergraduateNetwork)}</div></section>`;
     if (section === "activities") inner += `<section class="section">${sectionHead("活动目录", null, "programs/index.html", "查看项目与活动")}
       <div class="activity-timeline">${sortedModules().map((module) => `<article class="activity-row"><div class="activity-period">${esc(module.period || "活动")}</div><div><h3>${esc(module.title)}</h3><p>${esc(module.text)}</p></div><a class="outline-btn" href="${rootHref(module.href)}">查看详情 →</a></article>`).join("")}</div><div class="card section-card"><ul>${t.activities.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></div></section>`;
     if (section === "people") inner += `<section class="section">${sectionHead("成员介绍", null, null)}<div class="leader-list">${t.leaders.map(leaderPreview).join("")}</div></section>`;
