@@ -75,8 +75,15 @@ def add_return_link(soup: BeautifulSoup, href: str) -> None:
     body.insert(0, link)
 
 
+def remove_template_notes(soup: BeautifulSoup) -> None:
+    """Remove repeated meta-like notes that add no teaching content for readers."""
+    for note in soup.select(".simulation-note"):
+        note.decompose()
+
+
 def transform_teaching(source: Path, target: Path, number: str, advanced: bool) -> None:
     soup = BeautifulSoup(read(source), "html.parser")
+    remove_template_notes(soup)
     label = f"{'进阶' if advanced else '体验'}教学项目 {number}"
     if soup.title:
         title = soup.title.get_text(" ", strip=True)
@@ -94,6 +101,7 @@ def transform_teaching(source: Path, target: Path, number: str, advanced: bool) 
 
 def transform_answer(source: Path, target: Path, number: str, advanced: bool) -> None:
     soup = BeautifulSoup(read(source), "html.parser")
+    remove_template_notes(soup)
     prefix = "进阶实践解析" if advanced else "实践项目解析"
     label = f"{prefix} {number}"
     if soup.title:
