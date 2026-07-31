@@ -181,7 +181,14 @@ window.KYDW = {
       order: 2,
       period: "持续开展",
       home: true,
-      training: true
+      training: true,
+      quickLinks: [
+        { label: "序言", caption: "学习路径", href: "programs/training/preface.html" },
+        { label: "基础知识", caption: "科研入门", href: "programs/training/foundation.html" },
+        { label: "初识人工智能", caption: "Python 与模型", href: "programs/training/ai-basics.html" },
+        { label: "基础科研", caption: "代码与实践", href: "programs/training/research-basics.html" },
+        { label: "科研工具与技能", caption: "工具与协作", href: "programs/training/tools.html" }
+      ]
     },
     {
       id: "sdu",
@@ -194,7 +201,13 @@ window.KYDW = {
       href: "programs/sdu.html",
       order: 1,
       period: "历史项目",
-      home: true
+      home: true,
+      quickLinks: [
+        { label: "1. 环境准备", caption: "课程单元", href: "programs/sdu.html#sdu-lesson-01" }
+      ],
+      lessons: [
+        { id: "sdu-lesson-01", title: "1. 环境准备", text: "从计算机、Kaggle 和代码项目的基础环境开始，进入后续神经影像学与人工智能实践。" }
+      ]
     },
     {
       id: "fudan",
@@ -207,7 +220,19 @@ window.KYDW = {
       href: "programs/fudan.html",
       order: 3,
       period: "合作项目",
-      home: true
+      home: true,
+      quickLinks: [
+        { label: "第一节 资源获取，编程，AI", caption: "已开放", href: "programs/fudan.html#fudan-lesson-01" },
+        { label: "第二节 文献与办公工具", locked: true },
+        { label: "第三节 科研工具与实践", locked: true },
+        { label: "第四节 开发环境与系统基础", locked: true },
+        { label: "第五节 验证任务", locked: true },
+        { label: "第六节 近期AI更新与数据知识", locked: true },
+        { label: "第七节 学术界常识", locked: true }
+      ],
+      lessons: [
+        { id: "fudan-lesson-01", title: "第一节 资源获取，编程，AI", text: "从学术资源获取、Python 与 Anaconda 环境、VSCode、Jupyter Notebook、Colab 以及人工智能工具开始建立科研工作环境。" }
+      ]
     },
     {
       id: "workshop",
