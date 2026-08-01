@@ -10,8 +10,8 @@ window.KYDW = {
 
   collections: [
     { id: "team", label: "团队介绍", href: "team/index.html", pages: ["team", "team-section"], home: true, homeMode: "intro" },
-    { id: "programs", label: "项目与活动", href: "programs/index.html", pages: ["programs", "module", "training-module", "training-plan", "experience", "experience-week", "project"], home: true, homeMode: "showcase" },
-    { id: "resources", label: "资源中心", href: "resources/index.html", pages: ["resources", "professional"], home: true, homeMode: "cards" }
+    { id: "programs", label: "项目与活动", href: "programs/index.html", pages: ["programs", "module", "sdu-lesson", "training-module", "training-plan", "experience", "experience-week", "project"], home: true, homeMode: "showcase" },
+    { id: "resources", label: "资源中心", href: "resources/index.html", pages: ["resources", "professional", "professional-faq"], home: true, homeMode: "cards" }
   ],
 
   team: {
@@ -86,6 +86,7 @@ window.KYDW = {
       { date: "2026.5", html: "团队本科生汤昊天（23级）的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based</em> 被中科院一区 Top 学术期刊 <em>Expert Systems With Applications</em> 接收。" },
       { date: "2026.4", html: "团队 MPhil 唐浩（25级）的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 被 CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em> 接收。" }
     ],
+    homeNewsLimit: 4,
     leaders: [
       { name: "伍东辰", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。曾获国际大学生数学建模竞赛特等奖 Outstanding Winner、国家奖学金。", paragraphs: [
         "伍东辰是东北大学生物医学工程专业 2023 级学生，现任 KYDW 2023 级负责人。",

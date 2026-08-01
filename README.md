@@ -16,6 +16,7 @@ KYDW（科研大王）学生自主运营的静态网站，面向团队介绍、�
 - `professional/`：资源中心下的专业解读合集，当前包含生物医学工程专业介绍和独立的专业答疑页面。
 - `content.js`：站点的结构化内容层；项目名、状态和文案应优先在此修改。
 - `site.js` / `styles.css`：页面渲染与统一视觉样式。
+- `SITE-MAINTENANCE.md`：逐页职责、GitHub 与 Notion 对照、联动关系、新增文档与发布检查的统一维护入口。
 - `docs/site-architecture.md`：页面职责、内容联动关系和后续维护规则。
 - `docs/experience-materials.md`：体验项目原材料、网站编号、页面路径和替换规则。
 
