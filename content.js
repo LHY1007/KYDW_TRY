@@ -66,9 +66,9 @@ window.KYDW = {
       { value: "5", label: "一等奖竞赛" },
       { value: "5", label: "国家级优秀项目" }
     ],
-    destinationNote: "已毕业成员去向均为研究型硕士（2年及以上）或直博。",
+    destinationNote: "已毕业成员去向包括直博、国内学硕/海外研究型硕士。",
     achievements: [
-      { title: "论文产出", text: "CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）；CCF B 类会议 1 篇（MICCAI）；研讨会论文 3 篇（CMMCA）；SCI 一区 Top 论文 4 篇；SCI 二区论文 3 篇。", lines: ["CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）", "CCF B 类会议 1 篇（MICCAI）", "研讨会论文 3 篇（CMMCA）", "SCI 一区 Top 论文 4 篇", "SCI 二区论文 3 篇"] },
+      { title: "论文产出", text: "CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）；CCF B 类会议 1 篇（MICCAI2025）；研讨会论文 3 篇（CMMCA2025）；SCI 一区 Top 论文 4 篇；SCI 二区论文 3 篇。", lines: ["CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）", "CCF B 类会议 1 篇（MICCAI2025）", "研讨会论文 3 篇（CMMCA2025）", "SCI 一区 Top 论文 4 篇", "SCI 二区论文 3 篇"] },
       { title: "国家级项目", text: "全国大学生数学建模竞赛 Outstanding Winner 1 项；国家级大学生创新创业训练计划优秀项目 5 项。", lines: ["全国大学生数学建模竞赛 Outstanding Winner 1 项", "国家级大学生创新创业训练计划优秀项目 5 项"] },
       { title: "学科竞赛", text: "全国生物医学工程创新设计竞赛一等奖 5 项、二等奖 13 项；其他国家级学科竞赛一等奖 7 项、二等奖 10 项。", lines: ["全国生物医学工程创新设计竞赛一等奖 5 项、二等奖 13 项", "其他国家级学科竞赛一等奖 7 项、二等奖 10 项"] }
     ],
