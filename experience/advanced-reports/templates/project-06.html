@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>项目 05 设计报告模板</title><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style>
+:root{--ink:#172532;--muted:#5d6f7d;--line:#dbe4e9;--paper:#fff;--soft:#f4f8fa;--blue:#185b7b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef3f5;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.78}
+.report-top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px clamp(16px,4vw,42px);background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}
+.report-top b{color:var(--blue)}.report-actions{display:flex;gap:8px;flex-wrap:wrap}.report-actions a{display:inline-flex;padding:8px 13px;border:1px solid #bfd0da;border-radius:999px;color:var(--blue);text-decoration:none;font-size:13px;background:#fff}
+.report-shell{width:min(940px,calc(100% - 28px));margin:28px auto 70px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(33,60,76,.09);padding:clamp(24px,5vw,58px)}
+.report-shell h1{font-size:clamp(28px,4vw,44px);line-height:1.3;margin:0 0 28px;color:#153f5a}.report-shell h2{margin-top:36px;padding-bottom:9px;border-bottom:2px solid #e6eef2;color:#194f6d}.report-shell h3{margin-top:27px;color:#245f7c}.report-shell p,.report-shell li{font-size:16px}.report-shell blockquote{margin:20px 0;padding:13px 17px;border-left:4px solid #4d91a9;background:var(--soft);color:#435b69}.report-shell code{font-family:Consolas,monospace;background:#edf3f6;border-radius:5px;padding:2px 5px}.report-shell pre{overflow:auto;background:#132b3a;color:#eef7fa;border-radius:12px;padding:16px}.report-shell pre code{background:transparent;padding:0}.report-shell table{width:100%;border-collapse:collapse;display:block;overflow:auto}.report-shell th,.report-shell td{border:1px solid var(--line);padding:9px 11px;text-align:left}.report-shell th{background:var(--soft)}.report-shell a{color:#12658b}.report-shell hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+@media(max-width:650px){.report-top{align-items:flex-start;flex-direction:column}.report-shell{width:min(100% - 18px,940px);margin-top:12px;padding:22px 18px}.report-shell p,.report-shell li{font-size:15px}}
+</style></head>
+<body><header class="report-top"><b>KYDW 本科生科研入门体验项目</b><nav class="report-actions"><a href="../../project-06.html">返回项目详情</a><a href="project-06.md" download>下载 Markdown 文件</a></nav></header><main class="report-shell"><h1 id="05">项目 05 设计报告模板</h1>
+<blockquote>
+<p>这份报告是主要成果之一。代码只完成一部分、结果不理想或实验失败都可以提交，但必须准确说明做了什么、为什么这样做、证据是什么。参考答案不是唯一方案。</p>
+</blockquote>
+<h2 id="1">1. 研究问题与动机</h2>
+<p>用一段完整陈述说明对象、输入、输出、目标使用场景和你最关心的错误。写出一个可以通过当前实验检验的假设。</p>
+<h2 id="2">2. 数据来源、样本单位与适用范围</h2>
+<p>记录数据链接或体验项目来源、文件结构、独立样本单位、标签形成方式、样本量、许可和已知偏差。说明该数据不能代表哪些人群或测量条件。</p>
+<h2 id="3">3. 文献调研</h2>
+<p>至少选择两篇原始论文或官方方法文档。每篇说明研究问题、数据、方法、评价、主要结论、局限和可借鉴部分。最后比较它们与当前实践的差异。</p>
+<h2 id="4">4. 候选方案与最终选择</h2>
+<p>列出至少两个可选模型、损失、特征或评价方案。说明最终选择如何受到数据规模、算力、标签、研究目标和风险约束。避免只写“性能好”或“常用”。</p>
+<h2 id="5">5. 数据处理与验证设计</h2>
+<p>说明数据清理、预处理、训练/验证/测试划分、泄漏检查、基线、消融、随机性和评价单位。写出哪些步骤必须只在训练数据上拟合。</p>
+<h2 id="6">6. 实现过程与结果</h2>
+<p>列出实际完成的 Notebook 单元、输出图表、指标、失败现象和异常样本。未完成内容要写明阻碍，不需要伪造完整结果。</p>
+<h2 id="7">7. 结果解释</h2>
+<p>说明结果支持什么、不支持什么。分析至少一个成功案例和一个失败案例；若没有完成训练，则分析数据或代码检查中发现的关键问题。</p>
+<h2 id="8">8. 局限与下一步实验</h2>
+<p>指出最可能改变结论的三项限制，并按优先级提出下一步实验。说明每项实验会排除哪一种解释或风险。</p>
+<h2 id="9-aiagent">9. AI/Agent 使用记录</h2>
+<p>记录主要提示词、AI 建议、采用或拒绝的原因、人工核查方式、发现的错误和仍未解决的问题。</p>
+<h2 id="10">10. 本项目必须具体讨论的内容</h2>
+<ul>
+<li>低分辨率观测的总和/均值定义</li>
+<li>高分辨率目标与不可辨识性</li>
+<li>插值、image-only、expression-only 与 fusion 消融</li>
+<li>空间留出、按基因/样本评价和聚合一致性</li>
+<li>高分辨率实验或生物学验证需求</li>
+</ul>
+<h2 id="_1">写作深度与评价重点</h2>
+<p>建议正文使用完整段落，而不是只填关键词。每个关键选择都要包含三个要素：有哪些可选方案；当前数据和目标为什么支持你的选择；选择可能带来什么偏差或失败。至少插入一张数据检查图、一张主要结果或失败图和一张能够说明验证设计的表或示意图。所有图表都需要标题、对象、单位、数据范围和解释。</p>
+<p>报告的主要评价依据是问题定义是否清楚、数据独立性是否正确、文献是否真正支持选择、比较是否能回答研究问题、结果解释是否克制、失败分析是否具体。准确率、AUC、Dice 或相关性本身不决定报告质量。只完成部分代码时，可以用文件检查、样本可视化、伪代码、实验表和预期结果说明尚未实现的部分，但必须区分已运行、计划和推测。</p>
+<h2 id="_2">提交前核对</h2>
+<ul>
+<li>数据链接、许可、文件结构和独立样本单位是否写清楚；</li>
+<li>训练、验证、测试或空间留出的对象是否明确，是否检查交集；</li>
+<li>至少两项候选方案是否经过比较，而不是事后为唯一方案找理由；</li>
+<li>指标是否对应真实错误，是否包含病例、原图、受试者或空间层级分析；</li>
+<li>是否说明结果不支持的结论、失败原因和下一步优先实验；</li>
+<li>AI/Agent 生成的代码、论文和解释是否经过运行或原文核对；</li>
+<li>参考答案是否只作为一种方案使用，而不是被当作标准答案复述。</li>
+</ul></main></body></html>

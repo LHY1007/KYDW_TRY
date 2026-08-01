@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>进阶项目数据与运行说明</title><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style>
+:root{--ink:#172532;--muted:#5d6f7d;--line:#dbe4e9;--paper:#fff;--soft:#f4f8fa;--blue:#185b7b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef3f5;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.78}
+.report-top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px clamp(16px,4vw,42px);background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}
+.report-top b{color:var(--blue)}.report-actions{display:flex;gap:8px;flex-wrap:wrap}.report-actions a{display:inline-flex;padding:8px 13px;border:1px solid #bfd0da;border-radius:999px;color:var(--blue);text-decoration:none;font-size:13px;background:#fff}
+.report-shell{width:min(940px,calc(100% - 28px));margin:28px auto 70px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(33,60,76,.09);padding:clamp(24px,5vw,58px)}
+.report-shell h1{font-size:clamp(28px,4vw,44px);line-height:1.3;margin:0 0 28px;color:#153f5a}.report-shell h2{margin-top:36px;padding-bottom:9px;border-bottom:2px solid #e6eef2;color:#194f6d}.report-shell h3{margin-top:27px;color:#245f7c}.report-shell p,.report-shell li{font-size:16px}.report-shell blockquote{margin:20px 0;padding:13px 17px;border-left:4px solid #4d91a9;background:var(--soft);color:#435b69}.report-shell code{font-family:Consolas,monospace;background:#edf3f6;border-radius:5px;padding:2px 5px}.report-shell pre{overflow:auto;background:#132b3a;color:#eef7fa;border-radius:12px;padding:16px}.report-shell pre code{background:transparent;padding:0}.report-shell table{width:100%;border-collapse:collapse;display:block;overflow:auto}.report-shell th,.report-shell td{border:1px solid var(--line);padding:9px 11px;text-align:left}.report-shell th{background:var(--soft)}.report-shell a{color:#12658b}.report-shell hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+@media(max-width:650px){.report-top{align-items:flex-start;flex-direction:column}.report-shell{width:min(100% - 18px,940px);margin-top:12px;padding:22px 18px}.report-shell p,.report-shell li{font-size:15px}}
+</style></head>
+<body><header class="report-top"><b>KYDW 本科生科研入门体验项目</b><nav class="report-actions"><a href="../index.html">返回项目主页</a><a href="data-guide.md" download>下载 Markdown 文件</a></nav></header><main class="report-shell"><h1 id="kaggle">Kaggle 数据与运行说明</h1>
+<h2 id="_1">通用操作</h2>
+<ol>
+<li>新建 Kaggle Notebook；</li>
+<li>右侧选择 <strong>Add Data</strong>；</li>
+<li>公开数据可直接搜索数据集名称或 slug；体验项目产生的本地文件可创建私人 Dataset 后挂载；</li>
+<li>首次运行保持轻量参数，先确认文件、shape、患者/玻片/空间 ID 和划分；</li>
+<li>只有真实数据检测成功后才把结果写入设计报告。参考答案在没有真实数据时会使用 <code>demo</code> 回退，演示结果不能作为研究结论。</li>
+</ol>
+<h2 id="01">项目 01</h2>
+<ul>
+<li>推荐复用体验项目 01 的数据，Kaggle slug：<code>mateuszbuda/lgg-mri-segmentation</code>。</li>
+<li>预期文件：MRI <code>.tif</code> 与同名 <code>_mask.tif</code>，患者文件夹作为 group。</li>
+<li>数据页：https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation</li>
+</ul>
+<h2 id="02">项目 02</h2>
+<ul>
+<li>推荐复用体验项目 02 的数据，Kaggle slug：<code>paultimothymooney/chest-xray-pneumonia</code>。</li>
+<li>原始公开页：https://data.mendeley.com/datasets/rscbjbr9sj/2</li>
+<li>文件名中的 <code>personN</code> 尽量作为患者 ID。目录标签是粗条件。</li>
+</ul>
+<h2 id="03">项目 03</h2>
+<ul>
+<li>使用体验项目 03 的 12 张完整脑膜瘤 H&amp;E 原图。将文件夹创建为私人 Kaggle Dataset。</li>
+<li>不要上传教学页面中的论文示意图、拼图或局部截图。</li>
+<li>可选公开方法数据：CAMELYON16，但体积很大且不是脑膜瘤。</li>
+</ul>
+<h2 id="04">项目 04</h2>
+<ul>
+<li>官方 UCI 数据：https://archive.ics.uci.edu/dataset/174/parkinsons</li>
+<li>下载 <code>parkinsons.data</code> 后上传为私人 Kaggle Dataset，或搜索相同公开镜像。</li>
+<li>受试者 ID 为删除 <code>name</code> 最后录音编号后的字符串，例如 <code>phon_R01_S01_1 → phon_R01_S01</code>。</li>
+</ul>
+<h2 id="05">项目 05</h2>
+<ul>
+<li>使用体验项目 05 的 NPZ，字段为 <code>he/lr/hr/split</code>。</li>
+<li>在体验 Notebook 中可用 <code>np.savez('advanced05_data.npz',he=he,lr=lr,hr=hr,split=split)</code> 保存。</li>
+<li>10x 公共数据：https://www.10xgenomics.com/datasets 。普通 Visium 通常没有高分辨率全转录组真值，不能直接替代该监督任务。</li>
+</ul>
+<h2 id="aiagent">AI/Agent</h2>
+<p>允许使用 AI/Agent 检查目录、解释代码、修复报错、比较方法、检索论文和整理报告。需要保留主要提示词，并人工核对数据 ID、划分、公式、论文链接和结论。不得把 AI 生成的不存在论文或未运行代码写入报告。</p></main></body></html>

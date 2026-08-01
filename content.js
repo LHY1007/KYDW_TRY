@@ -172,7 +172,10 @@ window.KYDW = {
       home: true,
       homeOrder: 3,
       items: [
-        { title: "科研基础环境准备", text: "从网络访问、账户注册到 Kaggle 代码项目，完成科研实践前的基础环境准备。", href: "resources/environment.html", kind: "book" }
+        { title: "科研基础环境准备", text: "从网络访问、账户注册到 Kaggle 代码项目，完成科研实践前的基础环境准备。", href: "resources/environment.html", kind: "book" },
+        { title: "进阶项目说明", text: "进阶项目的学习要求、材料组成与报告任务。", href: "experience/advanced-resources/index.html", kind: "book" },
+        { title: "进阶项目数据与运行说明", text: "各方向的数据来源、Kaggle 导入方式与运行要求。", href: "experience/advanced-resources/data-guide.html", kind: "book" },
+        { title: "进阶项目资料与文献索引", text: "按方向整理课程、公开数据、代表性研究与教学图像来源。", href: "experience/advanced-resources/references.html", kind: "book" }
       ]
     }
   ],
@@ -413,6 +416,11 @@ window.KYDW = {
       short: "完成网络访问、账户注册和 Kaggle 代码项目创建，开始实践前先完成这一步。",
       href: "resources/environment.html"
     },
+    advancedResources: [
+      { title: "进阶项目说明", href: "experience/advanced-resources/index.html" },
+      { title: "数据与运行说明", href: "experience/advanced-resources/data-guide.html" },
+      { title: "资料与文献索引", href: "experience/advanced-resources/references.html" }
+    ],
     homeProjectIds: ["project-01", "project-02", "project-03"],
     homeProjectSummaries: {
       "project-01": "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。",
@@ -425,7 +433,7 @@ window.KYDW = {
     paragraphs: [
       "本项目由原 KYDW 科研入门指南升级而来，以体验科研为核心，把领域前沿研究拆成一组简单、易懂、可以上手的体验项目，让本科生看到一个研究任务如何从数据开始，经过处理和建模，形成结果与解释。",
       "项目从 Week 1 开始分批开放，每周开放三个项目。Week 1 的第一个项目是基础编程与人工智能，为零基础跨专业同学和 26 级新生准备；后续项目进入医学影像、计算病理、表格预测和空间转录组等方向。",
-      "开放期间可以自行安排学习。项目以线上自学为主，不涉及硬件和湿实验，使用计算机完成学习与实践；项目仅用于科研方向体验，学习后无需提交报告。学习过程中如果对某个项目产生兴趣，可以联系负责人开展进阶项目，表现优异者可加入对应方向课题组进行深入学习。"
+      "开放期间可以自行安排学习。项目以线上自学为主，不涉及硬件和湿实验，使用计算机完成学习与实践。体验版用于认识方向，完成指定内容后无需提交报告；希望继续学习同一方向的同学可进入进阶版，自行设计或选择方法并提交设计报告。表现优异者可联系负责人进入对应方向课题组继续学习。"
     ],
     facts: [
       { value: "1—3 年级", label: "主要面向本科生" },
@@ -441,19 +449,24 @@ window.KYDW = {
       { title: "往年路径", text: "寒暑期科研入门培训 → 表现优异者获得进组/推荐机会 → 组内培养 → 表现优异者重点培养。" },
       { title: "今年路径", text: "科研入门体验项目 → 感兴趣的同学可进组跟学一段时间 → 表现优异者重点培养。" }
     ],
+    levels: [
+      { title: "体验版", text: "先阅读基础教学项目，再在实践 Notebook 中完成和补全指定内容，最后使用参考答案核对思路。体验版不要求提交报告。" },
+      { title: "进阶版", text: "在同一研究方向上继续完成文献调研、方法选择、验证设计和结果解释。需要自行设计或选择方法，提交设计报告，并说明方法选择的依据。" }
+    ],
     structure: [
-      { no: "01", title: "理论知识讲解", text: "每个项目约 1—2 小时，先建立完成实践所需的最小知识储备。" },
-      { no: "02", title: "实践项目", text: "用交互式代码逐步观察数据处理、模型搭建和结果分析，不要求先学完全部理论。" }
+      { no: "01", title: "教学项目", text: "体验版建立完成实践所需的基础知识；进阶版补充方法、前沿研究与研究设计。" },
+      { no: "02", title: "实践项目", text: "体验版完成指定内容；进阶版设计方法、运行实验并形成设计报告。" },
+      { no: "03", title: "参考答案", text: "完成实践后核对代码、分析过程和报告写法。参考答案展示一种可行方案。" }
     ],
     path: [
-      { title: "体验项目", text: "从一个项目的真实输入和输出开始。" },
-      { title: "继续阅读", text: "对某一项目产生兴趣后，进入对应的进阶项目，继续阅读该方向的教学材料。" },
-      { title: "进阶实践", text: "运行进阶项目代码，结合结果复盘更完整的研究流程。" },
+      { title: "体验项目", text: "阅读基础教学内容，完成实践中的指定代码和文字。" },
+      { title: "进阶教学", text: "继续学习同一方向的方法、验证设计和前沿研究。" },
+      { title: "进阶实践", text: "自行设计或选择方法，完成实验并提交设计报告。" },
       { title: "联系负责人", text: "对进阶方向继续学习并取得较好表现后，可联系负责人了解课题组跟学安排。" }
     ],
     weeks: [
       { id: 1, title: "Week 1", note: "第一部分已开放。第一个项目为零基础跨专业同学和 26 级新生准备。", open: true, projects: ["project-01", "project-02", "project-03"] },
-      { id: 2, title: "Week 2", note: "等待项目中段开放。", open: false, projects: ["project-04", "project-05", "project-06"] },
+      { id: 2, title: "Week 2", note: "第二部分已开放，包含计算病理、脑疾病表格预测和空间转录组方向。", open: true, projects: ["project-04", "project-05", "project-06"] },
       { id: 3, title: "Week 3", note: "等待后续开放。", open: false, projects: ["project-07", "project-08", "project-09"] },
       { id: 4, title: "Week 4", note: "等待后续开放。", open: false, projects: ["project-10", "project-11", "project-12"] },
       { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-13", "project-14", "project-15"] }
@@ -461,21 +474,21 @@ window.KYDW = {
   },
 
   projects: [
-    { id: "project-01", no: "01", week: 1, title: "基础编程与人工智能", short: "用 MNIST 手写数字分类认识数据、模型训练和结果评价。", summary: "从人工智能研究对象、任务类型、Python、数据表示和模型评价开始，最后完成一次可运行的手写数字分类实践。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵、错误样本与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", audience: "零基础跨专业本科生和 26 级新生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已整理", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.html", advanced: "experience/advanced/project-01.html", single: true, experience: "从输入、处理和输出的关系开始认识人工智能。", tierText: "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。" },
-    { id: "project-02", no: "02", week: 1, title: "MRI 肿瘤图像分割", short: "从多序列 MRI 与肿瘤掩膜进入患者级分割和边界评价。", summary: "从脑部结构、MRI 信号、多序列影像和专家标注开始，理解数据组织、U-Net 分割、Dice/IoU 评价与病例分析。", input: "多序列脑 MRI 切片与肿瘤掩膜", output: "肿瘤区域预测、Dice/IoU 指标与病例结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触医学影像和人工智能的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已整理", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.html", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.html", experience: "观察一张 MRI 如何变成可计算的数据，理解标注和评价指标的作用。", tierText: "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。" },
-    { id: "project-03", no: "03", week: 1, title: "胸部 X 射线与生成模型", short: "从胸片投影和数字质量进入生成器、判别器与生成样本分析。", summary: "从 X 射线穿透、投影叠加和数字胸片质量开始，逐步认识生成模型、GAN、潜在向量和生成失败模式。", input: "胸部 X 射线图像", output: "生成胸片样本、训练曲线与多样性比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触医学影像生成和深度学习的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已整理", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.html", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.html", experience: "从真实胸片开始，追踪生成器、判别器和生成结果之间的关系。", tierText: "从胸片读取与归一化开始，训练轻量 DCGAN，比较生成样本和模式坍塌。" },
-    { id: "project-04", no: "04", week: 2, title: "计算病理与脑膜瘤形态分析", short: "从 H&E 组织图块观察脑膜瘤形态，并完成三档分级。", summary: "从组织切片、H&E 染色、数字病理和图块组织开始，理解脑膜瘤形态特征、轻量图像模型和错误图块分析。", input: "脑膜瘤 H&E 原图与组织图块", output: "三档形态等级、混淆矩阵与错误图块分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触计算病理和医学图像分类的本科生", date: "2026 年 8 月 2 日起，等待 Week 2 开放", status: "材料已整理", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.html", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.html", experience: "观察组织结构怎样被染色和记录，理解模型为什么会混淆相近形态。", tierText: "从 H&E 图块与形态等级开始，完成颜色基线、轻量 CNN 和错误图块分析。" },
-    { id: "project-05", no: "05", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "从受试者级表格进入缺失处理、概率预测和变量贡献。", summary: "从研究问题和受试者级表格开始，处理缺失值与类别变量，理解 XGBoost、数据划分、概率阈值和变量贡献。", input: "受试者级表格数据与二分类目标", output: "概率预测、分类评价与变量贡献", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触表格数据和医学预测任务的本科生", date: "2026 年 8 月 2 日起，等待 Week 2 开放", status: "材料已整理", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.html", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.html", experience: "先明确研究要预测的结果，再观察表格数据如何被整理、划分和评价。", tierText: "从受试者级表格开始，处理缺失、训练 XGBoost，选择阈值并分析变量贡献。" },
-    { id: "project-06", no: "06", week: 2, title: "空间转录组与表达超分辨率", short: "把组织图像、空间位置和基因表达放在同一项超分辨率任务中。", summary: "从细胞、基因表达和空间转录组数据对象开始，理解质量控制、坐标配准、空间邻域、表达超分辨率与结果评价。", input: "H&E 图像、低分辨率与高分辨率表达图", output: "更细尺度的空间表达估计与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触空间转录组和生物信息学的本科生", date: "2026 年 8 月 2 日起，等待 Week 2 开放", status: "材料已整理", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.html", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.html", experience: "先从组织图和表达图的对应关系开始，理解空间信息为什么重要。", tierText: "从 H&E、低分辨率和高分辨率表达开始，完成空间超分辨率输入检查与结果阅读。" },
-    { id: "project-07", no: "07", week: 3, title: "基于空间转录组学的细胞通讯", short: "从细胞位置和表达关系中推测细胞之间如何交流。", summary: "围绕配体、受体、空间邻近和细胞状态，认识细胞通讯分析提出的问题与结果解释边界。", input: "空间位置、细胞类型与基因表达", output: "候选细胞通讯关系及其可视化", prereq: "适合希望了解空间转录组学的同学", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "从‘哪些细胞在一起’开始，观察‘哪些信号可能连接它们’。" },
-    { id: "project-08", no: "08", week: 3, title: "基于传感器的人类活动识别", short: "用传感器信号判断人的活动状态。", summary: "认识时间序列、窗口切分和信号分类，理解从连续传感器数据到活动标签的基本流程。", input: "加速度、陀螺仪等传感器时间序列", output: "活动类别预测与混淆分析", prereq: "体验版开放后按页面提示学习", device: "待项目页说明", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "先把连续信号切成可观察的小片段，再看不同活动留下的模式。" },
-    { id: "project-09", no: "09", week: 3, title: "组织学图像虚拟染色", short: "让模型学习把一种组织图像转换成另一种染色外观。", summary: "理解图像翻译、染色差异和生成模型的任务边界，区分视觉相似与生物学真实。", input: "组织学图像及对应/非对应染色图像", output: "虚拟染色结果与差异分析", prereq: "适合希望了解计算病理和图像翻译的同学", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "观察不同染色如何改变图像外观，再讨论模型如何保留组织信息。" },
-    { id: "project-10", no: "10", week: 4, title: "人体生理信号分析", short: "从人体信号的变化中理解健康状态和研究问题。", summary: "研究问题、信号类型和实践材料将在项目开放时介绍。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待定", advanced: null, experience: "人体生理信号方向，内容随后公布。" },
-    { id: "project-11", no: "11", week: 4, title: "后续方向 11", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
-    { id: "project-12", no: "12", week: 4, title: "后续方向 12", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
-    { id: "project-13", no: "13", week: 5, title: "后续方向 13", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
-    { id: "project-14", no: "14", week: 5, title: "后续方向 14", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
-    { id: "project-15", no: "15", week: 5, title: "后续方向 15", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" }
+    { id: "project-01", no: "00", week: 1, title: "基础编程与人工智能", short: "用 MNIST 手写数字分类认识数据、模型训练和结果评价。", summary: "从人工智能研究对象、任务类型、Python、数据表示和模型评价开始，最后完成一次可运行的手写数字分类实践。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵、错误样本与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", audience: "零基础跨专业本科生和 26 级新生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.html", single: true, experience: "从输入、处理和输出的关系开始认识人工智能。", tierText: "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。" },
+    { id: "project-02", no: "01", week: 1, title: "MRI 肿瘤图像分割", short: "从多序列 MRI 与肿瘤掩膜进入患者级分割和边界评价。", summary: "从脑部结构、MRI 信号、多序列影像和专家标注开始，理解数据组织、U-Net 分割、Dice/IoU 评价与病例分析。", input: "多序列脑 MRI 切片与肿瘤掩膜", output: "肿瘤区域预测、Dice/IoU 指标与病例结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触医学影像和人工智能的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.html", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/advanced-practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-02.html", advancedReferenceReport: "experience/advanced-reports/examples/project-02.html", experience: "观察一张 MRI 如何变成可计算的数据，理解标注和评价指标的作用。", tierText: "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。", advancedTierText: "比较分割方法与边界评价，分析鲁棒性和不确定性，并在设计报告中说明方法选择与验证方案。" },
+    { id: "project-03", no: "02", week: 1, title: "胸部 X 射线与生成模型", short: "从胸片投影和数字质量进入生成器、判别器与生成样本分析。", summary: "从 X 射线穿透、投影叠加和数字胸片质量开始，逐步认识生成模型、GAN、潜在向量和生成失败模式。", input: "胸部 X 射线图像", output: "生成胸片样本、训练曲线与多样性比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触医学影像生成和深度学习的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.html", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/advanced-practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-03.html", advancedReferenceReport: "experience/advanced-reports/examples/project-03.html", experience: "从真实胸片开始，追踪生成器、判别器和生成结果之间的关系。", tierText: "从胸片读取与归一化开始，训练轻量 DCGAN，比较生成样本和模式坍塌。", advancedTierText: "设计条件生成方案，检查患者留出、生成有效性与训练样本记忆风险，并解释评价方法。" },
+    { id: "project-04", no: "03", week: 2, title: "计算病理与脑膜瘤形态分析", short: "根据 H&E 组织图块的核密度形成三档教学标签，完成图像分类练习。", summary: "从组织切片、H&E 染色、数字病理和图块组织开始，理解脑膜瘤形态特征、教学标签、轻量图像模型和错误图块分析。", input: "脑膜瘤 H&E 原图与组织图块", output: "三档形态教学标签、混淆矩阵与错误图块分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触计算病理和医学图像分类的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.html", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/advanced-practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-04.html", advancedReferenceReport: "experience/advanced-reports/examples/project-04.html", experience: "观察组织结构怎样被染色和记录，理解模型为什么会混淆相近形态。", tierText: "根据 H&E 图块的核密度形成三档教学标签，完成颜色基线、轻量 CNN 和错误图块分析。", advancedTierText: "以原图级无标签形态表征为核心，完成图块特征、多实例聚合、代表区域和染色稳定性分析。" },
+    { id: "project-05", no: "04", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "从受试者级表格进入缺失处理、概率预测和变量贡献。", summary: "从研究问题和受试者级表格开始，处理缺失值与类别变量，理解 XGBoost、数据划分、概率阈值和变量贡献。", input: "受试者级表格数据与二分类目标", output: "概率预测、分类评价与变量贡献", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触表格数据和医学预测任务的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.html", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/advanced-practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-05.html", advancedReferenceReport: "experience/advanced-reports/examples/project-05.html", experience: "先明确研究要预测的结果，再观察表格数据如何被整理、划分和评价。", tierText: "从受试者级表格开始，处理缺失、训练 XGBoost，选择阈值并分析变量贡献。", advancedTierText: "使用帕金森语音记录与逻辑回归，比较受试者级和记录级验证，并完成概率校准、阈值选择和决策曲线分析。" },
+    { id: "project-06", no: "05", week: 2, title: "空间转录组与表达超分辨率", short: "把组织图像、空间位置和基因表达放在同一项超分辨率任务中。", summary: "从细胞、基因表达和空间转录组数据对象开始，理解质量控制、坐标配准、空间邻域、表达超分辨率与结果评价。", input: "H&E 图像、低分辨率与高分辨率表达图", output: "更细尺度的空间表达估计与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触空间转录组和生物信息学的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.html", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/advanced-practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-06.html", advancedReferenceReport: "experience/advanced-reports/examples/project-06.html", experience: "先从组织图和表达图的对应关系开始，理解空间信息为什么重要。", tierText: "从 H&E、低分辨率和高分辨率表达开始，完成空间超分辨率输入检查与结果阅读。", advancedTierText: "比较插值、图像分支与多模态融合，将当前实践中的高分辨率表达图作为教学目标，使用空间留出和聚合一致性评价，并解释不同模态的贡献。" },
+    { id: "project-07", no: "06", week: 3, title: "基于空间转录组学的细胞通讯", short: "从细胞位置和表达关系中推测细胞之间如何交流。", summary: "围绕配体、受体、空间邻近和细胞状态，认识细胞通讯分析提出的问题与结果解释边界。", input: "空间位置、细胞类型与基因表达", output: "候选细胞通讯关系及其可视化", prereq: "适合希望了解空间转录组学的同学", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "从‘哪些细胞在一起’开始，观察‘哪些信号可能连接它们’。" },
+    { id: "project-08", no: "07", week: 3, title: "基于传感器的人类活动识别", short: "用传感器信号判断人的活动状态。", summary: "认识时间序列、窗口切分和信号分类，理解从连续传感器数据到活动标签的基本流程。", input: "加速度、陀螺仪等传感器时间序列", output: "活动类别预测与混淆分析", prereq: "体验版开放后按页面提示学习", device: "待项目页说明", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "先把连续信号切成可观察的小片段，再看不同活动留下的模式。" },
+    { id: "project-09", no: "08", week: 3, title: "组织学图像虚拟染色", short: "让模型学习把一种组织图像转换成另一种染色外观。", summary: "理解图像翻译、染色差异和生成模型的任务边界，区分视觉相似与生物学真实。", input: "组织学图像及对应/非对应染色图像", output: "虚拟染色结果与差异分析", prereq: "适合希望了解计算病理和图像翻译的同学", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "观察不同染色如何改变图像外观，再讨论模型如何保留组织信息。" },
+    { id: "project-10", no: "09", week: 4, title: "人体生理信号分析", short: "从人体信号的变化中理解健康状态和研究问题。", summary: "研究问题、信号类型和实践材料将在项目开放时介绍。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待定", advanced: null, experience: "人体生理信号方向，内容随后公布。" },
+    { id: "project-11", no: "10", week: 4, title: "后续方向 10", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
+    { id: "project-12", no: "11", week: 4, title: "后续方向 11", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
+    { id: "project-13", no: "12", week: 5, title: "后续方向 12", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
+    { id: "project-14", no: "13", week: 5, title: "后续方向 13", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
+    { id: "project-15", no: "14", week: 5, title: "后续方向 14", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" }
   ],
 
   professional: {

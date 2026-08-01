@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>项目 05 参考设计报告</title><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style>
+:root{--ink:#172532;--muted:#5d6f7d;--line:#dbe4e9;--paper:#fff;--soft:#f4f8fa;--blue:#185b7b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef3f5;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.78}
+.report-top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px clamp(16px,4vw,42px);background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}
+.report-top b{color:var(--blue)}.report-actions{display:flex;gap:8px;flex-wrap:wrap}.report-actions a{display:inline-flex;padding:8px 13px;border:1px solid #bfd0da;border-radius:999px;color:var(--blue);text-decoration:none;font-size:13px;background:#fff}
+.report-shell{width:min(940px,calc(100% - 28px));margin:28px auto 70px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(33,60,76,.09);padding:clamp(24px,5vw,58px)}
+.report-shell h1{font-size:clamp(28px,4vw,44px);line-height:1.3;margin:0 0 28px;color:#153f5a}.report-shell h2{margin-top:36px;padding-bottom:9px;border-bottom:2px solid #e6eef2;color:#194f6d}.report-shell h3{margin-top:27px;color:#245f7c}.report-shell p,.report-shell li{font-size:16px}.report-shell blockquote{margin:20px 0;padding:13px 17px;border-left:4px solid #4d91a9;background:var(--soft);color:#435b69}.report-shell code{font-family:Consolas,monospace;background:#edf3f6;border-radius:5px;padding:2px 5px}.report-shell pre{overflow:auto;background:#132b3a;color:#eef7fa;border-radius:12px;padding:16px}.report-shell pre code{background:transparent;padding:0}.report-shell table{width:100%;border-collapse:collapse;display:block;overflow:auto}.report-shell th,.report-shell td{border:1px solid var(--line);padding:9px 11px;text-align:left}.report-shell th{background:var(--soft)}.report-shell a{color:#12658b}.report-shell hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+@media(max-width:650px){.report-top{align-items:flex-start;flex-direction:column}.report-shell{width:min(100% - 18px,940px);margin-top:12px;padding:22px 18px}.report-shell p,.report-shell li{font-size:15px}}
+</style></head>
+<body><header class="report-top"><b>KYDW 本科生科研入门体验项目</b><nav class="report-actions"><a href="../../project-06.html">返回项目详情</a><a href="project-06.md" download>下载 Markdown 文件</a></nav></header><main class="report-shell"><h1 id="05">项目 05 参考设计报告：空间表达超分辨率消融与观测一致性</h1>
+<blockquote>
+<p>本报告对应插值、H&amp;E-only 和融合残差三种方案。参考答案是一种轻量基线，不代表当前最优方法，也不把推断结果等同于直接测量。</p>
+</blockquote>
+<h2 id="1">1. 研究问题</h2>
+<p>输入是高分辨率 H&amp;E 与低分辨率表达，目标是估计高分辨率单基因表达。核心问题是 H&amp;E 是否在低分辨率表达之外增加可验证信息，学习模型是否只是产生更锐利的图，以及高分辨率预测重新聚合后是否与原始观测一致。</p>
+<h2 id="2">2. 数据定义</h2>
+<p>NPZ 包含 <code>he/lr/hr/split</code>。参考数据把 <code>lr</code> 定义为高分辨率块内总和，因此双线性上采样后除以面积倍率，得到均匀密度基线。如果 <code>lr</code> 是平均表达或已经标准化的值，换算应不同。报告必须明确这一点。</p>
+<p><code>split</code> 决定训练、验证和测试。空间相邻位置高度相关，随机像素拆分会泄漏局部纹理。真实研究应按完整切片、患者或空间区域留出。</p>
+<h2 id="3">3. 候选方案与消融</h2>
+<p>插值基线没有学习参数，表示低分辨率观测能提供的平滑结构。H&amp;E-only 网络检验形态是否可预测目标。融合残差网络把 H&amp;E 与插值基线一起输入，并只学习相对于基线的修正。还可以增加 expression-only 网络、图网络、Transformer 或扩散模型。</p>
+<p>消融的意义是定位信息来源。如果融合优于插值但 H&amp;E-only 很差，说明图像可能主要帮助修正低分辨率结构；如果 H&amp;E-only 已经很强，需要检查目标是否被形态或模拟生成规则直接决定；如果融合没有改善，应检查对齐、基因可预测性和样本量。</p>
+<h2 id="4">4. 训练与评价</h2>
+<p>两个学习模型使用相同训练 split 和 L1 损失。测试同时报告 MAE 和空间相关性。MAE受表达尺度影响，相关性忽略整体偏移，二者不能互相替代。多基因任务应按基因和样本分别汇总，并关注零膨胀和高表达基因。</p>
+<p>聚合函数把高分辨率预测按原 spot 区域求和，再与 <code>lr</code> 比较。聚合误差大说明预测违反观测约束；误差小只说明总量一致，块内分布仍可能有无数种解。可以在训练中加入一致性损失，但应避免它压倒高分辨率监督。</p>
+<h2 id="5">5. 结果解释与可视化</h2>
+<p>每个测试样本展示 H&amp;E、插值、H&amp;E-only、融合和绝对误差。融合图在组织边界更锐利时，需要确认真值同样存在边界；否则模型可能把形态边缘错误投射到分子表达。空白区、低表达区和高梯度区应单独检查。</p>
+<h2 id="6">6. 文献与前沿</h2>
+<p>HisToGene 使用空间依赖和组织图像预测表达；iStar 使用层级图像特征与空间转录组实现超分辨率；近期基准显示不同数据预处理、切片划分和外部验证会显著影响结论。当前实践用轻量 CNN 只是帮助理解消融、空间泄漏和可辨识性。</p>
+<h2 id="7">7. 局限</h2>
+<p>教学数据可能由模拟降采样得到；单基因任务不能代表全转录组；H&amp;E 与表达关系不唯一；没有真实单细胞真值；模型小且训练短；没有跨切片或患者外部验证；聚合一致不证明细粒度正确。</p>
+<h2 id="8">8. 下一步实验</h2>
+<p>优先确认 <code>lr</code> 定义和对齐；增加 expression-only 消融；按完整切片或患者留出；按基因分层评价；加入观测一致性损失；最后使用 Visium HD、Xenium 或独立标志物进行外部验证。</p>
+<h2 id="9-aiagent">9. AI/Agent 使用范例</h2>
+<p>Agent 可帮助检查数组 shape、实现聚合单元测试、比较模型分支和绘制误差图。人工必须核对空间坐标、总和/均值定义、split、评价维度和生物学结论边界。</p>
+<h2 id="10">10. 本包可运行性验证记录</h2>
+<p>自动验证未挂载体验项目导出的 <code>he/lr/hr/split</code> 文件，因此使用 <code>demo</code> 模式检查插值基线、仅图像模型、融合模型、空间留出、相关性和低分辨率聚合一致性。演示融合模型 MAE 为 0.061，相关性为 0.931，但重新聚合到低分辨率后的误差为 2.243。这说明像素级相关性较高并不保证满足观测约束，也说明聚合一致性必须单独评价。演示真值由已知规则生成，不能证明真实空间转录组可达到相同精度。</p>
+<h2 id="11">11. 设计报告提交检查</h2>
+<p>完整报告应说明 <code>lr</code> 和 <code>hr</code> 的测量或构造方式、二者是否存在真实配对、空间留出怎样避免邻近泄漏、插值基线代表什么、仅图像与融合模型的差异检验什么、指标是否同时覆盖误差、相关性、空间结构和聚合一致性、清晰预测是否可能只是图像纹理、哪些生物学结论超出了数据分辨率。若没有可靠高分辨率真值，应把任务改写为推断或插值评价，而不是声称恢复了真实单细胞表达。</p>
+<h2 id="12">12. 失败分析与替代方案</h2>
+<p>预测图更平滑或更清晰并不表示分子表达更准确。仅图像模型可能学习组织形态与某些基因的相关性，但也可能复制染色强度、组织边界或批次。融合模型若明显优于仅图像模型，需要进一步判断提升来自低分辨率表达、图像还是二者交互。聚合一致性差说明高分辨率预测与实际观测不兼容，即使像素相关性较高也不能忽略。</p>
+<p>替代方案可以加入卷积、图神经网络、Transformer、坐标编码、非负约束、泊松或负二项观测模型，以及显式下采样一致性损失。模型选择应由数据如何采集、是否有真实高分辨率真值、spot 几何和研究问题决定。没有高分辨率真值时，更合理的目标可能是空间插值、基因模块推断或下游任务效用，而不是宣称恢复真实表达。</p>
+<h2 id="13">13. 复现产物与核对方式</h2>
+<p>参考 Notebook 生成三种方法的消融图和 JSON 指标。真实运行还应保存切片 ID、空间划分、spot/像素坐标、基因清单、归一化方法和下采样算子。报告中的空间图应使用一致色标，并同时展示低分辨率观测、预测、真值或可用参照以及误差图。</p></main></body></html>
