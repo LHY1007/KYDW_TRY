@@ -164,7 +164,9 @@ window.KYDW = {
       href: "resources/index.html#teaching-library",
       home: true,
       homeOrder: 3,
-      items: []
+      items: [
+        { title: "科研基础环境准备", text: "从网络访问、账户注册到 Kaggle 代码项目，完成科研实践前的基础环境准备。", href: "resources/environment.html", kind: "book" }
+      ]
     }
   ],
 
