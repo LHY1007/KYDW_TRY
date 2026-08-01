@@ -225,7 +225,31 @@
   }
 
   function moduleQuickLinks(module, compact = false, label = "快捷入口") {
-    return quickLinksMarkup(module.quickLinks, label, compact);
+    const derived = (module.id === "sdu" || module.id === "fudan") && module.lessons?.length
+      ? module.lessons.map((lesson) => ({
+        label: lesson.title,
+        caption: module.id === "sdu" ? "Kaggle 实践" : "已完成",
+        href: lesson.href || `programs/fudan.html#${lesson.id}`,
+        locked: Boolean(lesson.locked)
+      }))
+      : module.quickLinks;
+    return quickLinksMarkup(derived, label, compact);
+  }
+
+  function teachingLibraryItems() {
+    return (data.projects || [])
+      .filter((project) => {
+        const hasTeaching = Boolean(project.teaching || project.experienceTeaching);
+        const listed = project.status !== "待定" && project.status !== "待公布" && !/^后续方向/.test(project.title || "");
+        return hasTeaching && listed && (project.week == null || isProjectOpen(project));
+      })
+      .sort((a, b) => (a.week || 99) - (b.week || 99) || String(a.no || "").localeCompare(String(b.no || "")))
+      .map((project) => ({
+        title: project.title,
+        text: project.short || project.summary || "",
+        href: project.experienceTeaching || project.teaching,
+        kind: "book"
+      }));
   }
 
   function moduleLessons(module) {
@@ -251,7 +275,8 @@
   }
 
   function resourceCollectionCard(collection, homeOnly = false) {
-    const visibleItems = homeOnly ? [] : (collection.items || []);
+    const sourceItems = collection.id === "teaching-library" ? teachingLibraryItems() : (collection.items || []);
+    const visibleItems = homeOnly ? [] : sourceItems;
     const items = visibleItems.map((item) => `<li class="${item.kind === "book" ? "book-item" : ""}"><b>${esc(item.title)}</b><span>${esc(item.text)}</span><a href="${rootHref(item.href)}">${item.kind === "book" ? "打开文档 →" : "查看详情"}</a></li>`).join("");
     return `<article class="card resource-card" id="${esc(collection.id)}"><h3>${esc(collection.title)}</h3><p><b>${esc(collection.subtitle)}</b></p><p>${esc(collection.text)}</p>${items ? `<ul class="resource-items ${collection.id === "teaching-library" ? "book-list" : ""}">${items}</ul>` : ""}<div class="card-footer"><a class="outline-btn" href="${rootHref(collection.href)}">进入合集 →</a></div></article>`;
   }
@@ -404,11 +429,13 @@
 
   function experience() {
     const e = data.experience;
-    const directoryProjects = (e.projectDirectoryIds || []).map(findProject).filter(Boolean);
+    const directoryProjects = [...(data.projects || [])]
+      .filter(isListedProject)
+      .sort((a, b) => (a.week || 99) - (b.week || 99) || String(a.no || "").localeCompare(String(b.no || "")));
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}
     <section class="section"><div class="prose">${paragraphs(e.paragraphs)}</div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
-    <section class="section" id="project-directory">${sectionHead("项目目录", "目录列出六个项目，卡片标注所属 Week。", null)}<div class="directory-project-grid">${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
+    <section class="section" id="project-directory">${sectionHead("项目目录", "目录按已登记项目展示，并标注所属 Week；尚未开放的项目保留锁定状态。", null)}<div class="directory-project-grid">${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
     <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}学习后无需提交报告；如对某个方向产生兴趣，可以联系负责人开展进阶项目。</p><p>${esc(e.access)}</p></div></section>`);
   }
 
