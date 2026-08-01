@@ -126,7 +126,7 @@
   function teamOverviewSummary(team) {
     const memberFact = (team.facts || []).find((item) => item.label === "团队成员");
     const memberCount = memberFact ? `${memberFact.value} 名成员；` : "";
-    return `${memberCount}已毕业成员高校按直博和研究型硕士分列，另列在校本科生成员高校。`;
+    return `${memberCount}已毕业成员高校按直博、国内学硕/海外研究型硕士分列，另列在校本科生成员高校。`;
   }
 
   function destinationEntries(team, doctoral) {
@@ -149,7 +149,7 @@
   function destinationDegreeGroups(team) {
     return [
       { title: "直博", doctoral: true, entries: destinationEntries(team, true) },
-      { title: "研究型硕士", doctoral: false, entries: destinationEntries(team, false) }
+      { title: "国内学硕/海外研究型硕士", doctoral: false, entries: destinationEntries(team, false) }
     ];
   }
 
@@ -159,7 +159,7 @@
 
   function destinationSummary(team) {
     const highlights = destinationUniversityNames(team).slice(0, 5);
-    return `已毕业成员去向包括${highlights.join("、")}等高校，分为直博和研究型硕士两类。`;
+    return `已毕业成员去向包括${highlights.join("、")}等高校，分为直博、国内学硕/海外研究型硕士。`;
   }
 
   function memberNetwork(team) {
@@ -189,7 +189,7 @@
 
   function newsMarkup(items) {
     if (!items || !items.length) return "";
-    return `<div class="home-news"><h4>团队动态</h4><div class="home-news-list">${items.map((item) => `<article class="home-news-item"><time>${esc(item.date)}</time><p>${item.html || esc(item.text || "")}</p></article>`).join("")}</div></div>`;
+    return `<div class="home-news"><h4>团队近期动态</h4><div class="home-news-list">${items.map((item) => `<article class="home-news-item"><time>${esc(item.date)}</time><p>${item.html || esc(item.text || "")}</p></article>`).join("")}</div></div>`;
   }
 
   function moduleMeta(module) {
@@ -358,7 +358,7 @@
     const t = data.team;
     const configs = {
       achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果（成员一作/项目负责人）", lead: "", back: "team/index.html" },
-      destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向均为研究型硕士（2年及以上）或直博。", back: "team/index.html" },
+      destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向包括直博、国内学硕/海外研究型硕士。", back: "team/index.html" },
       activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦大学秋季学期本科生践悟课程和生物医学人工智能专题交流。", back: "team/index.html" },
       people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", back: "team/index.html" }
     };
@@ -390,8 +390,8 @@
   function sduLessonPage() {
     const module = findModule("sdu");
     const lesson = (module?.lessons || []).find((item) => item.id === body.dataset.lesson);
-    if (!module || !lesson) return layout(hero({ eyebrow: "项目与活动 / 山东大学课程", title: "课程页面不存在", lead: "请返回山东大学课程页面选择实践项目。", actions: [{ label: "返回山东大学课程", href: "programs/sdu.html", primary: true }] }));
-    layout(`${hero({ eyebrow: "山东大学课程 / Kaggle 实践", title: lesson.title, lead: "Kaggle 代码实践", actions: [{ label: "返回山东大学课程", href: "programs/sdu.html", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
+    if (!module || !lesson) return layout(hero({ eyebrow: "项目与活动 / 山东大学本科生暑期名校课程-神经影像学与人工智能", title: "课程页面不存在", lead: "请返回山东大学本科生暑期名校课程-神经影像学与人工智能选择实践项目。", actions: [{ label: "返回山东大学本科生暑期名校课程-神经影像学与人工智能", href: "programs/sdu.html", primary: true }] }));
+    layout(`${hero({ eyebrow: "山东大学本科生暑期名校课程-神经影像学与人工智能 / Kaggle 实践", title: lesson.title, lead: "Kaggle 代码实践", actions: [{ label: "返回山东大学本科生暑期名校课程-神经影像学与人工智能", href: "programs/sdu.html", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section"><div class="prose"><p>${esc(lesson.text)}</p>${moduleMeta({ audience: lesson.audience || module.audience, date: lesson.date || module.date })}</div></section>
     <section class="section"><div class="card feature-callout"><h2>实践入口</h2><p>在 Kaggle 中打开对应 Notebook，按照页面中的代码和说明完成实践。</p><div class="card-footer"><a class="solid-btn" href="${esc(lesson.kaggle)}" target="_blank" rel="noreferrer">进入 Kaggle 实践</a></div></div></section>`);
   }
