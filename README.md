@@ -10,7 +10,7 @@ KYDW（科研大王）学生自主运营的静态网站，面向团队介绍、�
 - `experience/teaching/`、`experience/advanced/`：已登记项目的体验教学 HTML 与进阶教学 HTML；具体项目和开放状态以 `content.js` 为准。
 - `experience/answers/`、`experience/advanced-answers/`、`experience/practice/`：各项目配套的实践解析、进阶解析和实践 Notebook；新增项目沿用同一目录关系。
 - `programs/`：KYDW科研入门培训、山东大学本科生暑期名校课程-神经影像学与人工智能、复旦大学秋季学期本科生践悟课程和生物医学人工智能专题交流的独立说明；山东大学课程的各项实践另有对应的 `sdu-lesson-*` 子页面，分别进入对应 Kaggle Notebook。
-- `resources/`：资源中心合集页；专业解读、项目与活动资料、教学文档库作为可扩展合集管理，后续有真实公告内容时再加入公告子合集。
+- `resources/`：资源中心合集页；专业解读、项目与活动资料、教学文档库作为可扩展合集管理，教学文档库另含“科研基础环境准备”页面，后续有真实公告内容时再加入公告子合集。
 - `professional/`：资源中心下的专业解读合集，当前包含生物医学工程专业介绍和独立的专业答疑页面。
 - `content.js`：站点的结构化内容层；项目名、状态和文案应优先在此修改。
 - `site.js` / `styles.css`：页面渲染与统一视觉样式。
