@@ -202,8 +202,8 @@ window.KYDW = {
       id: "sdu",
       label: "山东大学本科生暑期名校课程-神经影像学与人工智能",
       title: "山东大学本科生暑期名校课程-神经影像学与人工智能",
-      subtitle: "神经影像学与人工智能课程资料",
-      text: "已整理神经影像学、医学人工智能和代码实践相关课程材料。",
+      subtitle: "六个神经影像与医学人工智能实践项目",
+      text: "课程主体为六个可直接运行的 Kaggle 代码实践，依次进入基础编程、MRI 分割、胸部 X 射线、计算病理、表格预测和空间转录组任务。",
       audience: "大一至大三、来自不同专业和院校的本科生",
       date: "2026 年暑期历史课程",
       status: "首批内容",
@@ -212,20 +212,20 @@ window.KYDW = {
       period: "历史项目",
       home: true,
       quickLinks: [
-        { label: "实践 0 · 基础编程与人工智能", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-00" },
-        { label: "实践 1 · MRI 肿瘤图像分割", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-01" },
-        { label: "实践 2 · 胸部 X 射线与生成模型", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-02" },
-        { label: "实践 3 · 计算病理与脑膜瘤形态分析", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-03" },
-        { label: "实践 4 · 脑疾病表格数据与 XGBoost 预测", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-04" },
-        { label: "实践 5 · 空间转录组与表达超分辨率", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-05" }
+        { label: "实践 0 · 基础编程与人工智能", caption: "Kaggle 实践", href: "programs/sdu-lesson-00.html" },
+        { label: "实践 1 · MRI 肿瘤图像分割", caption: "Kaggle 实践", href: "programs/sdu-lesson-01.html" },
+        { label: "实践 2 · 胸部 X 射线与生成模型", caption: "Kaggle 实践", href: "programs/sdu-lesson-02.html" },
+        { label: "实践 3 · 计算病理与脑膜瘤形态分析", caption: "Kaggle 实践", href: "programs/sdu-lesson-03.html" },
+        { label: "实践 4 · 脑疾病表格数据与 XGBoost 预测", caption: "Kaggle 实践", href: "programs/sdu-lesson-04.html" },
+        { label: "实践 5 · 空间转录组与表达超分辨率", caption: "Kaggle 实践", href: "programs/sdu-lesson-05.html" }
       ],
       lessons: [
-        { id: "sdu-lesson-00", title: "实践 0 · 基础编程与人工智能", text: "从 Python、数据表示和模型评价开始，完成一次手写数字分类实践。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-0" },
-        { id: "sdu-lesson-01", title: "实践 1 · MRI 肿瘤图像分割", text: "从多序列 MRI 和肿瘤掩膜进入患者级划分、U-Net 分割和结果评价。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-1" },
-        { id: "sdu-lesson-02", title: "实践 2 · 胸部 X 射线与生成模型", text: "从胸片读取与归一化开始，观察生成模型的训练过程与生成结果。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-2" },
-        { id: "sdu-lesson-03", title: "实践 3 · 计算病理与脑膜瘤形态分析", text: "从 H&E 组织图块进入脑膜瘤形态分级和错误图块分析。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-3" },
-        { id: "sdu-lesson-04", title: "实践 4 · 脑疾病表格数据与 XGBoost 预测", text: "从受试者级表格进入缺失处理、概率预测和变量贡献分析。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-4" },
-        { id: "sdu-lesson-05", title: "实践 5 · 空间转录组与表达超分辨率", text: "从组织图像、空间位置和基因表达进入空间表达超分辨率实践。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-5" }
+        { id: "sdu-lesson-00", title: "实践 0 · 基础编程与人工智能", text: "从 Python、数据表示和模型评价开始，完成一次手写数字分类实践。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-00.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-0" },
+        { id: "sdu-lesson-01", title: "实践 1 · MRI 肿瘤图像分割", text: "从多序列 MRI 和肿瘤掩膜进入患者级划分、U-Net 分割和结果评价。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-01.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-1" },
+        { id: "sdu-lesson-02", title: "实践 2 · 胸部 X 射线与生成模型", text: "从胸片读取与归一化开始，观察生成模型的训练过程与生成结果。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-02.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-2" },
+        { id: "sdu-lesson-03", title: "实践 3 · 计算病理与脑膜瘤形态分析", text: "从 H&E 组织图块进入脑膜瘤形态分级和错误图块分析。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-03.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-3" },
+        { id: "sdu-lesson-04", title: "实践 4 · 脑疾病表格数据与 XGBoost 预测", text: "从受试者级表格进入缺失处理、概率预测和变量贡献分析。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-04.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-4" },
+        { id: "sdu-lesson-05", title: "实践 5 · 空间转录组与表达超分辨率", text: "从组织图像、空间位置和基因表达进入空间表达超分辨率实践。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-05.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-5" }
       ]
     },
     {

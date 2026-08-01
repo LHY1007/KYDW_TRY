@@ -230,7 +230,14 @@
 
   function moduleLessons(module) {
     if (!module.lessons || !module.lessons.length) return "";
-    return `<section class="section" id="module-lessons">${sectionHead("授课内容", null, null)}<div class="module-lesson-list">${module.lessons.map((lesson) => `<article class="card module-lesson" id="${esc(lesson.id)}"><h3>${esc(lesson.title)}</h3><p>${esc(lesson.text)}</p>${lesson.kaggle ? `<a class="outline-btn" href="${esc(lesson.kaggle)}" target="_blank" rel="noreferrer">进入 Kaggle 实践</a>` : ""}</article>`).join("")}</div></section>`;
+    const lessonCard = (lesson) => {
+      const links = [
+        lesson.href ? `<a class="outline-btn" href="${rootHref(lesson.href)}">查看课程页面</a>` : "",
+        lesson.kaggle ? `<a class="outline-btn" href="${esc(lesson.kaggle)}" target="_blank" rel="noreferrer">进入 Kaggle 实践</a>` : ""
+      ].join("");
+      return `<article class="card module-lesson" id="${esc(lesson.id)}"><h3>${lesson.href ? `<a href="${rootHref(lesson.href)}">${esc(lesson.title)}</a>` : esc(lesson.title)}</h3><p>${esc(lesson.text)}</p>${moduleMeta({ audience: lesson.audience || module.audience, date: lesson.date || module.date })}${links ? `<div class="card-footer">${links}</div>` : ""}</article>`;
+    };
+    return `<section class="section" id="module-lessons">${sectionHead("授课内容", null, null)}<div class="module-lesson-list">${module.lessons.map(lessonCard).join("")}</div></section>`;
   }
 
   function experienceActivityCard() {
@@ -352,6 +359,15 @@
     ${moduleLessons(module)}`);
   }
 
+  function sduLessonPage() {
+    const module = findModule("sdu");
+    const lesson = (module?.lessons || []).find((item) => item.id === body.dataset.lesson);
+    if (!module || !lesson) return layout(hero({ eyebrow: "项目与活动 / 山东大学课程", title: "课程页面不存在", lead: "请返回山东大学课程页面选择实践项目。", actions: [{ label: "返回山东大学课程", href: "programs/sdu.html", primary: true }] }));
+    layout(`${hero({ eyebrow: "山东大学课程 / Kaggle 实践", title: lesson.title, lead: "Kaggle 代码实践", actions: [{ label: "返回山东大学课程", href: "programs/sdu.html", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
+    <section class="section"><div class="prose"><p>${esc(lesson.text)}</p>${moduleMeta({ audience: lesson.audience || module.audience, date: lesson.date || module.date })}</div></section>
+    <section class="section"><div class="card feature-callout"><h2>实践入口</h2><p>在 Kaggle 中打开对应 Notebook，按照页面中的代码和说明完成实践。</p><div class="card-footer"><a class="solid-btn" href="${esc(lesson.kaggle)}" target="_blank" rel="noreferrer">进入 Kaggle 实践</a></div></div></section>`);
+  }
+
   function trainingOverview() {
     const t = data.training;
     const trainingModule = findModule("training");
@@ -392,7 +408,7 @@
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}
     <section class="section"><div class="prose">${paragraphs(e.paragraphs)}</div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
-    <section class="section" id="project-directory">${sectionHead("项目目录", "当前展示前六个项目，每个项目卡片标注所属 Week。", null)}<div class="directory-project-grid">${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
+    <section class="section" id="project-directory">${sectionHead("项目目录", "目录列出六个项目，卡片标注所属 Week。", null)}<div class="directory-project-grid">${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
     <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}学习后无需提交报告；如对某个方向产生兴趣，可以联系负责人开展进阶项目。</p><p>${esc(e.access)}</p></div></section>`);
   }
 
@@ -454,7 +470,7 @@
     <section class="section"><div class="faq-columns">${groups.map(faqColumn).join("")}</div></section>`);
   }
 
-  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience, "experience-week": weekPage, project: projectPage, professional, "professional-faq": professionalFaq };
+  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience, "experience-week": weekPage, project: projectPage, professional, "professional-faq": professionalFaq };
   if (renderers[page]) renderers[page]();
   else home();
 })();
