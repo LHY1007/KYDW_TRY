@@ -134,6 +134,12 @@ button { font: inherit; }
 .home-metric { min-width: 0; padding: 12px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); }
 .home-metric strong { display: block; color: var(--primary); font-size: 23px; line-height: 1.2; }
 .home-metric span { display: block; color: var(--muted); font-size: 11px; line-height: 1.45; margin-top: 5px; }
+.home-news { margin-top: 17px; padding-top: 14px; border-top: 1px solid var(--line); }
+.home-news h4 { margin: 0 0 8px; color: var(--primary-2); font-size: 13px; }
+.home-news-list { display: grid; gap: 8px; max-height: 230px; overflow-y: auto; padding-right: 5px; }
+.home-news-item { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 9px; align-items: start; }
+.home-news-item time { color: var(--primary); font-size: 12px; font-weight: 800; }
+.home-news-item p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .university-card { min-height: 0; }
 .university-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
 .university-cloud span { display: inline-flex; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); font-size: 13px; line-height: 1.2; }
@@ -176,6 +182,8 @@ button { font: inherit; }
 .showcase-item h3 { margin: 0 0 4px; font-size: 17px; line-height: 1.35; }
 .showcase-item p { color: var(--muted); margin: 5px 0; font-size: 13px; }
 .showcase-item a { display: inline-block; margin-top: 9px; font-size: 13px; }
+.module-meta, .project-page-meta, .project-directory-meta { display: flex; flex-wrap: wrap; gap: 7px 12px; margin-top: 11px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.module-meta span, .project-page-meta span, .project-directory-meta span { display: inline-block; }
 .card {
   position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 24px; box-shadow: var(--shadow-soft);
@@ -283,6 +291,8 @@ details.fold[open] summary::after { content: "−"; }
 .leader-summary-main small { color: var(--primary-2); font-size: 13px; }
 .leader-summary-main em { color: var(--muted); font-size: 13px; font-style: normal; line-height: 1.55; }
 .leader-toggle { color: var(--primary); font-size: 13px; white-space: nowrap; }
+.leader-link { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 18px; color: inherit; text-decoration: none; }
+.leader-link:hover { border-color: color-mix(in srgb, var(--primary) 42%, var(--line)); background: var(--surface-2); }
 .leader-fold .fold-body { padding-top: 14px; }
 .achievement-list { display: grid; gap: 10px; }
 .achievement { display: grid; grid-template-columns: 125px 1fr; gap: 18px; padding: 15px 0; border-bottom: 1px solid var(--line); }
@@ -356,6 +366,10 @@ details.fold[open] summary::after { content: "−"; }
 .week-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .week-card { min-height: 286px; display: flex; flex-direction: column; }
 .week-card .card-footer { margin-top: auto; }
+.directory-project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.directory-project-card { display: flex; flex-direction: column; min-height: 260px; }
+.directory-project-card .card-footer { margin-top: auto; justify-content: flex-start; }
+.directory-project-meta { display: grid; gap: 4px; margin-top: auto; padding-top: 13px; }
 .week-project-list { display: grid; gap: 7px; margin-top: 15px; }
 .week-project-list span { display: flex; align-items: baseline; gap: 9px; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); color: var(--muted); font-size: 13px; }
 .week-project-list b { color: var(--primary); }
@@ -378,6 +392,9 @@ details.fold[open] summary::after { content: "−"; }
 .project-tier { min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 17px; background: var(--surface-2); }
 .project-tier-text { margin: 8px 0 16px; color: var(--muted); }
 .project-tier .material-grid { gap: 10px; }
+.project-tier.is-locked, .project-mode.is-locked, .card.is-locked { position: relative; overflow: hidden; }
+.project-tier.is-locked::after, .project-mode.is-locked::after, .card.is-locked::after { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(112,119,127,.45); backdrop-filter: grayscale(1); pointer-events: none; }
+.project-tier.is-locked > *, .project-mode.is-locked > *, .card.is-locked > * { position: relative; z-index: 2; }
 .material-card { display: flex; flex-direction: column; min-height: 190px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow-soft); }
 .material-card h3 { margin: 7px 0 6px; font-size: 19px; }
 .material-card p { color: var(--muted); font-size: 14px; margin: 4px 0 14px; }
@@ -407,6 +424,7 @@ details.fold[open] summary::after { content: "−"; }
   .showcase-grid { grid-template-columns: 1fr; }
   .home-intro-grid { grid-template-columns: 1fr; }
   .week-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .directory-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .material-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .activity-row { grid-template-columns: minmax(0, 1fr) auto; }
   .activity-row > .outline-btn { grid-column: auto; justify-self: start; }
@@ -426,7 +444,7 @@ details.fold[open] summary::after { content: "−"; }
   .section-head { display: block; }
   .section-link { display: inline-block; margin-top: 9px; }
   .detail-grid, .card-grid, .faq-grid, .faq-columns, .leader-grid, .resource-grid, .training-chapter-grid, .training-topic-grid, .training-path-grid { grid-template-columns: 1fr; }
-  .home-output-grid, .project-split, .project-tier-grid, .material-grid, .week-card-grid { grid-template-columns: 1fr; }
+  .home-output-grid, .project-split, .project-tier-grid, .material-grid, .week-card-grid, .directory-project-grid { grid-template-columns: 1fr; }
   .feature-points { grid-template-columns: 1fr; }
   .home-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .activity-row { grid-template-columns: 1fr; gap: 7px; }
