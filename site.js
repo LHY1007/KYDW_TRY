@@ -164,7 +164,7 @@
 
   function memberNetwork(team) {
     const degreeBlocks = destinationDegreeGroups(team).map((group) => `<div class="destination-degree-block"><h5>${esc(group.title)}</h5>${destinationUniversityCloud(team, group.doctoral)}</div>`).join("");
-    return `<div class="member-network"><div class="network-group graduated-network"><h4>已毕业成员高校</h4>${degreeBlocks}</div><div class="network-group undergraduate-network"><h4>在校本科生成员高校</h4>${universityCloud(team.undergraduateNetwork)}</div></div>`;
+    return `<div class="member-network"><div class="network-group graduated-network"><h4>已毕业成员高校</h4><div class="destination-degree-grid">${degreeBlocks}</div></div><div class="network-group undergraduate-network"><h4>在校本科生成员高校</h4>${universityCloud(team.undergraduateNetwork)}</div></div>`;
   }
 
   function achievementBody(item) {
@@ -202,6 +202,12 @@
   function homeProjectCard(project) {
     const summary = data.experience.homeProjectSummaries?.[project.id] || project.short;
     return `<a class="home-project-item" href="${rootHref(`experience/${project.id}.html`)}"><span class="project-new">new</span><span class="home-project-copy"><b>${esc(project.title)}</b><span>${esc(summary)}</span></span></a>`;
+  }
+
+  function environmentProjectCard(environment, directory = false) {
+    if (!environment) return "";
+    if (directory) return `<article class="card directory-project-card environment-directory-card"><div class="card-kicker"><span class="project-required">必看</span></div><h3>${esc(environment.title)}</h3><p>${esc(environment.short)}</p><div class="project-directory-meta"><span>项目实践前的基础准备</span><span>网络访问、账户注册、Kaggle 代码项目</span></div><div class="card-footer"><a class="outline-btn" href="${rootHref(environment.href)}">进入环境准备</a></div></article>`;
+    return `<a class="home-project-item environment-project-item" href="${rootHref(environment.href)}"><span class="project-required">必看</span><span class="home-project-copy"><b>${esc(environment.title)}</b><span>${esc(environment.short)}</span></span></a>`;
   }
 
   function quickLinksMarkup(items, label = "快捷入口", compact = false) {
@@ -269,7 +275,7 @@
 
   function experienceActivityCard() {
     const e = data.experience;
-    return `<article class="card activity-card activity-card-featured" id="experience"><div class="activity-order" aria-hidden="true"></div><div class="card-kicker"><span class="project-new">new</span></div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="outline-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article>`;
+    return `<article class="card activity-card activity-card-featured" id="experience"><div class="activity-order" aria-hidden="true"></div><div class="card-kicker"><span class="project-new">new</span></div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list experience-prep-list">${environmentProjectCard(e.environment)}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="outline-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article>`;
   }
 
   function sectionHead(title, text, href, label) {
@@ -331,10 +337,10 @@
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
     <section class="section" id="team-overview">${sectionHead("团队概况", teamOverviewSummary(t), "team/index.html", "完整团队介绍")}
-      <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>连接不同学校、专业与课题组</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card home-leaders-card"><div class="card-kicker">负责人</div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div><div class="card-footer"><a class="outline-btn" href="${rootHref("team/people.html")}">查看详细介绍</a></div></article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${newsMarkup(t.news)}</article><article class="card university-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div></div>
+      <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>连接不同学校、专业与课题组</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card university-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${newsMarkup(t.news)}</article><article class="card home-leaders-card"><div class="card-kicker">负责人</div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div><div class="card-footer"><a class="outline-btn" href="${rootHref("team/people.html")}">查看详细介绍</a></div></article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
-      <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${homeProjects.map(homeProjectCard).join("")}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
+      <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${environmentProjectCard(e.environment)}${homeProjects.map(homeProjectCard).join("")}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
     </section>
     <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "进入资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
@@ -438,7 +444,7 @@
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}
     <section class="section"><div class="prose">${paragraphs(e.paragraphs)}</div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
-    <section class="section" id="project-directory">${sectionHead("项目目录", "目录按已登记项目展示，并标注所属 Week；尚未开放的项目保留锁定状态。", null)}<div class="directory-project-grid">${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
+    <section class="section" id="project-directory">${sectionHead("项目目录", "项目环境准备列在最前；科研项目按所属 Week 展示，尚未开放的项目保留锁定状态。", null)}<div class="directory-project-grid">${environmentProjectCard(e.environment, true)}${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
     <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}学习后无需提交报告；如对某个方向产生兴趣，可以联系负责人开展进阶项目。</p><p>${esc(e.access)}</p></div></section>`);
   }
 
