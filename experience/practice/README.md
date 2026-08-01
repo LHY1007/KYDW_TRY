@@ -1,6 +1,6 @@
 # 体验实践项目
 
-这里保存 01—06 项目的实践 Notebook。网站项目页同时把这些 Notebook 作为体验项目和暂代的进阶项目入口；进阶版本的代码材料完成后，只需在 `content.js` 中替换对应的 `advancedPractice` 路径。
+这里保存已登记项目的实践 Notebook。网站项目页可以把这些 Notebook 作为体验项目和暂代的进阶项目入口；进阶版本的代码材料完成后，只需在 `content.js` 中替换对应的 `advancedPractice` 路径。
 
 ## 项目对应关系
 
