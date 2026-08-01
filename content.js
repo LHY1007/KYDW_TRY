@@ -80,6 +80,12 @@ window.KYDW = {
       "面向有一定研究能力同学的专项合作，例如空间转录组学基准研究",
       "复旦大学秋季学期本科生践悟课程"
     ],
+    news: [
+      { date: "2026.7", html: "团队本科生李知彤（25级）、刘子铭（25级）、姜逸轩（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
+      { date: "2026.7", html: "团队合作本科生朱鸿杰（23级）、周华苑（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
+      { date: "2026.5", html: "团队本科生汤昊天（23级）的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based</em> 被中科院一区 Top 学术期刊 <em>Expert Systems With Applications</em> 接收。" },
+      { date: "2026.4", html: "团队 MPhil 唐浩（25级）的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 被 CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em> 接收。" }
+    ],
     leaders: [
       { name: "伍东辰", role: "2023 级负责人", preview: "东北大学医学与生物工程 2023 级，现任 KYDW 2023 级负责人。曾获国际大学生数学建模竞赛特等奖 Outstanding Winner、国家奖学金。", paragraphs: [
         "伍东辰是东北大学医学与生物工程 2023 级学生，现任 KYDW 2023 级负责人。",
@@ -177,6 +183,7 @@ window.KYDW = {
       subtitle: "从科研基础进入人工智能与研究实践",
       text: "培训从电脑操作、文献阅读和数据基础开始，逐步进入 Python、人工智能、深度学习和科研实践。",
       audience: "大一至大三、来自不同专业和院校的本科生",
+      date: "持续整理",
       status: "持续整理",
       href: "programs/training.html",
       order: 2,
@@ -188,7 +195,7 @@ window.KYDW = {
         { label: "基础知识", caption: "科研入门", href: "programs/training/foundation.html" },
         { label: "初识人工智能", caption: "Python 与模型", href: "programs/training/ai-basics.html" },
         { label: "基础科研", caption: "代码与实践", href: "programs/training/research-basics.html" },
-        { label: "科研工具与技能", caption: "工具与协作", href: "programs/training/tools.html" }
+        { label: "科研工具与技能", caption: "工具与协作", href: "programs/training/tools.html", locked: true }
       ]
     },
     {
@@ -198,16 +205,27 @@ window.KYDW = {
       subtitle: "神经影像学与人工智能课程资料",
       text: "已整理神经影像学、医学人工智能和代码实践相关课程材料。",
       audience: "大一至大三、来自不同专业和院校的本科生",
+      date: "2026 年暑期历史课程",
       status: "首批内容",
       href: "programs/sdu.html",
       order: 1,
       period: "历史项目",
       home: true,
       quickLinks: [
-        { label: "1. 环境准备", caption: "课程单元", href: "programs/sdu.html#sdu-lesson-01" }
+        { label: "实践 0 · 基础编程与人工智能", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-00" },
+        { label: "实践 1 · MRI 肿瘤图像分割", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-01" },
+        { label: "实践 2 · 胸部 X 射线与生成模型", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-02" },
+        { label: "实践 3 · 计算病理与脑膜瘤形态分析", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-03" },
+        { label: "实践 4 · 脑疾病表格数据与 XGBoost 预测", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-04" },
+        { label: "实践 5 · 空间转录组与表达超分辨率", caption: "Kaggle 实践", href: "programs/sdu.html#sdu-lesson-05" }
       ],
       lessons: [
-        { id: "sdu-lesson-01", title: "1. 环境准备", text: "从计算机、Kaggle 和代码项目的基础环境开始，进入后续神经影像学与人工智能实践。" }
+        { id: "sdu-lesson-00", title: "实践 0 · 基础编程与人工智能", text: "从 Python、数据表示和模型评价开始，完成一次手写数字分类实践。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-0" },
+        { id: "sdu-lesson-01", title: "实践 1 · MRI 肿瘤图像分割", text: "从多序列 MRI 和肿瘤掩膜进入患者级划分、U-Net 分割和结果评价。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-1" },
+        { id: "sdu-lesson-02", title: "实践 2 · 胸部 X 射线与生成模型", text: "从胸片读取与归一化开始，观察生成模型的训练过程与生成结果。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-2" },
+        { id: "sdu-lesson-03", title: "实践 3 · 计算病理与脑膜瘤形态分析", text: "从 H&E 组织图块进入脑膜瘤形态分级和错误图块分析。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-3" },
+        { id: "sdu-lesson-04", title: "实践 4 · 脑疾病表格数据与 XGBoost 预测", text: "从受试者级表格进入缺失处理、概率预测和变量贡献分析。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-4" },
+        { id: "sdu-lesson-05", title: "实践 5 · 空间转录组与表达超分辨率", text: "从组织图像、空间位置和基因表达进入空间表达超分辨率实践。", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-5" }
       ]
     },
     {
@@ -217,6 +235,7 @@ window.KYDW = {
       subtitle: "研究方法、工具与实践课程",
       text: "课程目录围绕资源获取、Python 环境、文献、开发环境和科研实践展开。",
       audience: "关注医学、工程、计算机与人工智能交叉研究的本科生",
+      date: "2025 年秋季学期",
       status: "合作项目",
       href: "programs/fudan.html",
       order: 3,
@@ -224,15 +243,21 @@ window.KYDW = {
       home: true,
       quickLinks: [
         { label: "第一节 资源获取，编程，AI", caption: "已开放", href: "programs/fudan.html#fudan-lesson-01" },
-        { label: "第二节 文献与办公工具", locked: true },
-        { label: "第三节 科研工具与实践", locked: true },
-        { label: "第四节 开发环境与系统基础", locked: true },
-        { label: "第五节 验证任务", locked: true },
-        { label: "第六节 近期AI更新与数据知识", locked: true },
-        { label: "第七节 学术界常识", locked: true }
+        { label: "第二节 文献与办公工具", caption: "已完成", href: "programs/fudan.html#fudan-lesson-02" },
+        { label: "第三节 科研工具与实践", caption: "已完成", href: "programs/fudan.html#fudan-lesson-03" },
+        { label: "第四节 开发环境与系统基础", caption: "已完成", href: "programs/fudan.html#fudan-lesson-04" },
+        { label: "第五节 验证任务", caption: "已完成", href: "programs/fudan.html#fudan-lesson-05" },
+        { label: "第六节 近期AI更新与数据知识", caption: "已完成", href: "programs/fudan.html#fudan-lesson-06" },
+        { label: "第七节 学术界常识", caption: "已完成", href: "programs/fudan.html#fudan-lesson-07" }
       ],
       lessons: [
-        { id: "fudan-lesson-01", title: "第一节 资源获取，编程，AI", text: "从学术资源获取、Python 与 Anaconda 环境、VSCode、Jupyter Notebook、Colab 以及人工智能工具开始建立科研工作环境。" }
+        { id: "fudan-lesson-01", title: "第一节 资源获取，编程，AI", text: "从学术资源获取、Python 与 Anaconda 环境、VSCode、Jupyter Notebook、Colab 以及人工智能工具开始建立科研工作环境。" },
+        { id: "fudan-lesson-02", title: "第二节 文献与办公工具", text: "围绕论文检索、阅读、记录和常用办公工具整理科研资料。" },
+        { id: "fudan-lesson-03", title: "第三节 科研工具与实践", text: "把资料、代码环境和实践任务放进同一条科研工作流程。" },
+        { id: "fudan-lesson-04", title: "第四节 开发环境与系统基础", text: "认识开发环境、文件系统和代码项目运行所需的基础设置。" },
+        { id: "fudan-lesson-05", title: "第五节 验证任务", text: "通过验证任务检查前面工具和方法是否能够用于实际问题。" },
+        { id: "fudan-lesson-06", title: "第六节 近期AI更新与数据知识", text: "结合近期人工智能工具和数据知识，继续完善科研工作方式。" },
+        { id: "fudan-lesson-07", title: "第七节 学术界常识", text: "整理进入学术研究后需要了解的基本规则、交流方式和研究习惯。" }
       ]
     },
     {
@@ -242,6 +267,7 @@ window.KYDW = {
       subtitle: "论文、代码与研究问题交流",
       text: "围绕医学影像、生物信息学和人工智能等交叉方向，讨论论文、代码实践与研究问题。",
       audience: "对生物学与人工智能交叉方向感兴趣的学生和研究者",
+      date: "持续开展",
       status: "持续开展",
       href: "programs/workshop.html",
       order: 4,
@@ -322,6 +348,7 @@ window.KYDW = {
         id: "advanced-research",
         title: "进阶科研",
         lead: "把基础代码、数据处理、模型训练和结果分析放进更完整的研究任务。",
+        locked: true,
         topics: [
           { title: "完整研究任务", text: "围绕研究问题完成数据准备、方法选择、实验设计和结果分析。" },
           { title: "研究过程复盘", text: "从数据质量、模型表现和实验结论中找出下一步需要验证的问题。" }
@@ -331,6 +358,7 @@ window.KYDW = {
         id: "frontiers",
         title: "探索学科前沿",
         lead: "从论文、数据和研究问题出发，持续追踪医学与人工智能交叉方向。",
+        locked: true,
         topics: [
           { title: "阅读前沿论文", text: "关注研究问题、数据来源、方法设计和结果解释，而不只记录名词。" },
           { title: "追踪研究方向", text: "比较不同论文如何处理同一类问题，并寻找可以继续验证的切入点。" }
@@ -340,6 +368,7 @@ window.KYDW = {
         id: "practice",
         title: "知行合一 自强不息",
         lead: "把知识学习、代码实践和研究表达放在同一个任务中完成。",
+        locked: true,
         topics: [
           { title: "从学习进入行动", text: "将章节中的概念落实到一次可运行、可观察、可解释的实践。" },
           { title: "从行动回到思考", text: "根据运行结果重新检查问题、方法和结论，形成自己的研究判断。" }
@@ -349,6 +378,7 @@ window.KYDW = {
         id: "tools",
         title: "科研工具与技能",
         lead: "整理科研过程中常用的代码环境、文献资料、结果表达与协作方法。",
+        locked: true,
         topics: [
           { title: "代码环境", text: "配置编辑器、运行环境和项目依赖，使实践可以稳定复现。" },
           { title: "文献与资料", text: "建立检索、阅读、记录和整理研究资料的工作方式。" },
@@ -360,6 +390,7 @@ window.KYDW = {
         id: "cooperation",
         title: "附录：KYDW合作项目表",
         lead: "整理团队关联的合作项目、研究方向与参与入口。",
+        locked: true,
         topics: [
           { title: "合作项目目录", text: "按研究方向查看团队公开的合作项目与活动内容。" },
           { title: "方向与任务", text: "从项目任务了解不同课题组和研究方向的工作方式。" }
@@ -369,6 +400,7 @@ window.KYDW = {
         id: "practice-projects",
         title: "附录：实战项目",
         lead: "把前面章节的知识带入完整的医学与人工智能实践任务。",
+        locked: true,
         topics: [
           { title: "从数据到结果", text: "按项目查看数据处理、模型搭建、结果分析和研究表达。" },
           { title: "从体验到进阶", text: "先完成入门实践，再根据兴趣进入更完整的教学与代码材料。" }
@@ -392,17 +424,19 @@ window.KYDW = {
     title: "本科生科研入门体验项目",
     label: "项目与活动 / 本科生科研入门",
     homeProjectIds: ["project-01", "project-02", "project-03"],
+    projectDirectoryIds: ["project-01", "project-02", "project-03", "project-04", "project-05", "project-06"],
     homeProjectSummaries: {
       "project-01": "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。",
       "project-02": "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。",
       "project-03": "从胸片读取与归一化开始，观察生成结果是否保持多样性。"
     },
-    lead: "从一个具体研究任务开始，认识医学与人工智能的交叉方向。",
+    lead: "面向本科生的线上科研体验项目，按周开放医学影像、生物信息学与人工智能方向。",
+    date: "计划开放时间：2026 年 8 月 2 日—9 月中旬；期间可随时加入，后加入可适当延期。",
     goal: "通过一组完整而易上手的研究任务，接触更多专业方向，在实践中发现自己的兴趣偏好与能力优势。",
     paragraphs: [
-      "本项目由原 KYDW 科研入门指南升级而来。它以体验科研为核心，把领域前沿研究拆成一组简单、易懂、可以上手的体验项目，让本科生看到一个研究任务如何从数据开始，经过处理和建模，形成结果与解释。",
-      "项目 01 直接提供教学、实践和参考答案；项目 02—06 另分体验项目和进阶项目两层。体验项目用于接触研究任务，进阶项目用于继续阅读、运行和复盘更完整的研究流程。完成进阶实践后，可以按方向要求准备研究报告并联系对应课题组。",
-      "开放期间可以自行安排学习；秋季开学后结束访问。项目以线上自学为主，不涉及硬件和湿实验，使用计算机完成学习与实践。"
+      "本项目由原 KYDW 科研入门指南升级而来，以体验科研为核心，把领域前沿研究拆成一组简单、易懂、可以上手的体验项目，让本科生看到一个研究任务如何从数据开始，经过处理和建模，形成结果与解释。",
+      "项目从 Week 1 开始分批开放，每周开放三个项目。Week 1 的第一个项目是基础编程与人工智能，为零基础跨专业同学和 26 级新生准备；后续项目进入医学影像、计算病理、表格预测和空间转录组等方向。",
+      "开放期间可以自行安排学习。项目以线上自学为主，不涉及硬件和湿实验，使用计算机完成学习与实践；项目仅用于科研方向体验，学习后无需提交报告。学习过程中如果对某个项目产生兴趣，可以联系负责人开展进阶项目，表现优异者可加入对应方向课题组进行深入学习。"
     ],
     facts: [
       { value: "1—3 年级", label: "主要面向本科生" },
@@ -429,21 +463,21 @@ window.KYDW = {
       { title: "研究报告", text: "按方向要求整理研究报告，作为继续跟学的材料。" }
     ],
     weeks: [
-      { id: 1, title: "从代码到医学影像", note: "数据、模型与结果的基础概念。", projects: ["project-01", "project-02", "project-03"] },
-      { id: 2, title: "从组织图像到空间表达", note: "计算病理、表格预测与空间转录组。", projects: ["project-04", "project-05", "project-06"] },
-      { id: 3, title: "从空间信息到生理信号", note: "空间组学、生理信号与图像翻译。", projects: ["project-07", "project-08", "project-09"] },
-      { id: 4, title: "后续开放", note: "本周项目尚未开放。", projects: ["project-10", "project-11", "project-12"] },
-      { id: 5, title: "后续开放", note: "本周项目尚未开放。", projects: ["project-13", "project-14", "project-15"] }
+      { id: 1, title: "Week 1", note: "第一部分已开放。第一个项目为零基础跨专业同学和 26 级新生准备。", open: true, projects: ["project-01", "project-02", "project-03"] },
+      { id: 2, title: "Week 2", note: "等待项目中段开放。", open: false, projects: ["project-04", "project-05", "project-06"] },
+      { id: 3, title: "Week 3", note: "等待后续开放。", open: false, projects: ["project-07", "project-08", "project-09"] },
+      { id: 4, title: "Week 4", note: "等待后续开放。", open: false, projects: ["project-10", "project-11", "project-12"] },
+      { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-13", "project-14", "project-15"] }
     ]
   },
 
   projects: [
-    { id: "project-01", no: "01", week: 1, title: "基础编程与人工智能", short: "用 MNIST 手写数字分类认识数据、模型训练和结果评价。", summary: "从人工智能研究对象、任务类型、Python、数据表示和模型评价开始，最后完成一次可运行的手写数字分类实践。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵、错误样本与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", status: "材料已整理", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.html", advanced: "experience/advanced/project-01.html", single: true, experience: "从输入、处理和输出的关系开始认识人工智能。", tierText: "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。" },
-    { id: "project-02", no: "02", week: 1, title: "MRI 肿瘤图像分割", short: "从多序列 MRI 与肿瘤掩膜进入患者级分割和边界评价。", summary: "从脑部结构、MRI 信号、多序列影像和专家标注开始，理解数据组织、U-Net 分割、Dice/IoU 评价与病例分析。", input: "多序列脑 MRI 切片与肿瘤掩膜", output: "肿瘤区域预测、Dice/IoU 指标与病例结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", status: "材料已整理", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.html", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.html", experience: "观察一张 MRI 如何变成可计算的数据，理解标注和评价指标的作用。", tierText: "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。" },
-    { id: "project-03", no: "03", week: 1, title: "胸部 X 射线与生成模型", short: "从胸片投影和数字质量进入生成器、判别器与生成样本分析。", summary: "从 X 射线穿透、投影叠加和数字胸片质量开始，逐步认识生成模型、GAN、潜在向量和生成失败模式。", input: "胸部 X 射线图像", output: "生成胸片样本、训练曲线与多样性比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", status: "材料已整理", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.html", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.html", experience: "从真实胸片开始，追踪生成器、判别器和生成结果之间的关系。", tierText: "从胸片读取与归一化开始，训练轻量 DCGAN，比较生成样本和模式坍塌。" },
-    { id: "project-04", no: "04", week: 2, title: "计算病理与脑膜瘤形态分析", short: "从 H&E 组织图块观察脑膜瘤形态，并完成三档分级。", summary: "从组织切片、H&E 染色、数字病理和图块组织开始，理解脑膜瘤形态特征、轻量图像模型和错误图块分析。", input: "脑膜瘤 H&E 原图与组织图块", output: "三档形态等级、混淆矩阵与错误图块分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", status: "材料已整理", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.html", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.html", experience: "观察组织结构怎样被染色和记录，理解模型为什么会混淆相近形态。", tierText: "从 H&E 图块与形态等级开始，完成颜色基线、轻量 CNN 和错误图块分析。" },
-    { id: "project-05", no: "05", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "从受试者级表格进入缺失处理、概率预测和变量贡献。", summary: "从研究问题和受试者级表格开始，处理缺失值与类别变量，理解 XGBoost、数据划分、概率阈值和变量贡献。", input: "受试者级表格数据与二分类目标", output: "概率预测、分类评价与变量贡献", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", status: "材料已整理", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.html", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.html", experience: "先明确研究要预测的结果，再观察表格数据如何被整理、划分和评价。", tierText: "从受试者级表格开始，处理缺失、训练 XGBoost，选择阈值并分析变量贡献。" },
-    { id: "project-06", no: "06", week: 2, title: "空间转录组与表达超分辨率", short: "把组织图像、空间位置和基因表达放在同一项超分辨率任务中。", summary: "从细胞、基因表达和空间转录组数据对象开始，理解质量控制、坐标配准、空间邻域、表达超分辨率与结果评价。", input: "H&E 图像、低分辨率与高分辨率表达图", output: "更细尺度的空间表达估计与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", status: "材料已整理", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.html", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.html", experience: "先从组织图和表达图的对应关系开始，理解空间信息为什么重要。", tierText: "从 H&E、低分辨率和高分辨率表达开始，完成空间超分辨率输入检查与结果阅读。" },
+    { id: "project-01", no: "01", week: 1, title: "基础编程与人工智能", short: "用 MNIST 手写数字分类认识数据、模型训练和结果评价。", summary: "从人工智能研究对象、任务类型、Python、数据表示和模型评价开始，最后完成一次可运行的手写数字分类实践。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵、错误样本与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", audience: "零基础跨专业本科生和 26 级新生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已整理", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.html", advanced: "experience/advanced/project-01.html", single: true, experience: "从输入、处理和输出的关系开始认识人工智能。", tierText: "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。" },
+    { id: "project-02", no: "02", week: 1, title: "MRI 肿瘤图像分割", short: "从多序列 MRI 与肿瘤掩膜进入患者级分割和边界评价。", summary: "从脑部结构、MRI 信号、多序列影像和专家标注开始，理解数据组织、U-Net 分割、Dice/IoU 评价与病例分析。", input: "多序列脑 MRI 切片与肿瘤掩膜", output: "肿瘤区域预测、Dice/IoU 指标与病例结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触医学影像和人工智能的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已整理", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.html", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.html", experience: "观察一张 MRI 如何变成可计算的数据，理解标注和评价指标的作用。", tierText: "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。" },
+    { id: "project-03", no: "03", week: 1, title: "胸部 X 射线与生成模型", short: "从胸片投影和数字质量进入生成器、判别器与生成样本分析。", summary: "从 X 射线穿透、投影叠加和数字胸片质量开始，逐步认识生成模型、GAN、潜在向量和生成失败模式。", input: "胸部 X 射线图像", output: "生成胸片样本、训练曲线与多样性比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触医学影像生成和深度学习的本科生", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已整理", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.html", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.html", experience: "从真实胸片开始，追踪生成器、判别器和生成结果之间的关系。", tierText: "从胸片读取与归一化开始，训练轻量 DCGAN，比较生成样本和模式坍塌。" },
+    { id: "project-04", no: "04", week: 2, title: "计算病理与脑膜瘤形态分析", short: "从 H&E 组织图块观察脑膜瘤形态，并完成三档分级。", summary: "从组织切片、H&E 染色、数字病理和图块组织开始，理解脑膜瘤形态特征、轻量图像模型和错误图块分析。", input: "脑膜瘤 H&E 原图与组织图块", output: "三档形态等级、混淆矩阵与错误图块分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触计算病理和医学图像分类的本科生", date: "2026 年 8 月 2 日起，等待 Week 2 开放", status: "材料已整理", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.html", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.html", experience: "观察组织结构怎样被染色和记录，理解模型为什么会混淆相近形态。", tierText: "从 H&E 图块与形态等级开始，完成颜色基线、轻量 CNN 和错误图块分析。" },
+    { id: "project-05", no: "05", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "从受试者级表格进入缺失处理、概率预测和变量贡献。", summary: "从研究问题和受试者级表格开始，处理缺失值与类别变量，理解 XGBoost、数据划分、概率阈值和变量贡献。", input: "受试者级表格数据与二分类目标", output: "概率预测、分类评价与变量贡献", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触表格数据和医学预测任务的本科生", date: "2026 年 8 月 2 日起，等待 Week 2 开放", status: "材料已整理", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.html", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.html", experience: "先明确研究要预测的结果，再观察表格数据如何被整理、划分和评价。", tierText: "从受试者级表格开始，处理缺失、训练 XGBoost，选择阈值并分析变量贡献。" },
+    { id: "project-06", no: "06", week: 2, title: "空间转录组与表达超分辨率", short: "把组织图像、空间位置和基因表达放在同一项超分辨率任务中。", summary: "从细胞、基因表达和空间转录组数据对象开始，理解质量控制、坐标配准、空间邻域、表达超分辨率与结果评价。", input: "H&E 图像、低分辨率与高分辨率表达图", output: "更细尺度的空间表达估计与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", audience: "希望接触空间转录组和生物信息学的本科生", date: "2026 年 8 月 2 日起，等待 Week 2 开放", status: "材料已整理", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.html", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.html", experience: "先从组织图和表达图的对应关系开始，理解空间信息为什么重要。", tierText: "从 H&E、低分辨率和高分辨率表达开始，完成空间超分辨率输入检查与结果阅读。" },
     { id: "project-07", no: "07", week: 3, title: "基于空间转录组学的细胞通讯", short: "从细胞位置和表达关系中推测细胞之间如何交流。", summary: "围绕配体、受体、空间邻近和细胞状态，认识细胞通讯分析提出的问题与结果解释边界。", input: "空间位置、细胞类型与基因表达", output: "候选细胞通讯关系及其可视化", prereq: "适合希望了解空间转录组学的同学", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "从‘哪些细胞在一起’开始，观察‘哪些信号可能连接它们’。" },
     { id: "project-08", no: "08", week: 3, title: "基于传感器的人类活动识别", short: "用传感器信号判断人的活动状态。", summary: "认识时间序列、窗口切分和信号分类，理解从连续传感器数据到活动标签的基本流程。", input: "加速度、陀螺仪等传感器时间序列", output: "活动类别预测与混淆分析", prereq: "体验版开放后按页面提示学习", device: "待项目页说明", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "先把连续信号切成可观察的小片段，再看不同活动留下的模式。" },
     { id: "project-09", no: "09", week: 3, title: "组织学图像虚拟染色", short: "让模型学习把一种组织图像转换成另一种染色外观。", summary: "理解图像翻译、染色差异和生成模型的任务边界，区分视觉相似与生物学真实。", input: "组织学图像及对应/非对应染色图像", output: "虚拟染色结果与差异分析", prereq: "适合希望了解计算病理和图像翻译的同学", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "观察不同染色如何改变图像外观，再讨论模型如何保留组织信息。" },
