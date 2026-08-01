@@ -237,7 +237,7 @@
   }
 
   function teachingLibraryItems() {
-    return (data.projects || [])
+    const projectItems = (data.projects || [])
       .filter((project) => {
         const hasTeaching = Boolean(project.teaching || project.experienceTeaching);
         const listed = project.status !== "待定" && project.status !== "待公布" && !/^后续方向/.test(project.title || "");
@@ -250,6 +250,9 @@
         href: project.experienceTeaching || project.teaching,
         kind: "book"
       }));
+    const extraItems = (data.resourceCollections || [])
+      .find((collection) => collection.id === "teaching-library")?.items || [];
+    return [...projectItems, ...extraItems];
   }
 
   function moduleLessons(module) {
