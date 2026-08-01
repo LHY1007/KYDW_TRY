@@ -93,9 +93,9 @@ window.KYDW = {
         "国际大学生数学建模竞赛中的 Outstanding Winner 是他在竞赛方面的代表性成绩，国家奖学金则记录了他的本科阶段学业表现。",
         "作为 2023 级负责人，他与其他负责人共同组成当前负责人团队，负责维护面向本科生的培训、项目与公开资料。"
       ] },
-      { name: "姜逸轩", role: "负责人", preview: "", paragraphs: [] },
-      { name: "汤昊天", role: "2024 级负责人", preview: "东北大学医学与生物工程 2024 级，现任 KYDW 2024 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA 论文。", paragraphs: [
-        "汤昊天是东北大学医学与生物工程 2024 级学生，现任 KYDW 2024 级负责人。",
+      { name: "姜逸轩", role: "2024 级负责人", preview: "", paragraphs: [] },
+      { name: "汤昊天", role: "2023 级负责人", preview: "东北大学医学与生物工程 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA 论文。", paragraphs: [
+        "汤昊天是东北大学医学与生物工程 2023 级学生，现任 KYDW 2023 级负责人。",
         "他以第一作者发表 CMBBE 论文。",
         "他还以第一作者发表 MICCAI2025-CMMCA 论文。",
         "CMBBE 论文与 MICCAI2025-CMMCA 论文分别对应期刊和研讨会成果，均以第一作者署名。",
@@ -401,6 +401,11 @@ window.KYDW = {
   experience: {
     title: "本科生科研入门体验项目",
     label: "项目与活动 / 本科生科研入门",
+    environment: {
+      title: "项目环境准备",
+      short: "完成网络访问、账户注册和 Kaggle 代码项目创建，开始实践前先完成这一步。",
+      href: "resources/environment.html"
+    },
     homeProjectIds: ["project-01", "project-02", "project-03"],
     homeProjectSummaries: {
       "project-01": "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。",
