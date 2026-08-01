@@ -7,7 +7,8 @@
 ## 当前基线
 
 - 工作目录：`D:\00_同步\BaiduSyncdisk\01_学术研究\展示\山大\Extra-Materials\kydw_try_site`
-- 分支：`agent/kydw-sync-20260801`
+- 公开分支：`main`
+- 维护分支：`agent/maintenance-state-20260801`
 - GitHub 仓库：`LHY1007/KYDW_TRY`
 - 统一数据源：`content.js`
 - 维护文档：`docs/site-architecture.md`、`docs/content-audit-2026-08-01.md`
@@ -21,16 +22,22 @@
 - Notion 原生“科研基础环境准备”页面已核对：5 个编号章节、19 张图片、当月兑换码和每月更新说明均存在；团队介绍、负责人、成员去向、成果、体验项目与教学文档库已抓取复核。
 - 飞书“1.环境准备”页面已保存并回读验证：已加入“本月兑换码：飞天螳螂”“兑换码每月更新，每个月都会有新的免费会员”和旧图说明。
 - PDF 已生成：`output/pdf/科研基础环境准备.pdf`，共 8 页；已渲染检查第 1、2、3、4、8 页，中文、图片、兑换码提示和页码正常。
+- `origin/main` 已包含上述站点改动，当前公开提交为 `4c2f1b7`；GitHub Pages 首页、Week 2 锁定页、负责人页和环境页已线上复核。
+- Notion 公开页面已用无缓存刷新复核：首页、负责人、已毕业成员去向、代表性成果和科研基础环境准备均无需登录即可访问；代表性成果标题已显示“团队近期动态”。
+- 飞书公开页面已滚动加载复核：第 1—5 节、当月兑换码和每月更新说明均可读。
 
 ## 验证
 
 - `node --check content.js`、`node --check site.js`、`python -m py_compile tools/import_experience_materials.py`、`git diff --check` 通过。
 - 本地 Playwright 检查首页、团队页、负责人页、成员去向页、项目与活动、Week 1/2、项目 01/02、科研入门培训、资源中心和环境页；环境页 5 个章节、19 张图片，项目 02 进阶层锁定，Week 2 页面锁定。
 - 公开站点源码审查未发现飞书链接、Notion 链接、Cargo、旧专业名称或 AI 对话式元文案。
+- 三端关键字段一致：负责人专业为“东北大学生物医学工程专业”；汤昊天为 2023 级负责人并含 Expert Systems With Applications 接收信息；姜逸轩为 2024 级负责人并含慧医智心与国家级一等奖信息；吴熙东含新加坡国立大学医学院 PhD。
 
 ## 待完成
 
-- 将当前工作树指定改动提交并推送，合并到 `main`，验证 GitHub Pages 线上页面。
+- 当前三端同步和 PDF 交付没有未完成项。
+
+补充：`hanyul.super.site` 是此前的 Super 镜像，不属于本轮明确指定的飞书、Notion、GitHub 三端；其公开缓存仍可能显示旧版 Notion 文案。若继续维护该镜像，需要在 Super 控制台登录后手动触发同步，不能把它当作当前三端的内容源。
 
 ## 后续维护
 
