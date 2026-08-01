@@ -158,20 +158,13 @@ window.KYDW = {
       label: "教学文档库",
       title: "教学文档库",
       subtitle: "教学页面、实践材料与参考答案",
-      text: "六个方向的教学页面从概念、数据和研究任务展开；实践代码与参考答案从对应项目详情进入。",
+      text: "教学页面按项目从概念、数据和研究任务展开；每个项目的实践代码与参考答案在项目详情中配套展示。",
       audience: "阅读某个研究方向的教学材料",
-      status: "6 个教学页面",
+      status: "按开放项目持续收录",
       href: "resources/index.html#teaching-library",
       home: true,
       homeOrder: 3,
-      items: [
-        { title: "基础编程与人工智能", text: "从人工智能任务、数据和模型开始，最后完成 MNIST 手写数字分类。", href: "experience/teaching/project-01.html", kind: "book", home: false },
-        { title: "MRI 肿瘤图像分割", text: "从多序列 MRI 与肿瘤掩膜进入患者级划分、U-Net 和分割评价。", href: "experience/teaching/project-02.html", kind: "book", home: false },
-        { title: "胸部 X 射线与生成模型", text: "从胸片投影和数字质量进入生成器、判别器与生成样本分析。", href: "experience/teaching/project-03.html", kind: "book", home: false },
-        { title: "计算病理与脑膜瘤形态分析", text: "从 H&E 染色、数字病理和图块进入脑膜瘤形态分级。", href: "experience/teaching/project-04.html", kind: "book", home: false },
-        { title: "脑疾病表格数据与 XGBoost 预测", text: "从受试者级表格、缺失值和数据划分进入概率预测与变量贡献。", href: "experience/teaching/project-05.html", kind: "book", home: false },
-        { title: "空间转录组与表达超分辨率", text: "从组织图像、空间位置和基因表达进入表达超分辨率。", href: "experience/teaching/project-06.html", kind: "book", home: false }
-      ]
+      items: []
     }
   ],
 
@@ -202,8 +195,8 @@ window.KYDW = {
       id: "sdu",
       label: "山东大学本科生暑期名校课程-神经影像学与人工智能",
       title: "山东大学本科生暑期名校课程-神经影像学与人工智能",
-      subtitle: "六个神经影像与医学人工智能实践项目",
-      text: "课程主体为六个可直接运行的 Kaggle 代码实践，依次进入基础编程、MRI 分割、胸部 X 射线、计算病理、表格预测和空间转录组任务。",
+      subtitle: "神经影像与医学人工智能实践项目",
+      text: "课程主体为可直接运行的 Kaggle 代码实践，内容覆盖基础编程、MRI 分割、胸部 X 射线、计算病理、表格预测和空间转录组等任务。",
       audience: "大一至大三、来自不同专业和院校的本科生",
       date: "2026 年暑期历史课程",
       status: "首批内容",
@@ -211,14 +204,6 @@ window.KYDW = {
       order: 1,
       period: "历史项目",
       home: true,
-      quickLinks: [
-        { label: "实践 0 · 基础编程与人工智能", caption: "Kaggle 实践", href: "programs/sdu-lesson-00.html" },
-        { label: "实践 1 · MRI 肿瘤图像分割", caption: "Kaggle 实践", href: "programs/sdu-lesson-01.html" },
-        { label: "实践 2 · 胸部 X 射线与生成模型", caption: "Kaggle 实践", href: "programs/sdu-lesson-02.html" },
-        { label: "实践 3 · 计算病理与脑膜瘤形态分析", caption: "Kaggle 实践", href: "programs/sdu-lesson-03.html" },
-        { label: "实践 4 · 脑疾病表格数据与 XGBoost 预测", caption: "Kaggle 实践", href: "programs/sdu-lesson-04.html" },
-        { label: "实践 5 · 空间转录组与表达超分辨率", caption: "Kaggle 实践", href: "programs/sdu-lesson-05.html" }
-      ],
       lessons: [
         { id: "sdu-lesson-00", title: "实践 0 · 基础编程与人工智能", text: "从 Python、数据表示和模型评价开始，完成一次手写数字分类实践。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-00.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-0" },
         { id: "sdu-lesson-01", title: "实践 1 · MRI 肿瘤图像分割", text: "从多序列 MRI 和肿瘤掩膜进入患者级划分、U-Net 分割和结果评价。", audience: "大一至大三、来自不同专业和院校的本科生", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-01.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-1" },
@@ -241,15 +226,6 @@ window.KYDW = {
       order: 3,
       period: "合作项目",
       home: true,
-      quickLinks: [
-        { label: "第一节 资源获取，编程，AI", caption: "已开放", href: "programs/fudan.html#fudan-lesson-01" },
-        { label: "第二节 文献与办公工具", caption: "已完成", href: "programs/fudan.html#fudan-lesson-02" },
-        { label: "第三节 科研工具与实践", caption: "已完成", href: "programs/fudan.html#fudan-lesson-03" },
-        { label: "第四节 开发环境与系统基础", caption: "已完成", href: "programs/fudan.html#fudan-lesson-04" },
-        { label: "第五节 验证任务", caption: "已完成", href: "programs/fudan.html#fudan-lesson-05" },
-        { label: "第六节 近期AI更新与数据知识", caption: "已完成", href: "programs/fudan.html#fudan-lesson-06" },
-        { label: "第七节 学术界常识", caption: "已完成", href: "programs/fudan.html#fudan-lesson-07" }
-      ],
       lessons: [
         { id: "fudan-lesson-01", title: "第一节 资源获取，编程，AI", text: "从学术资源获取、Python 与 Anaconda 环境、VSCode、Jupyter Notebook、Colab 以及人工智能工具开始建立科研工作环境。" },
         { id: "fudan-lesson-02", title: "第二节 文献与办公工具", text: "围绕论文检索、阅读、记录和常用办公工具整理科研资料。" },
@@ -424,7 +400,6 @@ window.KYDW = {
     title: "本科生科研入门体验项目",
     label: "项目与活动 / 本科生科研入门",
     homeProjectIds: ["project-01", "project-02", "project-03"],
-    projectDirectoryIds: ["project-01", "project-02", "project-03", "project-04", "project-05", "project-06"],
     homeProjectSummaries: {
       "project-01": "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。",
       "project-02": "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。",
@@ -445,7 +420,7 @@ window.KYDW = {
       { value: "公开", label: "网站学习资料" }
     ],
     audience: "适合大学开学后 1—3 年级、来自不同专业、课题组和院校的本科生，尤其适合医学、工程、计算机、自动化、人工智能、生物医学工程和智能医学工程等交叉方向的本科生。",
-    schedule: "开放期间可以自主安排学习；秋季开学后结束访问。项目按周展开，每周设置三个方向。",
+    schedule: "开放期间可以自主安排学习；秋季开学后结束访问。项目按周展开，每周开放三个项目。",
     participation: "线上自学为主，不涉及硬件及湿实验，仅需计算机设备。每个项目包含约 1—2 小时理论知识讲解和一个交互式实践。",
     access: "关注“科研大王”公众号，后台留言或添加负责人微信 Liu_han-yu 获取项目入口与学习资料。",
     comparison: [
