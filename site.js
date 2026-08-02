@@ -399,7 +399,7 @@
       lead: t.lead,
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
-    <section class="section" id="team-overview">${sectionHead("团队概况", teamOverviewSummary(t), "team/index.html", "完整团队介绍")}
+    <section class="section" id="team-overview">${sectionHead("团队概况", null, "team/index.html", "完整团队介绍")}
       <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>团队做什么</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup((t.news || []).slice(0, t.homeNewsLimit || 4))}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
