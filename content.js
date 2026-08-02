@@ -44,12 +44,12 @@ window.KYDW = {
       { region: "英国", name: "邓迪大学", degree: "PhD", count: 1 },
       { region: "英国", name: "邓迪大学", degree: "两年制 MPhil", count: 1 },
       { region: "英国", name: "帝国理工学院", degree: "MRes", count: 1 },
-      { region: "美国", name: "康奈尔大学", degree: "PhD", count: 1 },
-      { region: "美国", name: "约翰·霍普金斯大学", degree: "PhD", count: 1 },
+      { region: "美国", name: "康奈尔大学", degree: "硕士", count: 1 },
+      { region: "美国", name: "约翰·霍普金斯大学", degree: "硕士", count: 1 },
       { region: "美国", name: "哈佛大学", degree: "PhD", count: 1 },
       { region: "中国香港与新加坡", name: "香港科技大学", degree: "两年制 MPhil", count: 1 },
       { region: "中国香港与新加坡", name: "香港中文大学", degree: "两年制 MPhil", count: 1 },
-      { region: "中国香港与新加坡", name: "新加坡国立大学", degree: "两年制 MPhil", count: 1 }
+      { region: "中国香港与新加坡", name: "新加坡国立大学", degree: "PhD", count: 1 }
     ],
     destinationUniversityOrder: [
       "剑桥大学", "哈佛大学", "清华大学", "北京大学", "康奈尔大学",
