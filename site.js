@@ -625,7 +625,9 @@
 
   function notebookCellNeedsCompletion(cell, source) {
     if (cell.cell_type === "markdown") return /(?:^|\n)\s*(?:\*\*)?你的回答\s*(?:：|:)/m.test(source);
-    return /TODO|待完成/.test(source) || /^\s*pass\s*(?:#.*)?$/m.test(source) || /^(?!\s*best_state\s*=)\s*(?:[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*=\s*None\b/m.test(source) || /self\.[A-Za-z_]\w*\s*=\s*None\b/.test(source);
+    const exceptionPass = /except\b[^:]*:\s*\n\s*pass\b/.test(source);
+    const placeholderPass = /^\s*pass\s*(?:#.*)?$/m.test(source) && !exceptionPass;
+    return /TODO|待完成/.test(source) || placeholderPass || /^(?!\s*best_state\s*=)\s*(?:[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*=\s*None\b/m.test(source) || /self\.[A-Za-z_]\w*\s*=\s*None\b/.test(source);
   }
 
   function practiceTaskGuideMarkup(project) {

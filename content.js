@@ -440,7 +440,7 @@ window.KYDW = {
     homeProjectIds: ["project-01", "project-02", "project-03"],
     homeProjectSummaries: {
       "project-01": "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。",
-      "project-02": "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。",
+      "project-02": "从二维单通道 MRI 切片与二值肿瘤 mask 开始，完成患者级划分、TinyUNet 分割和 Dice/IoU 评价。",
       "project-03": "从胸片读取与归一化开始，观察生成结果是否保持多样性。"
     },
     lead: "面向0基础本科生的线上科研体验项目，按周开放，含医学影像、生物信息学与人工智能等多个方向与其交叉研究。",
@@ -454,7 +454,7 @@ window.KYDW = {
         { task: "任务 3：补全小型卷积神经网络", fill: "补全 SmallCNN 的卷积模块、池化后的展平维度和分类层。", basis: "根据输入形状 [1, 28, 28]、卷积和池化设置，以及最后需要输出 10 个类别的 CrossEntropyLoss 确定层结构。", check: "先用一批样本前向运行，确认输出形状为 [batch_size, 10]，没有维度错误。" },
         { task: "任务 4：补全训练步骤", fill: "完成一个标准训练循环中的前向计算、损失、反向传播、参数更新和验证记录。", basis: "按照 optimizer.zero_grad → model(x) → loss → loss.backward → optimizer.step 的顺序填写，并把每轮指标写入 history。", check: "运行后确认 train_loss 和 val_loss 有记录，损失和准确率曲线能够绘制。" },
         { task: "任务 5：测试集评价", fill: "调用 evaluate 得到测试损失、准确率、真实标签和预测标签，并计算混淆矩阵与 F1。", basis: "根据 evaluate 的返回值和后续绘图代码中的变量名填写，不要手动填写参考数字。", check: "确认混淆矩阵为 10×10，准确率、macro-F1 与类别标签数量对应。" },
-        { task: "任务 6：噪声稳健性", fill: "使用 evaluate 的 noise_sigma 参数，对测试图像加入指定强度的噪声并记录准确率。", basis: "保留 noise_sigma=0.25，比较干净测试集和加噪测试集的指标。", check: "确认加噪准确率和准确率下降值由实际运行得到，而不是复制页面中的参考结果。" },
+        { task: "任务 6：噪声稳健性", fill: "使用 evaluate 的 noise_sigma 参数，对测试图像加入指定强度的噪声并记录准确率。", basis: "保留 noise_sigma=0.25，比较干净测试集和加噪测试集的指标。", check: "确认加噪准确率和准确率下降值由实际运行得到，参考结果数字只用于对照。" },
         { task: "任务 7：单变量对照", fill: "选择一个训练变量进行一次对照实验，并在 comparison 中记录变量、设置、指标和观察。", basis: "只能改变一个变量，例如学习率、训练轮数或噪声强度；其余设置保持不变。", check: "运行后比较两组结果，说明改变的变量是否影响准确率、损失或噪声稳健性。" }
       ],
       "project-02": [
@@ -481,7 +481,7 @@ window.KYDW = {
       "project-05": [
         { task: "任务 1：确定目标列与样本单位", fill: "确定 TARGET_COLUMN、目标值含义和样本单位。", basis: "根据表格字段、研究问题和目标列检查结果填写，不要把患者 ID 当成预测变量。", check: "确认 y 只有预期的二分类取值，样本单位与划分方式一致。" },
         { task: "任务 2：缺失与类型检查", fill: "输出缺失率最高的列、数值列和类别列，并决定相应预处理。", basis: "根据表格实际 dtype、缺失率和后续 ColumnTransformer 输入确定。", check: "确认预处理只在训练数据上拟合。" },
-        { task: "任务 3：建立 XGBoost 模型", fill: "完成模型参数、训练和验证预测概率。", basis: "根据训练集、验证集、类别不平衡和现有 XGBoost 接口填写。", check: "确认输出的是概率而不是类别标签。" },
+        { task: "任务 3：建立 XGBoost 模型", fill: "完成模型参数、训练和验证预测概率。", basis: "根据训练集、验证集、类别不平衡和现有 XGBoost 接口填写。", check: "确认输出为概率值，后续再通过阈值转换为类别标签。" },
         { task: "任务 4：阈值选择与测试评价", fill: "在验证集候选阈值中选择 F1 最高者，再在测试集报告结果。", basis: "测试集不能参与阈值选择；同时记录 ROC-AUC、混淆矩阵等指标。", check: "确认最佳阈值和测试指标来自实际运行。" },
         { task: "任务 5：特征重要性与单变量对照", fill: "使用 permutation importance 找出前 12 个变量，并完成一个单变量对照。", basis: "固定评价指标和随机种子，只改变一个变量或一个特征集合。", check: "确认重要性排序和对照结论能回到实际变量。" }
       ],
@@ -553,7 +553,7 @@ window.KYDW = {
 
   projects: [
      { id: "project-01", no: "00", week: 1, title: "基础编程与人工智能", short: "用 MNIST 手写数字分类认识数据、模型训练和结果评价。", summary: "从人工智能研究对象、任务类型、Python、数据表示和模型评价开始，最后完成一次可运行的手写数字分类实践。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵、错误样本与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00", single: true, experience: "从输入、处理和输出的关系开始认识人工智能。", tierText: "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。", referenceResults: [{ stepIndex: 3, title: "训练过程", image: "experience/assets/results/project-01/task0_training_curve.png", caption: "Kaggle 实际运行的训练损失、验证损失与验证准确率" }, { stepIndex: 4, title: "测试集分类评价", image: "experience/assets/results/project-01/task0_confusion_matrix.png", caption: "Kaggle 实际运行的 MNIST 测试集混淆矩阵" }, { stepIndex: 5, title: "测试集与噪声评价数值", text: "数据集：MNIST / torchvision\\n训练样本：51000；验证样本：9000；测试样本：10000\\n最佳验证准确率：0.9778889\\n测试准确率：0.9805\\n测试集 macro-F1：0.9803828\\n噪声标准差：0.25\\n加噪测试准确率：0.9483\\n准确率下降：0.0322" }] },
-     { id: "project-02", no: "01", week: 1, title: "MRI 肿瘤图像分割", short: "从多序列 MRI 与肿瘤掩膜进入患者级分割和边界评价。", summary: "从脑部结构、MRI 信号、多序列影像和专家标注开始，理解数据组织、U-Net 分割、Dice/IoU 评价与病例分析。", input: "多序列脑 MRI 切片与肿瘤掩膜", output: "肿瘤区域预测、Dice/IoU 指标与病例结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/advanced-practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-02.html", advancedReferenceReport: "experience/advanced-reports/examples/project-02.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "观察一张 MRI 如何变成可计算的数据，理解标注和评价指标的作用。", tierText: "从多序列 MRI 与肿瘤掩膜开始，完成患者级划分、U-Net 分割和 Dice/IoU 评价。", advancedTierText: "比较分割方法与边界评价，分析鲁棒性和不确定性，并在设计报告中说明方法选择与验证方案。", referenceResults: [{"stepIndex": 0, "title": "数据检查", "image": "experience/assets/results/project-02/task1_data_check.png", "caption": "Kaggle 实际运行的 MRI、mask 与叠加图"}, {"stepIndex": 4, "title": "训练过程", "image": "experience/assets/results/project-02/task1_training_curve.png", "caption": "Kaggle 实际运行的训练与验证损失、Dice 曲线"}, {"stepIndex": 6, "title": "分割结果与指标", "image": "experience/assets/results/project-02/task1_prediction.png", "caption": "Kaggle 实际运行的测试样本真实 mask 与预测结果", "text": "训练切片：802；验证切片：156；测试切片：242\n最佳阈值：0.5\n测试 Dice：0.6115702\n测试 IoU：0.6115702"}] },
+     { id: "project-02", no: "01", week: 1, title: "MRI 肿瘤图像分割", short: "从二维单通道 MRI 切片与二值肿瘤 mask 进入患者级分割和边界评价。", summary: "从一张灰度 MRI 切片与对应的二值 mask 开始，完成配对检查、患者级划分、TinyUNet 分割和 Dice/IoU 评价。", input: "配对的二维、单通道 MRI 切片与二值肿瘤 mask", output: "肿瘤区域预测、Dice/IoU 指标与病例结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/advanced-practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-02.html", advancedReferenceReport: "experience/advanced-reports/examples/project-02.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "观察一张灰度 MRI 切片怎样与同位置的二值 mask 配对，再把预测区域和真实区域放在一起评价。", tierText: "从二维 MRI 切片与二值肿瘤 mask 开始，完成患者级划分、TinyUNet 分割和 Dice/IoU 评价。", advancedTierText: "比较分割方法与边界评价，分析鲁棒性和不确定性，并在设计报告中说明方法选择与验证方案。", referenceResults: [{"stepIndex": 0, "title": "数据检查", "image": "experience/assets/results/project-02/task1_data_check.png", "caption": "Kaggle 实际运行的 MRI、mask 与叠加图"}, {"stepIndex": 4, "title": "训练过程", "image": "experience/assets/results/project-02/task1_training_curve.png", "caption": "Kaggle 实际运行的训练与验证损失、Dice 曲线"}, {"stepIndex": 6, "title": "分割结果与指标", "image": "experience/assets/results/project-02/task1_prediction.png", "caption": "Kaggle 实际运行的测试样本真实 mask 与预测结果", "text": "训练切片：802；验证切片：156；测试切片：242\n最佳阈值：0.5\n测试 Dice：0.6115702\n测试 IoU：0.6115702"}] },
      { id: "project-03", no: "02", week: 1, title: "胸部 X 射线与生成模型", short: "从胸片投影和数字质量进入生成器、判别器与生成样本分析。", summary: "从 X 射线穿透、投影叠加和数字胸片质量开始，逐步认识生成模型、GAN、潜在向量和生成失败模式。", input: "胸部 X 射线图像", output: "生成胸片样本、训练曲线与多样性比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/advanced-practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-03.html", advancedReferenceReport: "experience/advanced-reports/examples/project-03.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "从真实胸片开始，追踪生成器、判别器和生成结果之间的关系。", tierText: "从胸片读取与归一化开始，训练轻量 DCGAN，比较生成样本和模式坍塌。", advancedTierText: "设计条件生成方案，检查患者留出、生成有效性与训练样本记忆风险，并解释评价方法。", referenceResults: [{"stepIndex": 0, "title": "真实胸片输入", "image": "experience/assets/results/project-03/task2_real_xray_grid.png", "caption": "Kaggle 实际运行的真实胸片样本网格"}, {"stepIndex": 2, "title": "训练过程", "image": "experience/assets/results/project-03/task2_training_curve.png", "caption": "Kaggle 实际运行的生成器与判别器损失曲线"}, {"stepIndex": 3, "title": "生成结果", "image": "experience/assets/results/project-03/task2_generated_samples.png", "caption": "Kaggle 实际运行的固定噪声生成样本网格", "text": "数据集图像：1000；训练轮数：4；潜变量维度：100\n最后一轮生成器平均损失：6.0221351\n最后一轮判别器平均损失：0.0328187\n生成样本两两距离均值：21.0089512"}] },
      { id: "project-04", no: "03", week: 2, title: "计算病理与脑膜瘤形态分析", short: "根据 H&E 组织图块的核密度形成三档教学标签，完成图像分类练习。", summary: "从组织切片、H&E 染色、数字病理和图块组织开始，理解脑膜瘤形态特征、教学标签、轻量图像模型和错误图块分析。", input: "脑膜瘤 H&E 原图与组织图块", output: "三档形态教学标签、混淆矩阵与错误图块分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "尚未开放", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/advanced-practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-04.html", advancedReferenceReport: "experience/advanced-reports/examples/project-04.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "观察组织结构怎样被染色和记录，理解模型为什么会混淆相近形态。", tierText: "根据 H&E 图块的核密度形成三档教学标签，完成颜色基线、轻量 CNN 和错误图块分析。", advancedTierText: "以原图级无标签形态表征为核心，完成图块特征、多实例聚合、代表区域和染色稳定性分析。" },
      { id: "project-05", no: "04", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "从受试者级表格进入缺失处理、概率预测和变量贡献。", summary: "从研究问题和受试者级表格开始，处理缺失值与类别变量，理解 XGBoost、数据划分、概率阈值和变量贡献。", input: "受试者级表格数据与二分类目标", output: "概率预测、分类评价与变量贡献", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "尚未开放", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/advanced-practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-05.html", advancedReferenceReport: "experience/advanced-reports/examples/project-05.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "先明确研究要预测的结果，再观察表格数据如何被整理、划分和评价。", tierText: "从受试者级表格开始，处理缺失、训练 XGBoost，选择阈值并分析变量贡献。", advancedTierText: "使用帕金森语音记录与逻辑回归，比较受试者级和记录级验证，并完成概率校准、阈值选择和决策曲线分析。" },
@@ -582,14 +582,14 @@ window.KYDW = {
         title: "专业性质与培养结构",
         paragraphs: [
           "生物医学工程（生医工）是典型的跨学科专业，其培养方向与院校特色高度绑定，不同高校之间的差异远大于多数传统专业。判断一个生医工项目是否适合自己，首先应看其课程表中是否包含编程、计算机或人工智能相关课程，以及最终授予的是工学、理学还是医学学位——这三点是区分强工科导向与泛交叉导向的关键。",
-          "以东北大学生医工为例，其底色是工科，核心课程集中在计算机、自动化与人工智能，本科阶段会把影像、生物、软件、材料、仪器、光电等交叉方向广泛涉猎一遍，真正的方向专精通常留到研究生阶段。这种模式决定了该专业本科不生产即插即用的单一技术人才，而是培养具备多学科视野、能在研究生阶段快速切入某一细分方向的学生。",
+          "以东北大学生医工为例，其底色是工科，核心课程集中在计算机、自动化与人工智能，本科阶段会把影像、生物、软件、材料、仪器、光电等交叉方向广泛涉猎一遍，真正的方向专精通常留到研究生阶段。本科培养强调多学科视野与方法基础，学生在研究生阶段再快速切入某一细分方向。",
           "东北大学生医工采用中外合办培养模式，学生最终获得英方本科学位。课程体量约为常规专业的 1.5 倍，考试以英文卷形式进行，题目难度整体不高但高分不易；授课分为中方课与英方课两类，英方课由邓迪大学教师全英文负责，低年级已配有实时字幕等辅助。这一模式在语言环境与海外衔接上形成了明显优势，但也意味着课业节奏更紧凑。"
         ]
       },
       {
         title: "本科广度与研究生专精",
         paragraphs: [
-          "本科阶段的课程设置以广为特征。学生会在前三年接触生医领域各交叉方向的基础内容，而非过早锁定某一技术栈。这种做法的代价是本科知识缺乏深入的单点突破，好处是为后续选择留出空间——多数学生在大二、大三逐渐明确自己真正感兴趣的方向，再在研究生阶段深入。",
+          "本科阶段的课程设置以广为特征。学生会在前三年接触生医领域各交叉方向的基础内容，方向选择通常在大二、大三逐渐清晰，再在研究生阶段深入。这样的课程结构保留了后续选择空间，也要求学生主动比较不同任务和研究方向。",
           "课业强度与语言环境是新生最关心的实际问题。整体课量偏大，但考核难度可控；英文教学环境在前两年有配套支持，随年级提升逐步过渡到自主适应。大四阶段在邓迪完成，当地课程体系把重要课程集中在三、四年级，且仅有这两年成绩计入学位等级，因此第四年的课程投入与下一阶段的升学准备需要统筹兼顾。"
         ]
       },
@@ -605,7 +605,7 @@ window.KYDW = {
         paragraphs: [
           "这是最常被问到、也最需尽早建立认知的一点。升学评价导向上，保研层面冲刺清北复交浙等层级的同学普遍至少持有一篇学术论文，仅刷绩点不足以形成区分度。海外申请 MPhil / PhD 更看重研究计划、已有研究经历与产出，对硬性成绩要求反而低于国内，但科研门槛显著更高——以港三、新二或美国前 50 为目标，通常需至少一篇较高水平的期刊或会议论文。",
           "就业门槛同样存在。该专业就业高度依赖学历与科研，无科研经历与成果的授课型硕士，回国就业与本科区别有限。本科阶段需要通过小项目和不同任务判断自己更适合图像、信号、算法还是湿实验方向，也需要通过同辈与师长的交流了解真实的研究环境。除此之外，优质升学与科研机会往往通过同辈与师长间的开放交流获得，科研过程本身也是学术网络积累的一部分。",
-          "对该专业而言，科研不是加分项，而是必需项；且介入越早越好，大四才起步通常已显仓促。"
+          "对该专业而言，科研经历在升学、就业和方向选择中都占有重要位置；越早接触，越容易形成连续的研究经历，大四才起步通常已显仓促。"
         ]
       },
       {
@@ -650,12 +650,12 @@ window.KYDW = {
       {
         title: "结语",
         paragraphs: [
-          "生物医学工程并非天坑，但是一条高度依赖个人选择与时间投入的路径。选择得当、尽早科研，更容易形成连续的研究经历；若仅按培养计划被动内卷，则易陷入迷茫。对专业或科研有疑问者，可通过公众号后台留言或添加微信 Liu_han-yu 交流。选择科研方向前也要先根据兴趣做探索；盲目选择容易在理想与现实的差异中逐渐失去动力，先把方向了解清楚，再决定是否长期投入，更容易保持动力。"
+          "生物医学工程是一条高度依赖个人选择与时间投入的路径。选择得当、尽早科研，更容易形成连续的研究经历；只按培养计划被动推进，容易陷入迷茫。对专业或科研有疑问者，可通过公众号后台留言或添加微信 Liu_han-yu 交流。选择科研方向前先根据兴趣做探索，了解清楚比盲目选择更有长期收益；盲目选择容易在理想与现实的差异中逐渐失去动力。"
         ]
       }
     ],
     faq: [
-      { group: "专业本身", q: "生物医学工程到底学什么？", a: "生物医学工程用工程方法处理医学与生物学问题，涉及计算机、人工智能、电子、材料、机械，以及医学影像、生物信息学、信号和仪器等内容。它不是临床医学，也不是单纯的生物学，具体课程由学校培养方案决定。" },
+      { group: "专业本身", q: "生物医学工程到底学什么？", a: "生物医学工程用工程方法处理医学与生物学问题，连接计算机、人工智能、电子、材料、机械，以及医学影像、生物信息学、信号和仪器等内容。它同时涉及医学基础与工程方法，具体课程由学校培养方案决定。" },
       { group: "专业本身", q: "生医工更偏医学还是工科？", a: "不能只看专业名称，要看课程和学位。课程中编程、计算机、自动化、人工智能占比高，且授予工学学位时，通常是工科导向；医学课程和临床基础比重更大时，培养侧重点就会不同。" },
       { group: "专业本身", q: "不同学校的生医工为什么差异很大？", a: "这个专业与院校特色绑定很紧。比较时可以先看培养方案、编程和人工智能课程的比例、医学与生物课程的安排，以及最终授予工学、理学还是医学学位。名称相同的专业，实际学习内容可能并不相同。" },
       { group: "专业本身", q: "为什么本科阶段要先接触很多方向？", a: "本科阶段通常先覆盖影像、生物、软件、材料、仪器和光电等基础内容，再在研究生阶段选择某一交叉方向深入。广覆盖的代价是难以在本科形成单一技术专长，但它为后续选择留下了空间。" },
