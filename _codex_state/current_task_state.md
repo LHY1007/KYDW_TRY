@@ -49,6 +49,7 @@
 - 独立审查确认编号、开放状态、版本关系、返回入口和公开文案无串号或制作过程口吻。
 - GitHub Pages 抽查总览、Week 2、项目 00、项目 01、进阶教学和报告模板均返回 HTTP 200。
 - 本轮再次通过 `node --check content.js`、`node --check site.js`、`python -m py_compile tools/import_experience_materials.py` 和 `git diff --check`。
+- 追加提交 `a4d5c1d` 已推送到 `main`，为体验项目 00—05 写入对应 `KYDW_TRY_A00`—`KYDW_TRY_A05` Kaggle 路径；六个 Kaggle 页面用 GET/`curl` 回读为 HTTP 200，Pages 构建运行 `30751829026` 成功。
 - 86 个 HTML 路径全部写入 `SITE-MAINTENANCE.md`，没有遗漏。
 - 浏览器回归确认五位负责人锚点存在并自动展开；山东大学实践页与专业答疑页栏目高亮正确；首页与成果页显示近期动态。
 - 桌面端与 390×844 窄屏检查首页、负责人详情和文献索引，均无横向溢出。
@@ -71,6 +72,7 @@
 1. 新增内容先按 `SITE-MAINTENANCE.md` 确定唯一来源、上级合集、首页推送和 Notion 重复阅读页，再开始修改。
 2. 新团队动态加入 `team.news` 首位，同时同步 Notion 主页与代表性成果页；首页自动保留最新四条。
 3. 若获得 `进阶项目/assets` 原始目录，重新运行导入脚本，复核受影响教学页，再替换 Notion 项目主树和教学文档库中的两套 HTML 附件。
-4. 飞书仍待获得稳定编辑通道后再同步，不与当前 GitHub/Notion 发布混合处理。
+4. 核查 QQ 邮箱中的 `is-a.dev` 申请状态；确认状态后再决定 DNS/域名绑定路径。
+5. 飞书仍待获得稳定编辑通道后再同步，不与当前 GitHub/Notion 发布混合处理。
 
 恢复提示：先读取本文件和根目录 `SITE-MAINTENANCE.md`，再检查 `git status -sb`；不要重新从旧对话或全部原始材料开始扫描。
