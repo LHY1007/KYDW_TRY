@@ -87,8 +87,17 @@ window.KYDW = {
     news: [
       { date: "2026.7", html: "团队本科生李知彤（25级）、刘子铭（25级）、姜逸轩（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
       { date: "2026.7", html: "团队合作本科生朱鸿杰（23级）、周华苑（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
-      { date: "2026.5", html: "团队本科生汤昊天（23级）的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based</em> 被中科院一区 Top 学术期刊 <em>Expert Systems With Applications</em> 接收。" },
-      { date: "2026.4", html: "团队 MPhil 唐浩（25级）的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 被 CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em> 接收。" }
+      { date: "2026.5", html: "团队本科生汤昊天（23级）的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 被中科院一区 Top 学术期刊 <em>Expert Systems With Applications</em> 接收。" },
+      { date: "2026.5", html: "团队本科生 Miao Zhengyang 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 被国际声学、语音与信号处理会议 <em>ICASSP 2026</em> 接收。" },
+      { date: "2026.4", html: "团队 MPhil 唐浩（东大医工21级本科）的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 被 CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em> 接收。" },
+      { date: "2026.2", html: "团队本科生吴熙东（22级）的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <em>Biomedical Signal Processing and Control</em>。" },
+      { date: "2026.1", html: "团队本科生汤昊天（23级）的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <em>Computer Methods and Programs in Biomedicine</em>。" },
+      { date: "2025.9", html: "团队 PhD 阙宁锋（东北大学生物医学工程21级本科）的论文 <em>Adaptive spatial transcriptomics interpolation via cross-modal cross-slice modeling</em> 被 CCF B 类国际医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em> 以 early accepted 形式接收。" },
+      { date: "2025.9", html: "团队本科生吴熙东（22级）的论文 <em>OG-SAM: Enhancing Multi-Organ Segmentation with Organogenesis-Based Adaptive Modeling</em> 被 CCF B 类国际医学影像会议 <em>MICCAI 2025</em> 研讨会 <em>CMMCA 2025</em> 接收，并作 Oral 报告。" },
+      { date: "2025.9", html: "团队本科生蒋政（23级）、刘雪鹏（23级）、朱品安（24级）的论文 <em>HaDM-ST: Histology-Assisted Differential Modeling for Spatial Transcriptomics Generation</em> 被 CCF B 类国际医学影像会议 <em>MICCAI 2025</em> 研讨会 <em>CMMCA 2025</em> 接收。" },
+      { date: "2025.7", html: "团队本科生万和欣（24级）、朱品安（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
+      { date: "2025.7", html: "团队合作本科生朱鸿杰（23级）、周华苑（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
+      { date: "2025.4", html: "团队本科生吴熙东（22级）的论文 <em>Multiscale feature enhanced gating network for atrial fibrillation detection</em> 发表于 <em>Computer Methods and Programs in Biomedicine</em>。" }
     ],
     homeNewsLimit: 4,
     leaders: [
@@ -104,12 +113,12 @@ window.KYDW = {
         "他曾获中国大学生生物医学工程创新设计竞赛国家级一等奖。",
         "作为 2024 级负责人，他与其他负责人共同维护团队的培训、合作项目和专题交流。"
       ] },
-      { name: "汤昊天", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA 论文，论文 A Diffusion-Enhanced Classification System for Physiological Signal-based 被 Expert Systems With Applications 接收。", paragraphs: [
+      { name: "汤昊天", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA 论文，论文 A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis 被 Expert Systems With Applications 接收。", paragraphs: [
         "汤昊天是东北大学生物医学工程专业 2023 级学生，现任 KYDW 2023 级负责人。",
         "他以第一作者发表 CMBBE 论文。",
         "他还以第一作者发表 MICCAI2025-CMMCA 论文。",
         "CMBBE 论文与 MICCAI2025-CMMCA 论文分别对应期刊和研讨会成果，均以第一作者署名。",
-        "他的论文 A Diffusion-Enhanced Classification System for Physiological Signal-based 已被中科院一区 Top 学术期刊 Expert Systems With Applications 接收。",
+        "他的论文 A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis 已被中科院一区 Top 学术期刊 Expert Systems With Applications 接收。",
         "作为 2023 级负责人，他与不同年级负责人一起维护团队的培训、合作项目和专题交流。"
       ] },
       { name: "吴锡东", role: "2022 级负责人", preview: "东北大学生物医学工程专业学生，现任 2022 级负责人。以第一作者发表 CMBBE、BSPC 等 3 篇期刊论文，另有 MICCAI CMMCA Oral，现为新加坡国立大学医学院 PhD。", paragraphs: [
