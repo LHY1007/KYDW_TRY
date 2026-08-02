@@ -37,6 +37,10 @@
 4. 运行语法、链接、桌面端和移动端检查。
 5. 提交 GitHub，等待 Pages 部署后回读线上页面。
 
+当前公开状态：Week 1 已开放；Week 2—5 均由数据层和渲染层锁定。体验项目 00—02 可进入体验版材料，项目 03—05 随 Week 2 一并锁定。项目 01—05 的进阶教学、进阶实践、实践项目参考答案、设计报告模板、参考设计报告和随附说明文件当前均不进入公开仓库；相关源文件保存在仓库外的本地内部归档，只有用户明确开放后才恢复发布。
+
+体验项目实践入口：项目 00—05 分别对应 Kaggle Notebook 标题 `KYDW_TRY_A00`—`KYDW_TRY_A05`。项目详情中的实践卡保留网页阅读入口，并提供 Kaggle 运行入口；Notebook 页面提供下载到电脑运行的入口。每个实践项目都要提醒学生：可以下载到电脑运行，也可以在 Kaggle 中逐步运行；看不懂时可以向 AI 询问并逐步尝试，完成后使用“实践项目参考答案”核对。
+
 ## 三、首页推送与排序
 
 ### 3.1 团队近期动态
@@ -72,7 +76,7 @@
 
 ## 四、GitHub 页面清单：数据驱动页面
 
-以下 53 个页面由 `content.js` 与 `site.js` 生成正文。
+以下页面由 `content.js` 与 `site.js` 生成正文；新增页面应补入本手册，不把当前页面数量写进公开文案。
 
 ### 4.1 主页与团队
 
@@ -127,9 +131,9 @@
 
 | 页面 | 描述 |
 | --- | --- |
-| `experience/index.html` | 说明项目来源、开放时间、体验版与进阶版区别、项目构成、环境准备和项目目录 |
+| `experience/index.html` | 说明项目来源、开放时间、体验版与进阶版区别、项目构成、环境准备、项目目录和底部答疑/反馈渠道 |
 | `experience/week-01.html` | 展示项目 00—02；开放状态来自 Week 1 |
-| `experience/week-02.html` | 展示项目 03—05；开放状态来自 Week 2 |
+| `experience/week-02.html` | Week 2 未开放时只显示锁定状态，不展示项目入口；开放后展示项目 03—05 |
 | `experience/week-03.html` | 预留 Week 3 路由；未开放时不展示项目入口 |
 | `experience/week-04.html` | 预留 Week 4 路由；未开放时不展示项目入口 |
 | `experience/week-05.html` | 预留 Week 5 路由；未开放时不展示项目入口 |
@@ -138,12 +142,12 @@
 
 | 页面 | 公开编号与主题 | 页面职责 |
 | --- | --- | --- |
-| `experience/project-01.html` | 00 基础编程与人工智能 | 单层项目：教学、实践、参考答案 |
-| `experience/project-02.html` | 01 MRI 肿瘤图像分割 | 体验版与进阶版材料、报告模板和参考报告 |
-| `experience/project-03.html` | 02 胸部 X 射线与生成模型 | 体验版与进阶版材料、报告模板和参考报告 |
-| `experience/project-04.html` | 03 计算病理与脑膜瘤形态分析 | 体验版与进阶版材料、报告模板和参考报告 |
-| `experience/project-05.html` | 04 脑疾病表格数据与 XGBoost 预测 | 体验版与进阶版材料、报告模板和参考报告 |
-| `experience/project-06.html` | 05 空间转录组与表达超分辨率 | 体验版与进阶版材料、报告模板和参考报告 |
+| `experience/project-01.html` | 00 基础编程与人工智能 | 单层项目：教学、实践、实践项目参考答案 |
+| `experience/project-02.html` | 01 MRI 肿瘤图像分割 | 体验版材料可用；进阶版区域统一锁定 |
+| `experience/project-03.html` | 02 胸部 X 射线与生成模型 | 体验版材料可用；进阶版区域统一锁定 |
+| `experience/project-04.html` | 03 计算病理与脑膜瘤形态分析 | Week 2 未开放时整页锁定 |
+| `experience/project-05.html` | 04 脑疾病表格数据与 XGBoost 预测 | Week 2 未开放时整页锁定 |
+| `experience/project-06.html` | 05 空间转录组与表达超分辨率 | Week 2 未开放时整页锁定 |
 | `experience/project-07.html` | 06 基于空间转录组学的细胞通讯 | 预留路由；登记真实教学材料并开放所属周后才进入目录 |
 | `experience/project-08.html` | 07 基于传感器的人类活动识别 | 预留路由；登记真实教学材料并开放所属周后才进入目录 |
 | `experience/project-09.html` | 08 组织学图像虚拟染色 | 预留路由；登记真实教学材料并开放所属周后才进入目录 |
@@ -161,16 +165,18 @@
 | `resources/index.html` | 展示专业解读、项目与活动资料、教学文档库三个合集 | `resourceCollections` 与已开放 `projects` |
 | `professional/index.html` | 生物医学工程专业介绍正文 | `professional.intro`、`professional.sections` |
 | `professional/faq.html` | 分为“专业本身”和“升学与职业”的独立答疑页 | `professional.faq` |
+| `professional/destinations.html` | 东北大学生物医学工程（中外合办）按年度展示保研与申研去向；有逐项数据时以表格呈现 | `professional.destinationOverview` |
 
 ## 五、GitHub 页面清单：独立内容页面
 
-以下 33 个页面保存独立正文或交互，不能只改 `content.js` 代替正文修改。
+以下页面保存独立正文或交互，不能只改 `content.js` 代替正文修改。
 
 ### 5.1 环境、体验教学与解析
 
 | 页面 | 描述 | 返回关系 |
 | --- | --- | --- |
 | `resources/environment.html` | 科研基础环境准备；包含编号章节、网络访问、账户注册、Kaggle 和图片 | 返回体验项目或资源中心 |
+| `assets/contact/` | 项目公告群、本项目群、微信公众号和负责人微信二维码；由体验项目页与 Notion 项目页共同引用 | `experience.contact.channels`、Notion 体验项目页 |
 | `experience/teaching/index.html` | 体验教学辅助目录；不是主导航唯一入口 | 返回体验项目 |
 | `experience/teaching/project-01.html` | 项目 00 体验教学正文 | 返回项目 00 |
 | `experience/teaching/project-02.html` | 项目 01 体验教学正文 | 返回项目 01 |
@@ -178,45 +184,38 @@
 | `experience/teaching/project-04.html` | 项目 03 体验教学正文 | 返回项目 03 |
 | `experience/teaching/project-05.html` | 项目 04 体验教学正文 | 返回项目 04 |
 | `experience/teaching/project-06.html` | 项目 05 体验教学正文 | 返回项目 05 |
-| `experience/answers/project-01.html` | 项目 00 体验实践解析 | 返回项目 00 |
-| `experience/answers/project-02.html` | 项目 01 体验实践解析 | 返回项目 01 |
-| `experience/answers/project-03.html` | 项目 02 体验实践解析 | 返回项目 02 |
-| `experience/answers/project-04.html` | 项目 03 体验实践解析 | 返回项目 03 |
-| `experience/answers/project-05.html` | 项目 04 体验实践解析 | 返回项目 04 |
-| `experience/answers/project-06.html` | 项目 05 体验实践解析 | 返回项目 05 |
+| `experience/answers/project-01.html` | 项目 00 实践项目参考答案 | 返回项目 00 |
+| `experience/answers/project-02.html` | 项目 01 实践项目参考答案 | 返回项目 01 |
+| `experience/answers/project-03.html` | 项目 02 实践项目参考答案 | 返回项目 02 |
+| `experience/answers/project-04.html` | 项目 03 实践项目参考答案 | 返回项目 03 |
+| `experience/answers/project-05.html` | 项目 04 实践项目参考答案 | 返回项目 04 |
+| `experience/answers/project-06.html` | 项目 05 实践项目参考答案 | 返回项目 05 |
 
-### 5.2 进阶教学
+### 5.4 宣传文案
+
+| 文件 | 使用场景 | 内容要求 |
+| --- | --- | --- |
+| `docs/promotions/公众号公告.md` | 公众号正式发布 | 说明项目定位、开放时间、项目结构、体验版与进阶版区别、参加方式和联系渠道；随项目目录扩展更新主题列表，不写固定总数量。 |
+| `docs/promotions/普通群聊宣传.md` | 普通群聊预告或转发 | 保留项目变动原因、开放时间、体验重点和站内入口，篇幅短，适合直接发送。 |
+| `docs/promotions/项目专属群公告.md` | 已进群同学的首次说明 | 先列环境准备，再列国内/国外入口、HTML 页面、Kaggle 与网络配置位置；本月 Kaggle 兑换码为“飞天螳螂”，兑换码每月更新。 |
+
+### 5.2 进阶页面与材料（当前不进入公开仓库）
 
 | 页面 | 描述 |
 | --- | --- |
-| `experience/advanced/index.html` | 进阶教学辅助目录；不是主导航唯一入口 |
-| `experience/advanced/project-02.html` | 项目 01 进阶教学：MRI 成像、表征与不确定性 |
-| `experience/advanced/project-03.html` | 项目 02 进阶教学：胸部 X 射线、物理成像与生成分布 |
-| `experience/advanced/project-04.html` | 项目 03 进阶教学：形态测量、多实例聚合与多尺度表征 |
-| `experience/advanced/project-05.html` | 项目 04 进阶教学：临床预测、验证与决策价值 |
-| `experience/advanced/project-06.html` | 项目 05 进阶教学：空间统计、多模态融合与超分辨率 |
+| `D:\00_同步\BaiduSyncdisk\01_学术研究\学生\KYDW\网站内容\进阶项目` | 项目 01—05 进阶教学源文件；当前不在 GitHub Pages 和公开导航中 |
 
-进阶教学原始材料目前缺少一组本地配图。缺失清单见 `content/advanced-manifest.md`；导入脚本会隐藏整块缺图交互，不显示破图。补齐来源 `进阶项目/assets` 后重新运行导入脚本。
+进阶教学、进阶实践、进阶项目参考答案和报告材料当前均不进入公开仓库，也不生成学生可点击入口；`site.js` 中 `isAdvancedOpen()` 固定返回关闭状态。重新开放时必须先从本地内部归档恢复源文件，再同时检查项目详情、教学文档库、Notion 项目页和独立材料页。进阶教学原始材料缺失配图清单仅作维护记录，不能作为学生资料发布。
 
-### 5.3 设计报告与进阶公共资料
+### 5.3 设计报告与进阶说明文件（本地内部归档）
 
-| 页面 | 描述 | 母版 |
+| 归档目录 | 描述 | 母版 |
 | --- | --- | --- |
-| `experience/advanced-reports/templates/project-02.html` | 项目 01 设计报告模板 | 同目录 `.md` |
-| `experience/advanced-reports/templates/project-03.html` | 项目 02 设计报告模板 | 同目录 `.md` |
-| `experience/advanced-reports/templates/project-04.html` | 项目 03 设计报告模板 | 同目录 `.md` |
-| `experience/advanced-reports/templates/project-05.html` | 项目 04 设计报告模板 | 同目录 `.md` |
-| `experience/advanced-reports/templates/project-06.html` | 项目 05 设计报告模板 | 同目录 `.md` |
-| `experience/advanced-reports/examples/project-02.html` | 项目 01 参考设计报告 | 同目录 `.md` |
-| `experience/advanced-reports/examples/project-03.html` | 项目 02 参考设计报告 | 同目录 `.md` |
-| `experience/advanced-reports/examples/project-04.html` | 项目 03 参考设计报告 | 同目录 `.md` |
-| `experience/advanced-reports/examples/project-05.html` | 项目 04 参考设计报告 | 同目录 `.md` |
-| `experience/advanced-reports/examples/project-06.html` | 项目 05 参考设计报告 | 同目录 `.md` |
-| `experience/advanced-resources/index.html` | 进阶项目说明 | 同目录 `.md` |
-| `experience/advanced-resources/data-guide.html` | 进阶项目数据与运行说明 | 同目录 `.md` |
-| `experience/advanced-resources/references.html` | 进阶项目资料与文献索引 | 同目录 `.md` |
+| `D:\00_同步\BaiduSyncdisk\01_学术研究\学生\KYDW\网站内容\进阶项目\实践文档\设计报告模板` | 项目 01—05 设计报告模板 | 同目录 `.md` |
+| `D:\00_同步\BaiduSyncdisk\01_学术研究\学生\KYDW\网站内容\进阶项目\参考答案` | 项目 01—05 参考设计报告 | 同目录 `.md` |
+| `D:\00_同步\BaiduSyncdisk\01_学术研究\学生\KYDW\网站内容\进阶项目` | 进阶项目说明、数据与运行说明、资料与文献索引；仅供内部维护 | 原始 Markdown |
 
-报告和公共资料先改 Markdown，再使用 `tools/import_experience_materials.py` 生成 HTML。不要直接长期维护两份不同正文。
+用户明确开放后，先改 Markdown，再使用 `tools/import_experience_materials.py` 生成 HTML；当前不得把这些内部说明文件当作学生资料发布。
 
 ## 六、新增文档与版式
 
@@ -228,15 +227,16 @@
 | 新课程 | 对应 `programs/` 页面和 `modules.lessons` | 课程按时间从近到远；课次按教学顺序从前到后 |
 | 新培训章节 | `programs/training/<chapter>.html` + `training.chapters` | 按学习顺序追加；未完成时设置 `locked: true` |
 | 新体验项目 | 教学、实践、答案三份材料 + 项目页 | 先登记所属 Week 和公开编号，再进入目录 |
-| 新进阶项目 | 进阶教学、实践、答案、报告模板和参考报告 | 与同编号体验项目相邻，不单独成为顶层活动 |
+| 新进阶项目 | 先存仓库外内部归档；开放后再恢复进阶教学、实践、实践项目参考答案、报告模板和参考报告 | 与同编号体验项目相邻，不单独成为顶层活动 |
 | 新专业或行业解读 | `professional/` 下独立页面 | 先进入“专业解读”合集，再决定是否在资源中心预览 |
 | 新专业答疑 | 对应专题独立答疑页 | 问题按主题分栏或分组，不与介绍正文混成一页 |
 | 通用教学文档 | `resources/` 或专题资料目录 | 先写完整文档，再加入教学文档库；不要创建只有链接的空页面 |
+| 宣传文案 | `docs/promotions/` | 公众号、普通群聊和项目群分别维护；项目开放状态和站内入口改变时同步检查三份文案 |
 
 版式统一规则：
 
 - 合集页展示同一层级的页面卡片。
-- 项目详情只展示教学项目、实践项目、参考答案及必要的报告入口。
+- 项目详情只展示教学项目、实践项目、实践项目参考答案及必要的报告入口；进阶内容未开放时只显示锁定状态。
 - 长文章使用连续正文、明确章节和必要图片，不用模板化信息小块凑版面。
 - 数据驱动页保留统一页眉、页脚和返回层级；独立教学页至少提供“返回项目详情”。
 - 未开放内容用统一锁定状态，不提供可点击的空入口。
@@ -257,6 +257,7 @@
 | 项目标题与材料 | `projects` + 实际文件 | 周页、项目页、教学文档库、返回按钮 | 体验项目主树与教学文档库重复阅读页 |
 | 专业解读 | `professional` | 资源中心、专业介绍、专业答疑 | 资源中心、专业解读合集及两个专题页 |
 | 环境准备 | `resources/environment.html` 与 Notion 原生页 | 首页项目区、体验目录、教学文档库 | 体验项目、教学文档库、科研基础环境准备 |
+| 宣传文案 | `docs/promotions/*.md` | 无网站正文渲染；链接、日期、开放状态改变时检查三份文案 | Notion 项目页、群公告和公众号发布稿 |
 
 ## 八、Notion 页面清单与 GitHub 对应
 
@@ -287,12 +288,12 @@ Notion 根页：`3af9e718-eb68-80cd-8039-c2f794e20a65`。
 | 空间转录组与表达超分辨率 | `3af9e718-eb68-8169-bc74-c1dff4e57d43` | `experience/project-06.html` |
 | KYDW科研入门培训 | `3af9e718-eb68-81ec-9f81-f26e4781862a` | `programs/training.html` |
 | 山东大学本科生暑期名校课程-神经影像学与人工智能 | `3af9e718-eb68-814f-ac3e-f487800cc727` | `programs/sdu.html` |
-| 实践 0 | `3af9e718-eb68-81fa-ad54-ecc50d72f9d0` | `programs/sdu-lesson-00.html` |
-| 实践 1 | `3af9e718-eb68-81c8-b09b-e77a1034ac49` | `programs/sdu-lesson-01.html` |
-| 实践 2 | `3af9e718-eb68-8151-ba1b-e0cbdb3cfdd1` | `programs/sdu-lesson-02.html` |
-| 实践 3 | `3af9e718-eb68-818b-b734-c484df82834f` | `programs/sdu-lesson-03.html` |
-| 实践 4 | `3af9e718-eb68-8156-b3dc-e2cf1a2c9758` | `programs/sdu-lesson-04.html` |
-| 实践 5 | `3af9e718-eb68-81dd-9991-fca754e0d140` | `programs/sdu-lesson-05.html` |
+| 基础编程与人工智能 | `3af9e718-eb68-81fa-ad54-ecc50d72f9d0` | `programs/sdu-lesson-00.html` |
+| MRI 肿瘤图像分割 | `3af9e718-eb68-81c8-b09b-e77a1034ac49` | `programs/sdu-lesson-01.html` |
+| 胸部 X 射线与生成模型 | `3af9e718-eb68-8151-ba1b-e0cbdb3cfdd1` | `programs/sdu-lesson-02.html` |
+| 计算病理与脑膜瘤形态分析 | `3af9e718-eb68-818b-b734-c484df82834f` | `programs/sdu-lesson-03.html` |
+| 脑疾病表格数据与 XGBoost 预测 | `3af9e718-eb68-8156-b3dc-e2cf1a2c9758` | `programs/sdu-lesson-04.html` |
+| 空间转录组与表达超分辨率 | `3af9e718-eb68-81dd-9991-fca754e0d140` | `programs/sdu-lesson-05.html` |
 | 复旦大学秋季学期本科生践悟课程 | `3af9e718-eb68-81cb-a388-ec09219c7371` | `programs/fudan.html` |
 | 生物医学人工智能专题交流 | `3af9e718-eb68-812a-8277-cd742806cbf2` | `programs/workshop.html` |
 
@@ -307,12 +308,13 @@ Notion 根页：`3af9e718-eb68-80cd-8039-c2f794e20a65`。
 | 项目与活动资料 | `3af9e718-eb68-813e-aaf5-ca20c3f1861e` | 资源中心项目与活动资料、`programs/index.html` |
 | 教学文档库 | `3af9e718-eb68-8155-a0bd-cb8de30f8bf0` | `resources/index.html#teaching-library` |
 | 科研基础环境准备 | `3af9e718-eb68-811f-9c73-f7ce61dbf272` | `resources/environment.html` |
-| 文档库：基础编程与人工智能 | `3af9e718-eb68-8137-9c08-e0c04935ed05` | 项目 00 教学、实践与答案 |
-| 文档库：MRI 肿瘤图像分割 | `3af9e718-eb68-8125-adfe-d1d3d7029be9` | 项目 01 体验与进阶材料 |
-| 文档库：胸部 X 射线与生成模型 | `3af9e718-eb68-81c5-bbb4-c9c9c9ea53da` | 项目 02 体验与进阶材料 |
-| 文档库：计算病理与脑膜瘤形态分析 | `3af9e718-eb68-8196-83c4-d01f3c876974` | 项目 03 体验与进阶材料 |
-| 文档库：脑疾病表格数据与 XGBoost 预测 | `3af9e718-eb68-81cf-aa19-cc414dbfeec0` | 项目 04 体验与进阶材料 |
-| 文档库：空间转录组与表达超分辨率 | `3af9e718-eb68-81bc-b5d9-f98b07ac35d1` | 项目 05 体验与进阶材料 |
+| 东北大学生物医学工程（中外合办）历年去向表 | 待建立或现有专业解读子页 | `professional/destinations.html` |
+| 基础编程与人工智能 | `3af9e718-eb68-8137-9c08-e0c04935ed05` | 项目 00 教学、实践与答案 |
+| MRI 肿瘤图像分割 | `3af9e718-eb68-8125-adfe-d1d3d7029be9` | 项目 01 体验与进阶材料 |
+| 胸部 X 射线与生成模型 | `3af9e718-eb68-81c5-bbb4-c9c9c9ea53da` | 项目 02 体验与进阶材料 |
+| 计算病理与脑膜瘤形态分析 | `3af9e718-eb68-8196-83c4-d01f3c876974` | 项目 03 体验与进阶材料 |
+| 脑疾病表格数据与 XGBoost 预测 | `3af9e718-eb68-81cf-aa19-cc414dbfeec0` | 项目 04 体验与进阶材料 |
+| 空间转录组与表达超分辨率 | `3af9e718-eb68-81bc-b5d9-f98b07ac35d1` | 项目 05 体验与进阶材料 |
 
 Notion 的项目主树与教学文档库是同一材料的两个阅读场景：
 
@@ -334,6 +336,8 @@ Notion 的项目主树与教学文档库是同一材料的两个阅读场景：
 9. 检查桌面端与窄屏布局。
 10. 推送后检查 GitHub Pages 部署状态，并回读线上首页、成果页、负责人页、资源中心和代表性项目页。
 11. 回读所有本轮修改的 Notion 页面。
+
+发布宣传文案前，再检查 `docs/promotions/项目专属群公告.md` 中的国内入口、国外入口和 Kaggle 入口占位是否已经替换为实际链接；未补链接时不要把占位符当作正式入口发送。
 
 ## 十、相关维护文件
 

@@ -18,17 +18,25 @@
   const findModule = (id) => data.modules.find((module) => module.id === id);
   const findTrainingChapter = (id) => (data.training?.chapters || []).find((chapter) => chapter.id === id);
   const findWeek = (id) => data.experience.weeks.find((week) => String(week.id) === String(id));
+  const LOCKED_WEEK_IDS = new Set(["2", "3", "4", "5"]);
+  const ANSWER_LABEL = "实践项目参考答案";
+  const publicCopy = (value) => {
+    const text = String(value ?? "");
+    return text.includes(ANSWER_LABEL) ? text : text.replaceAll("参考答案", ANSWER_LABEL);
+  };
+  const isAdvancedPath = (href) => /(^|\/)advanced(?:[-/]|$)/i.test(String(href || ""));
+  const isAdvancedOpen = () => false;
   // 只有已经登记教学材料的项目进入公开目录；未开放方向保留在数据层，供后续补齐后自动出现。
   const isListedProject = (project) => project && Boolean(project.teaching || project.experienceTeaching) && project.status !== "待定" && project.status !== "待公布" && !/^后续方向/.test(project.title);
-  const isWeekOpen = (week) => Boolean(week?.open);
-  const isProjectOpen = (project) => isListedProject(project) && isWeekOpen(findWeek(project.week));
+  const isWeekOpen = (week) => Boolean(week?.open) && !LOCKED_WEEK_IDS.has(String(week.id));
+  const isProjectOpen = (project) => isListedProject(project) && project.status !== "尚未开放" && isWeekOpen(findWeek(project.week));
   const sortedModules = () => [...data.modules].sort((a, b) => (a.order || 99) - (b.order || 99));
   const sortedResources = () => [...data.resourceCollections].sort((a, b) => (a.homeOrder || 99) - (b.homeOrder || 99));
 
   function actionMarkup(action) {
-    if (action.disabled) return `<span class="outline-btn is-disabled" aria-disabled="true">${esc(action.label)}</span>`;
+    if (action.disabled || (isAdvancedPath(action.href) && !isAdvancedOpen())) return `<span class="outline-btn is-disabled" aria-disabled="true">${esc(action.label)}（尚未开放）</span>`;
     const href = action.external ? esc(action.href) : rootHref(action.href);
-    const attrs = action.external ? ' target="_blank" rel="noreferrer"' : "";
+    const attrs = action.external ? ' target="_blank" rel="noreferrer"' : action.download ? " download" : "";
     return `<a class="${action.primary ? "solid-btn" : "outline-btn"}" href="${href}"${attrs}>${esc(action.label)}${action.arrow === false ? "" : " →"}</a>`;
   }
 
@@ -174,8 +182,9 @@
   }
 
   function memberNetwork(team) {
-    const degreeBlocks = destinationDegreeGroups(team).map((group) => `<div class="destination-degree-block"><h5>${esc(group.title)}</h5>${destinationUniversityCloud(team, group.doctoral)}</div>`).join("");
-    return `<div class="member-network"><div class="network-group graduated-network"><h4>已毕业成员高校</h4><div class="destination-degree-grid">${degreeBlocks}</div></div><div class="network-group undergraduate-network"><h4>在校本科生成员高校</h4>${universityCloud(team.undergraduateNetwork)}</div></div>`;
+    const degreeBlocks = destinationDegreeGroups(team).map((group) => `<div class="network-group graduated-degree-group"><h4>已毕业成员高校 · ${esc(group.title)}</h4>${destinationUniversityCloud(team, group.doctoral)}</div>`).join("");
+    const notes = (team.undergraduateNotes || []).map((item) => `<p class="network-note"><b>${esc(item.name)}：</b>${esc(item.text)}</p>`).join("");
+    return `<div class="member-network member-network-three">${degreeBlocks}<div class="network-group undergraduate-network"><h4>在校本科生成员高校</h4>${universityCloud(team.undergraduateNetwork)}${notes}</div></div>`;
   }
 
   function achievementBody(item) {
@@ -192,7 +201,7 @@
   function leaderPreview(leader, linked = false) {
     const preview = leader.preview || "";
     const detailParagraphs = leader.paragraphs || (leader.text ? [leader.text] : []);
-    if (linked) return `<a class="leader-fold leader-link${detailParagraphs.length ? "" : " leader-fold-empty"}" href="${rootHref(`team/people.html#${leaderSlug(leader)}`)}"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small>${preview ? `<em>${esc(preview)}</em>` : ""}</span><span class="leader-toggle">查看详情</span></a>`;
+    if (linked) return `<a class="leader-fold leader-link${detailParagraphs.length ? "" : " leader-fold-empty"}" href="${rootHref(`team/people.html#${leaderSlug(leader)}`)}"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small>${preview ? `<em>${esc(preview)}</em>` : ""}</span></a>`;
     if (!detailParagraphs.length) return `<div class="leader-fold leader-fold-empty" id="${leaderSlug(leader)}"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small></span></div>`;
     const detail = `<div class="fold-body">${paragraphs(detailParagraphs)}</div>`;
     return `<details class="leader-fold" id="${leaderSlug(leader)}"><summary><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small>${preview ? `<em>${esc(preview)}</em>` : ""}</span><span class="leader-toggle">查看简介</span></summary>${detail}</details>`;
@@ -216,7 +225,10 @@
 
   function homeProjectCard(project) {
     const summary = data.experience.homeProjectSummaries?.[project.id] || project.short;
-    return `<a class="home-project-item" href="${rootHref(`experience/${project.id}.html`)}"><span class="project-new">new</span><span class="home-project-copy"><b>${esc(project.title)}</b><span>${esc(summary)}</span></span></a>`;
+    const open = isProjectOpen(project);
+    const content = `<span class="project-new">new</span><span class="home-project-copy"><b>${esc(project.title)}</b><span>${esc(summary)}</span></span>`;
+    if (!open) return `<div class="home-project-item is-locked" aria-disabled="true" title="暂未开放">${content}<span class="quick-link-lock">等待 Week ${esc(project.week)} 开放</span></div>`;
+    return `<a class="home-project-item" href="${rootHref(`experience/${project.id}.html`)}">${content}</a>`;
   }
 
   function environmentProjectCard(environment, directory = false) {
@@ -228,7 +240,7 @@
   function quickLinksMarkup(items, label = "快捷入口", compact = false) {
     if (!items || !items.length) return "";
     const links = items.map((item) => {
-      const locked = Boolean(item.locked);
+      const locked = Boolean(item.locked) || (isAdvancedPath(item.href) && !isAdvancedOpen());
       const inner = `<span class="quick-link-copy"><b>${esc(item.label)}</b>${item.caption ? `<span>${esc(item.caption)}</span>` : ""}</span>${locked ? `<span class="quick-link-lock" aria-hidden="true">锁定</span>` : ""}`;
       if (locked) return `<span class="quick-link is-locked" aria-disabled="true" title="暂未开放">${inner}</span>`;
       return `<a class="quick-link" href="${rootHref(item.href)}">${inner}</a>`;
@@ -266,18 +278,30 @@
       })
       .sort((a, b) => (a.week || 99) - (b.week || 99) || String(a.no || "").localeCompare(String(b.no || "")))
       .flatMap((project) => {
-        const base = {
-          text: project.short || project.summary || "",
-          kind: "book"
-        };
-        if (project.single) return [{ ...base, title: `项目 ${project.no} · ${project.title}`, href: project.teaching }];
-        const items = [{ ...base, title: `项目 ${project.no} · ${project.title}（体验版）`, href: project.experienceTeaching }];
-        if (project.advanced) items.push({ ...base, title: `项目 ${project.no} · ${project.title}（进阶版）`, href: project.advanced });
-        return items;
+        const base = { text: project.short || project.summary || "", kind: "book" };
+        const materials = project.single
+          ? [
+            { title: `项目 ${project.no} · ${project.title} · 教学项目`, href: project.teaching },
+            { title: `项目 ${project.no} · ${project.title} · 实践项目`, href: materialViewerHref(project, "practice") },
+            { title: `项目 ${project.no} · ${project.title} · ${ANSWER_LABEL}`, href: materialViewerHref(project, "answer") }
+          ]
+          : [
+            { title: `项目 ${project.no} · ${project.title} · 体验版教学项目`, href: project.experienceTeaching },
+            { title: `项目 ${project.no} · ${project.title} · 体验版实践项目`, href: materialViewerHref(project, "practice") },
+            { title: `项目 ${project.no} · ${project.title} · 体验版${ANSWER_LABEL}`, href: materialViewerHref(project, "answer") }
+          ];
+        if (project.advanced && isAdvancedOpen()) {
+          materials.push(
+            { title: `项目 ${project.no} · ${project.title} · 进阶版教学项目`, href: project.advanced },
+            { title: `项目 ${project.no} · ${project.title} · 进阶版实践项目`, href: materialViewerHref(project, "advanced-practice") },
+            { title: `项目 ${project.no} · ${project.title} · 进阶版${ANSWER_LABEL}`, href: materialViewerHref(project, "advanced-answer") }
+          );
+        }
+        return materials.map((item) => ({ ...base, ...item }));
       });
     const extraItems = (data.resourceCollections || [])
       .find((collection) => collection.id === "teaching-library")?.items || [];
-    return [...projectItems, ...extraItems];
+    return [...projectItems, ...extraItems].map((item) => ({ ...item, locked: Boolean(item.locked) || (isAdvancedPath(item.href) && !isAdvancedOpen()) }));
   }
 
   function moduleLessons(module) {
@@ -287,7 +311,7 @@
         lesson.href ? `<a class="outline-btn" href="${rootHref(lesson.href)}">查看课程页面</a>` : "",
         lesson.kaggle ? `<a class="outline-btn" href="${esc(lesson.kaggle)}" target="_blank" rel="noreferrer">进入 Kaggle 实践</a>` : ""
       ].join("");
-      return `<article class="card module-lesson" id="${esc(lesson.id)}"><h3>${lesson.href ? `<a href="${rootHref(lesson.href)}">${esc(lesson.title)}</a>` : esc(lesson.title)}</h3><p>${esc(lesson.text)}</p>${moduleMeta({ audience: lesson.audience || module.audience, date: lesson.date || module.date })}${links ? `<div class="card-footer">${links}</div>` : ""}</article>`;
+      return `<article class="card module-lesson" id="${esc(lesson.id)}"><h3>${lesson.href ? `<a href="${rootHref(lesson.href)}">${esc(lesson.title)}</a>` : esc(lesson.title)}</h3><p>${esc(lesson.text)}</p>${moduleMeta({ date: lesson.date || module.date })}${links ? `<div class="card-footer">${links}</div>` : ""}</article>`;
     };
     return `<section class="section" id="module-lessons">${sectionHead("授课内容", null, null)}<div class="module-lesson-list">${module.lessons.map(lessonCard).join("")}</div></section>`;
   }
@@ -304,13 +328,28 @@
 
   function resourceCollectionCard(collection, homeOnly = false) {
     const sourceItems = collection.id === "teaching-library" ? teachingLibraryItems() : (collection.items || []);
-    const visibleItems = homeOnly ? [] : sourceItems;
-    const items = visibleItems.map((item) => `<li class="${item.kind === "book" ? "book-item" : ""}"><b>${esc(item.title)}</b><span>${esc(item.text)}</span><a href="${rootHref(item.href)}">${item.kind === "book" ? "打开文档 →" : "查看详情"}</a></li>`).join("");
-    return `<article class="card resource-card" id="${esc(collection.id)}"><h3>${esc(collection.title)}</h3><p><b>${esc(collection.subtitle)}</b></p><p>${esc(collection.text)}</p>${items ? `<ul class="resource-items ${collection.id === "teaching-library" ? "book-list" : ""}">${items}</ul>` : ""}<div class="card-footer"><a class="outline-btn" href="${rootHref(collection.href)}">进入合集 →</a></div></article>`;
+    const visibleItems = homeOnly ? [] : sourceItems.filter((item) => !item.locked && item.studentVisible !== false);
+    const items = visibleItems.map((item) => {
+      const locked = Boolean(item.locked) || (isAdvancedPath(item.href) && !isAdvancedOpen());
+      const link = locked
+        ? `<span class="resource-item-link is-disabled" aria-disabled="true">尚未开放</span>`
+        : `<a href="${rootHref(item.href)}">打开</a>`;
+      return `<li class="${item.kind === "book" ? "book-item" : ""}${locked ? " is-locked" : ""}"><b>${esc(publicCopy(item.title))}</b><span>${esc(publicCopy(item.text))}</span>${link}</li>`;
+    }).join("");
+    return `<article class="card resource-card" id="${esc(collection.id)}"><h3>${esc(collection.title)}</h3><p><b>${esc(publicCopy(collection.subtitle))}</b></p><p>${esc(publicCopy(collection.text))}</p>${items ? `<ul class="resource-items ${collection.id === "teaching-library" ? "book-list" : ""}">${items}</ul>` : ""}<div class="card-footer"><a class="outline-btn" href="${rootHref(collection.href)}">进入合集 →</a></div></article>`;
+  }
+
+  function contactMarkup(contact, options = {}) {
+    if (!contact) return "";
+    const channels = (contact.channels || []).map((channel) => `<figure class="contact-channel"><img src="${rootHref(channel.image)}" alt="${esc(channel.title)}" loading="lazy" /><figcaption>${esc(channel.title)}</figcaption></figure>`).join("");
+    const email = contact.email ? `<p class="contact-email">邮件：<a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></p>` : "";
+    const title = options.title || contact.title || "答疑/反馈渠道";
+    const text = options.text || contact.text || "";
+    return `<section class="section" id="${esc(options.id || "project-contact")}"><div class="contact-panel"><div class="section-head"><div><h2>${esc(title)}</h2><p>${esc(text)}</p></div></div>${channels ? `<div class="contact-channel-grid">${channels}</div>` : ""}${email}</div></section>`;
   }
 
   function showcaseItem(module) {
-    return `<article class="showcase-item"><h3>${esc(module.title)}</h3><p><b>${esc(module.subtitle)}</b></p><p>${esc(module.text)}</p>${moduleMeta(module)}${moduleQuickLinks(module, true)}<a href="${rootHref(module.href)}">查看详情</a></article>`;
+    return `<article class="showcase-item"><h3>${esc(module.title)}</h3><p><b>${esc(module.subtitle)}</b></p><p>${esc(module.text)}</p>${moduleMeta(module)}${moduleQuickLinks(module, true)}<a class="outline-btn" href="${rootHref(module.href)}">查看详情</a></article>`;
   }
 
   function moduleCard(module) {
@@ -326,12 +365,13 @@
     const projects = week.projects.map(findProject).filter(isListedProject);
     if (!projects.length) return "";
     const locked = !isWeekOpen(week);
-    return `<article class="card week-card${locked ? " is-locked" : ""}"><div class="card-kicker">Week ${esc(week.id)}</div><h3>Week ${esc(week.id)}</h3><p>${esc(week.note)}</p><div class="week-project-list">${projects.map((project) => `<span><b>${esc(project.no)}</b>${esc(project.title)}</span>`).join("")}</div><div class="card-footer"><span class="muted small">${locked ? "尚未开放" : `${projects.length} 个项目`}</span>${locked ? `<span class="outline-btn is-disabled" aria-disabled="true">暂未开放</span>` : `<a class="outline-btn" href="${rootHref(`experience/week-${String(week.id).padStart(2, "0")}.html`)}">查看详情</a>`}</div></article>`;
+    const projectList = locked ? "" : `<div class="week-project-list">${projects.map((project) => `<span><b>${esc(project.no)}</b>${esc(project.title)}</span>`).join("")}</div>`;
+    return `<article class="card week-card${locked ? " is-locked" : ""}><div class="card-kicker">Week ${esc(week.id)}</div><h3>Week ${esc(week.id)}</h3><p>${esc(locked ? "尚未开放。" : week.note)}</p>${projectList}<div class="card-footer"><span class="muted small">${locked ? "尚未开放" : `${projects.length} 个项目`}</span>${locked ? `<span class="outline-btn is-disabled" aria-disabled="true">暂未开放</span>` : `<a class="outline-btn" href="${rootHref(`experience/week-${String(week.id).padStart(2, "0")}.html`)}">查看详情</a>`}</div></article>`;
   }
 
   function projectMode(project, advanced = false) {
     if (advanced && !project.single) {
-      return `<article class="project-mode advanced-mode"><div class="mode-kicker">进阶项目</div><p>${esc(project.advancedTierText || "自行设计或选择方法，完成实践并提交设计报告，说明方法选择与结果判断。")}</p></article>`;
+      return `<article class="project-mode advanced-mode is-locked" aria-disabled="true"><div class="mode-kicker">进阶项目</div><p>进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。</p><span class="material-status">尚未开放</span></article>`;
     }
     const title = project.single ? "项目" : "体验项目";
     return `<article class="project-mode"><div class="mode-kicker">${title}</div><p>${esc(project.experience || project.short)}</p></article>`;
@@ -340,7 +380,11 @@
   function weekProjectPanel(project) {
     const modes = [projectMode(project, false)];
     if (project.advanced && !project.single) modes.push(projectMode(project, true));
-    return `<article class="card week-project-panel"><div class="week-project-title"><div><span class="project-no">${esc(project.no)}</span><h3>${esc(project.title)}</h3></div></div><p class="project-short">${esc(project.short)}</p><div class="project-split">${modes.join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref(`experience/${project.id}.html`)}">查看项目详情</a></div></article>`;
+    const open = isProjectOpen(project);
+    const footer = open
+      ? `<a class="solid-btn" href="${rootHref(`experience/${project.id}.html`)}">查看详情</a>`
+      : `<span class="solid-btn is-disabled" aria-disabled="true">等待 Week ${esc(project.week)} 开放</span>`;
+    return `<article class="card week-project-panel${open ? "" : " is-locked"}"><div class="week-project-title"><div><span class="project-no">${esc(project.no)}</span><h3>${esc(project.title)}</h3></div></div><p class="project-short">${esc(project.short)}</p><div class="project-split">${modes.join("")}</div><div class="card-footer">${footer}</div></article>`;
   }
 
   function home() {
@@ -356,14 +400,14 @@
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
     <section class="section" id="team-overview">${sectionHead("团队概况", teamOverviewSummary(t), "team/index.html", "完整团队介绍")}
-      <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>连接不同学校、专业与课题组</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${newsMarkup((t.news || []).slice(0, t.homeNewsLimit || 4))}</article><article class="card home-leaders-card"><div class="card-kicker">负责人</div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div><div class="card-footer"><a class="outline-btn" href="${rootHref("team/people.html")}">查看详细介绍</a></div></article></div></div>
+      <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>团队做什么</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup((t.news || []).slice(0, t.homeNewsLimit || 4))}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
       <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${environmentProjectCard(e.environment)}${homeProjects.map(homeProjectCard).join("")}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
     </section>
     <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "进入资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
-    </section>`);
+    </section>${contactMarkup(e.contact, { id: "home-contact", title: "联系我们", text: "加入项目公告群，关注 KYDW 公众号，或通过负责人微信和邮件联系团队。" })}`);
   }
 
   function team() {
@@ -372,9 +416,9 @@
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}</div></section>
     <section class="section">${sectionHead("团队概况", teamOverviewSummary(t), null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
     <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>成员来自不同学校、专业和课题组，交流医学、工程、计算机、人工智能与生物信息学等方向。</p></article><article class="card"><h3>从研究任务进入方法</h3><p>项目、培训和专题合作都从具体任务出发，讨论数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
-    <section class="section">${sectionHead("代表性成果（成员一作/项目负责人）", null, "team/achievements.html", "查看完整成果")}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
-    <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦大学秋季学期本科生践悟课程、2501 期联合项目和生物医学人工智能专题交流，分别提供课程、合作与讨论内容。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系</a></div></article></div></section>
-    <section class="section">${sectionHead("负责人和历届骨干", "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", "team/people.html", "查看成员介绍")}<div class="leader-list">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></section>
+    <section class="section">${sectionHead("代表性成果（成员一作/项目负责人）", null, "team/achievements.html", "查看完整成果")}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
+    <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦大学秋季学期本科生践悟课程、多校联合项目和生物医学人工智能专题交流，是团队目前持续整理和开展的主要活动。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系</a></div></article></div></section>
+    <section class="section">${sectionHead("负责人和历届骨干", "伍东辰、姜逸轩、汤昊天、吴锡东、刘涵瑜。", "team/people.html", "查看成员介绍")}<div class="leader-list">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></section>
     <section class="section"><div class="callout"><b>联系 KYDW</b><p>关注“科研大王”公众号，或添加负责人微信 <b>${esc(data.site.wechat)}</b> 了解团队活动和项目入口。</p></div><p class="small muted">网站公开资料免费阅读，请勿用于牟利性销售。</p></section>`);
   }
 
@@ -385,12 +429,12 @@
       achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果（成员一作/项目负责人）", lead: "", back: "team/index.html" },
       destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向包括直博、国内学硕/海外研究型硕士。", back: "team/index.html" },
       activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦大学秋季学期本科生践悟课程和生物医学人工智能专题交流。", back: "team/index.html" },
-      people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", back: "team/index.html" }
+      people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴锡东、刘涵瑜。", back: "team/index.html" }
     };
     const cfg = configs[section] || configs.achievements;
     let inner = hero({ eyebrow: cfg.eyebrow, title: cfg.title, lead: cfg.lead, actions: [{ label: "返回团队介绍", href: cfg.back, primary: true }, { label: "项目与活动", href: "programs/index.html" }] });
-    if (section === "achievements") inner += `<section class="section">${sectionHead("团队近期动态", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section><section class="section">${sectionHead("代表性成果", null, null)}<div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>`;
-    if (section === "destinations") inner += `<section class="section">${sectionHead("已毕业成员去向", null, null)}<div class="destination-degree-sections">${destinationDegreeCards(t)}</div><p class="small muted">${esc(t.destinationNote)}</p><div class="card university-card section-card"><div class="card-kicker">在校本科生成员高校</div>${universityCloud(t.undergraduateNetwork)}</div></section>`;
+    if (section === "achievements") inner += `<section class="section team-news-section">${sectionHead("团队近期动态", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section><section class="section team-achievements-section">${sectionHead("代表性成果", null, null)}<div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>`;
+    if (section === "destinations") inner += `<section class="section">${sectionHead("已毕业成员去向", null, null)}<div class="destination-degree-sections">${destinationDegreeCards(t)}</div><p class="small muted">${esc(t.destinationNote)}</p><div class="card university-card section-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>`;
     if (section === "activities") inner += `<section class="section">${sectionHead("活动目录", null, "programs/index.html", "查看项目与活动")}
       <div class="activity-timeline">${sortedModules().map((module) => `<article class="activity-row"><div><h3>${esc(module.title)}</h3><p>${esc(module.text)}</p></div><a class="outline-btn" href="${rootHref(module.href)}">查看详情</a></article>`).join("")}</div><div class="card section-card"><ul>${t.activities.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></div></section>`;
     if (section === "people") inner += `<section class="section">${sectionHead("成员介绍", null, null)}<div class="leader-list">${t.leaders.map((leader) => leaderPreview(leader)).join("")}</div></section>`;
@@ -417,7 +461,7 @@
     const lesson = (module?.lessons || []).find((item) => item.id === body.dataset.lesson);
     if (!module || !lesson) return layout(hero({ eyebrow: "项目与活动 / 山东大学本科生暑期名校课程-神经影像学与人工智能", title: "课程页面不存在", lead: "请返回山东大学本科生暑期名校课程-神经影像学与人工智能选择实践项目。", actions: [{ label: "返回山东大学本科生暑期名校课程-神经影像学与人工智能", href: "programs/sdu.html", primary: true }] }));
     layout(`${hero({ eyebrow: "山东大学本科生暑期名校课程-神经影像学与人工智能 / Kaggle 实践", title: lesson.title, lead: "Kaggle 代码实践", actions: [{ label: "返回山东大学本科生暑期名校课程-神经影像学与人工智能", href: "programs/sdu.html", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
-    <section class="section"><div class="prose"><p>${esc(lesson.text)}</p>${moduleMeta({ audience: lesson.audience || module.audience, date: lesson.date || module.date })}</div></section>
+    <section class="section"><div class="prose"><p>${esc(lesson.text)}</p>${moduleMeta({ date: lesson.date || module.date })}</div></section>
     <section class="section"><div class="card feature-callout"><h2>实践入口</h2><p>在 Kaggle 中打开对应 Notebook，按照页面中的代码和说明完成实践。</p><div class="card-footer"><a class="solid-btn" href="${esc(lesson.kaggle)}" target="_blank" rel="noreferrer">进入 Kaggle 实践</a></div></div></section>`);
   }
 
@@ -452,7 +496,7 @@
   function projectDirectoryCard(project) {
     const open = isProjectOpen(project);
     const status = open ? "已开放" : `等待 Week ${project.week} 开放`;
-    return `<article class="card directory-project-card${open ? "" : " is-locked"}"><div class="card-kicker">Week ${esc(project.week)} · 项目 ${esc(project.no)}</div><h3>${esc(project.title)}</h3><p>${esc(project.short)}</p><div class="project-directory-meta"><span>受众：${esc(project.audience || project.prereq || "本科生")}</span><span>时间：${esc(project.date || "项目开放期")}</span></div><div class="card-footer">${open ? `<a class="outline-btn" href="${rootHref(`experience/${project.id}.html`)}">查看项目详情</a>` : `<span class="outline-btn is-disabled" aria-disabled="true">${esc(status)}</span>`}</div></article>`;
+    return `<article class="card directory-project-card${open ? "" : " is-locked"}"><div class="card-kicker">Week ${esc(project.week)} · 项目 ${esc(project.no)}</div><h3>${esc(project.title)}</h3><p>${esc(project.short)}</p><div class="project-directory-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div><div class="card-footer">${open ? `<a class="outline-btn" href="${rootHref(`experience/${project.id}.html`)}">查看详情</a>` : `<span class="outline-btn is-disabled" aria-disabled="true">${esc(status)}</span>`}</div></article>`;
   }
 
   function experience() {
@@ -465,7 +509,7 @@
     <section class="section">${sectionHead("体验版与进阶版", "体验版完成指定内容，进阶版自行设计方法并提交报告。", null)}<div class="project-level-grid">${(e.levels || []).map((level, index) => `<article class="project-level-card"><div class="mode-kicker">${esc(level.title)}</div><p>${esc(level.text)}</p>${index === 1 && e.advancedResources?.length ? `<div class="inline-doc-links">${e.advancedResources.map((item) => `<a href="${rootHref(item.href)}">${esc(item.title)}</a>`).join("")}</div>` : ""}</article>`).join("")}</div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
     <section class="section" id="project-directory">${sectionHead("项目目录", "开始实践前请先完成项目环境准备，再进入已开放的科研项目。", null)}<div class="directory-project-grid">${environmentProjectCard(e.environment, true)}${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
-    <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>体验版完成指定内容后无需提交报告；进阶版需要完成实践并提交设计报告。对某个方向希望继续学习的同学，可以联系负责人了解对应课题组的后续安排。</p><p>${esc(e.access)}</p></div></section>`);
+    <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>体验版完成指定内容后无需提交报告；进阶版需要完成实践并提交设计报告。对某个方向希望继续学习的同学，可以联系负责人了解对应课题组的后续安排。</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
   }
 
   function weekPage() {
@@ -479,18 +523,158 @@
   }
 
   function materialCard(title, type, text, href, options = {}) {
-    const copy = text ? `<p>${esc(text)}</p>` : "";
-    if (!href) return `<article class="material-card is-pending"><div class="material-type">${esc(type)}</div><h3>${esc(title)}</h3>${copy}<span class="material-status">暂未开放</span></article>`;
+    const copy = text ? `<p class="${type === "实践" ? "material-practice-note" : ""}">${esc(text)}</p>` : "";
+    const locked = Boolean(options.locked) || (isAdvancedPath(href) && !isAdvancedOpen());
+    const displayTitle = title === "参考答案" ? ANSWER_LABEL : publicCopy(title);
+    if (!href || locked) return `<article class="material-card${locked ? " is-locked" : " is-pending"}"><div class="material-type">${esc(type)}</div><h3>${esc(displayTitle)}</h3>${copy}<span class="material-status">尚未开放</span></article>`;
     const external = Boolean(options.external);
     const notebook = /\.ipynb(?:$|\?)/i.test(href);
-    const mainLabel = external ? "进入 Kaggle" : notebook ? `下载${title}` : `打开${title}`;
+    const mainLabel = external ? "进入 Kaggle" : "打开";
     const mainHref = external ? esc(href) : rootHref(href);
     const mainAttrs = external ? ' target="_blank" rel="noreferrer"' : notebook ? " download" : "";
     const actions = [`<a class="outline-btn" href="${mainHref}"${mainAttrs}>${esc(mainLabel)}</a>`];
     for (const action of (options.actions || [])) {
       actions.push(`<a class="material-secondary-link" href="${rootHref(action.href)}">${esc(action.label)}</a>`);
     }
-    return `<article class="material-card"><div class="material-type">${esc(type)}</div><h3>${esc(title)}</h3>${copy}<div class="material-actions">${actions.join("")}</div></article>`;
+    for (const action of (options.externalActions || [])) {
+      if (!action?.href) continue;
+      actions.push(`<a class="material-secondary-link" href="${esc(action.href)}" target="_blank" rel="noreferrer">${esc(action.label)}</a>`);
+    }
+    return `<article class="material-card"><div class="material-type">${esc(type)}</div><h3>${esc(displayTitle)}</h3>${copy}<div class="material-actions">${actions.join("")}</div></article>`;
+  }
+
+  function materialViewerHref(project, kind) {
+    return "experience/material.html?project=" + encodeURIComponent(project.id) + "&kind=" + encodeURIComponent(kind);
+  }
+
+  function materialTitle(kind) {
+    if (kind === "practice" || kind === "advanced-practice") return "实践项目";
+    if (kind === "answer" || kind === "advanced-answer") return ANSWER_LABEL;
+    return "教学项目";
+  }
+
+  function notebookSource(cell) {
+    return Array.isArray(cell?.source) ? cell.source.join("") : String(cell?.source || "");
+  }
+
+  function markdownToHtml(markdownText) {
+    const lines = String(markdownText || "").replace(/\r\n?/g, "\n").split("\n");
+    const html = [];
+    let paragraph = [];
+    let list = [];
+    const inlineCode = new RegExp(String.fromCharCode(96) + "([^" + String.fromCharCode(96) + "]+)" + String.fromCharCode(96), "g");
+    const flushParagraph = () => {
+      if (paragraph.length) {
+        const text = esc(paragraph.join(" ")).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(inlineCode, "<code>$1</code>");
+        html.push("<p>" + text + "</p>");
+        paragraph = [];
+      }
+    };
+    const flushList = () => {
+      if (list.length) {
+        html.push("<ul>" + list.map((item) => "<li>" + esc(item).replace(inlineCode, "<code>$1</code>") + "</li>").join("") + "</ul>");
+        list = [];
+      }
+    };
+    for (const line of lines) {
+      const heading = line.match(/^(#{1,4})\s+(.+)$/);
+      const bullet = line.match(/^\s*[-*]\s+(.+)$/);
+      if (heading) {
+        flushParagraph();
+        flushList();
+        const level = Math.min(4, heading[1].length) + 2;
+        html.push("<h" + level + ">" + esc(heading[2]) + "</h" + level + ">");
+      } else if (bullet) {
+        flushParagraph();
+        list.push(bullet[1]);
+      } else if (!line.trim()) {
+        flushParagraph();
+        flushList();
+      } else {
+        flushList();
+        paragraph.push(line.trim());
+      }
+    }
+    flushParagraph();
+    flushList();
+    return html.join("");
+  }
+
+  function notebookOutputMarkup(outputs) {
+    const outputText = (outputs || []).flatMap((output) => {
+      if (output.output_type === "stream") return Array.isArray(output.text) ? output.text : [output.text || ""];
+      if (output.data?.["text/plain"]) return Array.isArray(output.data["text/plain"]) ? output.data["text/plain"] : [output.data["text/plain"]];
+      if (output.traceback) return output.traceback;
+      return [];
+    }).join("");
+    return outputText ? "<div class=\"notebook-output\"><span>已有输出</span><pre>" + esc(outputText) + "</pre></div>" : "";
+  }
+
+  function notebookCellsMarkup(notebook) {
+    return (notebook.cells || []).map((cell, index) => {
+      const source = notebookSource(cell);
+      const number = String(index + 1).padStart(2, "0");
+      if (cell.cell_type === "markdown") {
+        return "<article class=\"notebook-cell notebook-markdown-cell\"><div class=\"notebook-cell-head\"><span>Markdown 单元格</span><span>" + number + "</span></div><div class=\"notebook-markdown\">" + markdownToHtml(source) + "</div></article>";
+      }
+      return "<article class=\"notebook-cell notebook-code-cell\"><div class=\"notebook-cell-head\"><span>代码单元格</span><span>" + number + "</span></div><pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + "<div class=\"notebook-simulated-output\" hidden><b>模拟运行输出</b><p>此处为网页模拟运行展示；完整运行环境和数据处理仍在对应 Notebook 中完成。</p></div><button class=\"notebook-run\" type=\"button\">模拟运行</button></article>";
+    }).join("");
+  }
+
+  function bindNotebookSimulation() {
+    document.querySelectorAll(".notebook-run").forEach((button) => button.addEventListener("click", () => {
+      const output = button.parentElement.querySelector(".notebook-simulated-output");
+      if (!output) return;
+      output.hidden = !output.hidden;
+      button.textContent = output.hidden ? "模拟运行" : "收起输出";
+    }));
+  }
+
+  async function material() {
+    const params = new URLSearchParams(location.search);
+    const project = findProject(params.get("project"));
+    const kind = params.get("kind") || "practice";
+    const advanced = kind === "advanced-practice" || kind === "advanced-answer";
+    if (!project || !isProjectOpen(project) || (advanced && !isAdvancedOpen())) {
+      return layout(hero({ eyebrow: "科研体验项目", title: "材料尚未开放", lead: "该项目材料当前未开放。", actions: [{ label: "返回项目详情", href: project ? "experience/" + project.id + ".html" : "experience/index.html", primary: true, arrow: false }, { label: "返回项目主页", href: "experience/index.html", arrow: false }] }));
+    }
+    const practiceSource = project.experiencePractice || project.practice;
+    const answerSource = project.experienceAnswer || project.answer || project.referenceAnswer;
+    const source = kind === "practice" ? practiceSource : kind === "answer" ? answerSource : kind === "advanced-practice" ? project.advancedPractice : project.advancedAnswer;
+    if (!source) return layout(hero({ eyebrow: "科研体验项目", title: "材料尚未准备", lead: "该项目材料尚未准备完成。", actions: [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }] }));
+    const downloadHref = kind.includes("practice") ? source : practiceSource;
+    const title = materialTitle(kind);
+    const downloadLabel = kind === "answer" || kind === "advanced-answer" ? "下载实践 Notebook" : "下载 Notebook";
+    const simulation = project.simulation ? `<div class="callout simulated-result"><b>模拟运行结果</b><p>${esc(project.simulation)}</p><p>页面中的运行按钮用于展开对应单元格的模拟输出；完整运行可以在 Kaggle 或自己的电脑上完成。</p></div>` : "";
+    const viewerActions = [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }, { label: downloadLabel, href: downloadHref, download: true, arrow: false }];
+    if (project.kaggle && !advanced) viewerActions.push({ label: "在 Kaggle 上运行", href: project.kaggle, external: true, arrow: false });
+    const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: "网页阅读与模拟运行", actions: viewerActions, note: "本页为网页模拟展示，代码不会在浏览器中直接启动 Kaggle 环境。" });
+    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\">" + simulation + "<div class=\"callout\"><b>模拟运行</b><p>页面保留 Notebook 的 Markdown、代码单元格和参考输出结构；运行按钮只展开模拟输出，便于先阅读任务流程。需要完整运行时，可以下载 Notebook 到电脑，或在 Kaggle 中打开对应项目。</p></div><div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
+    const container = document.getElementById("notebook-content");
+    try {
+      const response = await fetch(rootHref(source));
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      if (kind === "answer" || kind === "advanced-answer") {
+        const documentText = await response.text();
+        const parsed = new DOMParser().parseFromString(documentText, "text/html");
+        parsed.querySelectorAll("script, style, link").forEach((node) => node.remove());
+        const baseUrl = new URL(rootHref(source), location.href);
+        parsed.querySelectorAll("[src], [href]").forEach((node) => {
+          for (const attribute of ["src", "href"]) {
+            const value = node.getAttribute(attribute);
+            if (value && !/^(?:https?:|data:|#|mailto:)/i.test(value)) node.setAttribute(attribute, new URL(value, baseUrl).href);
+          }
+        });
+        const sections = [...parsed.querySelectorAll(".page-intro, .page")];
+        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容来自对应实践材料的参考结果与分析页面，本页仅以网页方式展示，不在浏览器中重新执行代码。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
+      } else {
+        const notebook = await response.json();
+        container.innerHTML = notebookCellsMarkup(notebook);
+        bindNotebookSimulation();
+      }
+    } catch (error) {
+      container.innerHTML = "<div class=\"callout warn\"><b>材料加载失败</b><p>请稍后重试，或下载 Notebook 后在 Kaggle 中打开。</p></div>";
+    }
   }
 
   function projectPage() {
@@ -501,31 +685,37 @@
     const answerHref = project.answer || project.referenceAnswer;
     const practiceHref = project.kaggle || project.practice;
     const singleTeaching = project.single ? (project.teaching || project.advanced) : null;
-    const singlePractice = project.single ? practiceHref : null;
-    const singleAnswer = project.single ? answerHref : null;
+    const singlePractice = project.single ? materialViewerHref(project, "practice") : null;
+    const singleAnswer = project.single ? materialViewerHref(project, "answer") : null;
     const experienceTeaching = project.experienceTeaching || null;
-    const experiencePractice = project.experiencePractice || null;
-    const experienceAnswer = project.experienceAnswer || null;
+    const experiencePractice = project.experiencePractice ? materialViewerHref(project, "practice") : null;
+    const experienceAnswer = project.experienceAnswer ? materialViewerHref(project, "answer") : null;
     const advancedTeaching = project.single ? null : project.advanced;
-    const advancedPractice = project.advancedPractice || null;
-    const advancedAnswer = project.advancedAnswer || null;
-    const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => `<article class="project-tier"><div class="mode-kicker">${esc(title)}</div>${text ? `<p class="project-tier-text">${esc(text)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref)}${materialCard("实践项目", "实践", "", practiceLink, { external: /^https?:/i.test(practiceLink || ""), actions: options.practiceActions || [] })}${materialCard("参考答案", "答案", "", answerLink, { actions: options.answerActions || [] })}</div></article>`;
+    const advancedPractice = project.advancedPractice ? materialViewerHref(project, "advanced-practice") : null;
+    const advancedAnswer = project.advancedAnswer ? materialViewerHref(project, "advanced-answer") : null;
+    const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => {
+      const tierText = options.locked ? "进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。" : text;
+      const practiceText = options.locked ? "" : (data.experience.practiceGuidance || "");
+      const practiceOptions = { locked: options.locked, external: /^https?:/i.test(practiceLink || ""), actions: options.practiceActions || [] };
+      if (!options.locked && options.kaggleHref) practiceOptions.externalActions = [{ label: "在 Kaggle 上运行", href: options.kaggleHref }];
+      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}${options.locked ? `<span class="material-status">尚未开放</span>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", practiceText, practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [] })}</div></article>`;
+    };
     const projectContent = project.single
-      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
-      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
+      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer, { kaggleHref: project.kaggle })
+      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer, { kaggleHref: project.kaggle })}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
     const learningGuide = project.single
-      ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用参考答案核对代码与分析过程。</p></article>`
-      : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用参考答案核对。体验版不要求提交报告。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。</p></article></div>`;
+      ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用实践项目参考答案核对代码与分析过程。</p></article>`
+      : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。体验版不要求提交报告。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
     layout(`${hero({ eyebrow: `科研体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
-    <section class="section"><div class="project-page-meta"><span>受众：${esc(project.audience || project.prereq || "本科生")}</span><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
+    <section class="section"><div class="project-page-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
     <section class="section">${learningGuide}</section>
     <section class="section">${sectionHead("项目材料", null, null)}${projectContent}</section>`);
   }
 
   function professional() {
     const p = data.professional;
-    layout(`${hero({ eyebrow: "资源中心 / 专业解读", title: "生物医学工程专业解读", lead: p.lead, actions: [{ label: "返回资源中心", href: "resources/index.html", primary: true }, { label: "查看专业答疑", href: "professional/faq.html" }] })}
-    <section class="section"><div class="prose">${paragraphs(p.intro)}</div></section>
+    layout(`${hero({ eyebrow: "资源中心 / 专业解读", title: "生物医学工程专业解读", lead: p.lead, actions: [{ label: "返回资源中心", href: "resources/index.html", primary: true }, { label: "查看专业答疑", href: "professional/faq.html" }, { label: "查看历年去向", href: "professional/destinations.html" }] })}
+    <section class="section"><div class="callout professional-context"><p>${esc(p.contextNote || "")}</p></div><div class="prose">${paragraphs(p.intro)}</div></section>
     <section class="section"><div class="long-prose">${p.sections.map((item) => `<article class="prose-section"><h2>${esc(item.title)}</h2>${paragraphs(item.paragraphs)}</article>`).join("")}</div></section>`);
   }
 
@@ -534,10 +724,24 @@
     const groups = ["专业本身", "升学与职业"].map((title) => ({ title, items: p.faq.filter((item) => item.group === title) }));
     const faqColumn = (group) => `<article class="faq-column"><h2>${esc(group.title)}</h2><div class="faq-stack">${group.items.map((item) => `<details class="fold"><summary>${esc(item.q)}</summary><div class="fold-body"><p>${esc(item.a)}</p></div></details>`).join("")}</div></article>`;
     layout(`${hero({ eyebrow: "专业解读 / 答疑", title: "生物医学工程专业答疑", lead: "左侧介绍专业本身，右侧整理升学与职业问题。", actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}
-    <section class="section"><div class="faq-columns">${groups.map(faqColumn).join("")}</div></section>`);
+    <section class="section"><div class="callout professional-context"><p>${esc(p.contextNote || "")}</p></div><div class="faq-columns">${groups.map(faqColumn).join("")}</div></section>`);
   }
 
-  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience, "experience-week": weekPage, project: projectPage, professional, "professional-faq": professionalFaq };
+  function destinationDetailTable(entries) {
+    if (!Array.isArray(entries) || !entries.length) return "";
+    const rows = entries.map((entry) => `<tr><td>${esc(entry.school || entry.name || "")}</td><td>${esc(entry.college || entry.faculty || "")}</td><td>${esc(entry.major || entry.program || "")}</td><td>${esc(entry.count == null ? "" : `${entry.count} 人`)}</td></tr>`).join("");
+    return `<div class="destination-table-wrap"><table class="destination-table"><thead><tr><th>拟录取学校</th><th>学院</th><th>专业</th><th>人数</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+
+  function professionalDestinations() {
+    const overview = data.professional.destinationOverview;
+    if (!overview) return layout(hero({ eyebrow: "资源中心 / 专业解读", title: "历年去向表", lead: "去向内容尚未登记。", actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }] }));
+    const destinationCard = (label, detail) => `<article class="card destination-overview-card"><div class="card-kicker">${esc(label)}</div><strong>${esc(detail.total || "")}</strong><p>${esc(detail.text || "")}</p>${destinationDetailTable(detail.entries)}</article>`;
+    const yearCards = (overview.years || []).map((year) => `<section class="section destination-year-section"><div class="section-head"><div><h2>${esc(year.title)}</h2><p>按保研与申研分列。</p></div></div><div class="destination-overview-grid">${destinationCard("保研", year.recommendation || {})}${destinationCard("申研", year.application || {})}</div></section>`).join("");
+    layout(`${hero({ eyebrow: "资源中心 / 专业解读 / 历年去向", title: overview.title, lead: overview.lead, actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}${yearCards}<section class="section"><div class="callout"><p>${esc(overview.note)}</p></div></section>`);
+  }
+
+  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
   if (renderers[page]) renderers[page]();
   else home();
 })();

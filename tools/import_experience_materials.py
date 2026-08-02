@@ -19,6 +19,9 @@ from bs4 import BeautifulSoup
 
 EXPERIENCE_MAPPING = [(f"{number:02d}", f"{number + 1:02d}") for number in range(6)]
 ADVANCED_MAPPING = [(f"{number:02d}", f"{number + 1:02d}") for number in range(1, 6)]
+# 当前公开状态：Week 1 的项目 00—02 已开放；Week 2 及之后的体验材料不进入
+# GitHub Pages。开放新 Week 时只需更新这里和 content.js 的开放状态。
+OPEN_EXPERIENCE_NUMBERS = {"00", "01", "02"}
 
 EXTERNAL_ASSET_MAP = {
     "https://upload.wikimedia.org/wikipedia/commons/2/26/MRI_Brain_T1_Axial_%2811%29.jpg": "../assets/experience/mri-t1.jpg",
@@ -153,10 +156,10 @@ def transform_experience_teaching(source: Path, target: Path, public_no: str, si
 def transform_experience_answer(source: Path, target: Path, public_no: str, site_no: str) -> None:
     soup = BeautifulSoup(read(source), "html.parser")
     remove_template_notes(soup)
-    label = f"实践项目解析 {public_no}"
+    label = f"实践项目参考答案 {public_no}"
     if soup.title:
         title = soup.title.get_text(" ", strip=True)
-        title = re.sub(r"实践项目解析\s*\d+", label, title)
+        title = re.sub(r"实践项目(?:解析|参考答案)\s*\d+", label, title)
         soup.title.string = title
     ribbon = soup.select_one(".edition-ribbon")
     if ribbon:
@@ -167,7 +170,7 @@ def transform_experience_answer(source: Path, target: Path, public_no: str, site
     add_return_link(soup, f"../project-{site_no}.html")
     ensure_return_style(soup)
     ensure_favicon(soup)
-    html = serialise(soup)
+    html = serialise(soup).replace("实践项目解析", "实践项目参考答案")
     if public_no == "02":
         html = html.replace("核对四个指定输出文件", "核对四个指定输出文件和一个补充输出")
     write(target, html)
@@ -290,12 +293,33 @@ def require(paths: list[Path]) -> None:
             raise SystemExit(f"缺少源文件: {path}")
 
 
-def remove_stale_advanced(repo: Path) -> None:
-    stale = [repo / "experience" / "advanced" / "project-01.html"]
-    stale.extend((repo / "experience" / "advanced-answers").glob("project-*.html"))
-    for path in stale:
-        if path.is_file():
-            path.unlink()
+def remove_public_advanced(repo: Path) -> None:
+    """默认清空公开树中的进阶材料，避免锁定只停留在前端。"""
+    for relative in (
+        "experience/advanced",
+        "experience/advanced-practice",
+        "experience/advanced-answers",
+        "experience/advanced-reports",
+        "experience/advanced-resources",
+    ):
+        path = repo / relative
+        if path.exists():
+            shutil.rmtree(path)
+
+
+def remove_locked_experience_materials(repo: Path) -> None:
+    """删除尚未开放 Week 的体验材料；源文件仍保留在用户的内容目录。"""
+    for public_no, site_no in EXPERIENCE_MAPPING:
+        if public_no in OPEN_EXPERIENCE_NUMBERS:
+            continue
+        for relative in (
+            f"experience/teaching/project-{site_no}.html",
+            f"experience/practice/project-{site_no}.ipynb",
+            f"experience/answers/project-{site_no}.html",
+        ):
+            path = repo / relative
+            if path.is_file():
+                path.unlink()
 
 
 def write_manifest(repo: Path, rows: list[tuple[str, str, Path, str]], missing_assets: list[str]) -> None:
@@ -322,6 +346,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, required=True, help="网站内容目录，内部应含体验项目与进阶项目")
     parser.add_argument("--repo", type=Path, required=True)
+    parser.add_argument(
+        "--include-advanced",
+        action="store_true",
+        help="仅在明确开放进阶项目时使用；默认不把进阶材料复制到公开仓库",
+    )
     args = parser.parse_args()
 
     source_root = args.source.resolve()
@@ -352,28 +381,29 @@ def main() -> None:
         copy_experience_notebook(notebook, target_notebook, public_no)
         manifest_rows.append((public_no, "体验版", teaching, site_no))
 
-    remove_stale_advanced(repo)
-    for public_no, site_no in ADVANCED_MAPPING:
-        teaching = advanced_teaching_root / f"进阶教学项目{public_no}.html"
-        notebook = advanced_practice_root / f"进阶实践项目{public_no}.ipynb"
-        answer = advanced_answer_root / f"进阶实践项目{public_no}_参考答案.ipynb"
-        template = advanced_practice_root / "设计报告模板" / f"项目{public_no}_设计报告模板.md"
-        reference_report = advanced_answer_root / f"项目{public_no}_参考设计报告.md"
-        require([teaching, notebook, answer, template, reference_report])
+    remove_public_advanced(repo)
+    if args.include_advanced:
+        for public_no, site_no in ADVANCED_MAPPING:
+            teaching = advanced_teaching_root / f"进阶教学项目{public_no}.html"
+            notebook = advanced_practice_root / f"进阶实践项目{public_no}.ipynb"
+            answer = advanced_answer_root / f"进阶实践项目{public_no}_参考答案.ipynb"
+            template = advanced_practice_root / "设计报告模板" / f"项目{public_no}_设计报告模板.md"
+            reference_report = advanced_answer_root / f"项目{public_no}_参考设计报告.md"
+            require([teaching, notebook, answer, template, reference_report])
 
-        missing_assets.extend(transform_advanced_teaching(teaching, repo / "experience" / "advanced" / f"project-{site_no}.html", site_no))
-        practice_target = repo / "experience" / "advanced-practice" / f"project-{site_no}.ipynb"
-        answer_target = repo / "experience" / "advanced-answers" / f"project-{site_no}.ipynb"
-        practice_target.parent.mkdir(parents=True, exist_ok=True)
-        answer_target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(notebook, practice_target)
-        shutil.copy2(answer, answer_target)
+            missing_assets.extend(transform_advanced_teaching(teaching, repo / "experience" / "advanced" / f"project-{site_no}.html", site_no))
+            practice_target = repo / "experience" / "advanced-practice" / f"project-{site_no}.ipynb"
+            answer_target = repo / "experience" / "advanced-answers" / f"project-{site_no}.ipynb"
+            practice_target.parent.mkdir(parents=True, exist_ok=True)
+            answer_target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(notebook, practice_target)
+            shutil.copy2(answer, answer_target)
 
-        template_target = repo / "experience" / "advanced-reports" / "templates" / f"project-{site_no}.html"
-        reference_target = repo / "experience" / "advanced-reports" / "examples" / f"project-{site_no}.html"
-        markdown_document(template, template_target, f"项目 {public_no} 设计报告模板", f"../../project-{site_no}.html", f"project-{site_no}.md")
-        markdown_document(reference_report, reference_target, f"项目 {public_no} 参考设计报告", f"../../project-{site_no}.html", f"project-{site_no}.md")
-        manifest_rows.append((public_no, "进阶版", teaching, site_no))
+            template_target = repo / "experience" / "advanced-reports" / "templates" / f"project-{site_no}.html"
+            reference_target = repo / "experience" / "advanced-reports" / "examples" / f"project-{site_no}.html"
+            markdown_document(template, template_target, f"项目 {public_no} 设计报告模板", f"../../project-{site_no}.html", f"project-{site_no}.md")
+            markdown_document(reference_report, reference_target, f"项目 {public_no} 参考设计报告", f"../../project-{site_no}.html", f"project-{site_no}.md")
+            manifest_rows.append((public_no, "进阶版", teaching, site_no))
 
     require([
         practice_root / "实践项目额外注意事项.md",
@@ -382,11 +412,14 @@ def main() -> None:
         advanced_practice_root / "Kaggle数据与运行说明.md",
     ])
     shutil.copy2(practice_root / "实践项目额外注意事项.md", repo / "experience" / "practice" / "实践项目额外注意事项.md")
-    shared_markdown_document(advanced_root / "README.md", repo / "experience" / "advanced-resources" / "index.html", "进阶项目说明")
-    shared_markdown_document(advanced_practice_root / "Kaggle数据与运行说明.md", repo / "experience" / "advanced-resources" / "data-guide.html", "进阶项目数据与运行说明")
-    shared_markdown_document(advanced_root / "资料与文献索引.md", repo / "experience" / "advanced-resources" / "references.html", "进阶项目资料与文献索引")
+    if args.include_advanced:
+        shared_markdown_document(advanced_root / "README.md", repo / "experience" / "advanced-resources" / "index.html", "进阶项目说明")
+        shared_markdown_document(advanced_practice_root / "Kaggle数据与运行说明.md", repo / "experience" / "advanced-resources" / "data-guide.html", "进阶项目数据与运行说明")
+        shared_markdown_document(advanced_root / "资料与文献索引.md", repo / "experience" / "advanced-resources" / "references.html", "进阶项目资料与文献索引")
+    remove_locked_experience_materials(repo)
     write_manifest(repo, manifest_rows, missing_assets)
-    print("已导入体验版 00—05 与进阶版 01—05；进阶实践、参考答案、报告模板和参考报告均已复制。")
+    advanced_message = "与进阶版 01—05" if args.include_advanced else "；进阶材料未复制到公开仓库"
+    print(f"已导入体验版 00—05{advanced_message}。")
     if missing_assets:
         print(f"警告：来源目录缺少 {len(set(missing_assets))} 个进阶教学本地配图，已隐藏破损图框，详见 content/advanced-manifest.md。")
 
