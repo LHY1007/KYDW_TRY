@@ -1,0 +1,9 @@
+{
+  "dataset_images": 1000,
+  "epochs": 4,
+  "latent_dim": 100,
+  "mean_generator_loss_last_epoch": 6.022135098775228,
+  "mean_discriminator_loss_last_epoch": 0.03281871303915977,
+  "generated_pairwise_distance": 21.00895118713379,
+  "seed": 42
+}

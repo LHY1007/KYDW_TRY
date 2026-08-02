@@ -1,0 +1,9 @@
+{
+  "train_slices": 802,
+  "validation_slices": 156,
+  "test_slices": 242,
+  "best_threshold": 0.5,
+  "test_dice": 0.6115702390670776,
+  "test_iou": 0.6115702390670776,
+  "seed": 42
+}

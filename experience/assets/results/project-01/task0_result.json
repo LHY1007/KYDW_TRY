@@ -1,0 +1,53 @@
+{
+  "dataset_name": "MNIST / torchvision",
+  "random_seed": 42,
+  "train_samples": 51000,
+  "validation_samples": 9000,
+  "test_samples": 10000,
+  "image_shape": [
+    1,
+    28,
+    28
+  ],
+  "train_mean": 0.130725484444266,
+  "train_std": 0.3081756842598145,
+  "model_name": "SmallCNN",
+  "parameter_count": 105866,
+  "batch_size": 128,
+  "epochs": 2,
+  "optimizer": "Adam",
+  "learning_rate": 0.001,
+  "best_validation_accuracy": 0.9778888888888889,
+  "test_loss": 0.05741585177695379,
+  "test_accuracy": 0.9805,
+  "test_macro_f1": 0.9803828382422772,
+  "per_class_f1": [
+    0.9823143001515917,
+    0.9925274725274725,
+    0.9728395061728395,
+    0.9810568295114656,
+    0.9858299595141701,
+    0.9790748898678414,
+    0.987434554973822,
+    0.9718107978977544,
+    0.9734513274336283,
+    0.9774887443721861
+  ],
+  "noise_sigma": 0.25,
+  "noisy_test_accuracy": 0.9483,
+  "accuracy_drop": 0.032200000000000006,
+  "comparison": {
+    "changed_variable": "learning_rate",
+    "baseline_value": 0.001,
+    "new_value": 0.003,
+    "baseline_best_val_accuracy": 0.9778888888888889,
+    "new_best_val_accuracy": null,
+    "observation": "本次参考运行保存基线结果；复制到自己的账户后只修改学习率并重新运行，填写新的验证准确率。"
+  },
+  "output_files": [
+    "task0_data_visualization.png",
+    "task0_training_curve.png",
+    "task0_confusion_matrix.png",
+    "task0_result.json"
+  ]
+}

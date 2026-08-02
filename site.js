@@ -648,13 +648,20 @@
   }
 
   function referenceFigureMarkup(figure, index) {
+    if (figure.getAttribute("data-reference-role") !== "result") return "";
     const image = figure.querySelector("img");
     if (!image) return "";
     const source = image.getAttribute("src") || "";
     const alt = image.getAttribute("alt") || "实践项目参考结果";
     const caption = figure.querySelector("figcaption")?.textContent?.trim() || alt;
-    if (/(?:真实.*(?:样本|示例)|输入示例|真实胸片|真实 BraTS)/i.test(caption + " " + alt)) return "";
     return "<figure class=\"reference-result-figure\"><img src=\"" + esc(source) + "\" alt=\"" + esc(alt) + "\"><figcaption>" + esc(caption) + "</figcaption></figure>";
+  }
+
+  function referenceResultsFromAssets(project) {
+    return (project.referenceResults || []).map((result, index) => {
+      const image = result.image ? "<figure class=\"reference-result-figure\"><img src=\"" + rootHref(result.image) + "\" alt=\"" + esc(result.alt || result.caption || "实践项目实际参考输出") + "\"><figcaption>" + esc(result.caption || "实践项目实际参考输出") + "</figcaption></figure>" : "";
+      return { stepIndex: Number.isFinite(result.stepIndex) ? result.stepIndex : index, title: result.title || "实际运行结果", figures: image ? [image] : [], text: result.text || "" };
+    }).filter((result) => result.figures.length || result.text);
   }
 
   function referenceResultsFromAnswer(documentText, source) {
@@ -679,7 +686,7 @@
 
   function referenceResultsMarkup(results) {
     if (!results.length) return "";
-    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>实际参考输出</h2><p>以下图像来自对应实践项目参考答案中的已保存运行结果。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + "</article>").join("") + "</div></section>";
+    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>实际参考输出</h2><p>以下图像和数值来自对应实践项目在 Kaggle 中保存的真实运行结果。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + (result.text ? "<pre class=\"reference-result-text\">" + esc(result.text) + "</pre>" : "") + "</article>").join("") + "</div></section>";
   }
 
   function bindReferenceResultButtons() {
@@ -730,10 +737,10 @@
         container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、分析过程和已保存的实际结果。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
       } else {
         const notebook = await response.json();
-        let referenceResults = [];
+        let referenceResults = referenceResultsFromAssets(project);
         if (answerSource && /\.html(?:$|\?)/i.test(answerSource)) {
           const answerResponse = await fetch(rootHref(answerSource));
-          if (answerResponse.ok) referenceResults = referenceResultsFromAnswer(await answerResponse.text(), answerSource);
+          if (answerResponse.ok && !referenceResults.length) referenceResults = referenceResultsFromAnswer(await answerResponse.text(), answerSource);
         }
         container.innerHTML = referenceResultsMarkup(referenceResults) + notebookCellsMarkup(notebook, referenceResults);
         bindReferenceResultButtons();
