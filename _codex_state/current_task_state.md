@@ -67,6 +67,11 @@
 - 当前没有飞书 MCP/API；Chrome 文档编辑连接在点击页面入口时连续超时，尚未改写项目主页，也未造成错误内容。
 - 使用 Windows 窗口级操作编辑公开飞书页面属于对外内容修改，执行前需要用户在当前任务中确认一次；确认后再继续页面编辑与回读。
 
+## is-a.dev 状态
+
+- 申请 `kydw.is-a.dev` 对应 `is-a-dev/register#45633`，当前仍为 OPEN，CI Tests 已 SUCCESS，尚未有维护者审核或合并。
+- 申请记录的 CNAME 目标为 `lhy1007.github.io`；域名获批后，再在 KYDW_TRY 的 GitHub Pages 设置中绑定并回读 HTTPS。
+
 ## 下一步
 
 1. 新增内容先按 `SITE-MAINTENANCE.md` 确定唯一来源、上级合集、首页推送和 Notion 重复阅读页，再开始修改。
