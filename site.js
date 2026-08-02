@@ -341,7 +341,7 @@
 
   function contactMarkup(contact, options = {}) {
     if (!contact) return "";
-    const channels = (contact.channels || []).map((channel) => `<figure class="contact-channel"><img src="${rootHref(channel.image)}" alt="${esc(channel.title)}" loading="lazy" /><figcaption>${esc(channel.title)}</figcaption></figure>`).join("");
+    const channels = (contact.channels || []).map((channel) => `<figure class="contact-channel"><div class="contact-image-frame"><img src="${rootHref(channel.image)}" alt="${esc(channel.title)}" loading="lazy" /></div><figcaption>${esc(channel.title)}</figcaption></figure>`).join("");
     const email = contact.email ? `<p class="contact-email">邮件：<a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></p>` : "";
     const title = options.title || contact.title || "答疑/反馈渠道";
     const text = options.text || contact.text || "";
@@ -601,32 +601,92 @@
   }
 
   function notebookOutputMarkup(outputs) {
-    const outputText = (outputs || []).flatMap((output) => {
-      if (output.output_type === "stream") return Array.isArray(output.text) ? output.text : [output.text || ""];
-      if (output.data?.["text/plain"]) return Array.isArray(output.data["text/plain"]) ? output.data["text/plain"] : [output.data["text/plain"]];
-      if (output.traceback) return output.traceback;
-      return [];
-    }).join("");
-    return outputText ? "<div class=\"notebook-output\"><span>已有输出</span><pre>" + esc(outputText) + "</pre></div>" : "";
+    const blocks = [];
+    for (const output of outputs || []) {
+      if (output.output_type === "stream") {
+        const text = Array.isArray(output.text) ? output.text.join("") : String(output.text || "");
+        if (text) blocks.push("<pre>" + esc(text) + "</pre>");
+        continue;
+      }
+      if (output.traceback) {
+        const text = Array.isArray(output.traceback) ? output.traceback.join("\n") : String(output.traceback);
+        blocks.push("<pre>" + esc(text) + "</pre>");
+        continue;
+      }
+      const data = output.data || {};
+      const text = data["text/plain"] || data["text/markdown"];
+      if (text) blocks.push("<pre>" + esc(Array.isArray(text) ? text.join("") : text) + "</pre>");
+      for (const [mime, prefix] of [["image/png", "data:image/png;base64,"], ["image/jpeg", "data:image/jpeg;base64,"], ["image/svg+xml", "data:image/svg+xml;base64,"]]) {
+        const image = data[mime];
+        if (!image) continue;
+        const value = Array.isArray(image) ? image.join("") : String(image);
+        blocks.push("<img class=\"notebook-output-image\" alt=\"Notebook 实际输出\" src=\"" + prefix + esc(value) + "\">");
+      }
+    }
+    return blocks.length ? "<div class=\"notebook-output\"><span>Notebook 实际输出</span>" + blocks.join("") + "</div>" : "";
   }
 
-  function notebookCellsMarkup(notebook) {
+  function notebookCellsMarkup(notebook, referenceResults = []) {
+    let taskIndex = -1;
+    let taskButtonUsed = false;
     return (notebook.cells || []).map((cell, index) => {
       const source = notebookSource(cell);
       const number = String(index + 1).padStart(2, "0");
       if (cell.cell_type === "markdown") {
+        const task = source.match(/(?:任务|实践任务)\s*(?:：|:)?\s*(\d+)/);
+        if (task) {
+          taskIndex = Number(task[1]) - 1;
+          taskButtonUsed = false;
+        }
         return "<article class=\"notebook-cell notebook-markdown-cell\"><div class=\"notebook-cell-head\"><span>Markdown 单元格</span><span>" + number + "</span></div><div class=\"notebook-markdown\">" + markdownToHtml(source) + "</div></article>";
       }
-      return "<article class=\"notebook-cell notebook-code-cell\"><div class=\"notebook-cell-head\"><span>代码单元格</span><span>" + number + "</span></div><pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + "<div class=\"notebook-simulated-output\" hidden><b>模拟运行输出</b><p>此处为网页模拟运行展示；完整运行环境和数据处理仍在对应 Notebook 中完成。</p></div><button class=\"notebook-run\" type=\"button\">模拟运行</button></article>";
+      const result = referenceResults[taskIndex];
+      const resultButton = result && !taskButtonUsed ? "<button class=\"notebook-run\" type=\"button\" data-result-target=\"reference-result-" + taskIndex + "\">查看实际参考结果</button>" : "";
+      if (result) taskButtonUsed = true;
+      return "<article class=\"notebook-cell notebook-code-cell\"><div class=\"notebook-cell-head\"><span>代码单元格</span><span>" + number + "</span></div><pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + resultButton + "</article>";
     }).join("");
   }
 
-  function bindNotebookSimulation() {
-    document.querySelectorAll(".notebook-run").forEach((button) => button.addEventListener("click", () => {
-      const output = button.parentElement.querySelector(".notebook-simulated-output");
-      if (!output) return;
-      output.hidden = !output.hidden;
-      button.textContent = output.hidden ? "模拟运行" : "收起输出";
+  function referenceFigureMarkup(figure, index) {
+    const image = figure.querySelector("img");
+    if (!image) return "";
+    const source = image.getAttribute("src") || "";
+    const alt = image.getAttribute("alt") || "实践项目参考结果";
+    const caption = figure.querySelector("figcaption")?.textContent?.trim() || alt;
+    if (/(?:真实.*(?:样本|示例)|输入示例|真实胸片|真实 BraTS)/i.test(caption + " " + alt)) return "";
+    return "<figure class=\"reference-result-figure\"><img src=\"" + esc(source) + "\" alt=\"" + esc(alt) + "\"><figcaption>" + esc(caption) + "</figcaption></figure>";
+  }
+
+  function referenceResultsFromAnswer(documentText, source) {
+    const parsed = new DOMParser().parseFromString(documentText, "text/html");
+    parsed.querySelectorAll("script, style, link").forEach((node) => node.remove());
+    const baseUrl = new URL(rootHref(source), location.href);
+    parsed.querySelectorAll("img[src]").forEach((image) => {
+      const value = image.getAttribute("src");
+      if (value && !/^(?:https?:|data:|#|mailto:)/i.test(value)) image.setAttribute("src", new URL(value, baseUrl).href);
+    });
+    const results = [];
+    [...parsed.querySelectorAll(".page")].forEach((section, index) => {
+      const title = section.querySelector("h1, h2")?.textContent?.trim() || "步骤 " + (index + 1);
+      const figures = [...section.querySelectorAll("figure")].map((figure, figureIndex) => referenceFigureMarkup(figure, figureIndex)).filter(Boolean);
+      if (!figures.length) return;
+      const step = section.textContent.match(/步骤\s*(\d+)/)?.[1];
+      const stepIndex = Math.max(0, Number(step || index + 1) - 1);
+      results[stepIndex] = { stepIndex, title, figures };
+    });
+    return results;
+  }
+
+  function referenceResultsMarkup(results) {
+    if (!results.length) return "";
+    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>实际参考输出</h2><p>以下图像来自对应实践项目参考答案中的已保存运行结果。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + "</article>").join("") + "</div></section>";
+  }
+
+  function bindReferenceResultButtons() {
+    document.querySelectorAll(".notebook-run[data-result-target]").forEach((button) => button.addEventListener("click", () => {
+      const target = document.getElementById(button.dataset.resultTarget);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }));
   }
 
@@ -645,11 +705,12 @@
     const downloadHref = kind.includes("practice") ? source : practiceSource;
     const title = materialTitle(kind);
     const downloadLabel = kind === "answer" || kind === "advanced-answer" ? "下载实践 Notebook" : "下载 Notebook";
-    const simulation = project.simulation ? `<div class="callout simulated-result"><b>模拟运行结果</b><p>${esc(project.simulation)}</p><p>页面中的运行按钮用于展开对应单元格的模拟输出；完整运行可以在 Kaggle 或自己的电脑上完成。</p></div>` : "";
     const viewerActions = [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }, { label: downloadLabel, href: downloadHref, download: true, arrow: false }];
-    if (project.kaggle && !advanced) viewerActions.push({ label: "在 Kaggle 上运行", href: project.kaggle, external: true, arrow: false });
-    const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: "网页阅读与模拟运行", actions: viewerActions, note: "本页为网页模拟展示，代码不会在浏览器中直接启动 Kaggle 环境。" });
-    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\">" + simulation + "<div class=\"callout\"><b>模拟运行</b><p>页面保留 Notebook 的 Markdown、代码单元格和参考输出结构；运行按钮只展开模拟输出，便于先阅读任务流程。需要完整运行时，可以下载 Notebook 到电脑，或在 Kaggle 中打开对应项目。</p></div><div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
+    if (project.kaggle && !advanced) viewerActions.push({ label: "在 Kaggle 中复制并运行", href: project.kaggle, external: true, arrow: false });
+    const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "阅读代码并查看实际参考输出" : "逐步阅读实践项目参考答案", actions: viewerActions });
+    const note = data.experience.simulationNote || "网页中的运行按钮只定位到已保存的参考输出；需要得到自己的运行结果，请先在 Kaggle 中复制 Notebook 到自己的账户，再运行和修改代码。";
+    const guide = data.experience.practiceGuidance || "实践项目优先在 Kaggle 中完成：复制到自己的账户后运行和修改，下载 Notebook 到电脑是补充方式。";
+    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>模拟运行的注意事项</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践入口</b><p>" + esc(guide) + "</p></div><div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
     const container = document.getElementById("notebook-content");
     try {
       const response = await fetch(rootHref(source));
@@ -666,11 +727,16 @@
           }
         });
         const sections = [...parsed.querySelectorAll(".page-intro, .page")];
-        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容来自对应实践材料的参考结果与分析页面，本页仅以网页方式展示，不在浏览器中重新执行代码。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
+        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、分析过程和已保存的实际结果。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
       } else {
         const notebook = await response.json();
-        container.innerHTML = notebookCellsMarkup(notebook);
-        bindNotebookSimulation();
+        let referenceResults = [];
+        if (answerSource && /\.html(?:$|\?)/i.test(answerSource)) {
+          const answerResponse = await fetch(rootHref(answerSource));
+          if (answerResponse.ok) referenceResults = referenceResultsFromAnswer(await answerResponse.text(), answerSource);
+        }
+        container.innerHTML = referenceResultsMarkup(referenceResults) + notebookCellsMarkup(notebook, referenceResults);
+        bindReferenceResultButtons();
       }
     } catch (error) {
       container.innerHTML = "<div class=\"callout warn\"><b>材料加载失败</b><p>请稍后重试，或下载 Notebook 后在 Kaggle 中打开。</p></div>";
@@ -695,10 +761,9 @@
     const advancedAnswer = project.advancedAnswer ? materialViewerHref(project, "advanced-answer") : null;
     const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => {
       const tierText = options.locked ? "进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。" : text;
-      const practiceText = options.locked ? "" : (data.experience.practiceGuidance || "");
       const practiceOptions = { locked: options.locked, external: /^https?:/i.test(practiceLink || ""), actions: options.practiceActions || [] };
       if (!options.locked && options.kaggleHref) practiceOptions.externalActions = [{ label: "在 Kaggle 上运行", href: options.kaggleHref }];
-      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}${options.locked ? `<span class="material-status">尚未开放</span>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", practiceText, practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [] })}</div></article>`;
+      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}${options.locked ? `<span class="material-status">尚未开放</span>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [] })}</div></article>`;
     };
     const projectContent = project.single
       ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer, { kaggleHref: project.kaggle })
@@ -706,10 +771,11 @@
     const learningGuide = project.single
       ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用实践项目参考答案核对代码与分析过程。</p></article>`
       : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。体验版不要求提交报告。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
+    const practiceGuide = `<article class="project-practice-guide"><div class="mode-kicker">实践项目与参考答案</div><p>${esc(data.experience.practiceGuidance || "实践项目可以下载到自己的电脑上运行；如果还不熟悉代码，可以直接在 Kaggle 上打开对应项目，按单元格逐步运行。看不懂时，可以向 AI 询问当前单元格在做什么，再根据提示一步步尝试。逐步借助 AI 读懂并完成代码，已经是当前科研实践中的必备能力。即使暂时没有完成，也可以打开实践项目参考答案核对。")}</p></article>`;
     layout(`${hero({ eyebrow: `科研体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section"><div class="project-page-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
     <section class="section">${learningGuide}</section>
-    <section class="section">${sectionHead("项目材料", null, null)}${projectContent}</section>`);
+    <section class="section">${sectionHead("项目材料", null, null)}${projectContent}${practiceGuide}</section>`);
   }
 
   function professional() {
