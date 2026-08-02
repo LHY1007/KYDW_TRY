@@ -46,7 +46,7 @@
 ### 3.1 团队近期动态
 
 - 完整动态保存在 `team.news`，按日期从新到旧排列。
-- 首页只显示前 `team.homeNewsLimit` 条；新增动态放到数组首位后，最旧一条自动退出首页，但仍保留在完整成果页。
+- 首页显示前 `team.homeNewsLimit` 条；当前设置为 8 条，新增动态放到数组首位后，最旧一条自动退出首页，但仍保留在动态详情页。
 - Notion 主页保留相同数量的最新动态；Notion“代表性成果”页保留完整动态。
 - 动态改变累计数量时，同时检查 `team.achievementMetrics`。
 - 动态构成长期代表性成果时，同时检查 `team.achievements`。
@@ -83,7 +83,8 @@
 | 页面 | 页面职责 | 主要数据 | 修改时联动 |
 | --- | --- | --- | --- |
 | `index.html` | 建立 KYDW 身份；展示团队概况、负责人、成果、近期动态、当前项目、其他活动和资源合集 | `team`、`experience`、`modules`、`resourceCollections` | Notion 主页、团队页、项目与资源合集 |
-| `team/index.html` | 完整团队介绍、成员高校、工作方式、成果摘要、去向、活动和负责人入口 | `team.*` | 首页和四个团队子页 |
+| `team/index.html` | 完整团队介绍、成员高校、工作方式、成果摘要、去向、活动和负责人入口 | `team.*` | 首页和团队子页 |
+| `team/news.html` | 展示与首页共用的完整团队近期动态；首页只做滚动浏览，本页作为动态详情入口 | `team.news` | 首页动态、`team/achievements.html`、Notion 主页和代表性成果页 |
 | `team/achievements.html` | 先展示完整团队近期动态，再展示论文、项目和竞赛分类 | `team.news`、`team.achievements` | 首页成果卡、Notion 团队介绍和代表性成果页 |
 | `team/destinations.html` | 按直博、国内学硕/海外研究型硕士展示已毕业成员去向，并列在校本科生高校 | `destinationRecords`、`destinationUniversityOrder`、`undergraduateNetwork` | 首页成员高校、团队介绍、Notion 团队概况和去向页 |
 | `team/activities.html` | 汇总团队活动体系并进入各活动详情 | `modules`、`team.activities` | 项目与活动总页、Notion 项目与活动 |

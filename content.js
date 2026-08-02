@@ -85,21 +85,23 @@ window.KYDW = {
       "复旦大学秋季学期本科生践悟课程"
     ],
     news: [
-      { date: "2026.7", html: "团队本科生李知彤（25级）、刘子铭（25级）、姜逸轩（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
-      { date: "2026.7", html: "团队合作本科生朱鸿杰（23级）、周华苑（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
-      { date: "2026.5", html: "团队本科生汤昊天（23级）的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 被中科院一区 Top 学术期刊 <em>Expert Systems With Applications</em> 接收。" },
-      { date: "2026.5", html: "团队本科生 Miao Zhengyang 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 被国际声学、语音与信号处理会议 <em>ICASSP 2026</em> 接收。" },
-      { date: "2026.4", html: "团队 MPhil 唐浩（东大医工21级本科）的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 被 CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em> 接收。" },
-      { date: "2026.2", html: "团队本科生吴熙东（22级）的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <em>Biomedical Signal Processing and Control</em>。" },
-      { date: "2026.1", html: "团队本科生汤昊天（23级）的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <em>Computer Methods and Programs in Biomedicine</em>。" },
-      { date: "2025.9", html: "团队 PhD 阙宁锋（东北大学生物医学工程21级本科）的论文 <em>Adaptive spatial transcriptomics interpolation via cross-modal cross-slice modeling</em> 被 CCF B 类国际医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em> 以 early accepted 形式接收。" },
-      { date: "2025.9", html: "团队本科生吴熙东（22级）的论文 <em>OG-SAM: Enhancing Multi-Organ Segmentation with Organogenesis-Based Adaptive Modeling</em> 被 CCF B 类国际医学影像会议 <em>MICCAI 2025</em> 研讨会 <em>CMMCA 2025</em> 接收，并作 Oral 报告。" },
-      { date: "2025.9", html: "团队本科生蒋政（23级）、刘雪鹏（23级）、朱品安（24级）的论文 <em>HaDM-ST: Histology-Assisted Differential Modeling for Spatial Transcriptomics Generation</em> 被 CCF B 类国际医学影像会议 <em>MICCAI 2025</em> 研讨会 <em>CMMCA 2025</em> 接收。" },
-      { date: "2025.7", html: "团队本科生万和欣（24级）、朱品安（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
-      { date: "2025.7", html: "团队合作本科生朱鸿杰（23级）、周华苑（24级）获中国大学生生物医学工程创新设计竞赛国家级一等奖。" },
-      { date: "2025.4", html: "团队本科生吴熙东（22级）的论文 <em>Multiscale feature enhanced gating network for atrial fibrillation detection</em> 发表于 <em>Computer Methods and Programs in Biomedicine</em>。" }
+      { date: "2026.8", html: "团队本科生 <strong>李知彤（25级）</strong>、<strong>姜逸轩（24级）</strong>、<strong>刘子铭（25级）</strong>、<strong>武晨杰（25级）</strong> 的论文 <em>OncoRelay3D: Foundation-Model-Assisted Reconstruction of 3D Tumor Cell-Expression Fields for Mechanism-Aware Directed Cell-Cell Communication</em> 被 <strong>CCF B 类国际顶级医学影像会议 International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2026）</strong> 研讨会 <strong>（CMMCA 2026）Oral 级（排名第 5）</strong> 接收。" },
+      { date: "2026.8", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 的论文 <em>TriSCoV-Net: Cross-Scale Verified Virtual Immunomarker Proxy Generation from Diffusion Magnetic Resonance Imaging</em> 被 <strong>CCF B 类国际顶级医学影像会议 International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2026）</strong> 研讨会 <strong>（CMMCA 2026）Oral 级（排名第 2）</strong> 接收。" },
+      { date: "2026.7", html: "团队本科生 <strong>李知彤（25级）</strong>、<strong>刘子铭（25级）</strong>、<strong>姜逸轩（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
+      { date: "2026.7", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
+      { date: "2026.5", html: "团队本科生 <strong>汤昊天（23级）</strong> 的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 被 <strong>中科院一区 TOP 学术期刊 <em>Expert Systems With Applications</em></strong> 接收。" },
+      { date: "2026.5", html: "团队本科生 <strong>Miao Zhengyang</strong> 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 被国际声学、语音与信号处理会议 <strong><em>ICASSP 2026</em></strong> 接收。" },
+      { date: "2026.4", html: "团队 MPhil <strong>唐浩（东大医工21级本科）</strong> 的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 被 <strong>CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em></strong> 接收。" },
+      { date: "2026.2", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <strong><em>Biomedical Signal Processing and Control</em></strong>。" },
+      { date: "2026.1", html: "团队本科生 <strong>汤昊天（23级）</strong> 的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <strong><em>Computer Methods and Programs in Biomedicine</em></strong>。" },
+      { date: "2025.9", html: "团队 PhD <strong>阙宁锋（东北大学生物医学工程21级本科）</strong> 的论文 <em>Adaptive spatial transcriptomics interpolation via cross-modal cross-slice modeling</em> 被 <strong>CCF B 类国际医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 以 early accepted 形式接收。" },
+      { date: "2025.9", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>OG-SAM: Enhancing Multi-Organ Segmentation with Organogenesis-Based Adaptive Modeling</em> 被 <strong>CCF B 类国际医学影像会议 <em>MICCAI 2025</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong> 接收，并作 <strong>Oral</strong> 报告。" },
+      { date: "2025.9", html: "团队本科生 <strong>蒋政（23级）</strong>、<strong>刘雪鹏（23级）</strong>、<strong>朱品安（24级）</strong> 的论文 <em>HaDM-ST: Histology-Assisted Differential Modeling for Spatial Transcriptomics Generation</em> 被 <strong>CCF B 类国际医学影像会议 <em>MICCAI 2025</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong> 接收。" },
+      { date: "2025.7", html: "团队本科生 <strong>万和欣（24级）</strong>、<strong>朱品安（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
+      { date: "2025.7", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
+      { date: "2025.4", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>Multiscale feature enhanced gating network for atrial fibrillation detection</em> 发表于 <strong><em>Computer Methods and Programs in Biomedicine</em></strong>。" }
     ],
-    homeNewsLimit: 4,
+    homeNewsLimit: 8,
     leaders: [
       { name: "伍东辰", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。曾获国际大学生数学建模竞赛特等奖 Outstanding Winner、国家奖学金。", paragraphs: [
         "伍东辰是东北大学生物医学工程专业 2023 级学生，现任 KYDW 2023 级负责人。",

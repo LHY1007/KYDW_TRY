@@ -87,8 +87,8 @@
     });
   }
 
-  function hero({ eyebrow, title, lead, actions = [], note = "" }) {
-    return `<section class="hero"><div class="eyebrow">${esc(eyebrow)}</div><h1>${esc(title)}</h1>${lead ? `<p class="lead">${esc(lead)}</p>` : ""}${actions.length ? `<div class="hero-actions">${actions.map(actionMarkup).join("")}</div>` : ""}${note ? `<p class="hero-note">${esc(note)}</p>` : ""}</section>`;
+  function hero({ eyebrow, title, lead, belowLead = "", actions = [], note = "" }) {
+    return `<section class="hero"><div class="eyebrow">${esc(eyebrow)}</div><h1>${esc(title)}</h1>${lead ? `<p class="lead">${esc(lead)}</p>` : ""}${belowLead ? `<div class="hero-below-lead">${belowLead}</div>` : ""}${actions.length ? `<div class="hero-actions">${actions.map(actionMarkup).join("")}</div>` : ""}${note ? `<p class="hero-note">${esc(note)}</p>` : ""}</section>`;
   }
 
   function statGrid(items) {
@@ -140,12 +140,6 @@
 
   function destinationUniversityCloud(team, doctoral) {
     return universityCloud(destinationUniversityCounts(team, doctoral).map((item) => `${item.name}*${item.count}`));
-  }
-
-  function teamOverviewSummary(team) {
-    const memberFact = (team.facts || []).find((item) => item.label === "团队成员");
-    const memberCount = memberFact ? `${memberFact.value} 名成员；` : "";
-    return `${memberCount}已毕业成员高校按直博、国内学硕/海外研究型硕士分列，另列在校本科生成员高校。`;
   }
 
   function destinationEntries(team, doctoral) {
@@ -213,7 +207,7 @@
 
   function newsMarkup(items) {
     if (!items || !items.length) return "";
-    return `<div class="home-news"><h4>团队近期动态</h4><div class="home-news-list">${newsItemsMarkup(items)}</div></div>`;
+    return `<div class="home-news"><div class="home-news-heading"><h4>团队近期动态</h4><a href="${rootHref("team/news.html")}">查看全部</a></div><div class="home-news-list">${newsItemsMarkup(items)}</div></div>`;
   }
 
   function moduleMeta(module) {
@@ -397,10 +391,11 @@
       eyebrow: "KYDW / 科研大王",
       title: "科研大王 KYDW",
       lead: t.lead,
+      belowLead: paragraphs(t.paragraphs.slice(0, 2)),
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
     <section class="section" id="team-overview">${sectionHead("团队概况", null, "team/index.html", "完整团队介绍")}
-      <div class="home-intro-grid"><div class="home-overview-left"><article class="card home-team-copy"><h3>团队做什么</h3>${paragraphs(t.paragraphs.slice(0, 2))}<div class="card-footer"><span class="muted small">医学 · 工程 · 计算机 · 人工智能 · 生物信息学</span><a href="${rootHref("team/index.html")}">进入团队介绍 →</a></div></article><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup((t.news || []).slice(0, t.homeNewsLimit || 4))}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div></div>
+      <div class="home-intro-grid"><div class="home-overview-left"><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup((t.news || []).slice(0, t.homeNewsLimit || 8))}</article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
       <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${environmentProjectCard(e.environment)}${homeProjects.map(homeProjectCard).join("")}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
@@ -412,9 +407,9 @@
 
   function team() {
     const t = data.team;
-    layout(`${hero({ eyebrow: t.label, title: "团队介绍", lead: t.lead, actions: [{ label: "查看项目与活动", href: "programs/index.html", primary: true }, { label: "进入资源中心", href: "resources/index.html" }] })}
+    layout(`${hero({ eyebrow: t.label, title: "团队介绍", lead: t.lead, actions: [{ label: "查看团队近期动态", href: "team/news.html", primary: true }, { label: "查看项目与活动", href: "programs/index.html" }, { label: "进入资源中心", href: "resources/index.html" }] })}
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}</div></section>
-    <section class="section">${sectionHead("团队概况", teamOverviewSummary(t), null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
+    <section class="section">${sectionHead("团队概况", null, null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
     <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>成员来自不同学校、专业和课题组，交流医学、工程、计算机、人工智能与生物信息学等方向。</p></article><article class="card"><h3>从研究任务进入方法</h3><p>项目、培训和专题合作都从具体任务出发，讨论数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
     <section class="section">${sectionHead("代表性成果（成员一作/项目负责人）", null, "team/achievements.html", "查看完整成果")}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
     <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦大学秋季学期本科生践悟课程、多校联合项目和生物医学人工智能专题交流，是团队目前持续整理和开展的主要活动。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系</a></div></article></div></section>
@@ -427,12 +422,14 @@
     const t = data.team;
     const configs = {
       achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果（成员一作/项目负责人）", lead: "", back: "team/index.html" },
+      news: { eyebrow: "团队介绍 / 动态", title: "团队近期动态", lead: "团队公开成果、论文、竞赛与合作项目的最新进展。", back: "team/index.html" },
       destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向包括直博、国内学硕/海外研究型硕士。", back: "team/index.html" },
       activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦大学秋季学期本科生践悟课程和生物医学人工智能专题交流。", back: "team/index.html" },
       people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴锡东、刘涵瑜。", back: "team/index.html" }
     };
     const cfg = configs[section] || configs.achievements;
     let inner = hero({ eyebrow: cfg.eyebrow, title: cfg.title, lead: cfg.lead, actions: [{ label: "返回团队介绍", href: cfg.back, primary: true }, { label: "项目与活动", href: "programs/index.html" }] });
+    if (section === "news") inner += `<section class="section team-news-section">${sectionHead("动态记录", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section>`;
     if (section === "achievements") inner += `<section class="section team-news-section">${sectionHead("团队近期动态", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section><section class="section team-achievements-section">${sectionHead("代表性成果", null, null)}<div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>`;
     if (section === "destinations") inner += `<section class="section">${sectionHead("已毕业成员去向", null, null)}<div class="destination-degree-sections">${destinationDegreeCards(t)}</div><p class="small muted">${esc(t.destinationNote)}</p><div class="card university-card section-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>`;
     if (section === "activities") inner += `<section class="section">${sectionHead("活动目录", null, "programs/index.html", "查看项目与活动")}
