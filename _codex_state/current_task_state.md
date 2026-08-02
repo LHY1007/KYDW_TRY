@@ -82,8 +82,9 @@
 
 ## is-a.dev 状态
 
-- 申请 `kydw.is-a.dev` 对应 `is-a-dev/register#45633`，当前仍为 OPEN，CI Tests 已 SUCCESS，尚未有维护者审核或合并。
-- 申请记录的 CNAME 目标为 `lhy1007.github.io`；域名获批后，再在 KYDW_TRY 的 GitHub Pages 设置中绑定并回读 HTTPS。
+- 申请 `kydw.is-a.dev` 对应 `is-a-dev/register#45633`，当前仍为 OPEN，CI Tests 已 SUCCESS，`mergeable_state=blocked`，等待已指定审核人 `wdhdev` 或其他维护者审核。
+- `https://kydw.is-a.dev/` 当前仍返回 is-a.dev 的“Available Domain”占位页，DNS 尚未生成指向 `lhy1007.github.io` 的 CNAME。
+- 已在 KYDW_TRY 的 GitHub Pages 预置自定义域名文件 `CNAME`（提交 `156dc89`，内容为 `kydw.is-a.dev`）；GitHub Pages 当前 `custom_domain=null`，待 is-a.dev PR 合并、DNS 生效后重新绑定并开启 HTTPS。
 
 ## 下一步
 
