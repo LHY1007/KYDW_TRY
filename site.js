@@ -626,24 +626,38 @@
     return blocks.length ? "<div class=\"notebook-output\"><span>Notebook 实际输出</span>" + blocks.join("") + "</div>" : "";
   }
 
+  function notebookCellNeedsCompletion(cell, source) {
+    if (cell.cell_type === "markdown") return /(?:^|\n)\s*(?:\*\*)?你的回答\s*(?:：|:)/m.test(source);
+    return /TODO|待完成/.test(source) || /^\s*pass\s*(?:#.*)?$/m.test(source) || /^(?!\s*best_state\s*=)\s*(?:[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*=\s*None\b/m.test(source) || /self\.[A-Za-z_]\w*\s*=\s*None\b/.test(source);
+  }
+
+  function practiceTaskGuideMarkup(project) {
+    const guides = data.experience.practiceTaskGuides?.[project.id] || [];
+    if (!guides.length) return "";
+    const cards = guides.map((item) => `<article class="practice-task-guide-card"><h3>${esc(item.task)}</h3><dl><div><dt>需要填写</dt><dd>${esc(item.fill)}</dd></div><div><dt>如何确定</dt><dd>${esc(item.basis)}</dd></div><div><dt>完成后检查</dt><dd>${esc(item.check)}</dd></div></dl></article>`).join("");
+    return `<section class="practice-task-guide"><div class="section-head"><div><h2>需要完成的实践任务</h2><p>标有“需要完成”的代码或文字单元格就是学生需要补全的位置。网页只能阅读；实际填写请在 Kaggle 中复制到自己的账户后进行。</p></div></div><div class="practice-task-guide-grid">${cards}</div></section>`;
+  }
+
   function notebookCellsMarkup(notebook, referenceResults = []) {
     let taskIndex = -1;
-    let taskButtonUsed = false;
+    const usedResultSteps = new Set();
     return (notebook.cells || []).map((cell, index) => {
       const source = notebookSource(cell);
       const number = String(index + 1).padStart(2, "0");
+      const needsCompletion = notebookCellNeedsCompletion(cell, source);
+      const cellHead = (type) => `<div class="notebook-cell-head"><span>${type}</span><span class="notebook-cell-head-right">${needsCompletion ? "<span class=\"notebook-cell-status\">需要完成</span>" : ""}<span>${number}</span></span></div>`;
       if (cell.cell_type === "markdown") {
-        const task = source.match(/(?:任务|实践任务)\s*(?:：|:)?\s*(\d+)/);
+        const task = source.match(/(?:^|\n)\s*(?:#+\s*)?(?:任务|实践任务)\s*(?:[：:]?\s*)(\d+)\s*[：:]/m);
         if (task) {
           taskIndex = Number(task[1]) - 1;
-          taskButtonUsed = false;
         }
-        return "<article class=\"notebook-cell notebook-markdown-cell\"><div class=\"notebook-cell-head\"><span>Markdown 单元格</span><span>" + number + "</span></div><div class=\"notebook-markdown\">" + markdownToHtml(source) + "</div></article>";
+        return "<article class=\"notebook-cell notebook-markdown-cell\">" + cellHead("Markdown 单元格") + "<div class=\"notebook-markdown\">" + markdownToHtml(source) + "</div></article>";
       }
-      const result = referenceResults[taskIndex];
-      const resultButton = result && !taskButtonUsed ? "<button class=\"notebook-run\" type=\"button\" data-result-target=\"reference-result-" + taskIndex + "\">查看实际参考结果</button>" : "";
-      if (result) taskButtonUsed = true;
-      return "<article class=\"notebook-cell notebook-code-cell\"><div class=\"notebook-cell-head\"><span>代码单元格</span><span>" + number + "</span></div><pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + resultButton + "</article>";
+      const resultButtons = referenceResults.filter((result) => result && result.taskIndex === taskIndex && !usedResultSteps.has(result.stepIndex)).map((result) => {
+        usedResultSteps.add(result.stepIndex);
+        return "<button class=\"notebook-run\" type=\"button\" data-result-target=\"reference-result-" + result.stepIndex + "\">查看实际参考结果</button>";
+      }).join("");
+      return "<article class=\"notebook-cell notebook-code-cell\">" + cellHead("代码单元格") + "<pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + resultButtons + "</article>";
     }).join("");
   }
 
@@ -658,9 +672,12 @@
   }
 
   function referenceResultsFromAssets(project) {
+    const defaultTaskIndexes = { "project-01": [3, 4, 5], "project-02": [0, 3, 4], "project-03": [-1, 2, 2] };
     return (project.referenceResults || []).map((result, index) => {
       const image = result.image ? "<figure class=\"reference-result-figure\"><img src=\"" + rootHref(result.image) + "\" alt=\"" + esc(result.alt || result.caption || "实践项目实际参考输出") + "\"><figcaption>" + esc(result.caption || "实践项目实际参考输出") + "</figcaption></figure>" : "";
-      return { stepIndex: Number.isFinite(result.stepIndex) ? result.stepIndex : index, title: result.title || "实际运行结果", figures: image ? [image] : [], text: result.text || "" };
+      const stepIndex = Number.isFinite(result.stepIndex) ? result.stepIndex : index;
+      const taskIndex = Number.isFinite(result.taskIndex) ? result.taskIndex : (defaultTaskIndexes[project.id]?.[index] ?? stepIndex);
+      return { taskIndex, stepIndex, title: result.title || "实际运行结果", figures: image ? [image] : [], text: result.text || "" };
     }).filter((result) => result.figures.length || result.text);
   }
 
@@ -679,7 +696,7 @@
       if (!figures.length) return;
       const step = section.textContent.match(/步骤\s*(\d+)/)?.[1];
       const stepIndex = Math.max(0, Number(step || index + 1) - 1);
-      results[stepIndex] = { stepIndex, title, figures };
+      results[stepIndex] = { taskIndex: stepIndex, stepIndex, title, figures };
     });
     return results;
   }
@@ -713,11 +730,11 @@
     const title = materialTitle(kind);
     const downloadLabel = kind === "answer" || kind === "advanced-answer" ? "下载实践 Notebook" : "下载 Notebook";
     const viewerActions = [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }, { label: downloadLabel, href: downloadHref, download: true, arrow: false }];
-    if (project.kaggle && !advanced) viewerActions.push({ label: "在 Kaggle 中复制并运行", href: project.kaggle, external: true, arrow: false });
     const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "阅读代码并查看实际参考输出" : "逐步阅读实践项目参考答案", actions: viewerActions });
     const note = data.experience.simulationNote || "网页中的运行按钮只定位到已保存的参考输出；需要得到自己的运行结果，请先在 Kaggle 中复制 Notebook 到自己的账户，再运行和修改代码。";
     const guide = data.experience.practiceGuidance || "实践项目优先在 Kaggle 中完成：复制到自己的账户后运行和修改，下载 Notebook 到电脑是补充方式。";
-    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>模拟运行的注意事项</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践入口</b><p>" + esc(guide) + "</p></div><div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
+    const taskGuide = kind === "practice" || kind === "advanced-practice" ? practiceTaskGuideMarkup(project) : "";
+    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>模拟运行的注意事项</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践入口</b><p>" + esc(guide) + "</p></div>" + taskGuide + "<div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
     const container = document.getElementById("notebook-content");
     try {
       const response = await fetch(rootHref(source));
@@ -742,7 +759,7 @@
           const answerResponse = await fetch(rootHref(answerSource));
           if (answerResponse.ok && !referenceResults.length) referenceResults = referenceResultsFromAnswer(await answerResponse.text(), answerSource);
         }
-        container.innerHTML = referenceResultsMarkup(referenceResults) + notebookCellsMarkup(notebook, referenceResults);
+        container.innerHTML = notebookCellsMarkup(notebook, referenceResults) + referenceResultsMarkup(referenceResults);
         bindReferenceResultButtons();
       }
     } catch (error) {
@@ -769,16 +786,16 @@
     const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => {
       const tierText = options.locked ? "进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。" : text;
       const practiceOptions = { locked: options.locked, external: /^https?:/i.test(practiceLink || ""), actions: options.practiceActions || [] };
-      if (!options.locked && options.kaggleHref) practiceOptions.externalActions = [{ label: "在 Kaggle 上运行", href: options.kaggleHref }];
       return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}${options.locked ? `<span class="material-status">尚未开放</span>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [] })}</div></article>`;
     };
     const projectContent = project.single
-      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer, { kaggleHref: project.kaggle })
-      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer, { kaggleHref: project.kaggle })}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
+      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
+      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
     const learningGuide = project.single
       ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用实践项目参考答案核对代码与分析过程。</p></article>`
       : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。体验版不要求提交报告。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
-    const practiceGuide = `<article class="project-practice-guide"><div class="mode-kicker">实践项目与参考答案</div><p>${esc(data.experience.practiceGuidance || "实践项目可以下载到自己的电脑上运行；如果还不熟悉代码，可以直接在 Kaggle 上打开对应项目，按单元格逐步运行。看不懂时，可以向 AI 询问当前单元格在做什么，再根据提示一步步尝试。逐步借助 AI 读懂并完成代码，已经是当前科研实践中的必备能力。即使暂时没有完成，也可以打开实践项目参考答案核对。")}</p></article>`;
+    const kaggleAction = project.kaggle ? `<div class="project-practice-actions"><a class="solid-btn" href="${esc(project.kaggle)}" target="_blank" rel="noreferrer">在 Kaggle 中复制并运行</a></div>` : "";
+    const practiceGuide = `<article class="project-practice-guide"><div class="mode-kicker">实践项目与参考答案</div><p>${esc(data.experience.practiceGuidance || "实践项目可以下载到自己的电脑上运行；如果还不熟悉代码，可以直接在 Kaggle 上打开对应项目，按单元格逐步运行。看不懂时，可以向 AI 询问当前单元格在做什么，再根据提示一步步尝试。逐步借助 AI 读懂并完成代码，已经是当前科研实践中的必备能力。即使暂时没有完成，也可以打开实践项目参考答案核对。")}</p>${kaggleAction}</article>`;
     layout(`${hero({ eyebrow: `科研体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section"><div class="project-page-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
     <section class="section">${learningGuide}</section>
