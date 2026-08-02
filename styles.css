@@ -442,7 +442,7 @@ details.fold[open] summary::after { content: "−"; }
 .inline-doc-links a { padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); }
 .inline-doc-links a:hover, .material-secondary-link:hover { color: var(--accent); }
 .project-tier.is-locked, .project-mode.is-locked, .card.is-locked { position: relative; overflow: hidden; }
-.project-tier.is-locked::after, .project-mode.is-locked::after, .card.is-locked::after { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(112,119,127,.45); backdrop-filter: grayscale(1); pointer-events: none; }
+.project-tier.is-locked::after, .project-mode.is-locked::after, .card.is-locked::after { content: ""; position: absolute; inset: 0; z-index: 3; background: rgba(112,119,127,.45); backdrop-filter: grayscale(1); pointer-events: none; }
 .project-tier.is-locked > *, .project-mode.is-locked > *, .card.is-locked > * { position: relative; z-index: 2; }
 .material-card { display: flex; flex-direction: column; min-height: 190px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow-soft); }
 .material-card h3 { margin: 7px 0 6px; font-size: 19px; }
