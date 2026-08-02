@@ -127,8 +127,7 @@ button { font: inherit; }
 }
 .stat strong { display: block; color: var(--primary); font-size: 24px; line-height: 1.3; }
 .stat span { display: block; color: var(--muted); font-size: 13px; margin-top: 5px; }
-.home-overview-left { display: flex; flex-direction: column; align-content: start; gap: 14px; min-width: 0; }
-.home-overview-side { display: grid; grid-template-rows: max-content max-content; align-content: start; align-items: start; gap: 14px; min-width: 0; }
+.home-overview-left, .home-overview-side { display: flex; flex-direction: column; gap: 16px; min-width: 0; height: 100%; }
 .home-results-card { min-height: 0; }
 .home-metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; margin-top: 14px; }
 .home-metric { min-width: 0; padding: 12px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); }
@@ -333,14 +332,24 @@ details.fold[open] summary::after { content: "−"; }
 .notice { padding: 15px 16px; border-radius: 15px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 .notice b { display: block; color: var(--text); margin-bottom: 3px; }
 
-.home-intro-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr); gap: 16px; align-items: start; }
+.home-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
+  gap: 16px;
+  align-items: stretch;
+}
 .home-team-copy { display: flex; flex-direction: column; }
 .home-team-copy .card-footer { margin-top: 12px; }
-.home-leaders-card { display: flex; flex: none; flex-direction: column; min-height: 0; }
+.home-results-card .home-news-list { max-height: 110px; }
+.home-universities-card, .home-leaders-card { flex: 1; }
+.home-leaders-card { display: flex; flex-direction: column; min-height: 0; }
+.home-universities-card .member-network { grid-template-columns: minmax(0, 1.45fr) minmax(210px, .75fr); gap: 22px; }
+.home-universities-card .university-cloud { gap: 6px; }
+.home-universities-card .university-cloud span { padding: 6px 9px; font-size: 12px; }
 .home-leaders-card .leader-list { margin-top: 12px; }
-.home-leader-scroll { max-height: 360px; overflow-y: auto; padding-right: 6px; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.home-leader-scroll { flex: 1; min-height: 0; max-height: 310px; overflow-y: auto; padding-right: 6px; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .home-leader-scroll:focus-visible { outline: 2px solid var(--primary-2); outline-offset: 4px; border-radius: 12px; }
-.home-leaders-card .card-footer { margin-top: 14px; }
+.home-leaders-card .card-footer { margin-top: auto; padding-top: 14px; }
 .home-output-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .compact-summary { min-height: 190px; }
 .compact-summary p { color: var(--muted); }
@@ -471,6 +480,7 @@ details.fold[open] summary::after { content: "−"; }
   .showcase-scroll { max-height: none; overflow: visible; padding-right: 0; }
   .quick-link-grid, .quick-links.is-compact .quick-link-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .member-network { grid-template-columns: 1fr; gap: 16px; }
+  .home-universities-card .member-network { grid-template-columns: 1fr; gap: 16px; }
   .destination-degree-grid { grid-template-columns: 1fr; }
   .prose-section h2 { font-size: 22px; }
 }
