@@ -78,7 +78,7 @@
 - 2026-08-03：核查线上主页入口后确认 `https://lhy1007.github.io/KYDW_TRY/` 与 `/index.html` 均 HTTP 200；`kydw.is-a.dev` 因 is-a.dev 申请仍为 OPEN/REVIEW_REQUIRED 而 302 到可用域名页。已将 GitHub 仓库主页元数据改为稳定 GitHub Pages 地址，并在 `SITE-MAINTENANCE.md` 固定主页规则；本轮未改 CNAME、未推送代码。
 - 2026-08-03：`team.news` 的论文动态按用户确认的团队成员重新整理：崔涵禹（23级）、苗正洋、伍东辰统一使用中文名，其他未确认英文作者和老师删除；期刊补充中科院一区/一区 TOP，ICASSP 改为 CCF B 类国际顶级声学、语音与信号处理会议并写出全称，2025 年 MICCAI 条目统一补充“CCF B 类国际顶级医学影像会议”；论文动态统一使用“发表于”或“收录于”。
 - 2026-08-03：本轮通过 `node --check`、两份维护脚本 `py_compile`、`git diff --check`、内容数据 VM 断言和本地 HTTP 回读；`team.news` 共 15 条，首页、`team/news.html`、`team/achievements.html` 与 `content.js` 均返回 HTTP 200。首页不再使用固定动态条数，全部 15 条通过块内滚动浏览。
-- 2026-08-03：此前 14 个仓库文件已通过 GitHub API 发布到 `main`，远程提交为 `edd2f04b6c3e6d27da7a9a42858d719cf5b458c2`；本轮新增作者、评级和首页全量动态展示修改待本地验证后统一推送。Tabbit 的旧地址来自浏览器用户数据中的历史/快捷项 `kydw.is-a.dev`，网站代码和 GitHub Pages 主页本身不包含该跳转。
+- 2026-08-03：此前 14 个仓库文件已通过 GitHub API 发布到 `main`，远程提交为 `edd2f04b6c3e6d27da7a9a42858d719cf5b458c2`；本轮作者、评级和首页全量动态展示修改已在本地提交 `866ea35`，并与远程提交 `c84a504` 合并为待发布的 `ef2ea67`。Tabbit 的旧地址来自浏览器用户数据中的历史/快捷项 `kydw.is-a.dev`，网站代码和 GitHub Pages 主页本身不包含该跳转。
 
 ## 已知来源缺项
 
