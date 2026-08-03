@@ -98,13 +98,6 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 @media(max-width:640px){.orientation-strip{display:grid;grid-template-columns:1fr;gap:5px}.orientation-strip b{display:none}.orientation-strip span{text-align:center}}
 </style>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml">
-<style id="kydw-kaggle-entry">
-.kaggle-entry{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:15px 0;padding:13px 15px;border:1px solid #b9d8df;border-radius:12px;background:#f3fafb}
-.kaggle-entry a{display:inline-block;padding:7px 11px;border-radius:8px;background:#216b8d;color:#fff;text-decoration:none;font-weight:700}
-.kaggle-entry a:hover{background:#185875}
-.kaggle-entry span{color:#4d6977;font-size:13px}
-.dark .kaggle-entry{background:#1b303a;border-color:#41636e}.dark .kaggle-entry span{color:#c0d2d8}
-</style>
 <style id="kydw-mobile-overflow">
 @media(max-width:760px){.mini-table{display:block;overflow-x:auto;white-space:nowrap}.digits-cm-figure{overflow-x:auto}.digits-cm-figure #cmDemo00{min-width:340px}}
 .python-bridge{margin:18px 0;padding:16px;border:1px solid #c7dce5;border-radius:13px;background:#f7fbfc}.python-bridge h3{margin:0 0 8px}.python-bridge p{margin:10px 0 0;color:var(--muted)}
@@ -544,11 +537,10 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <div class="lecture-open">实践部分把本章内容落实到一次可运行的 MNIST 十分类实验。Notebook 已经给出主要结构，需要补上数据检查、训练计算、结果评价和结果保存。</div>
 <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互组件用于理解像素、shape、Softmax、卷积与指标之间的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；准确率、F1、混淆矩阵、噪声下降和对照实验结果以你的实际运行输出为准。</div>
 <div class="aligned-detail">
-<h3>从 Kaggle Notebook 开始运行</h3>
-<p>Kaggle 是首选入口：打开公开 Notebook，点击“复制并编辑”保存到自己的账户，再按顺序运行、修改 TODO 位置并观察输出。下载 Notebook 到电脑运行是补充路径。</p>
+<h3>从实践项目页面开始</h3>
+<p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会标明需要填写的代码或文字位置、填写依据和检查方法，实际运行在 Kaggle 中完成；下载 Notebook 到电脑运行是补充路径。</p>
 <p>Notebook 会优先读取 Kaggle 中的 MNIST / Digit Recognizer 数据；没有挂载数据时再尝试 torchvision MNIST，最后的 sklearn digits 回退数据用于环境检查。完成实践时，在 <code>task0_result.json</code> 中确认 <code>dataset_name</code> 表示 MNIST。</p>
 </div>
-<div class="kaggle-entry"><a href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00" target="_blank" rel="noopener">在 Kaggle 中复制并运行项目 00</a><span>保存到自己的账户后，按单元格顺序填写 TODO、运行并观察输出。</span></div>
 <table class="mini-table"><thead><tr><th>任务</th><th>填写位置</th><th>填写依据与检查</th></tr></thead><tbody>
 <tr><td>1 数据检查</td><td><code>TODO 1</code>：样本数、shape、类型、像素范围、标签统计</td><td>根据已有 <code>sample_image</code>、<code>sample_label</code> 和检查语句填写；确认单图为 <code>[1,28,28]</code>。</td></tr>
 <tr><td>2 归一化</td><td><code>TODO 2</code>：<code>train_mean</code>、<code>train_std</code> 和三个数据集的变换</td><td>只用训练集统计均值和标准差；运行后确认输入尺度已统一。</td></tr>

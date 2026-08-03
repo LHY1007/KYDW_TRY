@@ -6,14 +6,16 @@ used to produce the real result assets shown on the site.
 """
 
 import json
+import os
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLISH_ROOT = Path(os.environ.get('KAGGLE_NOTEBOOK_ROOT', str(ROOT / 'tmp' / 'kaggle-publish')))
 
 
 def load_notebook(name):
-    path = ROOT / "tmp" / "kaggle-publish" / name / f"KYDW_TRY_{name.upper()}.ipynb"
+    path = PUBLISH_ROOT / name / f"KYDW_TRY_{name.upper()}.ipynb"
     return path, json.loads(path.read_text(encoding="utf-8"))
 
 

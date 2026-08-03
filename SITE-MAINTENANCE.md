@@ -228,7 +228,7 @@
 | `assets/contact/` | 项目公告群、本项目群、微信公众号和负责人微信二维码；由体验项目页与 Notion 项目页共同引用 | `experience.contact.channels`、Notion 体验项目页 |
 | `experience/teaching/index.html` | 体验教学辅助目录；不是主导航唯一入口 | 返回体验项目 |
 | `experience/teaching/project-01.html` | 项目 00 体验教学正文 | 返回项目 00 |
-| `experience/teaching/project-02.html` | 项目 01 体验教学正文 | 返回项目 01 |
+| `experience/teaching/project-02.html` | 项目 01 体验教学正文；先讲 MRI 成像、序列、体素与 mask，再进入二维分割实践 | 返回项目 01 |
 | `experience/teaching/project-03.html` | 项目 02 体验教学正文 | 返回项目 02 |
 | `experience/teaching/project-04.html` | 项目 03 体验教学正文 | 返回项目 03 |
 | `experience/teaching/project-05.html` | 项目 04 体验教学正文 | 返回项目 04 |

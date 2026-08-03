@@ -58,6 +58,7 @@ button{cursor:pointer}
 .reference-strip{display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:center;margin:18px 0 0;padding:12px;border:1px solid var(--line);border-radius:13px;background:#fbfdfe}
 .reference-strip img{display:block;width:170px;height:170px;object-fit:contain;border-radius:9px;background:#000}
 .reference-strip p{margin:4px 0;color:#526c7a;font-size:13px}
+.mri-foundation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:17px 0}.mri-foundation-card{min-width:0;margin:0;padding:12px;border:1px solid #c9dce4;border-radius:14px;background:#f8fbfc}.mri-foundation-card img{display:block;width:100%;height:250px;object-fit:contain;border-radius:10px;background:#07141d}.mri-foundation-card figcaption{margin-top:9px;color:#526b79;font-size:13px;line-height:1.65}.foundation-chain{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:17px 0;padding:13px 15px;border:1px solid #c7dce4;border-radius:12px;background:#f3f9fb;color:#285c72}.foundation-chain span{padding:6px 9px;border-radius:8px;background:#fff;border:1px solid #c7dce4;font-size:14px}.foundation-chain b{color:#3a869b;font-size:18px}
 .flowline{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:18px 0}
 .flow-node{flex:1 1 145px;display:flex;align-items:center;justify-content:center;min-height:70px;padding:12px;border:1px solid #c6dbe3;border-radius:12px;background:#f5fafb;text-align:center;font-weight:700;color:#224c63;line-height:1.5}
 .flow-arrow{align-self:center;color:var(--cyan);font-size:23px;font-weight:800}
@@ -142,10 +143,11 @@ details p,details ul{padding:0 15px 12px;margin:0}
 .dark .flow-node,.dark .shape-chip{background:#203a45;color:#deedf1;border-color:#4b6975}.dark .mini-table th{background:#203a45;color:#deedf1}
 .dark .mini-table td,.dark .mini-table th{border-color:#405965}.dark .code{background:#0b171e}.dark .reference-strip{background:#1b303a}
 .dark .reference-strip p,.dark .visual-card p,.dark .app-sub,.dark .muted,.dark .extension-card p{color:#b8cbd2}
+.dark .mri-foundation-card{background:#1b303a}.dark .mri-foundation-card figcaption{color:#b8cbd2}.dark .foundation-chain{background:#1b303a;color:#dbe9ee}.dark .foundation-chain span{background:#203a45;border-color:#4b6975}
 .dark .unet-svg,.dark .metric-canvas{background:#fff}.dark .unet-svg text{fill:#204e63}
 .wide .reader{max-width:1380px}
 @media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{position:fixed;left:-290px;z-index:40;width:270px;transition:left .2s}.sidebar.open{left:0}.mobile-menu{display:inline-block}.reader{padding:25px 18px 65px}.visual-pipeline{grid-template-columns:repeat(2,1fr)}.unet-layout{grid-template-columns:1fr}.result-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.topbar{padding:0 7px;overflow:hidden}.edition{display:none}.topbar-left{gap:4px;min-width:0;flex:1;white-space:nowrap}.topbar-left .mobile-menu{flex:0 0 auto;height:32px;line-height:1;padding:5px 6px;white-space:nowrap}.brand{font-size:0;white-space:nowrap}.brand:after{content:"KYDW";font-size:12px}.tools{gap:2px;flex-shrink:0}.tools button,.site-return{padding:5px 5px;font-size:11px;white-space:nowrap}.hero{padding:27px 23px}.lesson{padding:23px 18px}.visual-pipeline,.two-col,.formula-grid,.extension-grid,.metric-layout,.reference-strip{grid-template-columns:1fr}.reference-strip img{width:145px;height:145px}.visual-controls{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr}.patient-row{grid-template-columns:78px repeat(6,minmax(30px,1fr));min-width:460px}}
+@media(max-width:700px){.topbar{padding:0 7px;overflow:hidden}.edition{display:none}.topbar-left{gap:4px;min-width:0;flex:1;white-space:nowrap}.topbar-left .mobile-menu{flex:0 0 auto;height:32px;line-height:1;padding:5px 6px;white-space:nowrap}.brand{font-size:0;white-space:nowrap}.brand:after{content:"KYDW";font-size:12px}.tools{gap:2px;flex-shrink:0}.tools button,.site-return{padding:5px 5px;font-size:11px;white-space:nowrap}.hero{padding:27px 23px}.lesson{padding:23px 18px}.visual-pipeline,.two-col,.formula-grid,.extension-grid,.metric-layout,.reference-strip,.mri-foundation-grid{grid-template-columns:1fr}.reference-strip img{width:145px;height:145px}.mri-foundation-card img{height:220px}.visual-controls{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr}.patient-row{grid-template-columns:78px repeat(6,minmax(30px,1fr));min-width:460px}}
 </style>
 <style>
 .orientation-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px}.orientation-strip span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 11px;font-size:14px}.orientation-strip b{color:#d7f0f4;font-size:18px}.orientation-note{margin:12px 0 0!important;font-size:14px!important;color:#e0f0f4!important}
@@ -193,6 +195,7 @@ details p,details ul{padding:0 15px 12px;margin:0}
   <aside class="sidebar">
     <div class="side-title">二维分割主路径</div>
     <a href="#start">入口：四个视觉阶段</a>
+    <a href="#foundation">MRI 图像基础</a>
     <a href="#pairing">1. 配对切片</a>
     <a href="#binary">2. 二值 mask</a>
     <a href="#split">3. 患者级划分</a>
@@ -216,6 +219,54 @@ details p,details ul{padding:0 15px 12px;margin:0}
           <span>MRI 切片</span><b>→</b><span>配对 mask</span><b>→</b><span>患者级划分</span><b>→</b><span>TinyUNet</span><b>→</b><span>Dice / IoU</span>
         </div>
         <p class="orientation-note">先确认输入图像和区域答案属于同一位置，再看数据怎样进入网络，最后用图像和指标一起检查分割结果。</p>
+      </section>
+
+      <section class="lesson" id="foundation">
+        <h2>MRI 图像基础：先认识信号、序列和空间</h2>
+        <div class="lead">进入分割实践前，先把 MRI 图像当作一种测量结果来读：组织在磁场和射频作用下产生信号，序列参数决定哪些差异更突出，连续切片共同记录一个三维对象。后面的图像配对、mask 和模型输入都建立在这三点上。</div>
+
+        <h3>MRI 灰度来自组织与采集条件的共同作用</h3>
+        <p>人体水和脂肪中含有大量氢原子。患者进入主磁场后，氢核的集体磁化形成可测量的方向；射频脉冲改变磁化状态，脉冲停止后，纵向磁化逐渐恢复，横向磁化逐渐衰减，接收线圈记录这一过程中的信号。T1 描述纵向恢复的时间尺度，T2 描述横向信号衰减的时间尺度。</p>
+        <p>梯度磁场让不同空间位置的氢核获得不同的频率或相位，采集到的信号经过空间编码和重建后才形成图像。图像上的一个位置因此对应患者身体中的一个空间位置，后续的体素、切片和 mask 都沿用这套空间关系。</p>
+        <p>屏幕上的亮暗由组织性质、脉冲序列、重复时间、回波时间、接收线圈、重建和预处理共同决定。MRI 灰度没有像 CT 那样可直接跨设备比较的固定绝对单位，同一组织在不同序列或不同扫描条件下可以呈现不同亮度。阅读图像时，灰度需要和序列名称、空间位置一起理解。</p>
+        <div class="foundation-chain" aria-label="MRI 信号形成过程">
+          <span>组织中的氢核</span><b>→</b><span>主磁场与射频脉冲</span><b>→</b><span>弛豫信号</span><b>→</b><span>空间编码</span><b>→</b><span>灰度图像</span>
+        </div>
+        <div class="mri-foundation-grid">
+          <figure class="mri-foundation-card">
+            <img src="../assets/experience/mri-t1.jpg" alt="T1 加权轴位脑 MRI 图像示例" loading="lazy">
+            <figcaption><strong>T1 加权图像：</strong>脑脊液通常较暗，解剖结构对比清楚；它常作为观察脑部基础结构的入口。</figcaption>
+          </figure>
+          <figure class="mri-foundation-card">
+            <img src="../assets/experience/mri-t2.jpg" alt="T2 加权轴位脑 MRI 图像示例" loading="lazy">
+            <figcaption><strong>T2 加权图像：</strong>含水量较高的区域通常更亮，脑脊液和部分病变的对比方式随之改变。</figcaption>
+          </figure>
+        </div>
+
+        <h3>不同序列在同一位置提供不同线索</h3>
+        <p>脑肿瘤影像通常同时查看多种序列。它们对应同一解剖位置，却对组织含水量、血脑屏障、结构边界和病变内部成分的敏感性不同。多序列的价值来自这些互补对比，前提是各序列经过正确配准，使相同数组位置仍对应同一解剖位置。</p>
+        <table class="mini-table">
+          <thead><tr><th>序列</th><th>图像中主要观察的线索</th><th>在分割中的作用</th></tr></thead>
+          <tbody>
+            <tr><td>T1</td><td>基础解剖结构，脑脊液通常较暗。</td><td>提供脑组织边界和整体结构参照。</td></tr>
+            <tr><td>T1 增强</td><td>对比剂进入血脑屏障受损区域后可能形成高信号。</td><td>辅助观察强化肿瘤区域，强化表现需要结合其他序列和标签定义。</td></tr>
+            <tr><td>T2</td><td>含水量增加的组织常呈较高信号。</td><td>辅助观察肿瘤、水肿和其他含水量变化。</td></tr>
+            <tr><td>FLAIR</td><td>抑制自由脑脊液信号，同时保留脑实质异常含水区域的对比。</td><td>常用于观察瘤周异常范围和水肿相关区域。</td></tr>
+          </tbody>
+        </table>
+
+        <h3>一组二维切片共同组成三维体数据</h3>
+        <p>医学影像查看器可以在轴位、冠状位和矢状位之间切换。三种视图来自同一个三维体，每一张二维图只是沿某个方向截取的一层。数组中的一个采样位置称为体素；数组形状记录每个方向有多少个采样位置，体素间距记录相邻位置在真实空间中相距多少毫米。DICOM 和 NIfTI 等医学图像文件还会保存体素间距、空间方向和患者坐标等信息。</p>
+        <div class="two-col">
+          <div class="card"><strong>数组形状</strong><p><code>240×240×155</code> 表示三个方向分别有 240、240 和 155 个采样位置。切片数量和图像宽高属于数组层面的信息。</p></div>
+          <div class="card"><strong>体素间距与方向</strong><p><code>1×1×5 mm</code> 表示第三个方向更稀疏。体积、距离和三维模型的上下文都要结合体素间距与空间方向理解。</p></div>
+        </div>
+        <p>当前体验实践从一张二维、单通道灰度切片开始，使用 <code>[1,H,W]</code> 的输入形状降低第一次操作的复杂度。理解三维体数据后，就能看出这个设置对应的是一条清晰的二维练习路径；多序列、三维输入和多区域标签会在后续内容中逐步展开。</p>
+
+        <h3>分割标签把影像区域写成可计算的 mask</h3>
+        <p>分类给整张图一个答案，分割给每个像素或体素一个空间答案。二分类 mask 中，背景记为 0，目标区域记为 1；多区域任务还可以分别标记水肿、肿瘤核心和强化肿瘤。标签的医学定义决定了模型究竟要画出哪一部分，图像与 mask 必须保持相同的宽高、方向和坐标关系。</p>
+        <p>脑肿瘤内部可能同时存在强化区、非强化肿瘤、坏死、囊变和水肿；增强表现与对比剂进入组织有关，水肿又常在 T2 或 FLAIR 中更明显。体验版把这些复杂情况压缩为一张灰度切片和一个二值前景区域，先练习“输入图像—对应标签—预测区域”的基本关系，再进入网络和指标。</p>
+        <div class="note"><strong>把基础认识带入实践：</strong>打开下一节时，先确认 image 与 mask 是同一空间位置的两份记录；看到 mask 时，记住它表达的是本次任务规定的区域；看到模型输出时，再观察它是否保留了原图中的位置和边界。</div>
       </section>
 
       <section class="lesson" id="visual">
@@ -480,8 +531,7 @@ i=(inter+1e-6)/(union+1e-6)</pre>
       <section class="lesson" id="run">
         <h2>6. Notebook 中的最小训练闭环</h2>
          <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互图示用于理解配对、分割和评价指标的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；训练曲线、Dice、IoU、空 mask 统计和预测图以你的实际运行输出为准。</div>
-         <p>Kaggle Notebook 是首选运行入口。打开公开 Notebook 后点击“复制并编辑”，在自己的账户中逐步运行、补全 TODO、观察 shape 和图像输出；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。</p>
-         <div class="kaggle-entry"><a href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01" target="_blank" rel="noopener">在 Kaggle 中复制并运行项目 01</a><span>先保存副本，再按单元格顺序完成配对、网络、训练和评价。</span></div>
+         <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会说明配对、网络、训练和评价中的填写位置与检查方式，实际运行在 Kaggle 中完成；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。</p>
          <table class="shape-table"><thead><tr><th>任务</th><th>填写位置</th><th>依据与检查</th></tr></thead><tbody>
            <tr><td>1 数据核对</td><td><code>TODO 1</code>：<code>patient_count</code>、<code>positive_masks</code>、<code>empty_ratio</code></td><td>根据 <code>pairs</code> 和每个 mask 的像素内容统计；随机查看 MRI、mask、overlay 是否同位置。</td></tr>
            <tr><td>2 Dice</td><td><code>TODO 2</code>：阈值化、交集、预测面积和真实面积</td><td>先把概率图按 <code>threshold</code> 变成 0/1；用简单的全零和完全相同输入检查边界。</td></tr>

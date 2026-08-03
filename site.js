@@ -750,7 +750,7 @@
           }
         });
         const sections = [...parsed.querySelectorAll(".page-intro, .page")];
-        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、分析过程和已保存的实际结果。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
+        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、分析过程和已保存的实际结果。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
       } else {
         const notebook = await response.json();
         let referenceResults = referenceResultsFromAssets(project);
@@ -785,11 +785,12 @@
     const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => {
       const tierText = options.locked ? "进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。" : text;
       const practiceOptions = { locked: options.locked, external: /^https?:/i.test(practiceLink || ""), actions: options.practiceActions || [] };
-      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [] })}</div></article>`;
+      const answerExternalActions = options.referenceKaggle ? [{ label: "查看 Kaggle 运行标准答案", href: options.referenceKaggle }] : [];
+      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [], externalActions: answerExternalActions })}</div></article>`;
     };
     const projectContent = project.single
-      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
-      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
+      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer, { referenceKaggle: project.kaggleReference })
+      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer, { referenceKaggle: project.kaggleReference })}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
     const learningGuide = project.single
       ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用实践项目参考答案核对代码与分析过程。</p></article>`
       : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。体验版不要求提交报告。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
