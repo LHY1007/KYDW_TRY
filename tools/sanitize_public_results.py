@@ -22,7 +22,7 @@ def main() -> None:
     a00 = load(a00_path)
     a00.pop("dataset_root", None)
     a00.pop("run_profile", None)
-    a00["data_source_note"] = "MNIST / torchvision 数据集的真实参考运行。"
+    a00["data_source_note"] = "MNIST / torchvision 数据集的参考结果。"
     save(a00_path, a00)
 
     a02_path = ROOT / "experience/assets/results/project-03/task2_pytorch_result.json"

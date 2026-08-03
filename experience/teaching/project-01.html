@@ -334,7 +334,7 @@ L(θ) = (1 / m) Σᵢ ℓ(ŷᵢ, yᵢ)
 <p>模型在训练集上减少损失，称为经验风险最小化。训练样本来自总体分布的有限抽样，研究目标是让模型在总体中的新样本上保持低误差。训练表现与测试表现之间的差距反映泛化问题。</p>
 <div class="miniapp" id="app00lr">
 <div class="miniapp-title">学习率如何改变参数更新</div>
-<div class="miniapp-sub">三条参考轨迹保持数据、网络和划分不变，只改变学习率；图中按 20 轮绘制，方便看出更新步长的差异。Notebook 的基础设置为 20 轮，学习率为 <code>1e-3</code>。</div>
+<div class="miniapp-sub">三条参考轨迹保持数据、网络和划分不变，只改变学习率，方便比较不同更新步长的差异。Notebook 的基础学习率为 <code>1e-3</code>。</div>
 <div class="real-data-note">阅读重点：学习率决定每次参数更新的步长。页面曲线用于理解变化趋势；你的训练损失、验证准确率和测试结果从 Kaggle 输出文件读取。</div>
 <div class="miniapp-grid">
 <div class="panel">
@@ -535,10 +535,10 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <section class="lesson" id="practice">
 <h2>9. 实践项目：MNIST 手写数字分类</h2>
 <div class="lecture-open">实践部分把本章内容落实到一次可运行的 MNIST 十分类实验。Notebook 已经给出主要结构，需要补上数据检查、训练计算、结果评价和结果保存。</div>
-<div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互组件用于理解像素、shape、Softmax、卷积与指标之间的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；准确率、F1、混淆矩阵、噪声下降和对照实验结果以你的实际运行输出为准。</div>
+<div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互组件用于理解像素、shape、Softmax、卷积与指标之间的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；准确率、F1、混淆矩阵、噪声下降和对照实验结果以你的输出为准。</div>
 <div class="aligned-detail">
 <h3>从实践项目页面开始</h3>
-<p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会标明需要填写的代码或文字位置、填写依据和检查方法，实际运行在 Kaggle 中完成；下载 Notebook 到电脑运行是补充路径。</p>
+<p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会标明需要填写的代码或文字位置、填写依据和检查方法，实践在 Kaggle 中完成；下载 Notebook 到电脑运行是补充路径。</p>
 <p>Notebook 会优先读取 Kaggle 中的 MNIST / Digit Recognizer 数据；没有挂载数据时再尝试 torchvision MNIST，最后的 sklearn digits 回退数据用于环境检查。完成实践时，在 <code>task0_result.json</code> 中确认 <code>dataset_name</code> 表示 MNIST。</p>
 </div>
 <table class="mini-table"><thead><tr><th>任务</th><th>填写位置</th><th>填写依据与检查</th></tr></thead><tbody>
@@ -570,11 +570,11 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <div class="files"><strong>需要保存的结果：</strong><code>task0_data_visualization.png</code><code>task0_input_prediction_comparison.png</code><code>task0_training_curve.png</code><code>task0_confusion_matrix.png</code><code>task0_result.json</code></div>
 </div>
 <div class="reference-output">
-<h3>20 轮真实运行结果</h3>
-<p>下面的图像和指标来自同一轮 MNIST 测试运行，用来对照输入、预测、训练过程和噪声评价。</p>
+<h3>结果对照</h3>
+<p>下面的图像和指标用于对照输入、预测、训练过程和噪声评价。</p>
 <div class="two-col">
 <figure class="figure"><img src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="MNIST 测试输入、真实标签与模型预测对比" loading="lazy"><figcaption>测试输入、真实标签和模型预测对比。</figcaption></figure>
-<figure class="figure"><img src="../assets/results/project-01/task0_training_curve.png" alt="MNIST 20 轮训练曲线" loading="lazy"><figcaption>20 轮训练损失、验证损失与验证准确率。</figcaption></figure>
+<figure class="figure"><img src="../assets/results/project-01/task0_training_curve.png" alt="MNIST 训练曲线" loading="lazy"><figcaption>训练损失、验证损失与验证准确率。</figcaption></figure>
 </div>
 <p class="source-note">测试准确率 0.9897，测试 macro-F1 0.98965；加入标准差 0.25 的高斯噪声后，准确率为 0.9771，下降 0.0126。</p>
 </div>
@@ -655,7 +655,7 @@ ${terms.slice(6,9).join(' + ')}
  $('kernel00').onchange=render;slider.oninput=render;$('convPrev00').onclick=()=>{slider.value=Math.max(0,+slider.value-1);render()};$('convNext00').onclick=()=>{slider.value=Math.min(35,+slider.value+1);render()};render();
 }
 // 00 learning curves
-const lrData=JSON.parse(document.body.dataset.lr00||'{}');if($('lrSel00')){function r(){let d=lrData[$('lrSel00').value];linePlot($('lrCanvas00'),[{name:'loss',values:d.loss,color:'#7b4ba3'},{name:'accuracy',values:d.acc,min:0,max:1,color:'#1e8d78'}]);$('lrFinalLoss00').textContent=d.loss.at(-1).toFixed(3);$('lrFinalAcc00').textContent=(d.acc.at(-1)*100).toFixed(1)+'%';let e=d.acc.findIndex(x=>x>=.8);$('lrSpeed00').textContent=e<0?'未达到':String(e+1);$('lrText00').textContent=$('lrSel00').value==='0.001'?'更新过小，20 轮后仍在缓慢学习。':$('lrSel00').value==='0.1'?'本数据上收敛很快，但更复杂任务中大步长也可能产生震荡。':'较平稳地下降，并逐步提高验证准确率。'}$('lrSel00').onchange=r;r()}
+const lrData=JSON.parse(document.body.dataset.lr00||'{}');if($('lrSel00')){function r(){let d=lrData[$('lrSel00').value];linePlot($('lrCanvas00'),[{name:'loss',values:d.loss,color:'#7b4ba3'},{name:'accuracy',values:d.acc,min:0,max:1,color:'#1e8d78'}]);$('lrFinalLoss00').textContent=d.loss.at(-1).toFixed(3);$('lrFinalAcc00').textContent=(d.acc.at(-1)*100).toFixed(1)+'%';let e=d.acc.findIndex(x=>x>=.8);$('lrSpeed00').textContent=e<0?'未达到':String(e+1);$('lrText00').textContent=$('lrSel00').value==='0.001'?'更新过小，继续训练后仍在缓慢学习。':$('lrSel00').value==='0.1'?'本数据上收敛很快，但更复杂任务中大步长也可能产生震荡。':'较平稳地下降，并逐步提高验证准确率。'}$('lrSel00').onchange=r;r()}
 const noiseA=JSON.parse(document.body.dataset.noise00||'{}');if($('noiseSlider00')){function r(){let i=+$('noiseSlider00').value;$('noiseVal00').textContent=noiseA.levels[i].toFixed(2);$('noiseAcc00').textContent=(noiseA.acc[i]*100).toFixed(1)+'%';linePlot($('noisePlot00'),[{name:'accuracy',values:noiseA.acc,min:.5,max:1,color:'#1e8d78'}],i)}$('noiseSlider00').oninput=r;r()}
 // 01 MRI blend
 if($('mriBlend01')){function r(){let v=+$('mriBlend01').value;$('mriTop01').style.opacity=v/100;$('mriText01').innerHTML=v<35?'<b>更接近 T1：</b>脑脊液通常较暗，解剖结构对比以 T1 特征为主。':v>65?'<b>更接近 T2：</b>含水较多的区域通常更亮，脑脊液信号明显。':'两幅图同时可见，能够直观看到不同序列对同一结构的对比方式不同。'}$('mriBlend01').oninput=r;r()}

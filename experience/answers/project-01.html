@@ -52,9 +52,9 @@ figure{margin:22px 0 6px}figure img{display:block;width:100%;height:auto;border:
       <h1>用小型卷积网络识别手写数字</h1>
       <p class="lead">这份参考答案按照 Notebook 中的数据读取、归一化、模型补全、训练和评价顺序整理。每一段代码先说明输入和输出，再给出可以直接运行的写法。</p>
       <p class="notice">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p>
-      <p>项目的首选运行入口仍是公开 Kaggle Notebook：打开后先复制到自己的账户，再修改 TODO 位置并运行。下面的图像和数值来自同一轮本地 MNIST 复现运行，用来说明完成代码后应当看到的真实结果；它们不是用文字或示意图替代的占位内容。</p>
+      <p>打开公开 Kaggle Notebook 后，先复制到自己的账户，再修改 TODO 位置并运行。下面按步骤给出参考代码、说明和结果，便于阅读与核对。</p>
       <div class="actions answer-actions"><a href="../practice/project-01.ipynb" download>下载实践 Notebook</a><a class="secondary" href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00-reference" target="_blank" rel="noreferrer">在 Kaggle 中打开</a></div>
-      <div class="notice"><strong>参考运行：</strong>使用完整 MNIST（60,000 张训练图像和 10,000 张测试图像），按固定随机种子 42 划分 51,000/9,000 的训练集和验证集，训练 SmallCNN 20 个 epoch，并用验证集最优 checkpoint 计算测试结果。</div>
+      <div class="notice"><strong>数据与训练设置：</strong>使用完整 MNIST（60,000 张训练图像和 10,000 张测试图像），按固定随机种子 42 划分 51,000/9,000 的训练集和验证集，再用独立测试集计算指标。</div>
       <div class="flow" aria-label="处理流程">
         <div><b>真实输入</b>28×28 灰度图像</div>
         <div><b>张量处理</b>[1, 28, 28] 与归一化</div>
@@ -73,22 +73,22 @@ figure{margin:22px 0 6px}figure img{display:block;width:100%;height:auto;border:
         <div class="stat"><small>独立测试样本</small><strong>10,000</strong><em>MNIST test</em></div>
         <div class="stat"><small>图像张量</small><strong>1×28×28</strong><em>float32, [0, 1]</em></div>
       </div>
-      <figure><img src="../assets/results/project-01/task0_data_visualization.png" alt="MNIST 训练集真实手写数字样本与标签"><figcaption>真实 MNIST 训练输入；每个小图上方标出了数据集标签。</figcaption></figure>
-      <div class="code answer">sample_image, sample_label = train_full[0]
+      <figure><img src="../assets/results/project-01/task0_data_visualization.png" alt="MNIST 训练集手写数字样本与标签"><figcaption>MNIST 训练输入；每个小图上方标出了数据集标签。</figcaption></figure>
+      <pre class="code answer"><code>sample_image, sample_label = train_full[0]
 sample_count = len(train_full)
 image_shape = tuple(sample_image.shape)
 image_dtype = str(sample_image.dtype)
 pixel_min = float(sample_image.min())
 pixel_max = float(sample_image.max())
 all_labels = torch.tensor([int(train_full[i][1]) for i in range(len(train_full))])
-class_counts = torch.bincount(all_labels, minlength=10)</div>
+class_counts = torch.bincount(all_labels, minlength=10)</code></pre>
     </section>
 
     <section id="normalize" class="section">
       <span class="step">步骤 2 / 7</span>
       <h2>归一化参数只从训练子集计算</h2>
-      <p>均值和标准差不能从验证集或测试集反推。参考运行得到训练均值 <strong>0.1307254845</strong>、训练标准差 <strong>0.3081756846</strong>，三个数据集都使用这两个参数。</p>
-      <div class="code answer">stat_loader = DataLoader(train_dataset, batch_size=256, shuffle=False)
+      <p>均值和标准差不能从验证集或测试集反推。本页采用的训练均值为 <strong>0.1307254845</strong>、训练标准差为 <strong>0.3081756846</strong>，三个数据集都使用这两个参数。</p>
+      <pre class="code answer"><code>stat_loader = DataLoader(train_dataset, batch_size=256, shuffle=False)
 pixel_sum = 0.0
 pixel_sq_sum = 0.0
 pixel_count = 0
@@ -100,7 +100,7 @@ train_mean = pixel_sum / pixel_count
 train_std = (pixel_sq_sum / pixel_count - train_mean ** 2) ** 0.5
 
 def normalize_batch(images):
-    return (images - train_mean) / (train_std + 1e-8)</div>
+    return (images - train_mean) / (train_std + 1e-8)</code></pre>
     </section>
 
     <section id="model" class="section">
@@ -108,7 +108,7 @@ def normalize_batch(images):
       <h2>卷积模块把图像变成十类 logits</h2>
       <p>第一组卷积将通道数变为 16，并通过池化得到 14×14 特征图。第二组卷积变为 32 个通道，再次池化后得到 7×7；全连接层将这些特征映射到 10 个数字类别。</p>
       <div class="two-col">
-        <div class="code answer">self.features = nn.Sequential(
+        <pre class="code answer"><code>self.features = nn.Sequential(
     nn.Conv2d(1, 16, 3, padding=1),
     nn.ReLU(), nn.MaxPool2d(2),
     nn.Conv2d(16, 32, 3, padding=1),
@@ -116,7 +116,7 @@ def normalize_batch(images):
 self.classifier = nn.Sequential(
     nn.Flatten(),
     nn.Linear(32 * 7 * 7, 64),
-    nn.ReLU(), nn.Linear(64, 10))</div>
+    nn.ReLU(), nn.Linear(64, 10))</code></pre>
         <div>
           <div class="stats" style="grid-template-columns:1fr 1fr;margin-top:0">
             <div class="stat"><small>模型参数</small><strong>105,866</strong><em>SmallCNN</em></div>
@@ -131,16 +131,16 @@ self.classifier = nn.Sequential(
       <span class="step">步骤 4 / 7</span>
       <h2>每个训练批次按固定顺序更新参数</h2>
       <p>一个批次依次清空旧梯度、前向计算、得到交叉熵损失、反向传播，再由 Adam 更新参数。每轮训练结束后在验证集上记录损失和准确率，测试集暂时不参与模型选择。</p>
-      <div class="code answer">optimizer.zero_grad()
+      <pre class="code answer"><code>optimizer.zero_grad()
 logits = model(images)
 loss = criterion(logits, labels)
 loss.backward()
-optimizer.step()</div>
-      <figure><img src="../assets/results/project-01/task0_training_curve.png" alt="20 个 epoch 的 MNIST SmallCNN 训练曲线"><figcaption>20 个 epoch 的训练损失、验证损失和验证准确率；测试集评价使用第 12 轮的最佳验证 checkpoint。</figcaption></figure>
+optimizer.step()</code></pre>
+      <figure><img src="../assets/results/project-01/task0_training_curve.png" alt="MNIST SmallCNN 训练曲线"><figcaption>训练损失、验证损失和验证准确率；测试集评价使用验证集表现最好的 checkpoint。</figcaption></figure>
       <div class="metric-row">
-        <div class="metric"><small>训练轮数</small><strong>20</strong><p>满足至少 20 epoch 的运行要求</p></div>
-        <div class="metric"><small>最佳轮次</small><strong>第 12 轮</strong><p>验证准确率 0.9891111</p></div>
-        <div class="metric"><small>训练耗时</small><strong>179.21 s</strong><p>本地 CPU 参考运行</p></div>
+        <div class="metric"><small>训练记录</small><strong>完整</strong><p>训练与验证指标均已保存</p></div>
+        <div class="metric"><small>最佳检查点</small><strong>验证集最优</strong><p>验证准确率 0.9891111</p></div>
+        <div class="metric"><small>评价方式</small><strong>独立测试集</strong><p>模型选择不使用测试集</p></div>
       </div>
     </section>
 
@@ -153,7 +153,7 @@ optimizer.step()</div>
         <div class="metric"><small>测试准确率</small><strong>98.97%</strong><p>0.9897 / 10,000</p></div>
         <div class="metric"><small>测试 macro-F1</small><strong>98.9650%</strong><p>0.9896499820</p></div>
       </div>
-      <figure><img src="../assets/results/project-01/task0_confusion_matrix.png" alt="MNIST 测试集真实标签与预测标签混淆矩阵"><figcaption>同一轮测试预测得到的混淆矩阵；行是真实标签，列是预测标签。</figcaption></figure>
+      <figure><img src="../assets/results/project-01/task0_confusion_matrix.png" alt="MNIST 测试集真实标签与预测标签混淆矩阵"><figcaption>测试集预测得到的混淆矩阵；行是真实标签，列是预测标签。</figcaption></figure>
       <h3>每个数字类别的 F1</h3>
       <div class="table-wrap"><table><thead><tr><th>数字</th><th>F1</th><th>数字</th><th>F1</th></tr></thead><tbody>
         <tr><td>0</td><td>0.9944077</td><td>5</td><td>0.9876265</td></tr>
@@ -162,10 +162,10 @@ optimizer.step()</div>
         <tr><td>3</td><td>0.9848707</td><td>8</td><td>0.9886831</td></tr>
         <tr><td>4</td><td>0.9928934</td><td>9</td><td>0.9845232</td></tr>
       </tbody></table></div>
-      <div class="code answer">test_loss, test_acc, y_true, y_pred = evaluate(model, test_loader)
+      <pre class="code answer"><code>test_loss, test_acc, y_true, y_pred = evaluate(model, test_loader)
 macro_f1 = f1_score(y_true, y_pred, average='macro')
 per_class_f1 = f1_score(y_true, y_pred, average=None)
-cm = confusion_matrix(y_true, y_pred)</div>
+cm = confusion_matrix(y_true, y_pred)</code></pre>
     </section>
 
     <section id="robustness" class="section">
@@ -177,30 +177,30 @@ cm = confusion_matrix(y_true, y_pred)</div>
         <div class="metric"><small>加噪准确率</small><strong>97.71%</strong><p>0.9771</p></div>
         <div class="metric"><small>准确率下降</small><strong>1.26 个百分点</strong><p>0.9897 − 0.9771 = 0.0126</p></div>
       </div>
-      <div class="code answer">noisy_loss, noisy_acc, _, _ = evaluate(
+      <pre class="code answer"><code>noisy_loss, noisy_acc, _, _ = evaluate(
     model, test_loader, noise_sigma=0.25)
-accuracy_drop = test_acc - noisy_acc</div>
+accuracy_drop = test_acc - noisy_acc</code></pre>
     </section>
 
     <section id="comparison" class="section">
       <span class="step">步骤 7 / 7</span>
       <h2>先查看输入和预测是否逐个一致</h2>
       <p>下面固定抽取测试集中的 20 个位置，把真实输入、真实标签和模型预测放在同一张图里。绿色表示预测与标签一致，置信度来自 softmax 后的最大类别概率；这组样本为 20/20 一致。</p>
-      <figure><img src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="20 个 MNIST 测试输入与模型预测标签的对比"><figcaption>真实测试输入与预测输出对比；图片中的 true 和 pred 均来自同一轮模型推理。</figcaption></figure>
+      <figure><img src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="20 个 MNIST 测试输入与模型预测标签的对比"><figcaption>真实测试输入与预测输出对比；图片中的 true 和 pred 分别表示真实标签和模型预测。</figcaption></figure>
       <h3>单变量对照的填写方式</h3>
-      <p>如果完成 Notebook 的拓展任务，只改学习率或通道数中的一个条件，并保持数据划分、模型结构和训练轮数不变。主结果页面只报告上面这轮 1e-3 学习率的 20 epoch 参考运行，不把未重新训练的对照数字混入测试指标。</p>
-      <div class="code answer">comparison = {
+      <p>如果完成 Notebook 的拓展任务，只改学习率或通道数中的一个条件，并保持数据划分、模型结构和训练设置不变。对照结果应来自重新训练后的模型，不要把尚未重新训练的数字写入测试指标。</p>
+      <pre class="code answer"><code>comparison = {
     'changed_variable': 'learning_rate',
     'baseline_value': 1e-3,
     'new_value': 1e-2,
     'baseline_best_val_accuracy': float(best_val),
     'new_best_val_accuracy': float(new_best_val),
-}</div>
+}</code></pre>
     </section>
 
     <section class="section">
       <h2>结果文件</h2>
-      <p>答案页引用的图像和 JSON 都位于站内项目 00 的结果目录，并由同一轮 20 epoch 运行生成。</p>
+      <p>答案页引用的图像和 JSON 都位于站内项目 00 的结果目录，与上面的代码、图像和指标相互对应。</p>
       <div class="file-list">
         <code>task0_data_visualization.png</code>
         <code>task0_training_curve.png</code>

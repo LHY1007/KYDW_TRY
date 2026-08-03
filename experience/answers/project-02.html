@@ -20,13 +20,13 @@ h1,h2,h3{line-height:1.35;color:#173d5b}h1{margin-top:0}h2{padding-bottom:.35em;
 <header class="top"><b>实践项目参考答案 01</b><span>逐步解析与参考答案</span><a class="site-return" href="../project-02.html">返回项目详情</a></header>
 <div class="layout">
 <nav class="nav" aria-label="答案步骤">
-<button>1. 图像与 mask 配对</button><button>2. 患者级划分</button><button>3. Dice 函数</button><button>4. U-Net 卷积块</button><button>5. 训练更新</button><button>6. 阈值选择</button><button>7. 实际运行结果</button>
+<button>1. 图像与 mask 配对</button><button>2. 患者级划分</button><button>3. Dice 函数</button><button>4. U-Net 卷积块</button><button>5. 训练更新</button><button>6. 阈值选择</button><button>7. 结果与对比</button>
 </nav>
 <main class="main">
 <section class="page-intro card">
 <h1>实践项目参考答案 01：MRI 脑肿瘤图像分割</h1>
 <p>本实践读取配对的 MRI 切片与 FLAIR 异常区域 mask，按患者划分训练、验证和测试数据，再用轻量 U-Net 预测肿瘤区域。</p>
-<p>参考实现保留了从数据核对、患者级划分、损失函数到阈值评价的完整顺序。实际运行结果放在第 7 步，图中的 MRI、真实 mask、预测 mask 和对比颜色来自同一次测试运行。</p>
+<p>参考实现按照数据核对、患者级划分、损失函数、阈值评价和结果对比的顺序整理。第 7 步集中展示 MRI、真实 mask、预测 mask 以及 TP、FP、FN 对比图。</p>
 <p class="muted">参考答案用于核对思路与输出，不要求代码写法逐字相同。参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p>
 <div class="actions answer-actions"><a href="../practice/project-02.ipynb" download>下载实践 Notebook</a><a class="secondary" href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01-reference" target="_blank" rel="noreferrer">在 Kaggle 中打开</a></div>
 </section>
@@ -34,33 +34,33 @@ h1,h2,h3{line-height:1.35;color:#173d5b}h1{margin-top:0}h2{padding-bottom:.35em;
 <section class="page">
 <span class="tag">步骤 1/7</span><h1>图像与 mask 配对</h1>
 <p>数据集中每个 mask 文件名只比 MRI 多出 <code>_mask</code>。删除这个后缀并确认对应文件存在，就能建立一一配对；患者编号从上级文件夹读取。</p>
-<div class="card answer"><h2>参考答案</h2><pre class="code">mask_paths=[p for p in ROOT.glob('**/*_mask.tif')]
+<div class="card answer"><h2>参考答案</h2><pre class="code"><code>mask_paths=[p for p in ROOT.glob('**/*_mask.tif')]
 pairs=[]
 for mask_path in mask_paths:
     image_path=Path(str(mask_path).replace('_mask',''))
     if image_path.exists():
         patient=mask_path.parent.name
         pairs.append((image_path,mask_path,patient))
-assert pairs</pre></div>
+assert pairs</code></pre></div>
 </section>
 
 <section class="page">
 <span class="tag">步骤 2/7</span><h1>患者级划分</h1>
 <p>同一患者的切片必须进入同一个集合。先按患者编号切分，再在训练部分划出验证集，可以避免同一患者的相邻切片同时出现在训练和测试中。</p>
-<div class="card answer"><h2>参考答案</h2><pre class="code">groups=np.array([patient for _,_,patient in pairs])
+<div class="card answer"><h2>参考答案</h2><pre class="code"><code>groups=np.array([patient for _,_,patient in pairs])
 idx=np.arange(len(pairs))
 gss=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=42)
 train_val,test_idx=next(gss.split(idx,groups=groups))
 gss2=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=42)
 tr_rel,va_rel=next(gss2.split(train_val,groups=groups[train_val]))
 train_idx=train_val[tr_rel]
-val_idx=train_val[va_rel]</pre></div>
+val_idx=train_val[va_rel]</code></pre></div>
 </section>
 
 <section class="page">
 <span class="tag">步骤 3/7</span><h1>Dice 函数同时支持训练和评价</h1>
 <p>训练时使用概率图计算 soft Dice；评价时先用阈值把概率图变成二值预测。正样本 Dice 单独统计真实 mask 非空的切片，避免大量空 mask 把模型的空预测误读成高分。</p>
-<div class="card answer"><h2>参考答案</h2><pre class="code">def dice_score(prob,target,threshold=.5,eps=1e-6):
+<div class="card answer"><h2>参考答案</h2><pre class="code"><code>def dice_score(prob,target,threshold=.5,eps=1e-6):
     pred=(prob&gt;=threshold).float()
     dims=tuple(range(1,pred.ndim))
     inter=(pred*target).sum(dims)
@@ -69,23 +69,23 @@ val_idx=train_val[va_rel]</pre></div>
 def soft_dice_score(prob,target,eps=1e-6):
     dims=tuple(range(1,prob.ndim))
     inter=(prob*target).sum(dims)
-    return (2*inter+eps)/(prob.sum(dims)+target.sum(dims)+eps)</pre></div>
+    return (2*inter+eps)/(prob.sum(dims)+target.sum(dims)+eps)</code></pre></div>
 </section>
 
 <section class="page">
 <span class="tag">步骤 4/7</span><h1>U-Net 卷积块提取局部和整体特征</h1>
 <p>编码器逐步压缩空间尺寸并扩大通道数，解码器用转置卷积恢复分辨率；跳跃连接把浅层的边界信息传给解码器。每个卷积块执行两次卷积、归一化和 ReLU。</p>
-<div class="card answer"><h2>参考答案</h2><pre class="code">self.block=nn.Sequential(
+<div class="card answer"><h2>参考答案</h2><pre class="code"><code>self.block=nn.Sequential(
     nn.Conv2d(cin,cout,3,padding=1,bias=False),
     nn.GroupNorm(8,cout),nn.ReLU(inplace=True),
     nn.Conv2d(cout,cout,3,padding=1,bias=False),
-    nn.GroupNorm(8,cout),nn.ReLU(inplace=True))</pre></div>
+    nn.GroupNorm(8,cout),nn.ReLU(inplace=True))</code></pre></div>
 </section>
 
 <section class="page">
 <span class="tag">步骤 5/7</span><h1>训练更新同时照顾像素分类和区域重叠</h1>
 <p>BCEWithLogitsLoss 约束每个像素，soft Dice 直接约束预测区域与真实区域的重叠。正/空 mask 平衡采样，配合正类权重，减少模型只输出空 mask 的倾向。</p>
-<div class="card answer"><h2>参考答案</h2><pre class="code">bce=nn.BCEWithLogitsLoss(pos_weight=torch.tensor([5.0],device=DEVICE))
+<div class="card answer"><h2>参考答案</h2><pre class="code"><code>bce=nn.BCEWithLogitsLoss(pos_weight=torch.tensor([5.0],device=DEVICE))
 opt=torch.optim.AdamW(model.parameters(),lr=1e-3,weight_decay=1e-4)
 for epoch in range(20):
     opt.zero_grad(set_to_none=True)
@@ -93,21 +93,21 @@ for epoch in range(20):
     prob=torch.sigmoid(logits)
     loss=.5*bce(logits,y)+.5*(1-soft_dice_score(prob,y)).mean()
     loss.backward()
-    opt.step()</pre></div>
+    opt.step()</code></pre></div>
 </section>
 
 <section class="page">
 <span class="tag">步骤 6/7</span><h1>阈值只用验证集选择</h1>
 <p>模型输出的是 0 到 1 的概率。分别尝试候选阈值，在验证集的阳性 mask Dice 上选出一个阈值，然后固定它，只在测试集评价一次。</p>
-<div class="card answer"><h2>参考答案</h2><pre class="code">thresholds=[.25,.35,.45,.50,.55,.65,.75]
+<div class="card answer"><h2>参考答案</h2><pre class="code"><code>thresholds=[.25,.35,.45,.50,.55,.65,.75]
 val_dices={t:evaluate(val_loader,t)['positive_dice'] for t in thresholds}
 best_threshold=max(thresholds,key=val_dices.get)
-test_metrics=evaluate(test_loader,best_threshold)</pre></div>
+test_metrics=evaluate(test_loader,best_threshold)</code></pre></div>
 </section>
 
 <section class="page">
-<span class="tag">步骤 7/7</span><h1>实际运行结果显示真实标签与预测差异</h1>
-<p>本次运行使用公开 Kaggle 数据集 <code>mateuszbuda/lgg-mri-segmentation</code> 的一个唯一数据树：3,929 对 MRI–mask、110 位患者，其中 1,373 个 mask 非空，2,556 个 mask 为空。所有图像和 mask 先确认配对，再按患者级划分为训练 2,604、验证 547、测试 778 个切片；训练实际使用 600 个平衡样本（300 个阳性、300 个空 mask），训练 20 个 epoch。</p>
+<span class="tag">步骤 7/7</span><h1>结果与对比</h1>
+<p>数据来自公开 Kaggle 数据集 <code>mateuszbuda/lgg-mri-segmentation</code>：共有 3,929 对 MRI–mask、110 位患者，其中 1,373 个 mask 非空，2,556 个 mask 为空。图像和 mask 先确认配对，再按患者级划分为训练 2,604、验证 547、测试 778 个切片；训练样本从中按阳性和空 mask 平衡抽取。</p>
 <div class="metric-grid">
 <div class="metric"><small>选择阈值</small><b>0.75</b><small>验证集阳性 Dice 最高</small></div>
 <div class="metric"><small>测试阳性切片</small><b>295 / 778</b><small>真实 mask 非空</small></div>
@@ -123,9 +123,9 @@ test_metrics=evaluate(test_loader,best_threshold)</pre></div>
 </tbody></table>
 <p class="note">阳性 mask Dice/IoU 只在 295 个真实 mask 非空的测试切片上计算；pixel 指标则把全部测试像素的 TP、FP、FN 汇总后计算。对比图中绿色为 TP（重叠），红色为 FP（预测多出），蓝色为 FN（真实区域未预测）。</p>
 <figure><img src="../assets/results/project-02/task1_data_check.png" alt="真实阳性测试切片的 MRI 输入、真实 mask 与 overlay"/><figcaption>真实阳性测试配对：MRI 输入、真实 mask 以及真实 mask 的 overlay。</figcaption></figure>
-<figure><img src="../assets/results/project-02/task1_training_curve.png" alt="20 epoch 的训练和验证曲线"/><figcaption>20 个 epoch 的训练曲线；验证曲线按真实 mask 非空的切片记录 Dice 和 IoU，虚线标出最佳验证 epoch。</figcaption></figure>
+<figure><img src="../assets/results/project-02/task1_training_curve.png" alt="训练和验证曲线"/><figcaption>训练曲线；验证曲线按真实 mask 非空的切片记录 Dice 和 IoU，虚线标出验证集表现最好的位置。</figcaption></figure>
 <figure><img src="../assets/results/project-02/task1_prediction.png" alt="四组真实阳性 MRI、真实 mask、预测 mask 与 TP FP FN 对比"/><figcaption>四组真实阳性测试切片：MRI 输入、真实 mask、预测 mask 和 TP/FP/FN 编码对比。显示样本均有真实 mask，预测结果不再用空 mask 案例替代。</figcaption></figure>
-<div class="card answer"><h2>参考答案</h2><pre class="code">记录真实运行产生的 paired_slices、patient-level split、epochs、best_threshold、positive_case_dice、positive_case_iou、pixel_dice、pixel_iou、precision 和 recall；同时展示 MRI、真实 mask、预测 mask 与 TP/FP/FN 对比。</pre></div>
+<div class="card answer"><h2>结果记录</h2><p>记录 <code>paired_slices</code>、<code>patient-level split</code>、<code>epochs</code>、<code>best_threshold</code>、<code>positive_case_dice</code>、<code>positive_case_iou</code>、<code>pixel_dice</code>、<code>pixel_iou</code>、<code>precision</code> 和 <code>recall</code>，同时展示 MRI、真实 mask、预测 mask 与 TP、FP、FN 对比。</p></div>
 </section>
 </main>
 </div>

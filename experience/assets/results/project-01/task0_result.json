@@ -1,6 +1,6 @@
 {
   "dataset_name": "MNIST / torchvision",
-  "data_source_note": "MNIST / torchvision 数据集的真实参考运行。",
+  "data_source_note": "MNIST / torchvision 数据集的参考结果。",
   "random_seed": 42,
   "device": "cpu",
   "torch_threads": 8,

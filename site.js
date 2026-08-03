@@ -6,10 +6,7 @@
   const root = body.dataset.root || "";
   const page = body.dataset.page || "home";
   const $ = (selector, parent = document) => parent.querySelector(selector);
-  const cleanVisibleText = (value) => String(value ?? "")
-    .replaceAll("最小训练闭环", "训练流程")
-    .replaceAll("闭环", "流程")
-    .replaceAll("如何回到", "返回");
+  const cleanVisibleText = (value) => String(value ?? "");
   const esc = (value) => cleanVisibleText(value).replace(/[&<>\"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
 
   const rootHref = (target) => {
@@ -619,10 +616,10 @@
         const image = data[mime];
         if (!image) continue;
         const value = Array.isArray(image) ? image.join("") : String(image);
-        blocks.push("<img class=\"notebook-output-image\" alt=\"Notebook 实际输出\" src=\"" + prefix + esc(value) + "\">");
+        blocks.push("<img class=\"notebook-output-image\" alt=\"Notebook 输出\" src=\"" + prefix + esc(value) + "\">");
       }
     }
-    return blocks.length ? "<div class=\"notebook-output\"><span>Notebook 实际输出</span>" + blocks.join("") + "</div>" : "";
+    return blocks.length ? "<div class=\"notebook-output\"><span>Notebook 输出</span>" + blocks.join("") + "</div>" : "";
   }
 
   function notebookCellNeedsCompletion(cell, source) {
@@ -636,7 +633,7 @@
     const guides = data.experience.practiceTaskGuides?.[project.id] || [];
     if (!guides.length) return "";
     const cards = guides.map((item) => `<article class="practice-task-guide-card"><h3>${esc(item.task)}</h3><dl><div><dt>需要填写</dt><dd>${esc(item.fill)}</dd></div><div><dt>如何确定</dt><dd>${esc(item.basis)}</dd></div><div><dt>完成后检查</dt><dd>${esc(item.check)}</dd></div></dl></article>`).join("");
-    return `<section class="practice-task-guide"><div class="section-head"><div><h2>需要完成的实践任务</h2><p>标有“需要完成”的代码或文字单元格就是学生需要补全的位置。网页只能阅读；实际填写请在 Kaggle 中复制到自己的账户后进行。合理利用AI工具理解问题，学习知识并尝试给出适当的解决方案。</p></div></div><div class="practice-task-guide-grid">${cards}</div></section>`;
+    return `<section class="practice-task-guide"><div class="section-head"><div><h2>需要完成的实践任务</h2><p>标有“需要完成”的代码或文字单元格就是学生需要补全的位置。网页只能阅读；请在 Kaggle 中复制到自己的账户后填写和运行。合理利用AI工具理解问题，学习知识并尝试给出适当的解决方案。</p></div></div><div class="practice-task-guide-grid">${cards}</div></section>`;
   }
 
   function notebookCellsMarkup(notebook, referenceResults = []) {
@@ -656,7 +653,7 @@
       }
       const resultButtons = referenceResults.filter((result) => result && result.taskIndex === taskIndex && !usedResultSteps.has(result.stepIndex)).map((result) => {
         usedResultSteps.add(result.stepIndex);
-        return "<a class=\"notebook-run\" href=\"#reference-result-" + result.stepIndex + "\" data-result-target=\"reference-result-" + result.stepIndex + "\">查看实际参考结果</a>";
+        return "<a class=\"notebook-run\" href=\"#reference-result-" + result.stepIndex + "\" data-result-target=\"reference-result-" + result.stepIndex + "\">查看参考结果</a>";
       }).join("");
       return "<article class=\"notebook-cell notebook-code-cell\">" + cellHead("代码单元格") + "<pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + resultButtons + "</article>";
     }).join("");
@@ -675,10 +672,10 @@
   function referenceResultsFromAssets(project) {
     const defaultTaskIndexes = { "project-01": [3, 4, 5], "project-02": [0, 3, 4], "project-03": [-1, 2, 2] };
     return (project.referenceResults || []).map((result, index) => {
-      const image = result.image ? "<figure class=\"reference-result-figure\"><img src=\"" + rootHref(result.image) + "\" alt=\"" + esc(result.alt || result.caption || "实践项目实际参考输出") + "\"><figcaption>" + esc(result.caption || "实践项目实际参考输出") + "</figcaption></figure>" : "";
+      const image = result.image ? "<figure class=\"reference-result-figure\"><img src=\"" + rootHref(result.image) + "\" alt=\"" + esc(result.alt || result.caption || "实践项目参考输出") + "\"><figcaption>" + esc(result.caption || "实践项目参考输出") + "</figcaption></figure>" : "";
       const stepIndex = Number.isFinite(result.stepIndex) ? result.stepIndex : index;
       const taskIndex = Number.isFinite(result.taskIndex) ? result.taskIndex : (defaultTaskIndexes[project.id]?.[index] ?? stepIndex);
-      return { taskIndex, stepIndex, title: result.title || "实际运行结果", figures: image ? [image] : [], text: result.text || "" };
+      return { taskIndex, stepIndex, title: result.title || "参考结果", figures: image ? [image] : [], text: result.text || "" };
     }).filter((result) => result.figures.length || result.text);
   }
 
@@ -704,7 +701,7 @@
 
   function referenceResultsMarkup(results) {
     if (!results.length) return "";
-    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>实际参考输出</h2><p>以下图像和数值来自对应实践项目保存的一次真实参考运行。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + (result.text ? "<pre class=\"reference-result-text\">" + esc(result.text) + "</pre>" : "") + "</article>").join("") + "</div></section>";
+    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>参考输出</h2><p>以下图像和数值用于对照实践项目的结果。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + (result.text ? "<pre class=\"reference-result-text\">" + esc(result.text) + "</pre>" : "") + "</article>").join("") + "</div></section>";
   }
 
   function bindReferenceResultButtons() {
@@ -735,7 +732,7 @@
     const viewerActions = [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }, { label: downloadLabel, href: downloadHref, download: true, arrow: false }];
     if (kaggleHref) viewerActions.push({ label: "在 Kaggle 中打开", href: kaggleHref, external: true, arrow: false });
     const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "按任务说明补全代码并逐步运行" : "逐步阅读实践项目参考答案", actions: viewerActions });
-    const note = data.experience.simulationNote || "网页中的运行按钮只定位到已保存的参考输出；需要得到自己的运行结果，请先在 Kaggle 中复制 Notebook 到自己的账户，再运行和修改代码。";
+    const note = data.experience.simulationNote || "网页中的结果用于对照；需要得到自己的结果，请先在 Kaggle 中复制 Notebook 到自己的账户，再运行和修改代码。";
     const guide = data.experience.practiceGuidance || "实践项目优先在 Kaggle 中完成：复制到自己的账户后运行和修改，下载 Notebook 到电脑是补充方式。";
     const taskGuide = kind === "practice" || kind === "advanced-practice" ? practiceTaskGuideMarkup(project) : "";
     layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>模拟运行的注意事项</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践说明</b><p>" + esc(guide) + "</p></div>" + taskGuide + "<div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
@@ -757,7 +754,7 @@
         });
         parsed.querySelectorAll(".p03-actions, .actions").forEach((node) => node.remove());
         const sections = [...parsed.querySelectorAll(".page-intro, .page, .main > .hero, .main > .section, .p03-hero, .p03-section")];
-        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、分析过程和已保存的实际结果。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
+        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、说明和结果。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
       } else {
         const notebook = await response.json();
         let referenceResults = referenceResultsFromAssets(project);

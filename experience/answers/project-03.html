@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>实践项目参考答案｜ResidualConvVAE 胸部 X 射线生成</title>
-  <meta name="description" content="公开体验项目 02：ResidualConvVAE 胸部 X 射线生成的参考答案、真实训练过程和生成结果。">
+  <meta name="description" content="公开体验项目 02：ResidualConvVAE 胸部 X 射线生成的参考答案、模型结构和生成结果。">
   <style>
     :root {
       --p03-ink: #17212b;
@@ -203,7 +203,7 @@
     <section class="p03-hero">
       <div class="p03-kicker">公开体验项目 02 · ResidualConvVAE 参考答案</div>
       <h1>胸部 X 射线与残差卷积 VAE</h1>
-      <p class="p03-lead">从一组真实胸片开始，先把图像变成模型可以处理的矩阵，再观察 ResidualConvVAE 如何把图像编码到潜空间并生成新的胸片。下面先说明输入、归一化和训练设置，再看真实运行的图像与指标。</p>
+      <p class="p03-lead">从一组胸片开始，先把图像变成模型可以处理的矩阵，再观察 ResidualConvVAE 如何把图像编码到潜空间并生成新的胸片。下面依次说明输入、归一化、训练设置和图像结果。</p>
       <p class="p03-note">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p>
       <div class="p03-actions">
         <a class="p03-button" href="../practice/project-03.ipynb" download>下载实践 Notebook</a>
@@ -214,7 +214,7 @@
 
     <section class="p03-section" id="input">
       <h2>1. 输入是一组灰度胸部 X 射线</h2>
-      <p>训练数据来自 Chest X-ray Pneumonia 数据集的 <code>train/NORMAL</code> 文件夹。本次真实参考运行只使用其中的正常胸片，使生成结果更接近常见的正常胸片外观；文件夹标签没有作为模型的输入。</p>
+      <p>训练数据来自 Chest X-ray Pneumonia 数据集的 <code>train/NORMAL</code> 文件夹。本页选用其中的正常胸片，使生成结果便于和常见的正常胸片外观比较；文件夹标签没有作为模型的输入。</p>
       <div class="p03-intro-grid">
         <div class="p03-card"><strong>原始输入</strong>JPEG 胸部 X 射线，共 1341 张 NORMAL 图像。</div>
         <div class="p03-card"><strong>矩阵形状</strong>每张图转为单通道张量 <code>[1, 64, 64]</code>。</div>
@@ -375,22 +375,22 @@ with torch.no_grad():
     </section>
 
     <section class="p03-section" id="setup">
-      <h2>3. 真实训练设置</h2>
+      <h2>3. 训练设置</h2>
       <div class="p03-table-wrap">
         <table>
-          <thead><tr><th>项目</th><th>本次运行值</th><th>说明</th></tr></thead>
+          <thead><tr><th>项目</th><th>设置</th><th>说明</th></tr></thead>
           <tbody>
             <tr><td>模型</td><td>ResidualConvVAE</td><td>GroupNorm、SiLU 和残差块组成编码器与解码器，从潜变量生成单通道图像。</td></tr>
-            <tr><td>训练轮数</td><td>50 轮</td><td>每轮 16 个 batch；完整训练曲线见后文。</td></tr>
+            <tr><td>训练记录</td><td>按代码设置</td><td>训练曲线记录总损失、重建 L1、梯度 L1 和 KL 损失。</td></tr>
             <tr><td>batch / latent</td><td>64 / 64</td><td>每张输入图像编码为 64 维潜变量，批量训练使用 64 张图像。</td></tr>
             <tr><td>生成方式</td><td>128 个候选</td><td>在不同训练图像的潜向量之间插值，并加入少量按潜变量尺度控制的噪声。</td></tr>
             <tr><td>学习率 / 权重衰减</td><td>2e-4 / 1e-4</td><td>使用 AdamW 更新参数。</td></tr>
-            <tr><td>计算设备</td><td>NVIDIA GeForce RTX 4060 Laptop GPU</td><td>CUDA 环境中的真实训练，用时约 576.6 秒。</td></tr>
+            <tr><td>计算设备</td><td>NVIDIA GeForce RTX 4060 Laptop GPU</td><td>使用 CUDA 完成训练，耗时会随设备和环境变化。</td></tr>
             <tr><td>固定随机种子</td><td>20260803</td><td>固定数据划分、训练初始化和展示采样，便于复核。</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="p03-note">生成样本来自训练后解码器生成的 128 个候选图像；展示网格从全部候选中按图像统计取分位样本，展示 16 张结果。所有展示图像都来自这次 50 轮训练的模型输出。</div>
+      <div class="p03-note">生成样本来自训练后解码器生成的 128 个候选图像；展示网格从全部候选中按图像统计取分位样本，展示 16 张结果。</div>
     </section>
 
     <section class="p03-section" id="results">
@@ -410,8 +410,8 @@ reconstruction = vae.decode(
 )</code></pre>
         </div>
         <figure class="p03-figure">
-          <img src="../assets/results/project-03/task2_generated_samples.png" alt="50轮ResidualConvVAE训练后生成的胸部 X 射线样本网格" loading="lazy">
-          <figcaption>生成：50 轮训练后，在不同训练图像的潜向量之间插值并加入少量噪声后得到的胸片。</figcaption>
+          <img src="../assets/results/project-03/task2_generated_samples.png" alt="ResidualConvVAE 生成的胸部 X 射线样本网格" loading="lazy">
+          <figcaption>生成：在不同训练图像的潜向量之间插值并加入少量噪声后得到的胸片。</figcaption>
         </figure>
       </div>
       <figure class="p03-figure">
@@ -424,8 +424,8 @@ reconstruction = vae.decode(
       <h2>5. 训练曲线和像素分布</h2>
       <p>总损失、重建 L1 和梯度 L1 在训练过程中下降，说明模型逐步学到了训练集中的灰度和空间结构；KL 项在前 10 轮完成权重预热后保持在约 3 附近。像素直方图用于比较真实留出集和生成样本的整体灰度分布。</p>
       <figure class="p03-figure">
-        <img src="../assets/results/project-03/task2_training_curve.png" alt="50轮ResidualConvVAE训练总损失、重建损失、梯度损失和 KL 损失曲线" loading="lazy">
-        <figcaption>真实训练曲线：每个点是一个 epoch 的 batch 平均损失。</figcaption>
+        <img src="../assets/results/project-03/task2_training_curve.png" alt="ResidualConvVAE 训练总损失、重建损失、梯度损失和 KL 损失曲线" loading="lazy">
+        <figcaption>训练曲线：每个点是一个 epoch 的 batch 平均损失。</figcaption>
       </figure>
       <figure class="p03-figure">
         <img src="../assets/results/project-03/task2_intensity_histogram.png" alt="真实胸片和生成胸片的像素强度分布直方图" loading="lazy">
@@ -467,7 +467,7 @@ reconstruction = vae.decode(
           <figcaption>潜空间插值：插值系数从 0 到 1 变化时，解码输出连续变化。</figcaption>
         </figure>
       </div>
-      <p class="p03-note">结论：这次 50 轮真实训练已经得到可辨认的正常胸片外观，双肺和纵隔结构清晰可见；生成图像的边缘和肺纹理仍比真实胸片平滑，适合用来观察生成模型如何学习整体形态以及输入与输出之间的差异。</p>
+      <p class="p03-note">结论：参考结果中的生成图像已经呈现出可辨认的正常胸片外观，双肺和纵隔结构清晰可见；边缘和肺纹理仍比真实胸片平滑，适合用来观察生成模型如何学习整体形态以及输入与输出之间的差异。</p>
     </section>
 
     <section class="p03-section">

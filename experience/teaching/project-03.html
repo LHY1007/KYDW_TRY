@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第3节实践｜胸部 X 射线与残差卷积 VAE</title>
-<meta name="description" content="从胸部 X 射线输入、ResidualConvVAE 的概率潜空间到真实 50 轮生成结果的实践教学页。">
+<meta name="description" content="从胸部 X 射线输入、ResidualConvVAE 的概率潜空间到图像生成结果的实践教学页。">
 <style>
 :root{--bg:#edf3f6;--paper:#fff;--ink:#163047;--muted:#5c7080;--line:#d5e2e8;--soft:#f3f8fa;--blue:#1b5c7d;--cyan:#2c8798;--green:#2d8877;--gold:#ad7634;--purple:#6b5b98;--shadow:0 7px 22px rgba(27,62,82,.07);--scale:1}
 *{box-sizing:border-box}
@@ -146,7 +146,7 @@ button,a{font:inherit}
     <a href="#decoder">4. 重参数化与解码器</a>
     <a href="#loss">5. 三种损失共同训练</a>
     <a href="#latent">6. 潜空间中的三种操作</a>
-    <a href="#results">7. 真实50轮结果</a>
+    <a href="#results">7. 结果</a>
     <a href="#reading">8. 读懂结果中的数字</a>
     <a href="#practice">9. 进入实践</a>
   </aside>
@@ -155,9 +155,9 @@ button,a{font:inherit}
       <section class="hero">
         <div class="eyebrow">第3节实践 · X 射线图像生成</div>
         <h1>从胸部 X 射线到残差卷积 VAE</h1>
-        <p>我们把真实胸片转换为统一的图像张量，用 ResidualConvVAE 学习一个 64 维概率潜空间，再由解码器还原或生成胸片。页面先说明任务和模型，再展示当前 Notebook 的真实 50 轮运行结果。</p>
+        <p>我们把胸片转换为统一的图像张量，用 ResidualConvVAE 学习一个 64 维概率潜空间，再由解码器还原或生成胸片。页面先说明任务和模型，再结合图像和指标查看结果。</p>
         <div class="hero-tags"><span>胸片预处理</span><span>编码器与解码器</span><span>mu / logvar</span><span>潜空间分析</span></div>
-        <div class="orientation-strip" aria-label="本页阅读路线"><span>任务定义</span><b>→</b><span>输入张量</span><b>→</b><span>概率潜空间</span><b>→</b><span>解码与损失</span><b>→</b><span>50轮结果</span></div>
+        <div class="orientation-strip" aria-label="内容顺序"><span>任务定义</span><b>→</b><span>输入张量</span><b>→</b><span>概率潜空间</span><b>→</b><span>解码与损失</span><b>→</b><span>结果</span></div>
         <p class="orientation-note">先弄清楚模型要完成什么，再追踪一张胸片如何经过编码、采样和解码，最后把图像、曲线和指标放在一起阅读。</p>
       </section>
 
@@ -186,7 +186,7 @@ button,a{font:inherit}
         <div class="shape-flow"><div class="shape-node">原始 JPEG<br>尺寸不一</div><div class="shape-arrow">→</div><div class="shape-node encoder">灰度<br>1 通道</div><div class="shape-arrow">→</div><div class="shape-node encoder">Resize 72<br>CenterCrop 64</div><div class="shape-arrow">→</div><div class="shape-node latent">[1,64,64]<br>[-1,1]</div><div class="shape-arrow">→</div><div class="shape-node">[B,1,64,64]<br>DataLoader</div></div>
         <div class="miniapp"><div class="miniapp-title">像素值怎样进入模型</div><div class="miniapp-sub">拖动滑块，把一个显示像素从 [0,1] 映射到模型输入范围 [-1,1]。</div><div class="miniapp-grid"><div class="panel"><label for="rawPixSlider">显示像素值：<span id="rawPix">0.50</span></label><input id="rawPixSlider" aria-label="显示像素值" type="range" min="0" max="100" value="50"><div class="output" id="normPix">模型输入值：0.00</div></div><div class="panel"><strong>计算关系</strong><p><code>模型值 = 2 × 显示值 − 1</code></p><p id="normExplain">显示值 0.50 位于 [0,1]，映射后为 0.00。</p></div></div></div>
         <figure class="figure"><img src="../assets/results/project-03/task2_real_xray_grid.png" alt="真实 NORMAL 胸部 X 射线输入样本网格" loading="lazy"><figcaption>真实输入示例：这些胸片用于说明任务输入，模型生成结果见后文。</figcaption></figure>
-        <p class="source-note">输入规模：当前 50 轮运行使用 1,073 张训练图像和 268 张留出图像，批大小为 64。</p>
+        <p class="source-note">输入规模：使用 1,073 张训练图像和 268 张留出图像，批大小为 64。</p>
       </section>
 
       <section class="lesson" id="encoder">
@@ -225,7 +225,7 @@ reconstruction = decoder(z)</div>
 beta = 0.0005 * min(1.0, (epoch + 1) / 10.0)
 loss.backward()
 optimizer.step()</div>
-        <p>当前结果使用 AdamW、学习率 <code>2e-4</code>、权重衰减 <code>1e-4</code>、批大小 64，训练完整运行 50 轮。训练曲线记录总损失、重建 L1、梯度 L1 和 KL 项，读曲线时要结合图像结果一起判断。</p>
+        <p>示例代码使用 AdamW、学习率 <code>2e-4</code>、权重衰减 <code>1e-4</code> 和批大小 64。训练曲线记录总损失、重建 L1、梯度 L1 和 KL 项，读曲线时要结合图像结果一起判断。</p>
       </section>
 
       <section class="lesson" id="latent">
@@ -252,20 +252,20 @@ interpolation_z = (1 - alpha) * z_a + alpha * z_b</div>
       </section>
 
       <section class="lesson" id="results">
-        <h2>7. 真实50轮结果</h2>
-        <div class="lecture-open">前面的任务、输入、模型和损失确定后，进入结果阅读。下面的图像和指标直接对应当前 Notebook 的真实 50 轮运行。</div>
-        <div class="metric-row" aria-label="真实50轮关键指标"><div class="metric-box"><b>64</b><span>潜变量维度</span></div><div class="metric-box"><b>0.0878</b><span>留出集重建 L1</span></div><div class="metric-box"><b>0.2334</b><span>展示样本两两 L1</span></div><div class="metric-box"><b>0.0114</b><span>五项特征均值差</span></div></div>
-        <table class="mini-table"><thead><tr><th>运行项目</th><th>当前记录</th><th>怎样理解</th></tr></thead><tbody><tr><td>训练轮数</td><td>50 轮；每轮 16 个批次</td><td>训练历史完整记录到第 50 轮</td></tr><tr><td>输入与划分</td><td>1,073 张训练图像；268 张留出图像</td><td>留出图像只用于训练后的检查</td></tr><tr><td>生成候选</td><td>128 个潜空间候选；展示其中 16 张</td><td>在不同训练图像的潜向量之间插值后生成，再按图像统计选取展示样本</td></tr><tr><td>输出 shape</td><td><code>[B,1,64,64]</code></td><td>与输入图像保持相同的单通道空间尺寸</td></tr></tbody></table>
+        <h2>7. 结果</h2>
+        <div class="lecture-open">前面的任务、输入、模型和损失确定后，进入结果阅读。下面的图像和指标对应上述设置。</div>
+        <div class="metric-row" aria-label="关键指标"><div class="metric-box"><b>64</b><span>潜变量维度</span></div><div class="metric-box"><b>0.0878</b><span>留出集重建 L1</span></div><div class="metric-box"><b>0.2334</b><span>展示样本两两 L1</span></div><div class="metric-box"><b>0.0114</b><span>五项特征均值差</span></div></div>
+        <table class="mini-table"><thead><tr><th>项目</th><th>记录</th><th>怎样理解</th></tr></thead><tbody><tr><td>训练记录</td><td>见训练代码和曲线</td><td>训练历史包含总损失、重建 L1、梯度 L1 和 KL 项</td></tr><tr><td>输入与划分</td><td>1,073 张训练图像；268 张留出图像</td><td>留出图像只用于训练后的检查</td></tr><tr><td>生成候选</td><td>128 个潜空间候选；展示其中 16 张</td><td>在不同训练图像的潜向量之间插值后生成，再按图像统计选取展示样本</td></tr><tr><td>输出 shape</td><td><code>[B,1,64,64]</code></td><td>与输入图像保持相同的单通道空间尺寸</td></tr></tbody></table>
         <div class="result-note"><strong>指标口径：</strong>“留出集重建 L1”比较留出胸片与其重建；“展示样本两两 L1”反映展示生成样本之间的平均像素差异；“五项特征均值差”是生成图与真实留出图在强度、波动、边缘、中心—边缘对比和双侧肺部对比五项特征上的平均绝对差。</div>
         <div class="result-grid">
-          <article class="result-card"><h4>50轮解码器生成样本</h4><img src="../assets/results/project-03/task2_generated_samples.png" alt="ResidualConvVAE训练50轮后的胸部X射线生成样本" loading="lazy"><p>128 个候选潜向量经过训练后的解码器得到新图像；这里展示按图像统计选出的 16 张样本。</p></article>
+          <article class="result-card"><h4>解码器生成样本</h4><img src="../assets/results/project-03/task2_generated_samples.png" alt="ResidualConvVAE 生成的胸部 X 射线样本" loading="lazy"><p>128 个候选潜向量经过训练后的解码器得到新图像；这里展示按图像统计选出的 16 张样本。</p></article>
           <article class="result-card"><h4>输入、重建与生成对照</h4><img src="../assets/results/project-03/task2_input_generated_comparison.png" alt="真实输入、留出集重建和ResidualConvVAE生成输出对照" loading="lazy"><p>上排是留出集真实输入，中排是重建结果，下排是生成结果，可分别观察结构还原和新样本差异。</p></article>
-          <article class="result-card"><h4>50轮训练曲线</h4><img src="../assets/results/project-03/task2_training_curve.png" alt="ResidualConvVAE训练50轮的损失曲线" loading="lazy"><p>曲线包含总损失、重建 L1、梯度 L1 和 KL 项；前两项逐步下降，KL 项在前 10 轮完成权重预热后保持在约 3 附近。</p></article>
+          <article class="result-card"><h4>训练曲线</h4><img src="../assets/results/project-03/task2_training_curve.png" alt="ResidualConvVAE 的损失曲线" loading="lazy"><p>曲线包含总损失、重建 L1、梯度 L1 和 KL 项；前两项逐步下降，KL 项在前期完成权重预热后保持在约 3 附近。</p></article>
           <article class="result-card"><h4>真实与生成强度分布</h4><img src="../assets/results/project-03/task2_intensity_histogram.png" alt="真实和生成胸片的像素强度分布" loading="lazy"><p>直方图用于检查整体灰度分布是否偏离真实留出图像。</p></article>
           <article class="result-card"><h4>五项图像特征均值</h4><img src="../assets/results/project-03/task2_quality_metrics.png" alt="真实和生成胸片的五项图像特征均值比较" loading="lazy"><p>五项特征均值差为 0.0114，用于比较真实留出图像和生成图像的整体统计。</p></article>
           <article class="result-card"><h4>输入与重建检查</h4><img src="../assets/results/project-03/task2_reconstruction_grid.png" alt="真实胸片与ResidualConvVAE重建结果对照" loading="lazy"><p>前两排分别是留出集输入和重建结果，最后一排是训练图像重建，用于观察模型对已见和未见图像的还原。</p></article>
         </div>
-        <p class="source-note">结果来源：SDU-Neuro-2 Notebook <code>code/sdu_neuro_2.ipynb</code> 及当前 50 轮结果记录。</p>
+        <p class="source-note">结果来源：SDU-Neuro-2 Notebook <code>code/sdu_neuro_2.ipynb</code> 及对应结果记录。</p>
       </section>
 
       <section class="lesson" id="reading">
@@ -278,8 +278,8 @@ interpolation_z = (1 - alpha) * z_a + alpha * z_b</div>
 
       <section class="lesson" id="practice">
         <h2>9. 进入实践</h2>
-        <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的流程图、公式和交互模块用于帮助理解；“真实50轮结果”区域直接呈现当前 Notebook 的运行图和指标。实际操作时优先打开公开 Kaggle Notebook，复制到自己的账户后修改并运行，下载到电脑运行是补充路径。</div>
-        <div class="practice-box"><ol><li>打开项目详情页中的公开 Kaggle Notebook，并复制到自己的账户。</li><li>先运行数据读取和预处理单元，确认图像批次为 <code>[B,1,64,64]</code>，数值范围为 <code>[-1,1]</code>。</li><li>运行 ResidualConvVAE 定义和训练单元，检查 <code>mu</code>、<code>logvar</code>、重建图像 shape 以及三项损失。</li><li>完成 50 轮训练后，依次查看生成样本、重建对照、训练曲线、强度分布和五项特征；再用最近邻与潜空间插值解释图像差异。</li><li>把自己的观察写成“输入 → 模型表示 → 解码输出 → 指标证据”的连续说明。</li></ol></div>
+        <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的流程图、公式和交互模块用于帮助理解；结果区域呈现 Notebook 的图像和指标。实践时优先打开公开 Kaggle Notebook，复制到自己的账户后修改并运行，下载到电脑运行是补充路径。</div>
+        <div class="practice-box"><ol><li>打开项目详情页中的公开 Kaggle Notebook，并复制到自己的账户。</li><li>先运行数据读取和预处理单元，确认图像批次为 <code>[B,1,64,64]</code>，数值范围为 <code>[-1,1]</code>。</li><li>运行 ResidualConvVAE 定义和训练单元，检查 <code>mu</code>、<code>logvar</code>、重建图像 shape 以及三项损失。</li><li>完成训练后，依次查看生成样本、重建对照、训练曲线、强度分布和五项特征；再用最近邻与潜空间插值解释图像差异。</li><li>把自己的观察写成“输入 → 模型表示 → 解码输出 → 指标证据”的连续说明。</li></ol></div>
         <p>当你能解释一张胸片如何变成 64 维潜变量、一个潜变量如何变成 64×64 图像，以及每个指标具体比较了什么，这次实践的主要任务就完成了。</p>
       </section>
     </div>
