@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>体验教学项目 01｜二维 MRI 脑肿瘤图像分割</title>
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <style>
 :root{
   --bg:#edf3f6;--paper:#fff;--ink:#173044;--muted:#5d7280;--line:#d5e2e8;
@@ -14,8 +13,8 @@
   --scale:1;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;font-size:calc(16px * var(--scale));line-height:1.8}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;font-size:calc(16px * var(--scale));line-height:1.8;overflow-x:hidden}
 a{color:var(--blue)}
 button,input,select{font:inherit}
 button{cursor:pointer}
@@ -63,6 +62,7 @@ button{cursor:pointer}
 .flow-node{flex:1 1 145px;display:flex;align-items:center;justify-content:center;min-height:70px;padding:12px;border:1px solid #c6dbe3;border-radius:12px;background:#f5fafb;text-align:center;font-weight:700;color:#224c63;line-height:1.5}
 .flow-arrow{align-self:center;color:var(--cyan);font-size:23px;font-weight:800}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.two-col>*{min-width:0}
 .card{padding:16px;border:1px solid var(--line);border-radius:13px;background:#fbfdfe}
 .card strong{display:block;margin-bottom:5px;color:#1b5d7c}
 .state-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
@@ -72,7 +72,7 @@ button{cursor:pointer}
 .state-box.bg .bit{color:#66808d}.state-box.fg .bit{color:var(--green)}
 .code{margin:14px 0;padding:15px;overflow:auto;border-radius:12px;background:#102c3d;color:#eaf5f8;font:13px/1.65 Consolas,"Courier New",monospace;white-space:pre-wrap}
 .note{padding:12px 14px;margin:15px 0;border:1px solid #c8dce4;border-radius:10px;background:#f6fafb;color:#496675;font-size:14px}
-.mini-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px}
+.mini-table{width:100%;table-layout:fixed;border-collapse:collapse;margin:15px 0;font-size:14px;overflow-wrap:anywhere;word-break:break-word}
 .mini-table th,.mini-table td{padding:8px 9px;border:1px solid var(--line);text-align:left;vertical-align:top}
 .mini-table th{background:#edf5f7;color:#225772}
 .split-app,.metric-app,.unet-app{padding:17px;margin:18px 0;border:1px solid #b9d5df;border-radius:16px;background:linear-gradient(180deg,#f8fcfd,#edf7f9)}
@@ -151,6 +151,27 @@ details p,details ul{padding:0 15px 12px;margin:0}
 .orientation-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px}.orientation-strip span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 11px;font-size:14px}.orientation-strip b{color:#d7f0f4;font-size:18px}.orientation-note{margin:12px 0 0!important;font-size:14px!important;color:#e0f0f4!important}
 .dark .orientation-strip span{background:rgba(255,255,255,.1)}
 @media(max-width:640px){.orientation-strip{display:grid;grid-template-columns:1fr;gap:5px}.orientation-strip b{display:none}.orientation-strip span{text-align:center}}
+</style>
+<style id="kydw-mri-clarity">
+.shape-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px;background:#fff;border:1px solid var(--line)}
+.shape-table th,.shape-table td{padding:8px 9px;border:1px solid var(--line);text-align:left;vertical-align:top}
+.shape-table th{background:#edf5f7;color:#225772}
+.shape-table code{white-space:nowrap;color:#285a70}
+.threshold-note{margin-top:10px;padding:10px 12px;border:1px solid #c7dce4;border-radius:9px;background:#f6fafb;color:#496875;font-size:13px}
+.metric-formula{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0}
+.metric-formula div{padding:10px;border:1px solid var(--line);border-radius:10px;background:#f8fbfc}
+.metric-formula strong{display:block;color:#1d5c77;margin-bottom:4px}
+.kaggle-entry{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:15px 0;padding:13px 15px;border:1px solid #b9d8df;border-radius:12px;background:#f3fafb}
+.kaggle-entry a{display:inline-block;padding:7px 11px;border-radius:8px;background:#216b8d;color:#fff;text-decoration:none;font-weight:700}
+.kaggle-entry a:hover{background:#185875}
+.kaggle-entry span{color:#4d6977;font-size:13px}
+.simulation-note{font-size:14px;line-height:1.7;background:#fff7df;border:1px solid #ead6a0;border-left:5px solid #ad7634;border-radius:10px;padding:12px 14px;margin:16px 0;color:#5c4b29}
+.simulation-note b{color:#7d5521}
+.pixel-read{min-height:82px;margin-top:12px;padding:12px 14px;border:1px solid #c8dce4;border-radius:10px;background:#f7fbfc;color:#3f6170;font-size:14px}
+@media(max-width:650px){.metric-formula{grid-template-columns:1fr}.shape-table{font-size:12px}.shape-table code{white-space:normal;overflow-wrap:anywhere}.check-table td:first-child{white-space:normal;overflow-wrap:anywhere}}
+.dark .shape-table,.dark .shape-table th,.dark .metric-formula div,.dark .threshold-note,.dark .kaggle-entry,.dark .pixel-read{background:#1b303a;color:#dbe9ee}
+.dark .kaggle-entry{border-color:#41636e}.dark .kaggle-entry span{color:#c0d2d8}
+.dark .simulation-note{background:#463b20;color:#f4e5b8;border-color:#776536}.dark .simulation-note b{color:#f4d991}
 </style>
 </head>
 <body>
@@ -255,7 +276,7 @@ details p,details ul{padding:0 15px 12px;margin:0}
               <thead><tr><th>字段</th><th>示例</th><th>用途</th></tr></thead>
               <tbody>
                 <tr><td>image</td><td>slice_08.tif</td><td>模型读取的灰度切片</td></tr>
-                <tr><td>mask</td><td>slice_08_mask.tif</td><td>专家标注转换的二值答案</td></tr>
+                <tr><td>mask</td><td>slice_08_mask.tif</td><td>数据集提供的 mask，经二值化后作为目标区域</td></tr>
                 <tr><td>patient_id</td><td>患者文件夹名</td><td>患者级划分的分组键</td></tr>
               </tbody>
             </table>
@@ -278,7 +299,7 @@ for m in mask_paths:
 
       <section class="lesson" id="binary">
         <h2>2. 二值 mask 把分割目标写成 H×W 答案</h2>
-        <p>当前实践使用单张灰度 MRI 和一个前景区域。图像转为灰度后缩放到 <code>128×128</code>，再除以 <code>255</code>；mask 使用最近邻插值，所有大于 0 的像素归为前景。这样，输入和答案拥有相同的空间尺寸。</p>
+        <p>当前实践使用单张灰度 MRI 和一个前景区域。图像转为灰度后缩放到 <code>128×128</code>，再除以 <code>255</code>；mask 使用最近邻插值，所有大于 0 的像素归为前景。这样，输入和答案拥有相同的空间尺寸。Dataset 返回单张样本 <code>[1,128,128]</code>，当前 Notebook 的 <code>DataLoader</code> 使用 <code>batch_size=16</code>，训练时的批量输入为 <code>[16,1,128,128]</code>。</p>
         <div class="two-col">
           <div class="card">
             <strong>矩阵中的两个值</strong>
@@ -300,12 +321,26 @@ mask=Image.open(mp).convert('L').resize((self.size,self.size),
 x=np.asarray(image,dtype=np.float32)/255.0
 y=(np.asarray(mask)>0).astype(np.float32)
 return torch.from_numpy(x[None]),torch.from_numpy(y[None]),pid</pre>
-        <div class="note"><strong>空间操作的规则：</strong>图像和 mask 一起做翻转等空间增强；图像可以做强度变化，mask 保持离散的 0/1 标签。</div>
+        <div class="metric-app" id="pixelApp01">
+          <div class="app-title">一个像素怎样得到训练信号</div>
+          <div class="app-sub">模型为每个像素输出前景概率，阈值把概率转换成 0/1 预测；这个小例子把一个像素的判断过程展开。</div>
+          <div class="metric-layout">
+            <div class="metric-panel">
+              <label for="pixelProb01">前景概率：<span id="pixelProbValue01">0.70</span></label>
+              <input id="pixelProb01" type="range" min="1" max="99" value="70">
+              <label for="pixelTarget01">真实标签</label>
+              <select id="pixelTarget01"><option value="1">1 · 前景</option><option value="0">0 · 背景</option></select>
+              <div class="metric-boxes"><div class="metric-box"><b id="pixelPred01">1</b>阈值后预测</div><div class="metric-box"><b id="pixelLoss01">0.36</b>像素损失</div></div>
+            </div>
+            <div class="pixel-read" id="pixelRead01" aria-live="polite">概率 0.70 ≥ 0.50，阈值后预测为前景；真实标签为前景时，损失较小。</div>
+          </div>
+        </div>
+        <div class="note"><strong>空间操作的规则：</strong>本 Notebook 的增强步骤是同步水平翻转，图像和 mask 使用同一翻转方向；mask 保持离散的 0/1 标签。强度变化会改变图像数值，属于后续可以继续尝试的增强方式。</div>
       </section>
 
       <section class="lesson" id="split">
         <h2>3. 患者级划分让测试集代表新患者</h2>
-        <p>同一患者的相邻切片共享解剖结构和扫描特征。Notebook 用患者标识构成 <code>groups</code>，先划分患者，再获得训练、验证和测试切片索引；最后用集合交集检查三个集合的患者 ID 没有重叠。</p>
+        <p>同一患者的相邻切片共享解剖结构和扫描特征。Notebook 用患者标识构成 <code>groups</code>，先划分患者，再获得训练、验证和测试切片索引；最后用集合交集检查三个集合的患者 ID 没有重叠。数据统计先基于配对后的全部切片：患者数量是去重后的患者 ID 数，阳性 mask 是含有前景像素的 mask，空 mask 比例以全部 pair 数为分母。随后取 <code>MAX_SLICES=min(1200,len(pairs))</code> 进入训练，训练、验证和测试的切片数量以截取后的数据为准。</p>
         <div class="split-app" id="splitApp01">
           <div class="app-title">切片归属随划分单位变化</div>
           <div class="app-sub">每一行代表一位患者，格子代表该患者的六张切片。切换两种方式，观察同一患者是否跨集合。</div>
@@ -328,7 +363,7 @@ tr_idx=train_idx[tr_rel]; va_idx=train_idx[va_rel]
 assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
             set(groups[tr_idx]) & set(groups[test_idx]) |
             set(groups[va_idx]) & set(groups[test_idx]))</pre>
-        <div class="note"><strong>读图方式：</strong>上方“患者级划分”中，一行的颜色保持一致；切片级随机示意中，一行出现多种颜色，训练和测试会共享同一患者的纹理。</div>
+        <div class="note"><strong>读图方式：</strong>上方“患者级划分”中，一行的颜色保持一致；切片级随机示意中，一行出现多种颜色，训练和测试会共享同一患者的纹理。Notebook 为保持体验运行规模，先取最多 1200 对切片；实际数量会写入结果文件。</div>
       </section>
 
       <section class="lesson" id="unet">
@@ -376,6 +411,19 @@ assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
             <span class="shape-chip">sigmoid(prob)</span><span class="flow-arrow">→</span>
             <span class="shape-chip">binary prediction</span>
           </div>
+          <table class="shape-table">
+            <thead><tr><th>位置</th><th>本层输出 shape</th><th>这一层改变了什么</th></tr></thead>
+            <tbody>
+              <tr><td>输入</td><td><code>[B,1,128,128]</code></td><td>B 张切片、1 个灰度通道、128×128 像素。</td></tr>
+              <tr><td>e1 → p1</td><td><code>[B,16,128,128] → [B,16,64,64]</code></td><td>提取局部纹理，池化后空间尺寸减半。</td></tr>
+              <tr><td>e2 → p2</td><td><code>[B,32,64,64] → [B,32,32,32]</code></td><td>增加通道，汇总更大范围的上下文。</td></tr>
+              <tr><td>瓶颈</td><td><code>[B,64,32,32]</code></td><td>在较小的空间网格上保留 64 个特征通道。</td></tr>
+              <tr><td>u2 → 拼接 → d2</td><td><code>[B,32,64,64] → [B,64,64,64] → [B,32,64,64]</code></td><td>恢复分辨率，与 e2 拼接后重新融合。</td></tr>
+              <tr><td>u1 → 拼接 → d1</td><td><code>[B,16,128,128] → [B,32,128,128] → [B,16,128,128]</code></td><td>恢复到原图大小，与 e1 拼接后补回边界细节。</td></tr>
+              <tr><td>输出</td><td><code>logits [B,1,128,128]</code></td><td>每个像素一个分数，经 sigmoid 得到概率。</td></tr>
+            </tbody>
+          </table>
+          <div class="threshold-note"><strong>从 logit 到 mask：</strong>设输出 logit 为 <code>z</code>，先计算 <code>p = 1 / (1 + e<sup>−z</sup>)</code>；再用阈值 <code>t</code> 判断 <code>p ≥ t</code> 的位置，把它写成 1，其余位置写成 0。训练阶段用 <code>BCEWithLogitsLoss</code> 与 soft Dice 组合，概率图可以直接参与反向传播；结果评价再用阈值化 Dice 与 IoU。</div>
         </div>
         <h3>DoubleConv 是网络的基本积木</h3>
         <p>每个卷积块连续执行两次 <code>3×3 Conv → BatchNorm → ReLU</code>。卷积层学习局部模式，归一化稳定数值，ReLU 提供非线性表达；编码器和解码器只改变通道数与空间分辨率。</p>
@@ -394,6 +442,11 @@ assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
       <section class="lesson" id="metrics">
         <h2>5. Dice 与 IoU 把区域重叠变成可比较数字</h2>
         <p>模型输出概率图后，实践使用阈值生成二值预测，再和真实 mask 比较。Dice 强调两块区域的重叠，IoU 用并集作为分母；两者都直接关注前景区域，适合观察病灶分割的覆盖情况。</p>
+        <div class="metric-formula">
+          <div><strong>交集</strong><code>|P ∩ G|</code><span class="small muted">预测区域与真实区域共同覆盖的像素数。</span></div>
+          <div><strong>Dice</strong><code>2 × |P ∩ G| / (|P| + |G|)</code><span class="small muted">同时看预测区域和真实区域，范围通常为 0—1。</span></div>
+          <div><strong>IoU</strong><code>|P ∩ G| / |P ∪ G|</code><span class="small muted">用并集作为分母，重叠越充分，数值越高。</span></div>
+        </div>
         <div class="formula-grid">
           <div class="formula"><strong>Dice</strong><code>2 × |P ∩ G| / (|P| + |G|)</code><span class="small muted">P 是预测前景，G 是真实前景。</span></div>
           <div class="formula"><strong>IoU</strong><code>|P ∩ G| / |P ∪ G|</code><span class="small muted">交集越大、并集越小，IoU 越高。</span></div>
@@ -408,6 +461,7 @@ assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
               <label for="rr01">预测半径</label><input id="rr01" type="range" min="35" max="95" value="65">
               <label for="threshold01">概率阈值</label><input id="threshold01" type="range" min="30" max="70" value="50">
               <div class="small muted">阈值：<span id="thresholdValue01">0.50</span>。Notebook 的评价步骤在阈值后计算二值区域。</div>
+              <div class="threshold-note" id="thresholdNote01">阈值降低时，更多低概率像素会进入预测区域；阈值升高时，预测区域会收缩。</div>
               <div class="metric-boxes">
                 <div class="metric-box"><b id="diceM01">–</b>Dice</div>
                 <div class="metric-box"><b id="iouM01">–</b>IoU</div>
@@ -420,13 +474,22 @@ assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
 union=((pred+y)>0).float().sum((1,2,3))
 d=(2*inter+1e-6)/(pred.sum((1,2,3))+y.sum((1,2,3))+1e-6)
 i=(inter+1e-6)/(union+1e-6)</pre>
-        <div class="note"><strong>读指标的顺序：</strong>先看 overlay 和 prediction 的空间位置，再看 Dice 与 IoU；平均值之后继续查看单个测试样本，训练曲线和失败案例一起构成结果解释。</div>
+        <div class="note"><strong>读指标的顺序：</strong>先看 overlay 和 prediction 的空间位置，再看 Dice 与 IoU；平均值之后继续查看单个测试样本、空 mask 统计和预测偏差，训练曲线与这些图像共同构成结果解释。</div>
       </section>
 
       <section class="lesson" id="run">
         <h2>6. Notebook 中的最小训练闭环</h2>
-        <p>Kaggle Notebook 是首选运行入口。打开公开 Notebook 后点击“复制并编辑”，在自己的账户中逐步运行、补全 TODO、观察 shape 和图像输出；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。</p>
-        <div class="process-list">
+         <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互图示用于理解配对、分割和评价指标的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；训练曲线、Dice、IoU、空 mask 统计和预测图以你的实际运行输出为准。</div>
+         <p>Kaggle Notebook 是首选运行入口。打开公开 Notebook 后点击“复制并编辑”，在自己的账户中逐步运行、补全 TODO、观察 shape 和图像输出；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。</p>
+         <div class="kaggle-entry"><a href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01" target="_blank" rel="noopener">在 Kaggle 中复制并运行项目 01</a><span>先保存副本，再按单元格顺序完成配对、网络、训练和评价。</span></div>
+         <table class="shape-table"><thead><tr><th>任务</th><th>填写位置</th><th>依据与检查</th></tr></thead><tbody>
+           <tr><td>1 数据核对</td><td><code>TODO 1</code>：<code>patient_count</code>、<code>positive_masks</code>、<code>empty_ratio</code></td><td>根据 <code>pairs</code> 和每个 mask 的像素内容统计；随机查看 MRI、mask、overlay 是否同位置。</td></tr>
+           <tr><td>2 Dice</td><td><code>TODO 2</code>：阈值化、交集、预测面积和真实面积</td><td>先把概率图按 <code>threshold</code> 变成 0/1；用简单的全零和完全相同输入检查边界。</td></tr>
+           <tr><td>3 卷积块</td><td><code>DoubleConv</code> 的 <code>self.block</code></td><td>按两次 <code>3×3 Conv → BatchNorm → ReLU</code> 填写，并用后续 U-Net shape 检查拼接通道。</td></tr>
+           <tr><td>4 训练更新</td><td><code>run_epoch</code> 中标注 TODO 的清梯度、反向传播和更新</td><td>训练损失使用 <code>soft_dice_score</code>；阈值化 Dice 只用于曲线和测试评价。</td></tr>
+           <tr><td>5 测试评价</td><td><code>TODO 5</code>：验证集阈值表与测试结果</td><td>用验证 Dice 最高的阈值锁定设置，再在测试集统计 Dice、IoU、空 mask 和预测图。</td></tr>
+         </tbody></table>
+         <div class="process-list">
           <div class="process-step"><strong>配对与统计：</strong>完成 image/mask 配对，统计患者数量、阳性 mask 数量和空 mask 比例，保存 MRI、mask、overlay。</div>
           <div class="process-step"><strong>患者级划分：</strong>用 <code>GroupShuffleSplit</code> 获得 train、validation、test 索引，检查患者集合没有交集。</div>
           <div class="process-step"><strong>同步预处理：</strong>把图像归一化、mask 二值化，训练集使用同步翻转增强，三个 DataLoader 保持同一输入输出 shape。</div>
@@ -437,9 +500,10 @@ i=(inter+1e-6)/(union+1e-6)</pre>
         <div class="two-col">
           <div>
             <h3>训练循环的关键张量</h3>
-            <pre class="code">logits=model(x)
+            <pre class="code">opt.zero_grad()
+logits=model(x)
 prob=torch.sigmoid(logits)
-loss=bce(logits,y)+(1-dice_score(prob,y))
+loss=bce(logits,y)+(1-soft_dice_score(prob,y)).mean()
 loss.backward()
 opt.step()</pre>
           </div>
@@ -454,7 +518,7 @@ opt.step()</pre>
           <div class="result-item"><code>task1_data_check.png</code><span>MRI、mask 与叠加图</span></div>
           <div class="result-item"><code>task1_training_curve.png</code><span>训练/验证损失与 Dice 曲线</span></div>
           <div class="result-item"><code>task1_prediction.png</code><span>测试样本、真实 mask 与预测</span></div>
-          <div class="result-item"><code>task1_result.json</code><span>切片规模、阈值、Dice、IoU 与 seed</span></div>
+          <div class="result-item"><code>task1_result.json</code><span>切片规模、阈值、Dice、IoU、空 mask 统计与 seed</span></div>
         </div>
       </section>
 
@@ -498,13 +562,13 @@ opt.step()</pre>
           <tbody>
             <tr><td><code>task1_data_check.png</code></td><td>MRI、二值 mask、overlay 的空间对应</td><td>配对切片与二值标签</td></tr>
             <tr><td><code>task1_training_curve.png</code></td><td>训练/验证 loss 和 Dice 的变化</td><td>TinyUNet 训练闭环</td></tr>
-            <tr><td><code>task1_prediction.png</code></td><td>测试 MRI、真实 mask、模型预测</td><td>视觉结果与失败案例</td></tr>
-            <tr><td><code>task1_result.json</code></td><td>数据规模、最佳阈值、test Dice、test IoU</td><td>定量评价</td></tr>
+            <tr><td><code>task1_prediction.png</code></td><td>测试 MRI、真实 mask、模型预测</td><td>视觉结果与边界偏差</td></tr>
+            <tr><td><code>task1_result.json</code></td><td>数据规模、最佳阈值、test Dice、test IoU 与空 mask 统计</td><td>定量评价</td></tr>
           </tbody>
         </table>
         <details>
-          <summary>提交文字的组织方式</summary>
-          <p>用 250–400 字说明数据配对、患者级划分、最佳阈值、测试 Dice/IoU 和一个失败案例。</p>
+          <summary>结果阅读提示</summary>
+          <p>结合数据配对、患者级划分、最佳阈值、测试 Dice/IoU、空 mask 统计和一个预测偏差，说明图像结果与数字指标如何相互支持。</p>
         </details>
       </section>
     </div>
@@ -604,6 +668,23 @@ opt.step()</pre>
   q('#sliceSplit01').addEventListener('click',function(){renderSplit('slice')});
   renderSplit('patient');
 
+  function updatePixelLab(){
+    const p=+(q('#pixelProb01').value)/100;
+    const target=+q('#pixelTarget01').value;
+    const pred=p>=.5?1:0;
+    const loss=target===1?-Math.log(p): -Math.log(1-p);
+    q('#pixelProbValue01').textContent=p.toFixed(2);
+    q('#pixelPred01').textContent=pred;
+    q('#pixelLoss01').textContent=loss.toFixed(2);
+    const targetText=target===1?'前景':'背景';
+    const predText=pred===1?'前景':'背景';
+    const trend=target===pred?'预测与真实标签一致，概率越接近目标端点，损失越小。':'预测与真实标签不一致，损失会随着概率继续偏离真实标签而增大。';
+    q('#pixelRead01').innerHTML='概率 <b>'+p.toFixed(2)+'</b> '+(p>=.5?'≥':'＜')+' 0.50，阈值后预测为<b>'+predText+'</b>；真实标签为<b>'+targetText+'</b>。'+trend+'<br><span class="small muted">这里用概率形式帮助理解，Notebook 的 <code>BCEWithLogitsLoss</code> 直接接收 logits。</span>';
+  }
+  q('#pixelProb01').addEventListener('input',updatePixelLab);
+  q('#pixelTarget01').addEventListener('change',updatePixelLab);
+  updatePixelLab();
+
   const unetInfo={
     input:'输入是单通道批量张量 [B,1,H,W]。每个位置的灰度值来自一张二维 MRI 切片。',
     encoder:'编码器中的 DoubleConv 学习边缘、纹理和更大范围的上下文；Pool 减少空间尺寸并扩大感受野。',
@@ -630,16 +711,21 @@ opt.step()</pre>
   }
   function renderMetric(){
     const dx=+q('#dx01').value,dy=+q('#dy01').value,r=+q('#rr01').value,R=65,d=Math.hypot(dx,dy);
-    const inter=circleIntersection(R,r,d),a=Math.PI*R*R,b=Math.PI*r*r;
+    const threshold=+q('#threshold01').value/100;
+    // 用一条平滑概率边界表示模型输出，再把阈值转换为二值区域。
+    // threshold=0.5 时半径为 r；阈值降低或升高会让二值区域相应扩大或收缩。
+    const binaryRadius=Math.max(8,r-8*Math.log(threshold/(1-threshold)));
+    const inter=circleIntersection(R,binaryRadius,d),a=Math.PI*R*R,b=Math.PI*binaryRadius*binaryRadius;
     const dice=2*inter/(a+b),iou=inter/(a+b-inter);
     q('#diceM01').textContent=dice.toFixed(2);q('#iouM01').textContent=iou.toFixed(2);
-    q('#thresholdValue01').textContent=(+q('#threshold01').value/100).toFixed(2);
+    q('#thresholdValue01').textContent=threshold.toFixed(2);
+    q('#thresholdNote01').textContent='阈值 '+threshold.toFixed(2)+' 对应的二值预测半径约为 '+binaryRadius.toFixed(1)+' 像素；这里用连续概率边界演示 sigmoid 输出经过阈值化后怎样影响区域。';
     const c=q('#diceCanvas01'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
     x.globalAlpha=.58;x.fillStyle='#2e7ea1';x.beginPath();x.arc(235,160,R,0,Math.PI*2);x.fill();
-    x.fillStyle='#e29942';x.beginPath();x.arc(235+dx,160+dy,r,0,Math.PI*2);x.fill();x.globalAlpha=1;
+    x.fillStyle='#e29942';x.beginPath();x.arc(235+dx,160+dy,binaryRadius,0,Math.PI*2);x.fill();x.globalAlpha=1;
     x.strokeStyle='#31566f';x.lineWidth=1;x.stroke();
     x.fillStyle='#31566f';x.font='15px Microsoft YaHei';x.fillText('蓝色：真实区域 G',70,34);x.fillText('橙色：预测区域 P',330,34);
-    x.fillStyle='#5d7280';x.font='13px Microsoft YaHei';x.fillText('交集面积：'+inter.toFixed(0),70,285);x.fillText('并集面积：'+(a+b-inter).toFixed(0),330,285);
+    x.fillStyle='#5d7280';x.font='13px Microsoft YaHei';x.fillText('交集面积：'+inter.toFixed(0),70,285);x.fillText('并集面积：'+(a+b-inter).toFixed(0),330,285);x.fillText('阈值后半径：'+binaryRadius.toFixed(1),70,305);
   }
   ['dx01','dy01','rr01','threshold01'].forEach(function(id){q('#'+id).addEventListener('input',renderMetric)});renderMetric();
 })();
