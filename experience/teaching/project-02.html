@@ -201,7 +201,7 @@ details p,details ul{padding:0 15px 12px;margin:0}
     <a href="#split">3. 患者级划分</a>
     <a href="#unet">4. TinyUNet</a>
     <a href="#metrics">5. Dice 与 IoU</a>
-    <a href="#run">6. Notebook 闭环</a>
+    <a href="#run">6. Notebook 训练过程</a>
     <div class="side-title" style="margin-top:18px">延伸概念</div>
     <a href="#extensions">多序列、三维、多区域</a>
     <a href="#check">实践成果检查</a>
@@ -529,7 +529,7 @@ i=(inter+1e-6)/(union+1e-6)</pre>
       </section>
 
       <section class="lesson" id="run">
-        <h2>6. Notebook 中的最小训练闭环</h2>
+        <h2>6. Notebook 中的训练过程</h2>
          <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互图示用于理解配对、分割和评价指标的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；训练曲线、Dice、IoU、空 mask 统计和预测图以你的实际运行输出为准。</div>
          <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会说明配对、网络、训练和评价中的填写位置与检查方式，实际运行在 Kaggle 中完成；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。</p>
          <table class="shape-table"><thead><tr><th>任务</th><th>填写位置</th><th>依据与检查</th></tr></thead><tbody>
@@ -558,7 +558,7 @@ loss.backward()
 opt.step()</pre>
           </div>
           <div>
-            <h3>结果如何回到图像</h3>
+            <h3>结果与图像对照</h3>
             <p>loss 和 Dice 曲线回答训练过程如何变化；阈值表回答预测概率如何转成区域；测试图像回答模型在一个具体切片上把哪里画出来。</p>
             <div class="shape-strip"><code>loss curve</code><code>Dice curve</code><code>test overlay</code><code>result.json</code></div>
           </div>
@@ -611,7 +611,7 @@ opt.step()</pre>
           <thead><tr><th>文件</th><th>打开后观察</th><th>对应教学节点</th></tr></thead>
           <tbody>
             <tr><td><code>task1_data_check.png</code></td><td>MRI、二值 mask、overlay 的空间对应</td><td>配对切片与二值标签</td></tr>
-            <tr><td><code>task1_training_curve.png</code></td><td>训练/验证 loss 和 Dice 的变化</td><td>TinyUNet 训练闭环</td></tr>
+            <tr><td><code>task1_training_curve.png</code></td><td>训练/验证 loss 和 Dice 的变化</td><td>TinyUNet 训练过程</td></tr>
             <tr><td><code>task1_prediction.png</code></td><td>测试 MRI、真实 mask、模型预测</td><td>视觉结果与边界偏差</td></tr>
             <tr><td><code>task1_result.json</code></td><td>数据规模、最佳阈值、test Dice、test IoU 与空 mask 统计</td><td>定量评价</td></tr>
           </tbody>
@@ -739,7 +739,7 @@ opt.step()</pre>
     input:'输入是单通道批量张量 [B,1,H,W]。每个位置的灰度值来自一张二维 MRI 切片。',
     encoder:'编码器中的 DoubleConv 学习边缘、纹理和更大范围的上下文；Pool 减少空间尺寸并扩大感受野。',
     bottleneck:'瓶颈层拥有更大的感受野，用 64 个通道汇总当前切片的语义信息。',
-    decoder:'解码器用转置卷积恢复分辨率，并拼接对应编码层的特征，让边界细节回到预测位置。',
+    decoder:'解码器用转置卷积恢复分辨率，并拼接对应编码层的特征，使预测结果保留边界细节。',
     output:'1×1 卷积输出一个 logit 通道。sigmoid 把 logit 转为概率，阈值后得到二值预测。'
   };
   const unetGroups={input:['input'],encoder:['e1','pool1','e2','pool2'],bottleneck:['bottleneck'],decoder:['u2','d2','u1','d1'],output:['out']};
