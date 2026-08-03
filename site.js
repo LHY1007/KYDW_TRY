@@ -503,10 +503,10 @@
       .sort((a, b) => (a.week || 99) - (b.week || 99) || String(a.no || "").localeCompare(String(b.no || "")));
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}
     <section class="section"><div class="prose">${paragraphs(e.paragraphs)}</div></section>
-    <section class="section">${sectionHead("体验版与进阶版", "体验版完成指定内容，进阶版自行设计方法并提交报告。", null)}<div class="project-level-grid">${(e.levels || []).map((level, index) => `<article class="project-level-card"><div class="mode-kicker">${esc(level.title)}</div><p>${esc(level.text)}</p>${index === 1 && e.advancedResources?.length ? `<div class="inline-doc-links">${e.advancedResources.map((item) => `<a href="${rootHref(item.href)}">${esc(item.title)}</a>`).join("")}</div>` : ""}</article>`).join("")}</div></section>
+    <section class="section">${sectionHead("体验版与进阶版", "体验版完成指定内容；进阶版自行设计方法并提交报告。", null)}<div class="project-level-grid">${(e.levels || []).map((level, index) => `<article class="project-level-card"><div class="mode-kicker">${esc(level.title)}</div><p>${esc(level.text)}</p>${index === 1 && e.advancedResources?.length ? `<div class="inline-doc-links">${e.advancedResources.map((item) => `<a href="${rootHref(item.href)}">${esc(item.title)}</a>`).join("")}</div>` : ""}</article>`).join("")}</div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
     <section class="section" id="project-directory">${sectionHead("项目目录", "开始实践前请先完成项目环境准备，再进入已开放的科研项目。", null)}<div class="directory-project-grid">${environmentProjectCard(e.environment, true)}${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
-    <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>体验版完成指定内容后无需提交报告；进阶版需要完成实践并提交设计报告。对某个方向希望继续学习的同学，可以联系负责人了解对应课题组的后续安排。</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
+    <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>完成体验项目后，对某个方向希望继续学习的同学，可以联系负责人了解对应课题组的后续安排；进阶项目需要完成实践并提交设计报告。</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
   }
 
   function weekPage() {
@@ -634,7 +634,7 @@
     const guides = data.experience.practiceTaskGuides?.[project.id] || [];
     if (!guides.length) return "";
     const cards = guides.map((item) => `<article class="practice-task-guide-card"><h3>${esc(item.task)}</h3><dl><div><dt>需要填写</dt><dd>${esc(item.fill)}</dd></div><div><dt>如何确定</dt><dd>${esc(item.basis)}</dd></div><div><dt>完成后检查</dt><dd>${esc(item.check)}</dd></div></dl></article>`).join("");
-    return `<section class="practice-task-guide"><div class="section-head"><div><h2>需要完成的实践任务</h2><p>标有“需要完成”的代码或文字单元格就是学生需要补全的位置。网页只能阅读；实际填写请在 Kaggle 中复制到自己的账户后进行。</p></div></div><div class="practice-task-guide-grid">${cards}</div></section>`;
+    return `<section class="practice-task-guide"><div class="section-head"><div><h2>需要完成的实践任务</h2><p>标有“需要完成”的代码或文字单元格就是学生需要补全的位置。网页只能阅读；实际填写请在 Kaggle 中复制到自己的账户后进行。合理利用AI工具理解问题，学习知识并尝试给出适当的解决方案。</p></div></div><div class="practice-task-guide-grid">${cards}</div></section>`;
   }
 
   function notebookCellsMarkup(notebook, referenceResults = []) {
@@ -793,7 +793,7 @@
       : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer, { referenceKaggle: project.kaggleReference })}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
     const learningGuide = project.single
       ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用实践项目参考答案核对代码与分析过程。</p></article>`
-      : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。体验版不要求提交报告。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
+      : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
     const kaggleAction = project.kaggle ? `<div class="project-practice-actions"><a class="solid-btn" href="${esc(project.kaggle)}" target="_blank" rel="noreferrer">在 Kaggle 中复制并运行</a></div>` : "";
     const practiceGuide = `<article class="project-practice-guide"><div class="mode-kicker">实践项目与参考答案</div><p>${esc(data.experience.practiceGuidance || "实践项目可以下载到自己的电脑上运行；如果还不熟悉代码，可以直接在 Kaggle 上打开对应项目，点击‘复制并编辑’保存到自己的账户，再按单元格逐步运行、修改并观察输出。遇到具体代码问题时，可以向 AI 询问当前单元格的作用、输入输出和每一行的变化，再逐步运行核对。需要对照时，可以打开实践项目参考答案核对。")}</p>${kaggleAction}</article>`;
     layout(`${hero({ eyebrow: `科研体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}

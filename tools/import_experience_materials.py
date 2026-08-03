@@ -175,6 +175,28 @@ def ensure_interactive_labels(soup: BeautifulSoup) -> None:
             control["aria-label"] = label
 
 
+def normalise_experience_language(soup: BeautifulSoup) -> None:
+    """统一体验版思考标题，并移除体验版遗留的报告提交语气。"""
+    for element in soup.select(".knowledge-check h3, details.quiz summary"):
+        for text_node in element.find_all(string=True):
+            if "理解检查" in text_node:
+                text_node.replace_with(text_node.replace("理解检查", "思考"))
+    replacements = {
+        "报告时需要说明归一化方向": "说明结果时需要交代归一化方向",
+        "报告平均指标时": "记录平均指标时",
+        "项目报告需要说明": "项目说明需要交代",
+        "长期提交被间接适配": "长期调整被间接适配",
+        "外部验证需要报告数据来源": "外部验证需要记录数据来源",
+    }
+    for text_node in soup.find_all(string=True):
+        text = str(text_node)
+        updated = text
+        for old, new in replacements.items():
+            updated = updated.replace(old, new)
+        if updated != text:
+            text_node.replace_with(updated)
+
+
 def localise_known_assets(soup: BeautifulSoup) -> None:
     for element in soup.select("[src]"):
         src = element.get("src", "")
@@ -189,6 +211,7 @@ def serialise(soup: BeautifulSoup) -> str:
 def transform_experience_teaching(source: Path, target: Path, public_no: str, site_no: str) -> None:
     soup = BeautifulSoup(read(source), "html.parser")
     remove_template_notes(soup)
+    normalise_experience_language(soup)
     ensure_simulation_note(soup)
     ensure_interactive_labels(soup)
     localise_known_assets(soup)
