@@ -11,7 +11,7 @@
 - 仓库：`D:\00_同步\BaiduSyncdisk\01_学术研究\展示\山大\Extra-Materials\kydw_try_site`
 - 当前分支：`main`
 - 站点代码提交基线：`d3d3f7e`；本轮答案页代码块、结果文案和教学文案修订已提交
-- 推送后云端版本：`origin/main=d3d3f7e`，且 `git ls-remote origin refs/heads/main` 同为 `d3d3f7e`
+- 推送后云端版本：站点内容提交 `d3d3f7e`；当前 `main` 已追加状态记录提交
 - 公开入口：`https://lhy1007.github.io/KYDW_TRY/`
 - Notion：本阶段不处理；GitHub Pages 是公开入口
 
@@ -23,7 +23,7 @@
 | 交互与布局 | `site.js`、`styles.css`、项目材料卡和实践入口 | 本地与 Pages 的脚本、样式字节完全一致；材料卡只保留“打开”，Week 2/进阶锁定，首页项目预览不直达 |
 | 实践材料 | A00—A02 教学页、题目 Notebook、参考答案、真实结果资产 | 本地材料已完成；A00/A01 Kaggle 参考版完成，A02 第 8 版也已完成并有 10 个输出文件 |
 | 维护文档 | README、`SITE-MAINTENANCE.md`、架构和材料维护表 | 本地已完成并已推送；关键 HTML 与 Pages 内容按统一换行规范逐项一致 |
-| 部署同步 | GitHub `main` 与 GitHub Pages | `d3d3f7e` 已推送并完成 Pages 构建；主页和三个答案页返回 200，主页最终 URL 保持在 `lhy1007.github.io/KYDW_TRY/`，未发现 `is-a.dev` 跳转 |
+| 部署同步 | GitHub `main` 与 GitHub Pages | 站点内容提交 `d3d3f7e` 已推送并完成 Pages 构建，随后追加状态记录；主页和三个答案页返回 200，主页最终 URL 保持在 `lhy1007.github.io/KYDW_TRY/`，未发现 `is-a.dev` 跳转 |
 
 ## 已验证内容
 
