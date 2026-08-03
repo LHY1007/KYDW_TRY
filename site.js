@@ -195,10 +195,11 @@
   function leaderPreview(leader, linked = false) {
     const preview = leader.preview || "";
     const detailParagraphs = leader.paragraphs || (leader.text ? [leader.text] : []);
-    if (linked) return `<a class="leader-fold leader-link${detailParagraphs.length ? "" : " leader-fold-empty"}" href="${rootHref(`team/people.html#${leaderSlug(leader)}`)}"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small>${preview ? `<em>${esc(preview)}</em>` : ""}</span></a>`;
-    if (!detailParagraphs.length) return `<div class="leader-fold leader-fold-empty" id="${leaderSlug(leader)}"><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small></span></div>`;
+    const heading = `<span class="leader-summary-head"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small></span>`;
+    if (linked) return `<a class="leader-fold leader-link${detailParagraphs.length ? "" : " leader-fold-empty"}" href="${rootHref(`team/people.html#${leaderSlug(leader)}`)}"><span class="leader-summary-main">${heading}${preview ? `<em>${esc(preview)}</em>` : ""}</span></a>`;
+    if (!detailParagraphs.length) return `<div class="leader-fold leader-fold-empty" id="${leaderSlug(leader)}"><span class="leader-summary-main">${heading}</span></div>`;
     const detail = `<div class="fold-body">${paragraphs(detailParagraphs)}</div>`;
-    return `<details class="leader-fold" id="${leaderSlug(leader)}"><summary><span class="leader-summary-main"><b>${esc(leader.name)}</b><small>${esc(leader.role)}</small>${preview ? `<em>${esc(preview)}</em>` : ""}</span><span class="leader-toggle">查看简介</span></summary>${detail}</details>`;
+    return `<details class="leader-fold" id="${leaderSlug(leader)}"><summary><span class="leader-summary-main">${heading}${preview ? `<em>${esc(preview)}</em>` : ""}</span><span class="leader-toggle">查看简介</span></summary>${detail}</details>`;
   }
 
   function newsItemsMarkup(items) {
@@ -222,7 +223,7 @@
     const open = isProjectOpen(project);
     const content = `<span class="project-new">new</span><span class="home-project-copy"><b>${esc(project.title)}</b><span>${esc(summary)}</span></span>`;
     if (!open) return `<div class="home-project-item is-locked" aria-disabled="true" title="暂未开放">${content}<span class="quick-link-lock">等待 Week ${esc(project.week)} 开放</span></div>`;
-    return `<a class="home-project-item" href="${rootHref(`experience/${project.id}.html`)}">${content}</a>`;
+    return `<div class="home-project-item home-project-preview" aria-label="${esc(project.title)}项目预览">${content}</div>`;
   }
 
   function environmentProjectCard(environment, directory = false) {
@@ -231,13 +232,13 @@
     return `<a class="home-project-item environment-project-item" href="${rootHref(environment.href)}"><span class="project-required">必看</span><span class="home-project-copy"><b>${esc(environment.title)}</b><span>${esc(environment.short)}</span></span></a>`;
   }
 
-  function quickLinksMarkup(items, label = "快捷入口", compact = false) {
+  function quickLinksMarkup(items, label = "项目预览", compact = false) {
     if (!items || !items.length) return "";
     const links = items.map((item) => {
       const locked = Boolean(item.locked) || (isAdvancedPath(item.href) && !isAdvancedOpen());
       const inner = `<span class="quick-link-copy"><b>${esc(item.label)}</b>${item.caption ? `<span>${esc(item.caption)}</span>` : ""}</span>${locked ? `<span class="quick-link-lock" aria-hidden="true">锁定</span>` : ""}`;
       if (locked) return `<span class="quick-link is-locked" aria-disabled="true" title="暂未开放">${inner}</span>`;
-      return `<a class="quick-link" href="${rootHref(item.href)}">${inner}</a>`;
+      return `<span class="quick-link project-preview-link" aria-label="项目预览：${esc(item.label)}" title="请先查看详情">${inner}</span>`;
     }).join("");
     return `<div class="quick-links${compact ? " is-compact" : ""}"><div class="quick-links-head">${esc(label)}</div><div class="quick-link-grid">${links}</div></div>`;
   }
@@ -251,7 +252,7 @@
     }));
   }
 
-  function moduleQuickLinks(module, compact = false, label = "快捷入口") {
+  function moduleQuickLinks(module, compact = false, label = "项目预览") {
     const derived = (module.id === "sdu" || module.id === "fudan") && module.lessons?.length
       ? module.lessons.map((lesson) => ({
         label: lesson.title,
@@ -312,7 +313,8 @@
 
   function experienceActivityCard() {
     const e = data.experience;
-    return `<article class="card activity-card activity-card-featured" id="experience"><div class="activity-order" aria-hidden="true"></div><div class="card-kicker"><span class="project-new">new</span></div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list experience-prep-list">${environmentProjectCard(e.environment)}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="outline-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article>`;
+    const previewProjects = (e.homeProjectIds || []).map(findProject).filter(Boolean);
+    return `<article class="card activity-card activity-card-featured" id="experience"><div class="activity-order" aria-hidden="true"></div><div class="card-kicker"><span class="project-new">new</span></div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list experience-prep-list">${environmentProjectCard(e.environment)}<div class="home-project-preview-label">项目预览</div>${previewProjects.map(homeProjectCard).join("")}</div><div class="card-footer"><a class="outline-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article>`;
   }
 
   function sectionHead(title, text, href, label) {
@@ -398,7 +400,7 @@
       <div class="home-intro-grid"><div class="home-overview-left"><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup(t.news || [])}</article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
-      <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${environmentProjectCard(e.environment)}${homeProjects.map(homeProjectCard).join("")}</div>${quickLinksMarkup(experienceQuickLinks(), "快捷入口")}<div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
+      <div class="showcase-grid"><article class="card featured-showcase"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${environmentProjectCard(e.environment)}<div class="home-project-preview-label">项目预览</div>${homeProjects.map(homeProjectCard).join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
     </section>
     <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "进入资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
@@ -466,7 +468,7 @@
     const t = data.training;
     const trainingModule = findModule("training");
     layout(`${hero({ eyebrow: "项目与活动 / 科研入门培训", title: t.title, lead: t.lead, actions: [{ label: "查看培训章节", href: "#training-chapters", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
-    <section class="section"><div class="prose">${paragraphs(t.paragraphs)}${moduleMeta(trainingModule)}</div>${moduleQuickLinks(trainingModule, false, "快捷入口")}</section>
+    <section class="section"><div class="prose">${paragraphs(t.paragraphs)}${moduleMeta(trainingModule)}</div>${moduleQuickLinks(trainingModule, false, "项目预览")}</section>
     <section class="section" id="training-chapters">${sectionHead("培训章节", "从基础知识开始，逐步进入人工智能、科研实践与实战项目。", "programs/training/path.html", "查看培训路径")}<div class="training-chapter-grid">${t.chapters.map(trainingChapterCard).join("")}</div></section>
     <section class="section"><div class="card feature-callout"><h2>${esc(t.plan.title)}</h2><p>${esc(t.plan.lead)}</p><div class="card-footer"><a class="solid-btn" href="${rootHref("programs/training/path.html")}">查看培训路径 →</a></div></div></section>`);
   }
@@ -504,7 +506,7 @@
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}
     <section class="section"><div class="prose">${paragraphs(e.paragraphs)}</div></section>
     <section class="section">${sectionHead("体验版与进阶版", "体验版完成指定内容；进阶版自行设计方法并提交报告。", null)}<div class="project-level-grid">${(e.levels || []).map((level, index) => `<article class="project-level-card"><div class="mode-kicker">${esc(level.title)}</div><p>${esc(level.text)}</p>${index === 1 && e.advancedResources?.length ? `<div class="inline-doc-links">${e.advancedResources.map((item) => `<a href="${rootHref(item.href)}">${esc(item.title)}</a>`).join("")}</div>` : ""}</article>`).join("")}</div></section>
-    <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item) => `<article class="structure-card"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
+    <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item, index) => `<article class="structure-card${index === 3 ? " structure-card-wide" : index === 4 ? " structure-card-last" : ""}"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
     <section class="section" id="project-directory">${sectionHead("项目目录", "开始实践前请先完成项目环境准备，再进入已开放的科研项目。", null)}<div class="directory-project-grid">${environmentProjectCard(e.environment, true)}${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
     <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>完成体验项目后，对某个方向希望继续学习的同学，可以联系负责人了解对应课题组的后续安排；进阶项目需要完成实践并提交设计报告。</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
   }

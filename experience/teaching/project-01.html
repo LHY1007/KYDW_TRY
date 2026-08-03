@@ -566,7 +566,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <li>加入高斯噪声并比较模型性能</li>
 <li>只修改学习率，完成一次对照实验</li>
 </ol>
-<p>每完成一项，运行当前单元格和后续检查单元格，确认输出 shape、指标与文件内容，再进入下一项。完成最后一项对照实验时，回到训练设置单元格，只把学习率从 <code>1e-3</code> 改为 <code>1e-2</code>，重新运行短训练，再把原设置、新设置和最佳验证准确率写入 <code>comparison</code>。</p>
+<p>每完成一项，运行当前单元格和后续检查单元格，确认输出 shape、指标与文件内容，再进入下一项。完成最后一项对照实验时，重新打开训练设置单元格，只把学习率从 <code>1e-3</code> 改为 <code>1e-2</code>，重新运行短训练，再把原设置、新设置和最佳验证准确率写入 <code>comparison</code>。</p>
 <div class="files"><strong>需要保存的结果：</strong><code>task0_data_visualization.png</code><code>task0_training_curve.png</code><code>task0_confusion_matrix.png</code><code>task0_result.json</code></div>
 </div>
 </section>

@@ -90,9 +90,9 @@ window.KYDW = {
       { date: "2026.7", html: "团队本科生 <strong>李知彤（25级）</strong>、<strong>刘子铭（25级）</strong>、<strong>姜逸轩（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
       { date: "2026.7", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
       { date: "2026.5", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>崔涵禹（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 发表于 <strong>中科院一区 TOP 学术期刊 <em>Expert Systems With Applications</em></strong>。" },
-      { date: "2026.5", html: "团队本科生 <strong>苗正洋</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 收录于 <strong>CCF B 类国际顶级声学、语音与信号处理会议 IEEE International Conference on Acoustics, Speech, and Signal Processing（ICASSP 2026）</strong>。" },
+      { date: "2026.5", html: "团队本科生 <strong>苗正洋（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 收录于 <strong>CCF B 类国际顶级声学、语音与信号处理会议 IEEE International Conference on Acoustics, Speech, and Signal Processing（ICASSP 2026）</strong>。" },
       { date: "2026.4", html: "团队 MPhil <strong>唐浩（东大医工21级本科）</strong> 的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 收录于 <strong>CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em></strong>。" },
-      { date: "2026.2", html: "团队本科生 <strong>吴熙东（22级）</strong>、<strong>汤昊天（23级）</strong>、<strong>伍东辰</strong> 的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <strong>中科院一区期刊 <em>Biomedical Signal Processing and Control</em></strong>。" },
+      { date: "2026.2", html: "团队本科生 <strong>吴熙东（22级）</strong>、<strong>汤昊天（23级）</strong>、<strong>伍东辰（23级）</strong> 的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <strong>中科院一区期刊 <em>Biomedical Signal Processing and Control</em></strong>。" },
       { date: "2026.1", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>吴熙东（22级）</strong>、<strong>崔涵禹（23级）</strong> 的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <strong>中科院一区期刊 <em>Computer Methods and Programs in Biomedicine</em></strong>。" },
       { date: "2025.9", html: "团队 PhD <strong>阙宁锋（东北大学生物医学工程21级本科）</strong> 的论文 <em>Adaptive spatial transcriptomics interpolation via cross-modal cross-slice modeling</em> 以 early accepted 形式收录于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong>。" },
       { date: "2025.9", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>OG-SAM: Enhancing Multi-Organ Segmentation with Organogenesis-Based Adaptive Modeling</em> 收录于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong>，并作 <strong>Oral</strong> 报告。" },
@@ -291,7 +291,7 @@ window.KYDW = {
         title: "序言：如何制作世界上最好吃的面包",
         lead: "从准备材料、掌握方法到完成实践，建立一条可以反复使用的学习路径。",
         topics: [
-          { title: "先形成完整流程", text: "从研究问题、资料、工具和实践任务开始，先完成一次完整的学习闭环。" },
+          { title: "先形成完整流程", text: "从研究问题、资料、工具和实践任务开始，先完成一次完整的学习过程。" },
           { title: "再逐步增加难度", text: "先复盘结果和过程，再进入更复杂的数据、模型和研究问题。" }
         ]
       },
@@ -372,8 +372,8 @@ window.KYDW = {
         lead: "把知识学习、代码实践和研究表达放在同一个任务中完成。",
         locked: true,
         topics: [
-          { title: "从学习进入行动", text: "将章节中的概念落实到一次可运行、可观察、可解释的实践。" },
-          { title: "从行动回到思考", text: "根据运行结果重新检查问题、方法和结论，形成自己的研究判断。" }
+          { title: "完成一次实践", text: "把章节中的概念用于一次可运行、可观察、可解释的实践。" },
+          { title: "检查运行结果", text: "根据运行结果检查问题、方法和结论，形成自己的研究判断。" }
         ]
       },
       {
@@ -482,7 +482,7 @@ window.KYDW = {
         { task: "任务 2：缺失与类型检查", fill: "输出缺失率最高的列、数值列和类别列，并决定相应预处理。", basis: "根据表格实际 dtype、缺失率和后续 ColumnTransformer 输入确定。", check: "确认预处理只在训练数据上拟合。" },
         { task: "任务 3：建立 XGBoost 模型", fill: "完成模型参数、训练和验证预测概率。", basis: "根据训练集、验证集、类别不平衡和现有 XGBoost 接口填写。", check: "确认输出为概率值，后续再通过阈值转换为类别标签。" },
         { task: "任务 4：阈值选择与测试评价", fill: "在验证集候选阈值中选择 F1 最高者，再在测试集记录结果。", basis: "测试集不能参与阈值选择；同时记录 ROC-AUC、混淆矩阵等指标。", check: "确认最佳阈值和测试指标来自实际运行。" },
-        { task: "任务 5：特征重要性与单变量对照", fill: "使用 permutation importance 找出前 12 个变量，并完成一个单变量对照。", basis: "固定评价指标和随机种子，只改变一个变量或一个特征集合。", check: "确认重要性排序和对照结论能回到实际变量。" }
+        { task: "任务 5：特征重要性与单变量对照", fill: "使用 permutation importance 找出前 12 个变量，并完成一个单变量对照。", basis: "固定评价指标和随机种子，只改变一个变量或一个特征集合。", check: "确认重要性排序和对照结论能够对应实际变量。" }
       ],
       "project-06": [
         { task: "任务 1：核对输入字段与空间划分", fill: "核对 he、lr、hr、split 字段和 train、buffer、holdout 划分。", basis: "根据数据对象 shape、字段名和空间区域标识填写。", check: "确认不同空间区域没有混入错误的数据集。" },
@@ -532,8 +532,8 @@ window.KYDW = {
       { no: "01", title: "教学项目", text: "体验版建立完成实践所需的基础知识；进阶版补充方法、前沿研究与研究设计。" },
       { no: "02", title: "实践项目", text: "体验版完成指定内容；进阶版设计方法、运行实验并形成设计报告。" },
       { no: "03", title: "实践项目参考答案", text: "完成实践后核对代码、分析过程和结果表达。每份实践项目参考答案展示一种可行方案。" },
-      { no: "04", title: "进阶项目", text: "除了体验项目外，我们还设置了进阶项目，同样包含教学项目、实践项目和实践项目参考答案，但难度更大、知识更深。体验过数个方向后，如果对某个方向感兴趣，可以通过微信或邮件联系负责人刘涵瑜，完成进阶项目并撰写报告，作为后续课题组能力考察依据。当前进阶项目尚未开放。" },
-      { no: "05", title: "答疑/反馈渠道", text: "参与项目的同学可以加入群聊、通过公众号后台私信、添加负责人微信或邮件联系等多种渠道进行提问和反馈，具体联系方式见页面最下方。" }
+      { no: "04", title: "进阶项目", text: "进阶项目同样包含教学项目、实践项目和实践项目参考答案，难度更大、知识更深。体验数个方向后，可联系负责人刘涵瑜完成进阶项目并撰写报告，作为后续课题组能力考察依据。当前尚未开放。" },
+      { no: "05", title: "答疑/反馈渠道", text: "可通过群聊、公众号后台、负责人微信或邮件提问和反馈，具体联系方式见页面最下方。" }
     ],
     path: [
       { title: "体验项目", text: "阅读基础教学内容，完成实践中的指定代码和文字。" },
