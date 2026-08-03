@@ -509,6 +509,25 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 </div>
 </div>
 </div>
+<p>MNIST 类别大致均衡，总体准确率具有直观意义。真实医学数据常不均衡，宏 F1 和每类召回更有信息。报告平均指标时，应同时展示各类别表现。</p>
+<p>Top-k 准确率检查真实类别是否进入概率最高的 k 个类别。类别数量很大时有用，十分类 MNIST 通常使用 Top-1。</p>
+<div class="miniapp" id="app00noise">
+<div class="miniapp-title">输入噪声怎样改变模型表现</div>
+<div class="miniapp-sub">曲线记录同一已训练模型在测试集上的参考结果。滑块改变加入测试图像的高斯噪声标准差，观察输入变化与准确率之间的关系。</div>
+<div class="real-data-note">Notebook 任务固定使用 <code>noise_sigma = 0.25</code>；完成后请在 <code>task0_result.json</code> 中读取自己的加噪准确率与下降值。页面滑块用于观察 0—0.5 范围内的参考趋势。</div>
+<label>噪声标准差<span id="noiseVal00">0.20</span>
+</label>
+<input id="noiseSlider00" aria-label="噪声标准差" max="5" min="0" step="1" type="range" value="2">
+<div class="miniapp-grid">
+<canvas height="260" id="noisePlot00" width="520" role="img" aria-label="不同噪声强度下的测试准确率参考曲线">
+</canvas>
+<div class="panel">
+<div class="metric-box">
+<b id="noiseAcc00">–</b>测试准确率</div>
+<p>训练数据与实际输入之间的差异扩大时，模型仍可能输出高置信度结果，因此稳健性评价需要主动构造扰动。</p>
+</div>
+</div>
+</div>
 <div class="knowledge-check">
 <h3>理解检查</h3>
 <p>某个数字的 TP=8、FP=2、FN=2 时，计算它的 Precision、Recall 和 F1；再说明为什么宏 F1 需要先算每一类 F1。</p>
