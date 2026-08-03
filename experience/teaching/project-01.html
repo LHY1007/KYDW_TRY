@@ -217,7 +217,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 </div>
 </div>
 <div class="knowledge-check">
-<h3>理解检查</h3>
+<h3>思考</h3>
 <p>选择“识别手写数字”，写出输入、模型输出和一项合适的评价指标；再说明 Softmax 概率最大的类别如何成为预测结果。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -299,7 +299,7 @@ x_norm = (x − μ) / (σ + 1e−8)</div>
 <p>均值和标准差来自训练子集，验证集与测试集沿用它们，这样评价阶段使用的尺度由训练过程确定。</p>
 </div>
 <div class="knowledge-check">
-<h3>理解检查</h3>
+<h3>思考</h3>
 <p>看到 <code>[128, 1, 28, 28]</code> 时，依次指出四个维度的含义；再说明训练集均值和标准差在三个数据集上的使用方式。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -378,7 +378,7 @@ a = ReLU(u) = max(0, u)</div>
 <p>对于 MNIST，可以先把 28×28 图像展平成 784 维向量。第一隐藏层把 784 个像素转换成若干隐藏特征，第二隐藏层继续组合这些特征，输出层产生十个类别得分。网络中每个连接都有权重，每个隐藏单元有偏置。</p>
 <p>隐藏层特征由训练目标共同塑造。某些单元可能对竖直笔画敏感，某些单元可能对闭合区域或弯曲结构敏感。判断单元含义时，需要结合多张图像和上下文。</p>
 <div class="knowledge-check">
-<h3>理解检查</h3>
+<h3>思考</h3>
 <p>对于一张 MNIST 图像，按“前向传播 → 损失 → 反向传播 → 参数更新”的顺序说出每一步产生的对象，并指出参数发生改变的位置。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -462,7 +462,7 @@ a = ReLU(u) = max(0, u)</div>
 <div class="lecture-open">准确率先给出一个总体数字。混淆矩阵、每类指标、置信度和鲁棒性共同说明模型在哪些情况下表现稳定，又会在哪些输入上出现偏差。</div>
 <p>混淆矩阵按真实类别和预测类别统计数量。十分类 MNIST 的矩阵为 10×10。对角线表示正确预测，非对角线表示混淆。矩阵能够回答哪些类别容易相互误判。</p>
 <p>如果数字 4 经常被预测为 9，需要查看相关样本的笔画结构；数字 3 与 5 混淆可能来自顶部和底部弯曲相似。混淆模式能够指导数据增强、标签检查和模型改进。</p>
-<p>归一化混淆矩阵把每个真实类别总数转换为比例，便于比较类别召回。按预测类别归一化则便于观察预测结果的纯度。报告时需要说明归一化方向。</p>
+<p>归一化混淆矩阵把每个真实类别总数转换为比例，便于比较类别召回。按预测类别归一化则便于观察预测结果的纯度。说明结果时需要交代归一化方向。</p>
 <p>下面先用结构示意说明混淆矩阵的读法。运行 Notebook 后，测试集产生的实际矩阵会保留同样的行列含义，用于定位哪些笔画形态导致了混淆。</p>
 <figure class="data-figure digits-cm-figure">
 <div class="simulation-note">10×10 混淆矩阵读法示意：运行 Notebook 后，把测试集输出的实际计数填入同样的结构。</div>
@@ -483,7 +483,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 </table>
 <p>只观察这两类时，平均 F1 为 <code>(0.80 + 0.33) / 2 = 0.565</code>。十分类 MNIST 的宏 F1 则把 0–9 的十个 F1 等权相加再除以 10；Notebook 中对应 `f1_score(y_true, y_pred, average='macro')`。</p>
 </div>
-<p>MNIST 类别大致均衡，总体准确率具有直观意义。真实医学数据常不均衡，宏 F1 和每类召回更有信息。报告平均指标时，应同时展示各类别表现。</p>
+<p>MNIST 类别大致均衡，总体准确率具有直观意义。真实医学数据常不均衡，宏 F1 和每类召回更有信息。记录平均指标时，应同时展示各类别表现。</p>
 <p>Top-k 准确率检查真实类别是否进入概率最高的 k 个类别。类别数量很大时有用，十分类 MNIST 通常使用 Top-1。</p>
 <div class="miniapp" id="app00noise">
 <div class="miniapp-title">输入噪声怎样改变模型表现</div>
@@ -502,7 +502,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 </div>
 </div>
 </div>
-<p>MNIST 类别大致均衡，总体准确率具有直观意义。真实医学数据常不均衡，宏 F1 和每类召回更有信息。报告平均指标时，应同时展示各类别表现。</p>
+<p>MNIST 类别大致均衡，总体准确率具有直观意义。真实医学数据常不均衡，宏 F1 和每类召回更有信息。记录平均指标时，应同时展示各类别表现。</p>
 <p>Top-k 准确率检查真实类别是否进入概率最高的 k 个类别。类别数量很大时有用，十分类 MNIST 通常使用 Top-1。</p>
 <div class="miniapp" id="app00noise">
 <div class="miniapp-title">输入噪声怎样改变模型表现</div>
@@ -522,7 +522,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 </div>
 </div>
 <div class="knowledge-check">
-<h3>理解检查</h3>
+<h3>思考</h3>
 <p>某个数字的 TP=8、FP=2、FN=2 时，计算它的 Precision、Recall 和 F1；再说明为什么宏 F1 需要先算每一类 F1。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
