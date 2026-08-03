@@ -166,7 +166,7 @@ window.KYDW = {
       homeOrder: 2,
       items: [
         { title: "山东大学本科生暑期名校课程-神经影像学与人工智能", text: "剑桥大学 KYDW 成员所属课题组团队在山东大学授课的暑期短期课程，面向山东大学全学科 25、24 级学生，内容覆盖基础编程、MRI 分割、胸部 X 射线、计算病理、医学信息预测和空间转录组等任务。", href: "programs/sdu.html", home: true },
-        { title: "KYDW科研入门培训", text: "培训从电脑操作、文献阅读和数据基础开始，逐步进入 Python、人工智能、深度学习和科研实践。", href: "programs/training.html", home: true },
+        { title: "KYDW科研入门培训", text: "老版本的 KYDW 科研入门项目目前已不适用。培训从电脑操作、文献阅读和数据基础开始，逐步进入 Python、人工智能、深度学习和科研实践。", href: "programs/training.html", home: true },
         { title: "复旦大学秋季学期本科生践悟课程", text: "剑桥大学 KYDW 成员所属课题组团队在复旦大学面向高潜力学生授课的科研践悟课程，主要从领域知识、学术常识、技能培养等多方面展开。", href: "programs/fudan.html", home: true },
         { title: "生物医学人工智能专题交流", text: "生物学与人工智能交叉主题的定期讨论。", href: "programs/workshop.html", home: true }
       ]

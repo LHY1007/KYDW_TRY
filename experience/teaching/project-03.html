@@ -253,7 +253,7 @@ interpolation_z = (1 - alpha) * z_a + alpha * z_b</div>
 
       <section class="lesson" id="results">
         <h2>7. 真实50轮结果</h2>
-        <div class="lecture-open">前面的任务、输入、模型和损失确定后，进入结果阅读。下面的图像和指标直接对应当前 50 轮 CUDA Notebook 运行。</div>
+        <div class="lecture-open">前面的任务、输入、模型和损失确定后，进入结果阅读。下面的图像和指标直接对应当前 Notebook 的真实 50 轮运行。</div>
         <div class="metric-row" aria-label="真实50轮关键指标"><div class="metric-box"><b>64</b><span>潜变量维度</span></div><div class="metric-box"><b>0.0878</b><span>留出集重建 L1</span></div><div class="metric-box"><b>0.2334</b><span>展示样本两两 L1</span></div><div class="metric-box"><b>0.0114</b><span>五项特征均值差</span></div></div>
         <table class="mini-table"><thead><tr><th>运行项目</th><th>当前记录</th><th>怎样理解</th></tr></thead><tbody><tr><td>训练轮数</td><td>50 轮；每轮 16 个批次</td><td>训练历史完整记录到第 50 轮</td></tr><tr><td>输入与划分</td><td>1,073 张训练图像；268 张留出图像</td><td>留出图像只用于训练后的检查</td></tr><tr><td>生成候选</td><td>128 个潜空间候选；展示其中 16 张</td><td>在不同训练图像的潜向量之间插值后生成，再按图像统计选取展示样本</td></tr><tr><td>输出 shape</td><td><code>[B,1,64,64]</code></td><td>与输入图像保持相同的单通道空间尺寸</td></tr></tbody></table>
         <div class="result-note"><strong>指标口径：</strong>“留出集重建 L1”比较留出胸片与其重建；“展示样本两两 L1”反映展示生成样本之间的平均像素差异；“五项特征均值差”是生成图与真实留出图在强度、波动、边缘、中心—边缘对比和双侧肺部对比五项特征上的平均绝对差。</div>
