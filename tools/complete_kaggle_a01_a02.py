@@ -31,7 +31,7 @@ def save(path, nb):
 def complete_a01():
     path, nb = load_notebook("a01")
     put(nb, 4, r'''
-ROOT=Path('/kaggle/input')
+ROOT=Path('/kaggle/input') if Path('/kaggle/input').exists() else Path.cwd()/'data'
 all_tif=list(ROOT.rglob('*.tif'))+list(ROOT.rglob('*.png'))
 mask_paths=[p for p in all_tif if '_mask' in p.stem.lower()]
 pairs=[]
@@ -83,6 +83,10 @@ def dice_score(prob,target,threshold=.5,eps=1e-6):
     intersection=(pred*target).sum(dim=(1,2,3))
     denom=pred.sum(dim=(1,2,3))+target.sum(dim=(1,2,3))
     return ((2*intersection+eps)/(denom+eps)).mean()
+
+def soft_dice_score(prob,target,eps=1e-6):
+    inter=(prob*target).sum(dim=(1,2,3))
+    return (2*inter+eps)/(prob.sum(dim=(1,2,3))+target.sum(dim=(1,2,3))+eps)
 ''')
     put(nb, 13, r'''
 class DoubleConv(nn.Module):
@@ -122,7 +126,7 @@ def run_epoch(loader,training):
         if training:
             opt.zero_grad()
         logits=model(x); prob=torch.sigmoid(logits)
-        loss=bce(logits,y)+(1-dice_score(prob,y))
+        loss=bce(logits,y)+(1-soft_dice_score(prob,y)).mean()
         if training:
             loss.backward(); opt.step()
         losses.append(float(loss.detach().cpu())); dices.append(float(dice_score(prob,y).detach().cpu()))
@@ -141,24 +145,44 @@ thresholds=[.3,.5,.7]
 val_dices={}
 
 def evaluate(loader,threshold):
-    model.eval(); ds=[]; ious=[]; examples=[]
+    model.eval(); ds=[]; ious=[]; positive_ds=[]; positive_ious=[]; examples=[]
+    empty_true=empty_pred=both_empty=0
     with torch.no_grad():
         for x,y,pid in loader:
             prob=torch.sigmoid(model(x.to(DEVICE))).cpu(); pred=(prob>=threshold).float()
+            target_area=y.sum((1,2,3)); pred_area=pred.sum((1,2,3))
+            empty_true += int((target_area==0).sum()); empty_pred += int((pred_area==0).sum())
+            both_empty += int(((target_area==0)&(pred_area==0)).sum())
             inter=(pred*y).sum((1,2,3)); union=((pred+y)>0).float().sum((1,2,3))
             d=(2*inter+1e-6)/(pred.sum((1,2,3))+y.sum((1,2,3))+1e-6)
             i=(inter+1e-6)/(union+1e-6)
-            ds.extend(d.numpy()); ious.extend(i.numpy())
+            positive=target_area>0
+            ds.extend(d.numpy()); ious.extend(i.numpy()); positive_ds.extend(d[positive].numpy()); positive_ious.extend(i[positive].numpy())
             if len(examples)<4:
                 for k in range(min(4-len(examples),len(x))): examples.append((x[k,0].numpy(),y[k,0].numpy(),prob[k,0].numpy()))
-    return float(np.mean(ds)),float(np.mean(ious)),examples
+    stats={'total':len(ds),'empty_true':empty_true,'empty_pred':empty_pred,'both_empty':both_empty,'positive_true':len(positive_ds),'positive_dice':float(np.mean(positive_ds)) if positive_ds else None,'positive_iou':float(np.mean(positive_ious)) if positive_ious else None}
+    return float(np.mean(ds)),float(np.mean(ious)),examples,stats
 
 for threshold in thresholds:
     val_dices[threshold]=evaluate(val_loader,threshold)[0]
 best_threshold=max(val_dices,key=val_dices.get)
 print('validation dice by threshold:',val_dices)
-test_dice,test_iou,examples=evaluate(test_loader,best_threshold)
+test_dice,test_iou,examples,test_stats=evaluate(test_loader,best_threshold)
 print('test:',best_threshold,test_dice,test_iou)
+print('test mask stats:',test_stats)
+''')
+    put(nb, 19, r'''
+fig,ax=plt.subplots(len(examples),3,figsize=(8,2.5*len(examples)))
+for r,(x,y,p) in enumerate(examples):
+    ax[r,0].imshow(x,cmap='gray'); ax[r,0].set_title('MRI')
+    ax[r,1].imshow(y,cmap='gray'); ax[r,1].set_title('true mask')
+    ax[r,2].imshow(x,cmap='gray'); ax[r,2].imshow(p>=best_threshold,alpha=.4,cmap='viridis'); ax[r,2].set_title('prediction')
+    for c in range(3): ax[r,c].axis('off')
+plt.tight_layout(); plt.savefig(OUT/'task1_prediction.png',dpi=160); plt.show()
+
+result={'train_slices':len(train_ds),'validation_slices':len(val_ds),'test_slices':len(test_ds),'best_threshold':best_threshold,'test_dice':test_dice,'test_iou':test_iou,'test_mask_stats':test_stats,'seed':SEED}
+(OUT/'task1_result.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+result
 ''')
     save(path, nb)
 
@@ -182,11 +206,11 @@ try:
 except Exception:
     gpu_ok=False
 DEVICE=torch.device('cuda' if gpu_ok else 'cpu')
-OUT=Path('/kaggle/working'); OUT.mkdir(exist_ok=True)
+OUT=Path('/kaggle/working') if Path('/kaggle/working').exists() else Path.cwd()/'outputs'; OUT.mkdir(exist_ok=True)
 print('device:',DEVICE)
 ''')
     put(nb, 4, r'''
-ROOT=Path('/kaggle/input')
+ROOT=Path('/kaggle/input') if Path('/kaggle/input').exists() else Path.cwd()/'data'
 candidates=[p for p in ROOT.rglob('train') if (p/'NORMAL').exists() or (p/'PNEUMONIA').exists()]
 if not candidates:
     try:
@@ -200,7 +224,8 @@ DATA_ROOT=candidates[0]
 transform=transforms.Compose([transforms.Grayscale(1),transforms.Resize(72),transforms.CenterCrop(64),transforms.ToTensor(),transforms.Normalize([.5],[.5])])
 ds=datasets.ImageFolder(DATA_ROOT,transform=transform)
 MAX_IMAGES=min(1000,len(ds)); ds=Subset(ds,list(range(MAX_IMAGES)))
-loader=DataLoader(ds,batch_size=64,shuffle=True,num_workers=2,drop_last=True)
+NUM_WORKERS=2 if Path('/kaggle/input').exists() else 0
+loader=DataLoader(ds,batch_size=64,shuffle=True,num_workers=NUM_WORKERS,drop_last=True)
 real,_=next(iter(loader)); utils.save_image((real[:36]+1)/2,OUT/'task2_real_xray_grid.png',nrow=6)
 
 real_display=((real+1)/2).clamp(0,1)

@@ -24,6 +24,7 @@ ADVANCED_MAPPING = [(f"{number:02d}", f"{number + 1:02d}") for number in range(1
 OPEN_EXPERIENCE_NUMBERS = {"00", "01", "02"}
 
 EXTERNAL_ASSET_MAP = {
+    "https://developer.download.nvidia.com/assets/Clara/Images/monai_brats_mri_segmentation_train.png": "../assets/experience/mri-t1.jpg",
     "https://upload.wikimedia.org/wikipedia/commons/2/26/MRI_Brain_T1_Axial_%2811%29.jpg": "../assets/experience/mri-t1.jpg",
     "https://upload.wikimedia.org/wikipedia/commons/b/b7/Normal_axial_T2-weighted_MR_image_of_the_brain.jpg": "../assets/experience/mri-t2.jpg",
     "https://journals.plos.org/plosone/article/figure/image?download=&id=10.1371%2Fjournal.pone.0263006.g005&size=large": "../assets/experience/meningioma-figure-0263006.png",
@@ -43,6 +44,21 @@ RETURN_STYLE = """
 @media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
 @media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
 """
+
+
+SIMULATION_NOTE_STYLE = """
+.simulation-note{font-size:14px;line-height:1.7;background:#fff7df;border:1px solid #ead6a0;border-left:5px solid #ad7634;border-radius:10px;padding:12px 14px;margin:16px 0;color:#5c4b29}
+.simulation-note b{color:#7d5521}
+.practice-box p,.practice-box code{overflow-wrap:anywhere;word-break:break-word}
+.dark .simulation-note{background:#463b20;color:#f4e5b8;border-color:#776536}.dark .simulation-note b{color:#f4d991}
+@media(max-width:700px){.simulation-note{overflow-wrap:anywhere}}
+"""
+
+
+SIMULATION_NOTE_TEXT = (
+    "页面中的流程图和交互组件用于理解本节概念；实践代码、训练过程和个人结果请在 Kaggle Notebook 中实际运行。"
+    "请先复制 Notebook 到自己的账户，再按单元格填写、运行和观察输出。"
+)
 
 
 REPORT_STYLE = """
@@ -120,7 +136,43 @@ def add_return_link(soup: BeautifulSoup, href: str) -> None:
 def remove_template_notes(soup: BeautifulSoup) -> None:
     """删除不属于教学正文的重复模板提示。"""
     for note in soup.select(".simulation-note"):
-        note.decompose()
+        text = note.get_text(" ", strip=True)
+        if text.startswith("模拟运行的注意事项"):
+            note.decompose()
+
+
+def ensure_simulation_note(soup: BeautifulSoup) -> None:
+    """在体验教学页实践段开头保留统一的运行说明。"""
+    section = soup.select_one("#practice, #run")
+    if section is None:
+        return
+    note = soup.new_tag("div", attrs={"class": "simulation-note"})
+    strong = soup.new_tag("b")
+    strong.string = "模拟运行的注意事项"
+    note.append(strong)
+    note.append(soup.new_tag("br"))
+    note.append(SIMULATION_NOTE_TEXT)
+    anchor = section.select_one(".lecture-open") or section.find("h2")
+    if anchor is not None:
+        anchor.insert_after(note)
+    if soup.head and soup.find("style", id="kydw-simulation-note-style") is None:
+        style = soup.new_tag("style", id="kydw-simulation-note-style")
+        style.string = SIMULATION_NOTE_STYLE
+        soup.head.append(style)
+
+
+def ensure_interactive_labels(soup: BeautifulSoup) -> None:
+    """给教学页中没有显式 label 的滑块补充无障碍名称。"""
+    labels = {
+        "#convStep00": "卷积演示步骤",
+        "#noiseSlider00": "噪声标准差",
+        "#rawPixSlider": "显示像素值",
+        "#bal": "判别器相对强度",
+    }
+    for selector, label in labels.items():
+        control = soup.select_one(selector)
+        if control is not None and not control.get("aria-label"):
+            control["aria-label"] = label
 
 
 def localise_known_assets(soup: BeautifulSoup) -> None:
@@ -137,6 +189,8 @@ def serialise(soup: BeautifulSoup) -> str:
 def transform_experience_teaching(source: Path, target: Path, public_no: str, site_no: str) -> None:
     soup = BeautifulSoup(read(source), "html.parser")
     remove_template_notes(soup)
+    ensure_simulation_note(soup)
+    ensure_interactive_labels(soup)
     localise_known_assets(soup)
     label = f"体验教学项目 {public_no}"
     if soup.title:
@@ -156,6 +210,15 @@ def transform_experience_teaching(source: Path, target: Path, public_no: str, si
 def transform_experience_answer(source: Path, target: Path, public_no: str, site_no: str) -> None:
     soup = BeautifulSoup(read(source), "html.parser")
     remove_template_notes(soup)
+    localise_known_assets(soup)
+    if site_no == "02":
+        # 当前公开配图是单张 T1 轴位示例，避免沿用原始多序列图的旧图注。
+        for image in soup.select('img[src*="mri-t1.jpg"]'):
+            image["alt"] = "MRI T1 轴位图像示例"
+            figure = image.find_parent("figure")
+            caption = figure.find("figcaption") if figure else None
+            if caption is not None:
+                caption.string = "MRI T1 轴位图像示例"
     label = f"实践项目参考答案 {public_no}"
     if soup.title:
         title = soup.title.get_text(" ", strip=True)
