@@ -78,6 +78,7 @@
 - 2026-08-03：核查线上主页入口后确认 `https://lhy1007.github.io/KYDW_TRY/` 与 `/index.html` 均 HTTP 200；`kydw.is-a.dev` 因 is-a.dev 申请仍为 OPEN/REVIEW_REQUIRED 而 302 到可用域名页。已将 GitHub 仓库主页元数据改为稳定 GitHub Pages 地址，并在 `SITE-MAINTENANCE.md` 固定主页规则；本轮未改 CNAME、未推送代码。
 - 2026-08-03：按 Crossref 论文元数据补齐 2026.5、2026.2、2026.1、2025.9 和 2025.4 六篇论文的完整作者；中文名未核对的作者保留英文全名。论文动态统一改为“发表于”或“收录于”，不再使用“被……接收”。`team.news` 仍是首页、团队近期动态页和成果页的唯一来源；本轮未推送 GitHub。
 - 2026-08-03：本轮通过 `node --check`、两份维护脚本 `py_compile`、`git diff --check`、内容数据 VM 断言和本地 HTTP 回读；`team.news` 共 15 条，六篇论文作者清单逐项核对，首页、`team/news.html`、`team/achievements.html` 与 `content.js` 均返回 HTTP 200。
+- 2026-08-03：本轮 14 个仓库文件已通过 GitHub API 发布到 `main`，远程提交为 `edd2f04b6c3e6d27da7a9a42858d719cf5b458c2`；Pages 构建状态为 `built`，线上 `content.js` 已包含完整作者。标准 `git push` 因当前环境连接 `github.com:443` 超时，未作为发布路径；主页与 `/index.html` 回读均为 HTTP 200，未跳转至 `is-a.dev`。
 
 ## 已知来源缺项
 
