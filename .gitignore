@@ -2,3 +2,4 @@ output/
 .playwright-cli/
 tmp/
 __pycache__/
+_codex_state/

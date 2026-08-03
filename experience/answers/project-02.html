@@ -1,62 +1,138 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>实践项目参考答案 01｜MRI 脑肿瘤图像分割</title><style>
-:root{--bg:#f3f5f8;--card:#fff;--ink:#172033;--muted:#5e6b7e;--line:#d9e0ea;--accent:#3b528b;--accent2:#21918c}*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}.top{position:sticky;top:0;z-index:5;background:#111827;color:#fff;padding:14px 22px;display:flex;justify-content:space-between}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1400px;margin:auto}.nav{position:sticky;top:58px;height:calc(100vh - 58px);overflow:auto;padding:22px;border-right:1px solid var(--line);background:#fff}.nav button{width:100%;text-align:left;border:0;background:transparent;padding:10px 12px;border-radius:8px;cursor:pointer}.nav button.active{background:#e8eef8;color:#1f3b6f;font-weight:700}.main{padding:32px 5vw 80px}.page{display:block;max-width:1000px;margin:auto}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:18px 0}.code{white-space:pre-wrap;background:#101827;color:#e5edf8;border-radius:12px;padding:18px;overflow:auto;font:14px/1.55 Consolas,monospace}.answer{border-left:5px solid var(--accent2)}img{max-width:100%;border-radius:12px}.pager{display:flex;justify-content:space-between;margin-top:28px}.pager button{border:0;border-radius:10px;padding:11px 18px;background:var(--accent);color:white;cursor:pointer}h1,h2,h3{line-height:1.35}.tag{display:inline-block;background:#e8eef8;padding:3px 10px;border-radius:999px;font-size:13px}@media(max-width:800px){.layout{grid-template-columns:1fr}.nav{position:static;height:auto;border-right:0}.main{padding:22px}.nav button{display:inline-block;width:auto}}
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>实践项目参考答案 01｜MRI 脑肿瘤图像分割</title>
+<style>
+:root{--bg:#f3f6f8;--paper:#fff;--ink:#162b3d;--muted:#587083;--blue:#1f5b85;--teal:#087f8c;--line:#d7e2e9;--soft:#edf5f7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.78}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;background:#173d5b;color:#fff;padding:14px 22px;box-shadow:0 3px 14px rgba(29,62,88,.16)}
+.top span{color:#d9edf4;font-size:14px}.site-return{margin-left:auto;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.6);border-radius:999px;padding:5px 12px;font-size:13px}.site-return:hover{text-decoration:underline}
+.answer-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.answer-actions a{display:inline-block;padding:7px 12px;border-radius:8px;background:#216b8d;color:#fff;text-decoration:none;font-weight:700}.answer-actions a.secondary{background:#fff;color:#216b8d;border:1px solid #9fc4d0}
+.layout{display:grid;grid-template-columns:248px minmax(0,1fr);max-width:1400px;margin:auto}.nav{position:sticky;top:58px;height:calc(100vh - 58px);overflow:auto;background:#fff;border-right:1px solid var(--line);padding:22px 16px}.nav button{width:100%;border:0;background:transparent;color:var(--ink);text-align:left;padding:10px 12px;border-radius:9px;cursor:pointer;font:inherit}.nav button.active{background:#e5f1f4;color:#155f72;font-weight:700}
+.main{padding:32px 5vw 80px}.page{display:none;max-width:1030px;margin:0 auto}.page.active{display:block}.page-intro{display:block}.card,section.page{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 7px 22px rgba(34,62,83,.05)}.page{padding:28px;margin-bottom:22px}.page-intro{padding:28px;margin-bottom:22px;border-left:5px solid var(--teal)}
+h1,h2,h3{line-height:1.35;color:#173d5b}h1{margin-top:0}h2{padding-bottom:.35em;border-bottom:2px solid #dce8ee}h3{margin-bottom:8px}.tag{display:inline-block;background:#e5f1f4;color:#155f72;padding:3px 10px;border-radius:999px;font-size:13px;margin-bottom:10px}.muted{color:var(--muted)}.answer{border-left:5px solid var(--teal);padding:18px 20px;background:#f9fcfd;border-radius:11px;margin:18px 0}.code{white-space:pre-wrap;background:#101b28;color:#e8f1f7;border-radius:11px;padding:17px 19px;overflow:auto;font:14px/1.6 Consolas,"Microsoft YaHei",monospace}.note{background:var(--soft);border:1px solid #cfe4e8;padding:14px 17px;border-radius:11px}.result-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}.result-table th,.result-table td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}.result-table th{background:#eef5f7;color:#23526b}.result-table td:nth-child(2){font-variant-numeric:tabular-nums}.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}.metric{background:#f6fafb;border:1px solid var(--line);border-radius:10px;padding:12px}.metric b{display:block;color:#155f72;font-size:20px;line-height:1.25}.metric small{color:var(--muted)}figure{margin:22px 0}figure img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#fff}figcaption{margin-top:7px;color:var(--muted);font-size:13px}.pager{display:flex;justify-content:space-between;margin-top:26px}.pager button{border:0;border-radius:10px;padding:10px 17px;background:var(--blue);color:#fff;cursor:pointer;font:inherit}.pager button:disabled{opacity:.4;cursor:default}
+@media(max-width:850px){.layout{display:block}.nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px}.nav button{display:inline-block;width:auto;margin:3px}.main{padding:20px 14px 50px}.page,.page-intro{padding:20px}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top{padding:11px 13px;gap:8px}.top span{display:none}.site-return{font-size:12px;padding:5px 8px}}
 </style>
-<style id="kydw-final-theme">
-:root{--kydw-bg:#f4f7fa;--kydw-paper:#fff;--kydw-ink:#152536;--kydw-muted:#5c6f82;--kydw-blue:#1f5b85;--kydw-line:#d7e1ea;--kydw-soft:#edf4f8}
-body{background:var(--kydw-bg)!important;color:var(--kydw-ink)!important;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif!important;line-height:1.78!important}
-h1,h2,h3,h4{color:#173d5b!important;letter-spacing:.01em}h2{padding-bottom:.35em;border-bottom:2px solid #dbe7ef}
-p{max-width:78em}.topbar{border-bottom:1px solid var(--kydw-line)!important;box-shadow:0 3px 14px rgba(29,62,88,.08)!important}
-main>section,.content>section,.reader-main>section,article>section,.chapter,.unit,.lesson-section{border:1px solid var(--kydw-line)!important;border-radius:16px!important;background:var(--kydw-paper)!important;box-shadow:0 8px 24px rgba(34,62,83,.06)!important;padding:28px!important;margin:22px 0!important}
-section+section{margin-top:26px!important}details{border:1px solid #cfdae3!important;border-radius:12px!important;background:#fbfdff!important;margin:14px 0!important}summary{cursor:pointer;font-weight:700;color:#224f72!important;padding:12px 15px!important}
-img,canvas,svg{max-width:100%;border-radius:12px}.edition-ribbon{position:fixed;right:18px;top:68px;z-index:9999;background:#173d5b;color:#fff;padding:7px 12px;border-radius:999px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.16)}
-.practice-check,.practice-quiz,[data-practice-check]{display:none!important}.real-source,.source-note,.citation-list,.references,.reference-list{display:none!important}
-@media(max-width:900px){.edition-ribbon{position:static;display:inline-block;margin:10px}.layout{display:block!important}main>section,.content>section,.reader-main>section,article>section,.chapter,.unit,.lesson-section{padding:20px!important}}
-</style>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  const image=document.querySelector('img[src*="mri-t1.jpg"]');
-  if(!image)return;
-  image.alt='MRI T1 轴位图像示例';
-  const caption=image.closest('figure')?.querySelector('figcaption');
-  if(caption)caption.textContent='MRI T1 轴位图像示例';
-});
-</script>
-<style>body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif!important;line-height:1.78!important}.page-intro{max-width:1040px;margin:0 auto 22px!important;border-left:5px solid #27859c!important}.card{border-radius:16px!important}.nav{border-right:1px solid #d5e1e9!important}.top{background:#173d5b!important}</style><style>
-/* KYDW readability repair */
-body{color:#172b3d}.muted,.note,figcaption{color:#4d6375}.hero p{color:#eef7fb}.card p,.card li{color:#1c3042}
-</style><style id="kydw-site-return-style">
-/* KYDW site return control: kept separate from the source reader styles. */
-.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
-.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
-.topbar .site-return{color:inherit;background:transparent}
-.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
-.source-asset-missing{display:none!important}
-@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
-@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
-</style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/></head><body><div class="edition-ribbon">实践项目参考答案 01</div><header class="top"><b>实践项目参考答案 01</b><span>逐步解析与参考答案</span><a class="site-return" href="../project-02.html">返回项目详情</a></header><div class="layout"><nav class="nav"><button>1. 图像与 mask 配对</button><button>2. 患者级划分</button><button>3. Dice 函数</button><button>4. U-Net 卷积块</button><button>5. 训练更新</button><button>6. 阈值选择</button><button>7. 结果解释</button></nav><main class="main"><section class="page-intro card"><h1>实践项目参考答案 01：MRI 脑肿瘤图像分割</h1><p>本实践在 Kaggle Notebook 中读取配对的 MRI 切片与肿瘤掩膜，按患者划分数据，训练轻量 U-Net，并用 Dice 与 IoU 评价预测区域。</p><p>以下内容按 Notebook 的执行顺序说明数据检查、代码补全、训练、评价和输出文件。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></section><section class="page"><span class="tag">步骤 1/7</span><h1>图像与 mask 配对</h1><div class="card"><p>配对规则使用文件名 `_mask`，患者标识来自文件夹。空 mask 仍是有效样本。</p></div><figure><img alt="真实 BraTS 多序列 MRI 与标签示例" src="../assets/experience/mri-t1.jpg"/><figcaption>真实 BraTS 多序列 MRI 与标签示例</figcaption></figure><div class="card answer"><h2>参考答案</h2><pre class="code">patient_count=len(set(x[2] for x in pairs))
-mask_nonempty=[]
-for _,m,_ in pairs:
-    mask_nonempty.append((np.array(Image.open(m).convert('L'))&gt;0).any())
-positive_masks=int(np.sum(mask_nonempty))
-empty_ratio=1-positive_masks/len(mask_nonempty)</pre></div></section><section class="page"><span class="tag">步骤 2/7</span><h1>患者级划分</h1><div class="card"><p>GroupShuffleSplit 让同一患者的切片只进入一个集合。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">gss=GroupShuffleSplit(n_splits=1,test_size=.2,random_state=SEED)
-train_idx,test_idx=next(gss.split(idx,groups=groups))</pre></div></section><section class="page"><span class="tag">步骤 3/7</span><h1>Dice 函数</h1><div class="card"><p>Dice 使用交集的两倍除以预测面积与真实面积之和。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">def dice_score(prob,target,threshold=.5,eps=1e-6):
+</head>
+<body>
+<header class="top"><b>实践项目参考答案 01</b><span>逐步解析与参考答案</span><a class="site-return" href="../project-02.html">返回项目详情</a></header>
+<div class="layout">
+<nav class="nav" aria-label="答案步骤">
+<button>1. 图像与 mask 配对</button><button>2. 患者级划分</button><button>3. Dice 函数</button><button>4. U-Net 卷积块</button><button>5. 训练更新</button><button>6. 阈值选择</button><button>7. 实际运行结果</button>
+</nav>
+<main class="main">
+<section class="page-intro card">
+<h1>实践项目参考答案 01：MRI 脑肿瘤图像分割</h1>
+<p>本实践读取配对的 MRI 切片与 FLAIR 异常区域 mask，按患者划分训练、验证和测试数据，再用轻量 U-Net 预测肿瘤区域。</p>
+<p>参考实现保留了从数据核对、患者级划分、损失函数到阈值评价的完整顺序。实际运行结果放在第 7 步，图中的 MRI、真实 mask、预测 mask 和对比颜色来自同一次测试运行。</p>
+<p class="muted">参考答案用于核对思路与输出，不要求代码写法逐字相同。参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p>
+<div class="actions answer-actions"><a href="../practice/project-02.ipynb" download>下载实践 Notebook</a><a class="secondary" href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01-reference" target="_blank" rel="noreferrer">在 Kaggle 中打开</a></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 1/7</span><h1>图像与 mask 配对</h1>
+<p>数据集中每个 mask 文件名只比 MRI 多出 <code>_mask</code>。删除这个后缀并确认对应文件存在，就能建立一一配对；患者编号从上级文件夹读取。</p>
+<div class="card answer"><h2>参考答案</h2><pre class="code">mask_paths=[p for p in ROOT.glob('**/*_mask.tif')]
+pairs=[]
+for mask_path in mask_paths:
+    image_path=Path(str(mask_path).replace('_mask',''))
+    if image_path.exists():
+        patient=mask_path.parent.name
+        pairs.append((image_path,mask_path,patient))
+assert pairs</pre></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 2/7</span><h1>患者级划分</h1>
+<p>同一患者的切片必须进入同一个集合。先按患者编号切分，再在训练部分划出验证集，可以避免同一患者的相邻切片同时出现在训练和测试中。</p>
+<div class="card answer"><h2>参考答案</h2><pre class="code">groups=np.array([patient for _,_,patient in pairs])
+idx=np.arange(len(pairs))
+gss=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=42)
+train_val,test_idx=next(gss.split(idx,groups=groups))
+gss2=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=42)
+tr_rel,va_rel=next(gss2.split(train_val,groups=groups[train_val]))
+train_idx=train_val[tr_rel]
+val_idx=train_val[va_rel]</pre></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 3/7</span><h1>Dice 函数同时支持训练和评价</h1>
+<p>训练时使用概率图计算 soft Dice；评价时先用阈值把概率图变成二值预测。正样本 Dice 单独统计真实 mask 非空的切片，避免大量空 mask 把模型的空预测误读成高分。</p>
+<div class="card answer"><h2>参考答案</h2><pre class="code">def dice_score(prob,target,threshold=.5,eps=1e-6):
     pred=(prob&gt;=threshold).float()
     dims=tuple(range(1,pred.ndim))
     inter=(pred*target).sum(dims)
-    return ((2*inter+eps)/(pred.sum(dims)+target.sum(dims)+eps)).mean()</pre></div></section><section class="page"><span class="tag">步骤 4/7</span><h1>U-Net 卷积块</h1><div class="card"><p>两次卷积保持空间尺寸，BatchNorm 和 ReLU 提供稳定非线性表征。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">self.block=nn.Sequential(
- nn.Conv2d(cin,cout,3,padding=1),nn.BatchNorm2d(cout),nn.ReLU(),
- nn.Conv2d(cout,cout,3,padding=1),nn.BatchNorm2d(cout),nn.ReLU())</pre></div></section><section class="page"><span class="tag">步骤 5/7</span><h1>训练更新</h1><div class="card"><p>BCE 提供像素分类信号，soft Dice 让概率图直接参与训练；阈值化 Dice 与 IoU 用于最后的区域评价。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">opt.zero_grad()
-logits=model(x)
-prob=torch.sigmoid(logits)
+    return ((2*inter+eps)/(pred.sum(dims)+target.sum(dims)+eps)).mean()
+
 def soft_dice_score(prob,target,eps=1e-6):
-    inter=(prob*target).sum(dim=(1,2,3))
-    return (2*inter+eps)/(prob.sum(dim=(1,2,3))+target.sum(dim=(1,2,3))+eps)
-loss=bce(logits,y)+(1-soft_dice_score(prob,y)).mean()
-loss.backward();opt.step()</pre></div></section><section class="page"><span class="tag">步骤 6/7</span><h1>阈值选择</h1><div class="card"><p>只用验证集选择阈值，测试集使用一次。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">for t in thresholds:
-    val_dices[t]=evaluate(val_loader,t)[0]
-best_threshold=max(val_dices,key=val_dices.get)</pre></div></section><section class="page"><span class="tag">步骤 7/7</span><h1>结果解释</h1><div class="card actual-result-assets"><h2>实际运行结果</h2><figure><img src="../assets/results/project-02/task1_data_check.png" alt="Kaggle 实际运行的数据检查结果"/><figcaption>Kaggle 实际运行的数据检查结果</figcaption></figure><figure><img src="../assets/results/project-02/task1_training_curve.png" alt="Kaggle 实际运行的训练曲线"/><figcaption>Kaggle 实际运行的训练曲线</figcaption></figure><p>训练切片 802，验证切片 156，测试切片 242；最佳阈值 0.5；测试 Dice 0.6115702，测试 IoU 0.6115702。</p></div><div class="card"><p>平均 Dice 之外，逐图查看漏分、误分和空标签案例，并在结果文件中记录空 mask 统计。</p></div><figure><img src="../assets/results/project-02/task1_prediction.png" alt="Kaggle 实际运行的MRI、真实 mask 与预测结果"/><figcaption>Kaggle 实际运行的MRI、真实 mask 与预测结果</figcaption></figure><div class="card answer"><h2>参考答案</h2><pre class="code">记录 test_dice、test_iou、best_threshold，并展示至少四组 MRI/真实mask/预测mask。</pre></div></section></main></div><script>
-const pages=[...document.querySelectorAll('.page')], buttons=[...document.querySelectorAll('.nav button')];let current=0;
+    dims=tuple(range(1,prob.ndim))
+    inter=(prob*target).sum(dims)
+    return (2*inter+eps)/(prob.sum(dims)+target.sum(dims)+eps)</pre></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 4/7</span><h1>U-Net 卷积块提取局部和整体特征</h1>
+<p>编码器逐步压缩空间尺寸并扩大通道数，解码器用转置卷积恢复分辨率；跳跃连接把浅层的边界信息传给解码器。每个卷积块执行两次卷积、归一化和 ReLU。</p>
+<div class="card answer"><h2>参考答案</h2><pre class="code">self.block=nn.Sequential(
+    nn.Conv2d(cin,cout,3,padding=1,bias=False),
+    nn.GroupNorm(8,cout),nn.ReLU(inplace=True),
+    nn.Conv2d(cout,cout,3,padding=1,bias=False),
+    nn.GroupNorm(8,cout),nn.ReLU(inplace=True))</pre></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 5/7</span><h1>训练更新同时照顾像素分类和区域重叠</h1>
+<p>BCEWithLogitsLoss 约束每个像素，soft Dice 直接约束预测区域与真实区域的重叠。正/空 mask 平衡采样，配合正类权重，减少模型只输出空 mask 的倾向。</p>
+<div class="card answer"><h2>参考答案</h2><pre class="code">bce=nn.BCEWithLogitsLoss(pos_weight=torch.tensor([5.0],device=DEVICE))
+opt=torch.optim.AdamW(model.parameters(),lr=1e-3,weight_decay=1e-4)
+for epoch in range(20):
+    opt.zero_grad(set_to_none=True)
+    logits=model(x)
+    prob=torch.sigmoid(logits)
+    loss=.5*bce(logits,y)+.5*(1-soft_dice_score(prob,y)).mean()
+    loss.backward()
+    opt.step()</pre></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 6/7</span><h1>阈值只用验证集选择</h1>
+<p>模型输出的是 0 到 1 的概率。分别尝试候选阈值，在验证集的阳性 mask Dice 上选出一个阈值，然后固定它，只在测试集评价一次。</p>
+<div class="card answer"><h2>参考答案</h2><pre class="code">thresholds=[.25,.35,.45,.50,.55,.65,.75]
+val_dices={t:evaluate(val_loader,t)['positive_dice'] for t in thresholds}
+best_threshold=max(thresholds,key=val_dices.get)
+test_metrics=evaluate(test_loader,best_threshold)</pre></div>
+</section>
+
+<section class="page">
+<span class="tag">步骤 7/7</span><h1>实际运行结果显示真实标签与预测差异</h1>
+<p>本次运行使用公开 Kaggle 数据集 <code>mateuszbuda/lgg-mri-segmentation</code> 的一个唯一数据树：3,929 对 MRI–mask、110 位患者，其中 1,373 个 mask 非空，2,556 个 mask 为空。所有图像和 mask 先确认配对，再按患者级划分为训练 2,604、验证 547、测试 778 个切片；训练实际使用 600 个平衡样本（300 个阳性、300 个空 mask），训练 20 个 epoch。</p>
+<div class="metric-grid">
+<div class="metric"><small>选择阈值</small><b>0.75</b><small>验证集阳性 Dice 最高</small></div>
+<div class="metric"><small>测试阳性切片</small><b>295 / 778</b><small>真实 mask 非空</small></div>
+<div class="metric"><small>阳性 mask Dice</small><b>0.4870</b><small>逐切片均值</small></div>
+<div class="metric"><small>阳性 mask IoU</small><b>0.3725</b><small>逐切片均值</small></div>
+</div>
+<table class="result-table"><thead><tr><th>指标</th><th>真实测试结果</th><th>计算范围</th></tr></thead><tbody>
+<tr><td>pixel Dice</td><td>0.5259</td><td>全部测试像素的 TP/FP/FN</td></tr>
+<tr><td>pixel IoU</td><td>0.3567</td><td>全部测试像素的 TP/FP/FN</td></tr>
+<tr><td>pixel precision</td><td>0.5366</td><td>全部测试像素</td></tr>
+<tr><td>pixel recall</td><td>0.5156</td><td>全部测试像素</td></tr>
+<tr><td>空 mask 统计</td><td>真实空 483；预测空 259；两者均空 248</td><td>单独报告，不用于抬高阳性 mask Dice</td></tr>
+</tbody></table>
+<p class="note">阳性 mask Dice/IoU 只在 295 个真实 mask 非空的测试切片上计算；pixel 指标则把全部测试像素的 TP、FP、FN 汇总后计算。对比图中绿色为 TP（重叠），红色为 FP（预测多出），蓝色为 FN（真实区域未预测）。</p>
+<figure><img src="../assets/results/project-02/task1_data_check.png" alt="真实阳性测试切片的 MRI 输入、真实 mask 与 overlay"/><figcaption>真实阳性测试配对：MRI 输入、真实 mask 以及真实 mask 的 overlay。</figcaption></figure>
+<figure><img src="../assets/results/project-02/task1_training_curve.png" alt="20 epoch 的训练和验证曲线"/><figcaption>20 个 epoch 的训练曲线；验证曲线按真实 mask 非空的切片记录 Dice 和 IoU，虚线标出最佳验证 epoch。</figcaption></figure>
+<figure><img src="../assets/results/project-02/task1_prediction.png" alt="四组真实阳性 MRI、真实 mask、预测 mask 与 TP FP FN 对比"/><figcaption>四组真实阳性测试切片：MRI 输入、真实 mask、预测 mask 和 TP/FP/FN 编码对比。显示样本均有真实 mask，预测结果不再用空 mask 案例替代。</figcaption></figure>
+<div class="card answer"><h2>参考答案</h2><pre class="code">记录真实运行产生的 paired_slices、patient-level split、epochs、best_threshold、positive_case_dice、positive_case_iou、pixel_dice、pixel_iou、precision 和 recall；同时展示 MRI、真实 mask、预测 mask 与 TP/FP/FN 对比。</pre></div>
+</section>
+</main>
+</div>
+<script>
+const pages=[...document.querySelectorAll('.page')],buttons=[...document.querySelectorAll('.nav button')];let current=0;
 function show(i){current=Math.max(0,Math.min(pages.length-1,i));pages.forEach((p,j)=>p.classList.toggle('active',j===current));buttons.forEach((b,j)=>b.classList.toggle('active',j===current));window.scrollTo({top:0,behavior:'smooth'});}
-buttons.forEach((b,i)=>b.onclick=()=>show(i));document.querySelectorAll('[data-prev]').forEach(b=>b.onclick=()=>show(current-1));document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>show(current+1));show(0);
-</script></body></html>
+buttons.forEach((b,i)=>b.onclick=()=>show(i));show(0);
+</script>
+</body>
+</html>

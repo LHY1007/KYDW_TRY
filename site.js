@@ -6,7 +6,11 @@
   const root = body.dataset.root || "";
   const page = body.dataset.page || "home";
   const $ = (selector, parent = document) => parent.querySelector(selector);
-  const esc = (value) => String(value ?? "").replace(/[&<>\"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+  const cleanVisibleText = (value) => String(value ?? "")
+    .replaceAll("最小训练闭环", "训练流程")
+    .replaceAll("闭环", "流程")
+    .replaceAll("如何回到", "返回");
+  const esc = (value) => cleanVisibleText(value).replace(/[&<>\"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
 
   const rootHref = (target) => {
     if (!target) return "#";
@@ -203,7 +207,7 @@
   }
 
   function newsItemsMarkup(items) {
-    return items.map((item) => `<article class="home-news-item"><time>${esc(item.date)}</time><p>${item.html || esc(item.text || "")}</p></article>`).join("");
+    return items.map((item) => `<article class="home-news-item"><time>${esc(item.date)}</time><p>${item.html ? cleanVisibleText(item.html) : esc(item.text || "")}</p></article>`).join("");
   }
 
   function newsMarkup(items) {
@@ -413,9 +417,9 @@
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}</div></section>
     <section class="section">${sectionHead("团队概况", null, null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
     <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>成员来自不同学校、专业和课题组，交流医学、工程、计算机、人工智能与生物信息学等方向。</p></article><article class="card"><h3>从研究任务进入方法</h3><p>项目、培训和专题合作都从具体任务出发，讨论数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
-    <section class="section">${sectionHead("代表性成果（成员一作/项目负责人）", null, "team/achievements.html", "查看完整成果")}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}<div class="achievement-list">${t.achievements.map((item) => `<details class="fold"><summary>${esc(item.title)}</summary><div class="fold-body">${achievementBody(item)}</div></details>`).join("")}</div></section>
+    <section class="section">${sectionHead("代表性成果（成员一作/项目负责人）", null, "team/achievements.html", "查看完整成果")}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}<div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>
     <section class="section"><div class="card-grid"><article class="card"><h2>升学去向</h2><p class="muted">${destinationSummary(t)}</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/destinations.html")}">查看成员去向</a></div></article><article class="card"><h2>团队活动</h2><p class="muted">复旦大学秋季学期本科生践悟课程、多校联合项目和生物医学人工智能专题交流，是团队目前持续整理和开展的主要活动。</p><div class="hero-actions"><a class="outline-btn" href="${rootHref("team/activities.html")}">查看活动体系</a></div></article></div></section>
-    <section class="section">${sectionHead("负责人和历届骨干", "伍东辰、姜逸轩、汤昊天、吴锡东、刘涵瑜。", "team/people.html", "查看成员介绍")}<div class="leader-list">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></section>
+    <section class="section">${sectionHead("负责人和历届骨干", "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", "team/people.html", "查看成员介绍")}<div class="leader-list">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></section>
     <section class="section"><div class="callout"><b>联系 KYDW</b><p>关注“科研大王”公众号，或添加负责人微信 <b>${esc(data.site.wechat)}</b> 了解团队活动和项目入口。</p></div><p class="small muted">网站公开资料免费阅读，请勿用于牟利性销售。</p></section>`);
   }
 
@@ -427,7 +431,7 @@
       news: { eyebrow: "团队介绍 / 动态", title: "团队近期动态", lead: "团队公开成果、论文、竞赛与合作项目的最新进展。", back: "team/index.html" },
       destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向包括直博、国内学硕/海外研究型硕士。", back: "team/index.html" },
       activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦大学秋季学期本科生践悟课程和生物医学人工智能专题交流。", back: "team/index.html" },
-      people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴锡东、刘涵瑜。", back: "team/index.html" }
+      people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", back: "team/index.html" }
     };
     const cfg = configs[section] || configs.achievements;
     let inner = hero({ eyebrow: cfg.eyebrow, title: cfg.title, lead: cfg.lead, actions: [{ label: "返回团队介绍", href: cfg.back, primary: true }, { label: "项目与活动", href: "programs/index.html" }] });
@@ -508,7 +512,7 @@
     <section class="section">${sectionHead("体验版与进阶版", "体验版完成指定内容；进阶版自行设计方法并提交报告。", null)}<div class="project-level-grid">${(e.levels || []).map((level, index) => `<article class="project-level-card"><div class="mode-kicker">${esc(level.title)}</div><p>${esc(level.text)}</p>${index === 1 && e.advancedResources?.length ? `<div class="inline-doc-links">${e.advancedResources.map((item) => `<a href="${rootHref(item.href)}">${esc(item.title)}</a>`).join("")}</div>` : ""}</article>`).join("")}</div></section>
     <section class="section">${sectionHead("项目构成", null, null)}<div class="structure-grid">${e.structure.map((item, index) => `<article class="structure-card${index === 3 ? " structure-card-wide" : index === 4 ? " structure-card-last" : ""}"><span class="number">${esc(item.no)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join("")}</div></section>
     <section class="section" id="project-directory">${sectionHead("项目目录", "开始实践前请先完成项目环境准备，再进入已开放的科研项目。", null)}<div class="directory-project-grid">${environmentProjectCard(e.environment, true)}${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
-    <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>完成体验项目后，对某个方向希望继续学习的同学，可以联系负责人了解对应课题组的后续安排；进阶项目需要完成实践并提交设计报告。</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
+    <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
   }
 
   function weekPage() {
@@ -526,24 +530,20 @@
     const locked = Boolean(options.locked) || (isAdvancedPath(href) && !isAdvancedOpen());
     const displayTitle = title === "参考答案" ? ANSWER_LABEL : publicCopy(title);
     if (!href || locked) return `<article class="material-card${locked ? " is-locked" : " is-pending"}"><div class="material-type">${esc(type)}</div><h3>${esc(displayTitle)}</h3>${copy}<span class="material-status">尚未开放</span></article>`;
-    const external = Boolean(options.external);
-    const notebook = /\.ipynb(?:$|\?)/i.test(href);
-    const mainLabel = external ? "进入 Kaggle" : "打开";
-    const mainHref = external ? esc(href) : rootHref(href);
-    const mainAttrs = external ? ' target="_blank" rel="noreferrer"' : notebook ? " download" : "";
-    const actions = [`<a class="outline-btn" href="${mainHref}"${mainAttrs}>${esc(mainLabel)}</a>`];
-    for (const action of (options.actions || [])) {
-      actions.push(`<a class="material-secondary-link" href="${rootHref(action.href)}">${esc(action.label)}</a>`);
-    }
-    for (const action of (options.externalActions || [])) {
-      if (!action?.href) continue;
-      actions.push(`<a class="material-secondary-link" href="${esc(action.href)}" target="_blank" rel="noreferrer">${esc(action.label)}</a>`);
-    }
-    return `<article class="material-card"><div class="material-type">${esc(type)}</div><h3>${esc(displayTitle)}</h3>${copy}<div class="material-actions">${actions.join("")}</div></article>`;
+    return `<article class="material-card"><div class="material-type">${esc(type)}</div><h3>${esc(displayTitle)}</h3>${copy}<div class="material-actions"><a class="outline-btn" href="${rootHref(href)}">打开</a></div></article>`;
   }
 
   function materialViewerHref(project, kind) {
     return "experience/material.html?project=" + encodeURIComponent(project.id) + "&kind=" + encodeURIComponent(kind);
+  }
+
+  function cleanRenderedText(node) {
+    const ownerDocument = node?.nodeType === 9 ? node : node?.ownerDocument;
+    const walker = ownerDocument?.createTreeWalker?.(node, 4);
+    if (!walker) return;
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach((textNode) => { textNode.nodeValue = cleanVisibleText(textNode.nodeValue); });
   }
 
   function materialTitle(kind) {
@@ -656,7 +656,7 @@
       }
       const resultButtons = referenceResults.filter((result) => result && result.taskIndex === taskIndex && !usedResultSteps.has(result.stepIndex)).map((result) => {
         usedResultSteps.add(result.stepIndex);
-        return "<button class=\"notebook-run\" type=\"button\" data-result-target=\"reference-result-" + result.stepIndex + "\">查看实际参考结果</button>";
+        return "<a class=\"notebook-run\" href=\"#reference-result-" + result.stepIndex + "\" data-result-target=\"reference-result-" + result.stepIndex + "\">查看实际参考结果</a>";
       }).join("");
       return "<article class=\"notebook-cell notebook-code-cell\">" + cellHead("代码单元格") + "<pre class=\"notebook-code\"><code>" + esc(source) + "</code></pre>" + notebookOutputMarkup(cell.outputs) + resultButtons + "</article>";
     }).join("");
@@ -691,7 +691,7 @@
       if (value && !/^(?:https?:|data:|#|mailto:)/i.test(value)) image.setAttribute("src", new URL(value, baseUrl).href);
     });
     const results = [];
-    [...parsed.querySelectorAll(".page")].forEach((section, index) => {
+    [...parsed.querySelectorAll(".page-intro, .page, .main > .hero, .main > .section, .p03-hero, .p03-section")].forEach((section, index) => {
       const title = section.querySelector("h1, h2")?.textContent?.trim() || "步骤 " + (index + 1);
       const figures = [...section.querySelectorAll("figure")].map((figure, figureIndex) => referenceFigureMarkup(figure, figureIndex)).filter(Boolean);
       if (!figures.length) return;
@@ -704,11 +704,12 @@
 
   function referenceResultsMarkup(results) {
     if (!results.length) return "";
-    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>实际参考输出</h2><p>以下图像和数值来自对应实践项目在 Kaggle 中保存的真实运行结果。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + (result.text ? "<pre class=\"reference-result-text\">" + esc(result.text) + "</pre>" : "") + "</article>").join("") + "</div></section>";
+    return "<section class=\"reference-results\" id=\"reference-results\"><div class=\"section-head\"><div><h2>实际参考输出</h2><p>以下图像和数值来自对应实践项目保存的一次真实参考运行。</p></div></div><div class=\"reference-result-grid\">" + results.filter(Boolean).map((result) => "<article class=\"reference-result\" id=\"reference-result-" + result.stepIndex + "\"><div class=\"reference-result-title\"><span>步骤 " + (result.stepIndex + 1) + "</span><h3>" + esc(result.title) + "</h3></div>" + result.figures.join("") + (result.text ? "<pre class=\"reference-result-text\">" + esc(result.text) + "</pre>" : "") + "</article>").join("") + "</div></section>";
   }
 
   function bindReferenceResultButtons() {
-    document.querySelectorAll(".notebook-run[data-result-target]").forEach((button) => button.addEventListener("click", () => {
+    document.querySelectorAll(".notebook-run[data-result-target]").forEach((button) => button.addEventListener("click", (event) => {
+      event.preventDefault();
       const target = document.getElementById(button.dataset.resultTarget);
       if (!target) return;
       target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -729,13 +730,15 @@
     if (!source) return layout(hero({ eyebrow: "科研体验项目", title: "材料尚未准备", lead: "该项目材料尚未准备完成。", actions: [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }] }));
     const downloadHref = kind.includes("practice") ? source : practiceSource;
     const title = materialTitle(kind);
-    const downloadLabel = kind === "answer" || kind === "advanced-answer" ? "下载实践 Notebook" : "下载 Notebook";
+    const downloadLabel = kind === "answer" || kind === "advanced-answer" || kind === "practice" || kind === "advanced-practice" ? "下载实践 Notebook" : "下载 Notebook";
+    const kaggleHref = kind === "answer" ? project.kaggleReference : kind === "practice" ? (project.kagglePractice || project.kaggle) : kind === "advanced-answer" ? project.advancedKaggleReference : project.advancedKagglePractice;
     const viewerActions = [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }, { label: downloadLabel, href: downloadHref, download: true, arrow: false }];
-    const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "阅读代码并查看实际参考输出" : "逐步阅读实践项目参考答案", actions: viewerActions });
+    if (kaggleHref) viewerActions.push({ label: "在 Kaggle 中打开", href: kaggleHref, external: true, arrow: false });
+    const viewer = hero({ eyebrow: "科研体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "按任务说明补全代码并逐步运行" : "逐步阅读实践项目参考答案", actions: viewerActions });
     const note = data.experience.simulationNote || "网页中的运行按钮只定位到已保存的参考输出；需要得到自己的运行结果，请先在 Kaggle 中复制 Notebook 到自己的账户，再运行和修改代码。";
     const guide = data.experience.practiceGuidance || "实践项目优先在 Kaggle 中完成：复制到自己的账户后运行和修改，下载 Notebook 到电脑是补充方式。";
     const taskGuide = kind === "practice" || kind === "advanced-practice" ? practiceTaskGuideMarkup(project) : "";
-    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>模拟运行的注意事项</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践入口</b><p>" + esc(guide) + "</p></div>" + taskGuide + "<div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
+    layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>模拟运行的注意事项</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践说明</b><p>" + esc(guide) + "</p></div>" + taskGuide + "<div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
     const container = document.getElementById("notebook-content");
     try {
       const response = await fetch(rootHref(source));
@@ -744,6 +747,7 @@
         const documentText = await response.text();
         const parsed = new DOMParser().parseFromString(documentText, "text/html");
         parsed.querySelectorAll("script, style, link").forEach((node) => node.remove());
+        cleanRenderedText(parsed);
         const baseUrl = new URL(rootHref(source), location.href);
         parsed.querySelectorAll("[src], [href]").forEach((node) => {
           for (const attribute of ["src", "href"]) {
@@ -751,7 +755,8 @@
             if (value && !/^(?:https?:|data:|#|mailto:)/i.test(value)) node.setAttribute(attribute, new URL(value, baseUrl).href);
           }
         });
-        const sections = [...parsed.querySelectorAll(".page-intro, .page")];
+        parsed.querySelectorAll(".p03-actions, .actions").forEach((node) => node.remove());
+        const sections = [...parsed.querySelectorAll(".page-intro, .page, .main > .hero, .main > .section, .p03-hero, .p03-section")];
         container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、分析过程和已保存的实际结果。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
       } else {
         const notebook = await response.json();
@@ -773,8 +778,6 @@
     if (!project) return layout(hero({ eyebrow: "科研体验项目", title: "项目不存在", lead: "请返回本科生科研入门体验项目主页选择方向。", actions: [{ label: "返回项目主页", href: "experience/index.html", primary: true }] }));
     const firstTeaching = project.teaching || project.experienceTeaching;
     if (!firstTeaching || !isProjectOpen(project)) return layout(hero({ eyebrow: `科研体验项目 / Week ${project.week}`, title: project.title, lead: `该项目等待 Week ${project.week} 开放。`, actions: [{ label: "返回项目目录", href: "experience/index.html", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] }));
-    const answerHref = project.answer || project.referenceAnswer;
-    const practiceHref = project.kaggle || project.practice;
     const singleTeaching = project.single ? (project.teaching || project.advanced) : null;
     const singlePractice = project.single ? materialViewerHref(project, "practice") : null;
     const singleAnswer = project.single ? materialViewerHref(project, "answer") : null;
@@ -786,22 +789,14 @@
     const advancedAnswer = project.advancedAnswer ? materialViewerHref(project, "advanced-answer") : null;
     const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => {
       const tierText = options.locked ? "进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。" : text;
-      const practiceOptions = { locked: options.locked, external: /^https?:/i.test(practiceLink || ""), actions: options.practiceActions || [] };
-      const answerExternalActions = options.referenceKaggle ? [{ label: "查看 Kaggle 运行标准答案", href: options.referenceKaggle }] : [];
-      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, practiceOptions)}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked, actions: options.answerActions || [], externalActions: answerExternalActions })}</div></article>`;
+      return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, { locked: options.locked })}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked })}</div></article>`;
     };
     const projectContent = project.single
-      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer, { referenceKaggle: project.kaggleReference })
-      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer, { referenceKaggle: project.kaggleReference })}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen(), practiceActions: project.advancedReportTemplate ? [{ label: "查看设计报告模板", href: project.advancedReportTemplate }] : [], answerActions: project.advancedReferenceReport ? [{ label: "查看参考设计报告", href: project.advancedReferenceReport }] : [] })}</div>`;
-    const learningGuide = project.single
-      ? `<article class="project-level-card single-project-guide"><div class="mode-kicker">完成顺序</div><p>先阅读教学项目，再在实践 Notebook 中完成指定内容，最后使用实践项目参考答案核对代码与分析过程。</p></article>`
-      : `<div class="project-level-grid"><article class="project-level-card"><div class="mode-kicker">体验版</div><p>阅读基础教学项目，在实践 Notebook 中完成和补全指定代码或文字，完成后使用实践项目参考答案核对。</p></article><article class="project-level-card"><div class="mode-kicker">进阶版</div><p>继续学习同一方向的方法与研究设计，自行设计或选择方法，完成实践并提交设计报告。报告需要说明方法选择、验证设计和结果解释。当前进阶项目尚未开放。</p></article></div>`;
-    const kaggleAction = project.kaggle ? `<div class="project-practice-actions"><a class="solid-btn" href="${esc(project.kaggle)}" target="_blank" rel="noreferrer">在 Kaggle 中复制并运行</a></div>` : "";
-    const practiceGuide = `<article class="project-practice-guide"><div class="mode-kicker">实践项目与参考答案</div><p>${esc(data.experience.practiceGuidance || "实践项目可以下载到自己的电脑上运行；如果还不熟悉代码，可以直接在 Kaggle 上打开对应项目，点击‘复制并编辑’保存到自己的账户，再按单元格逐步运行、修改并观察输出。遇到具体代码问题时，可以向 AI 询问当前单元格的作用、输入输出和每一行的变化，再逐步运行核对。需要对照时，可以打开实践项目参考答案核对。")}</p>${kaggleAction}</article>`;
+      ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
+      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen() })}</div>`;
     layout(`${hero({ eyebrow: `科研体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section"><div class="project-page-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
-    <section class="section">${learningGuide}</section>
-    <section class="section">${sectionHead("项目材料", null, null)}${projectContent}${practiceGuide}</section>`);
+    <section class="section">${sectionHead("项目材料", null, null)}${projectContent}</section>`);
   }
 
   function professional() {

@@ -1,70 +1,486 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>实践项目参考答案 02｜胸片 DCGAN 图像生成</title><style>
-:root{--bg:#f3f5f8;--card:#fff;--ink:#172033;--muted:#5e6b7e;--line:#d9e0ea;--accent:#3b528b;--accent2:#21918c}*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}.top{position:sticky;top:0;z-index:5;background:#111827;color:#fff;padding:14px 22px;display:flex;justify-content:space-between}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1400px;margin:auto}.nav{position:sticky;top:58px;height:calc(100vh - 58px);overflow:auto;padding:22px;border-right:1px solid var(--line);background:#fff}.nav button{width:100%;text-align:left;border:0;background:transparent;padding:10px 12px;border-radius:8px;cursor:pointer}.nav button.active{background:#e8eef8;color:#1f3b6f;font-weight:700}.main{padding:32px 5vw 80px}.page{display:block;max-width:1000px;margin:auto}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:18px 0}.code{white-space:pre-wrap;background:#101827;color:#e5edf8;border-radius:12px;padding:18px;overflow:auto;font:14px/1.55 Consolas,monospace}.answer{border-left:5px solid var(--accent2)}img{max-width:100%;border-radius:12px}.pager{display:flex;justify-content:space-between;margin-top:28px}.pager button{border:0;border-radius:10px;padding:11px 18px;background:var(--accent);color:white;cursor:pointer}h1,h2,h3{line-height:1.35}.tag{display:inline-block;background:#e8eef8;padding:3px 10px;border-radius:999px;font-size:13px}@media(max-width:800px){.layout{grid-template-columns:1fr}.nav{position:static;height:auto;border-right:0}.main{padding:22px}.nav button{display:inline-block;width:auto}}
-</style>
-<style id="kydw-final-theme">
-:root{--kydw-bg:#f4f7fa;--kydw-paper:#fff;--kydw-ink:#152536;--kydw-muted:#5c6f82;--kydw-blue:#1f5b85;--kydw-line:#d7e1ea;--kydw-soft:#edf4f8}
-body{background:var(--kydw-bg)!important;color:var(--kydw-ink)!important;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif!important;line-height:1.78!important}
-h1,h2,h3,h4{color:#173d5b!important;letter-spacing:.01em}h2{padding-bottom:.35em;border-bottom:2px solid #dbe7ef}
-p{max-width:78em}.topbar{border-bottom:1px solid var(--kydw-line)!important;box-shadow:0 3px 14px rgba(29,62,88,.08)!important}
-main>section,.content>section,.reader-main>section,article>section,.chapter,.unit,.lesson-section{border:1px solid var(--kydw-line)!important;border-radius:16px!important;background:var(--kydw-paper)!important;box-shadow:0 8px 24px rgba(34,62,83,.06)!important;padding:28px!important;margin:22px 0!important}
-section+section{margin-top:26px!important}details{border:1px solid #cfdae3!important;border-radius:12px!important;background:#fbfdff!important;margin:14px 0!important}summary{cursor:pointer;font-weight:700;color:#224f72!important;padding:12px 15px!important}
-img,canvas,svg{max-width:100%;border-radius:12px}.edition-ribbon{position:fixed;right:18px;top:68px;z-index:9999;background:#173d5b;color:#fff;padding:7px 12px;border-radius:999px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.16)}
-.practice-check,.practice-quiz,[data-practice-check]{display:none!important}.real-source,.source-note,.citation-list,.references,.reference-list{display:none!important}
-@media(max-width:900px){.edition-ribbon{position:static;display:inline-block;margin:10px}.layout{display:block!important}main>section,.content>section,.reader-main>section,article>section,.chapter,.unit,.lesson-section{padding:20px!important}}
-</style>
-<style>body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif!important;line-height:1.78!important}.page-intro{max-width:1040px;margin:0 auto 22px!important;border-left:5px solid #27859c!important}.card{border-radius:16px!important}.nav{border-right:1px solid #d5e1e9!important}.top{background:#173d5b!important}</style><style>
-/* KYDW readability repair */
-body{color:#172b3d}.muted,.note,figcaption{color:#4d6375}.hero p{color:#eef7fb}.card p,.card li{color:#1c3042}
-</style><style id="kydw-site-return-style">
-/* KYDW site return control: kept separate from the source reader styles. */
-.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
-.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
-.topbar .site-return{color:inherit;background:transparent}
-.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
-.source-asset-missing{display:none!important}
-@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
-@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
-</style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/></head><body><div class="edition-ribbon">实践项目参考答案 02</div><header class="top"><b>实践项目参考答案 02</b><span>逐步解析与参考答案</span><a class="site-return" href="../project-03.html">返回项目详情</a></header><div class="layout"><nav class="nav"><button>1. 数据读取与检查</button><button>2. 生成器结构</button><button>3. 判别器更新</button><button>4. 生成器更新</button><button>5. 固定噪声网格</button><button>6. 模式坍塌检查</button><button>7. 结果阅读</button></nav><main class="main"><section class="page-intro card"><h1>实践项目参考答案 02：胸片 DCGAN 图像生成</h1><p>本实践在 Kaggle Notebook 中读取真实胸片，训练轻量 DCGAN，观察生成器与判别器的训练变化，并比较训练早期和后期的生成样本。</p><p>以下内容按 Notebook 的执行顺序说明数据检查、代码补全、训练、评价和输出文件。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></section><section class="page"><span class="tag">步骤 1/7</span><h1>数据读取与检查</h1><div class="card"><p>从训练目录读取真实胸片，统一为 64×64 单通道并归一化到 [-1,1]。先保存真实样本网格和像素强度直方图，再开始训练。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">transform = transforms.Compose([
-    transforms.Grayscale(1),
-    transforms.Resize(72),
-    transforms.CenterCrop(64),
-    transforms.ToTensor(),
-    transforms.Normalize([.5],[.5])
-])
-real, _ = next(iter(loader))
-utils.save_image((real[:36]+1)/2,
-                 OUT/'task2_real_xray_grid.png', nrow=6)
-real_display = ((real+1)/2).clamp(0,1)
-plt.hist(real_display.flatten().numpy(), bins=60)
-plt.savefig(OUT/'task2_intensity_histogram.png', dpi=160)</pre></div></section><section class="page"><span class="tag">步骤 2/7</span><h1>生成器结构</h1><div class="card"><p>从 1×1 潜变量开始，五次转置卷积扩大到 64×64。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">self.net=nn.Sequential(
- nn.ConvTranspose2d(100,256,4,1,0),nn.BatchNorm2d(256),nn.ReLU(True),
- nn.ConvTranspose2d(256,128,4,2,1),nn.BatchNorm2d(128),nn.ReLU(True),
- nn.ConvTranspose2d(128,64,4,2,1),nn.BatchNorm2d(64),nn.ReLU(True),
- nn.ConvTranspose2d(64,32,4,2,1),nn.BatchNorm2d(32),nn.ReLU(True),
- nn.ConvTranspose2d(32,1,4,2,1),nn.Tanh())</pre></div></section><section class="page"><span class="tag">步骤 3/7</span><h1>判别器更新</h1><div class="card"><p>生成图像在判别器阶段 detach，防止梯度更新生成器。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">opt_d.zero_grad()
-z=torch.randn(b,LATENT,1,1,device=DEVICE)
-fake=G(z)
-loss_d=criterion(D(real),ones)+criterion(D(fake.detach()),zeros)
-loss_d.backward();opt_d.step()</pre></div></section><section class="page"><span class="tag">步骤 4/7</span><h1>生成器更新</h1><div class="card"><p>生成器目标是让判别器把生成图像判为真实。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">opt_g.zero_grad()
-z=torch.randn(b,LATENT,1,1,device=DEVICE)
-fake=G(z)
-loss_g=criterion(D(fake),ones)
-loss_g.backward();opt_g.step()</pre></div></section><section class="page"><span class="tag">步骤 5/7</span><h1>固定噪声网格</h1><div class="card"><p>每个 epoch 使用同一固定 z，变化来自模型学习而不是随机输入变化。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">with torch.no_grad(): fake=G(fixed_z).cpu()
-utils.save_image((fake+1)/2,'task2_generated_samples.png',nrow=6)</pre></div></section><section class="page"><span class="tag">步骤 6/7</span><h1>模式坍塌检查</h1><div class="card"><p>两两距离只是一项轻量多样性指标，还要目视检查重复结构。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">flat=generated.flatten(1)
-dist=torch.cdist(flat,flat)
-diversity=dist[torch.triu(torch.ones_like(dist),diagonal=1).bool()].mean().item()</pre></div></section><section class="page"><span class="tag">步骤 7/7</span><h1>结果阅读与文件核对</h1><div class="card actual-result-assets"><h2>实际运行结果</h2><figure><img src="../assets/results/project-03/task2_real_xray_grid.png" alt="Kaggle 实际运行的数据检查结果"/><figcaption>Kaggle 实际运行的数据检查结果</figcaption></figure><figure><img src="../assets/results/project-03/task2_training_curve.png" alt="Kaggle 实际运行的训练曲线"/><figcaption>Kaggle 实际运行的训练曲线</figcaption></figure><figure><img src="../assets/results/project-03/task2_intensity_histogram.png" alt="Kaggle 实际运行的像素强度分布"/><figcaption>Kaggle 实际运行的像素强度分布</figcaption></figure><p>使用 1000 张胸片训练 4 轮，潜变量维度为 100；最后一轮生成器平均损失 6.0221351，判别器平均损失 0.0328187，生成样本两两距离均值 21.0089512。</p></div><div class="card"><p>比较真实胸片网格与生成网格的肺野轮廓、左右对称性、亮度分布、局部伪影和样本多样性，并核对四个指定输出文件和一个补充输出。</p></div><div class="card answer"><h2>参考答案</h2><pre class="code">指定输出：
-task2_real_xray_grid.png
-task2_intensity_histogram.png
-task2_generated_samples.png
-task2_pytorch_result.json
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>实践项目参考答案｜ResidualConvVAE 胸部 X 射线生成</title>
+  <meta name="description" content="公开体验项目 02：ResidualConvVAE 胸部 X 射线生成的参考答案、真实训练过程和生成结果。">
+  <style>
+    :root {
+      --p03-ink: #17212b;
+      --p03-muted: #5f6f7d;
+      --p03-line: #d9e3e8;
+      --p03-soft: #f3f7f8;
+      --p03-blue: #126b88;
+      --p03-blue-dark: #0d4c62;
+      --p03-green: #287c5a;
+      --p03-orange: #bb682c;
+      --p03-shadow: 0 18px 42px rgba(23, 55, 73, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #edf3f5;
+      color: var(--p03-ink);
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", "PingFang SC", Arial, sans-serif;
+      line-height: 1.75;
+    }
+    a { color: var(--p03-blue); }
+    .p03-shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .p03-topbar {
+      background: #102d3b;
+      color: #eef8fb;
+      border-bottom: 4px solid #45a0b1;
+    }
+    .p03-topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 58px;
+      padding: 10px 0;
+    }
+    .p03-brand { font-weight: 700; letter-spacing: .02em; }
+    .p03-nav { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .p03-nav a {
+      color: #d9f0f5;
+      text-decoration: none;
+      font-size: 14px;
+      border: 1px solid rgba(217, 240, 245, .35);
+      border-radius: 999px;
+      padding: 3px 12px;
+    }
+    .p03-hero { padding: 54px 0 34px; }
+    .p03-kicker {
+      color: var(--p03-blue);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { line-height: 1.28; margin: 0; }
+    h1 { max-width: 780px; margin-top: 10px; font-size: clamp(31px, 5vw, 54px); letter-spacing: -.04em; }
+    h2 { font-size: clamp(22px, 3vw, 31px); margin-bottom: 16px; }
+    h3 { font-size: 18px; margin-bottom: 8px; }
+    p { margin: 0 0 14px; }
+    .p03-lead { max-width: 760px; color: var(--p03-muted); font-size: 18px; margin-top: 18px; }
+    .p03-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .p03-button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--p03-blue);
+      background: var(--p03-blue);
+      color: #fff;
+    }
+    .p03-button.secondary { background: #fff; color: var(--p03-blue-dark); border-color: var(--p03-line); }
+    .p03-section {
+      background: #fff;
+      border: 1px solid var(--p03-line);
+      border-radius: 18px;
+      padding: clamp(22px, 4vw, 38px);
+      margin: 20px 0;
+      box-shadow: var(--p03-shadow);
+    }
+    .p03-section > :last-child { margin-bottom: 0; }
+    .p03-intro-grid, .p03-result-grid, .p03-comparison-grid, .p03-metric-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .p03-comparison-grid { align-items: stretch; }
+    .p03-reconstruction-card { display: flex; flex-direction: column; justify-content: center; }
+    .p03-card {
+      background: var(--p03-soft);
+      border: 1px solid #dfeaec;
+      border-radius: 13px;
+      padding: 18px;
+    }
+    .p03-card strong { display: block; color: var(--p03-blue-dark); margin-bottom: 4px; }
+    .p03-flow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .p03-flow span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 8px;
+      color: #fff;
+      background: var(--p03-blue);
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .p03-flow span:nth-child(2) { background: #3a8793; }
+    .p03-flow span:nth-child(3) { background: #4c9a82; }
+    .p03-flow span:nth-child(4) { background: #6a8a56; }
+    .p03-flow span:nth-child(5) { background: #8a7149; }
+    .p03-flow span:nth-child(6) { background: #7c5a9c; }
+    .p03-answer { border-left: 4px solid var(--p03-green); padding-left: 16px; margin: 18px 0; }
+    .p03-code {
+      overflow-x: auto;
+      margin: 12px 0 0;
+      padding: 15px 17px;
+      border-radius: 10px;
+      background: #15232d;
+      color: #e8f4f5;
+      font: 13px/1.65 Consolas, "Cascadia Code", monospace;
+      white-space: pre;
+    }
+    .p03-table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 560px; }
+    th, td { border-bottom: 1px solid var(--p03-line); padding: 11px 12px; text-align: left; vertical-align: top; }
+    th { background: #edf5f7; color: var(--p03-blue-dark); font-weight: 700; }
+    td:nth-child(2) { font-variant-numeric: tabular-nums; }
+    .p03-note {
+      background: #fff8ee;
+      border: 1px solid #f1d6b1;
+      border-radius: 12px;
+      color: #704a26;
+      padding: 13px 16px;
+      margin-top: 18px;
+    }
+    .p03-figure { margin: 20px 0 0; }
+    .p03-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--p03-line);
+      border-radius: 12px;
+      background: #fff;
+    }
+    .p03-figure figcaption { color: var(--p03-muted); font-size: 14px; margin-top: 8px; }
+    .p03-result-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .p03-metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 18px 0; }
+    .p03-metric { border-top: 3px solid var(--p03-blue); padding: 12px 2px 0; }
+    .p03-metric:nth-child(2) { border-top-color: var(--p03-green); }
+    .p03-metric:nth-child(3) { border-top-color: var(--p03-orange); }
+    .p03-metric:nth-child(4) { border-top-color: #7c5a9c; }
+    .p03-metric b { display: block; font-size: 25px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+    .p03-metric small { color: var(--p03-muted); }
+    .p03-footer { color: var(--p03-muted); font-size: 13px; padding: 24px 0 46px; }
+    @media (max-width: 820px) {
+      .p03-intro-grid, .p03-comparison-grid, .p03-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .p03-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .p03-flow span:last-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 620px) {
+      .p03-shell { width: min(100% - 20px, 1120px); }
+      .p03-topbar-inner { align-items: flex-start; flex-direction: column; }
+      .p03-hero { padding-top: 36px; }
+      .p03-section { border-radius: 13px; padding: 20px 16px; }
+      .p03-intro-grid, .p03-result-grid, .p03-comparison-grid, .p03-metric-grid { grid-template-columns: 1fr; }
+      .p03-flow { grid-template-columns: 1fr; }
+      .p03-flow span:last-child { grid-column: auto; }
+      .p03-lead { font-size: 16px; }
+      h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="p03-topbar">
+    <div class="p03-shell p03-topbar-inner">
+      <div class="p03-brand">KYDW 本科生科研入门体验项目</div>
+      <nav class="p03-nav" aria-label="页面导航">
+        <a href="../../index.html">项目主页</a>
+        <a href="../practice/project-03.ipynb">下载实践 Notebook</a>
+      </nav>
+    </div>
+  </header>
 
-结果分析结构：
-1. 描述生成图中的胸廓、肺野和整体灰度；
-2. 指出模糊、棋盘格或异常黑边；
-3. 比较不同样本的轮廓和纹理差异；
-4. 结合 G/D loss 说明训练过程。</pre></div></section></main></div><script>
-const pages=[...document.querySelectorAll('.page')], buttons=[...document.querySelectorAll('.nav button')];let current=0;
-function show(i){current=Math.max(0,Math.min(pages.length-1,i));pages.forEach((p,j)=>p.classList.toggle('active',j===current));buttons.forEach((b,j)=>b.classList.toggle('active',j===current));window.scrollTo({top:0,behavior:'smooth'});}
-buttons.forEach((b,i)=>b.onclick=()=>show(i));document.querySelectorAll('[data-prev]').forEach(b=>b.onclick=()=>show(current-1));document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>show(current+1));show(0);
-</script></body></html>
+  <main class="p03-shell">
+    <section class="p03-hero">
+      <div class="p03-kicker">公开体验项目 02 · ResidualConvVAE 参考答案</div>
+      <h1>胸部 X 射线与残差卷积 VAE</h1>
+      <p class="p03-lead">从一组真实胸片开始，先把图像变成模型可以处理的矩阵，再观察 ResidualConvVAE 如何把图像编码到潜空间并生成新的胸片。下面先说明输入、归一化和训练设置，再看真实运行的图像与指标。</p>
+      <p class="p03-note">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p>
+      <div class="p03-actions">
+        <a class="p03-button" href="../practice/project-03.ipynb" download>下载实践 Notebook</a>
+        <a class="p03-button" href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02-reference" target="_blank" rel="noreferrer">在 Kaggle 中打开</a>
+        <a class="p03-button secondary" href="../assets/results/project-03/task2_pytorch_result.json">查看完整 JSON 结果</a>
+      </div>
+    </section>
+
+    <section class="p03-section" id="input">
+      <h2>1. 输入是一组灰度胸部 X 射线</h2>
+      <p>训练数据来自 Chest X-ray Pneumonia 数据集的 <code>train/NORMAL</code> 文件夹。本次真实参考运行只使用其中的正常胸片，使生成结果更接近常见的正常胸片外观；文件夹标签没有作为模型的输入。</p>
+      <div class="p03-intro-grid">
+        <div class="p03-card"><strong>原始输入</strong>JPEG 胸部 X 射线，共 1341 张 NORMAL 图像。</div>
+        <div class="p03-card"><strong>矩阵形状</strong>每张图转为单通道张量 <code>[1, 64, 64]</code>。</div>
+        <div class="p03-card"><strong>数据划分</strong>1073 张训练图像，268 张留出图像，用于检查重建和图像统计。</div>
+      </div>
+      <div class="p03-flow" aria-label="数据处理流程">
+        <span>真实 JPEG<br>胸片</span>
+        <span>灰度化<br>64 × 64</span>
+        <span>归一化<br>[-1, 1]</span>
+        <span>编码器<br>μ、log σ²</span>
+        <span>潜变量<br>64 维</span>
+        <span>解码器<br>重建或生成</span>
+      </div>
+    </section>
+
+    <section class="p03-section" id="answers">
+      <h2>2. ResidualConvVAE 结构和训练代码</h2>
+      <div class="p03-answer">
+        <h3>归一化范围</h3>
+        <p>像素先从 <code>[0, 1]</code> 映射到 <code>[-1, 1]</code>，让输入和解码器最后的 <code>Tanh</code> 输出使用同一范围。这样网络不需要同时适应两个不同的数值尺度，生成结果也能直接映射回可显示的灰度范围。</p>
+        <pre class="p03-code"><code>x_normalized = x / 255.0
+x_normalized = x_normalized * 2.0 - 1.0
+
+# 解码器最后一层
+nn.Tanh()</code></pre>
+      </div>
+      <div class="p03-answer">
+        <h3>编码、采样与重建</h3>
+        <p>编码器把输入压缩为均值和对数方差，重参数化得到 64 维潜变量，再由解码器还原为 <code>[B, 1, 64, 64]</code>。同一个解码器既能接收输入图像的潜变量来重建，也能接收新的潜变量来生成。</p>
+        <pre class="p03-code"><code>def group_count(channels):
+    return 8 if channels % 8 == 0 else 1
+
+class ResidualBlock(nn.Module):
+    def __init__(self, channels):
+        super().__init__()
+        self.norm1 = nn.GroupNorm(group_count(channels), channels)
+        self.conv1 = nn.Conv2d(channels, channels, 3, padding=1)
+        self.norm2 = nn.GroupNorm(group_count(channels), channels)
+        self.conv2 = nn.Conv2d(channels, channels, 3, padding=1)
+        self.activation = nn.SiLU(inplace=True)
+
+    def forward(self, x):
+        residual = x
+        x = self.conv1(self.activation(self.norm1(x)))
+        x = self.conv2(self.activation(self.norm2(x)))
+        return residual + x
+
+class DownBlock(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super().__init__()
+        self.down = nn.Conv2d(in_channels, out_channels, 4, 2, 1)
+        self.norm = nn.GroupNorm(group_count(out_channels), out_channels)
+        self.activation = nn.SiLU(inplace=True)
+        self.residual = ResidualBlock(out_channels)
+
+    def forward(self, x):
+        x = self.activation(self.norm(self.down(x)))
+        return self.residual(x)
+
+class UpBlock(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super().__init__()
+        self.up = nn.ConvTranspose2d(in_channels, out_channels, 4, 2, 1)
+        self.norm = nn.GroupNorm(group_count(out_channels), out_channels)
+        self.activation = nn.SiLU(inplace=True)
+        self.residual = ResidualBlock(out_channels)
+
+    def forward(self, x):
+        x = self.activation(self.norm(self.up(x)))
+        return self.residual(x)
+
+class ResidualConvVAE(nn.Module):
+    def __init__(self, latent_dim=64):
+        super().__init__()
+        self.stem = nn.Sequential(
+            nn.Conv2d(1, 32, 3, padding=1),
+            nn.GroupNorm(8, 32),
+            nn.SiLU(inplace=True)
+        )
+        self.encoder = nn.Sequential(
+            ResidualBlock(32),
+            DownBlock(32, 64), DownBlock(64, 128),
+            DownBlock(128, 256), DownBlock(256, 256)
+        )
+        self.to_mu = nn.Linear(256 * 4 * 4, latent_dim)
+        self.to_logvar = nn.Linear(256 * 4 * 4, latent_dim)
+        self.from_z = nn.Linear(latent_dim, 256 * 4 * 4)
+        self.decoder = nn.Sequential(
+            ResidualBlock(256),
+            UpBlock(256, 256), UpBlock(256, 128),
+            UpBlock(128, 64), UpBlock(64, 32),
+            nn.Conv2d(32, 1, 3, padding=1), nn.Tanh()
+        )
+
+    def encode(self, x):
+        features = self.encoder(self.stem(x)).flatten(1)
+        mu = self.to_mu(features)
+        logvar = self.to_logvar(features).clamp(-8, 8)
+        return mu, logvar
+
+    @staticmethod
+    def reparameterize(mu, logvar):
+        std = torch.exp(0.5 * logvar)
+        return mu + torch.randn_like(std) * std
+
+    def decode(self, z):
+        features = self.from_z(z).view(-1, 256, 4, 4)
+        return self.decoder(features)
+
+    def forward(self, x):
+        mu, logvar = self.encode(x)
+        z = self.reparameterize(mu, logvar)
+        return self.decode(z), mu, logvar, z</code></pre>
+      </div>
+      <div class="p03-answer">
+        <h3>重建和生成的训练步骤</h3>
+        <pre class="p03-code"><code>EDGE_WEIGHT = 0.25
+KL_WEIGHT = 0.0005
+
+def gradient_loss(prediction, target):
+    pred_dx = prediction[:, :, :, 1:] - prediction[:, :, :, :-1]
+    target_dx = target[:, :, :, 1:] - target[:, :, :, :-1]
+    pred_dy = prediction[:, :, 1:, :] - prediction[:, :, :-1, :]
+    target_dy = target[:, :, 1:, :] - target[:, :, :-1, :]
+    return 0.5 * (
+        F.l1_loss(pred_dx, target_dx) + F.l1_loss(pred_dy, target_dy)
+    )
+
+def vae_loss(reconstruction, target, mu, logvar, beta):
+    reconstruction_l1 = F.l1_loss(reconstruction, target)
+    gradient_l1 = gradient_loss(reconstruction, target)
+    kl_loss = -0.5 * torch.mean(1 + logvar - mu.square() - logvar.exp())
+    total_loss = reconstruction_l1 + EDGE_WEIGHT * gradient_l1 + beta * kl_loss
+    return total_loss, reconstruction_l1, gradient_l1, kl_loss
+
+optimizer = torch.optim.AdamW(vae.parameters(), lr=2e-4, weight_decay=1e-4)
+for epoch in range(50):
+    beta = KL_WEIGHT * min(1.0, (epoch + 1) / 10)
+    for x, _ in loader:
+        x = x.to(DEVICE)
+        optimizer.zero_grad(set_to_none=True)
+        reconstruction, mu, logvar, z = vae(x)
+        total_loss, reconstruction_l1, gradient_l1, kl_loss = vae_loss(
+            reconstruction, x, mu, logvar, beta
+        )
+        total_loss.backward()
+        optimizer.step()
+
+with torch.no_grad():
+    reconstruction, mu, logvar, z = vae(x_holdout)
+    z_a, z_b = train_mu[left_indices], train_mu[right_indices]
+    alpha = torch.rand(128, 1, device=DEVICE).clamp(0.25, 0.75)
+    latent_std = train_mu.std(dim=0, keepdim=True).clamp_min(0.15)
+    generated_z = (1 - alpha) * z_a + alpha * z_b
+    generated_z = generated_z + 0.02 * latent_std * torch.randn_like(generated_z)
+    generated = vae.decode(generated_z)</code></pre>
+      </div>
+    </section>
+
+    <section class="p03-section" id="setup">
+      <h2>3. 真实训练设置</h2>
+      <div class="p03-table-wrap">
+        <table>
+          <thead><tr><th>项目</th><th>本次运行值</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>模型</td><td>ResidualConvVAE</td><td>GroupNorm、SiLU 和残差块组成编码器与解码器，从潜变量生成单通道图像。</td></tr>
+            <tr><td>训练轮数</td><td>50 轮</td><td>每轮 16 个 batch；完整训练曲线见后文。</td></tr>
+            <tr><td>batch / latent</td><td>64 / 64</td><td>每张输入图像编码为 64 维潜变量，批量训练使用 64 张图像。</td></tr>
+            <tr><td>生成方式</td><td>128 个候选</td><td>在不同训练图像的潜向量之间插值，并加入少量按潜变量尺度控制的噪声。</td></tr>
+            <tr><td>学习率 / 权重衰减</td><td>2e-4 / 1e-4</td><td>使用 AdamW 更新参数。</td></tr>
+            <tr><td>计算设备</td><td>NVIDIA GeForce RTX 4060 Laptop GPU</td><td>CUDA 环境中的真实训练，用时约 576.6 秒。</td></tr>
+            <tr><td>固定随机种子</td><td>20260803</td><td>固定数据划分、训练初始化和展示采样，便于复核。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="p03-note">生成样本来自训练后解码器生成的 128 个候选图像；展示网格从全部候选中按图像统计取分位样本，展示 16 张结果。所有展示图像都来自这次 50 轮训练的模型输出。</div>
+    </section>
+
+    <section class="p03-section" id="results">
+      <h2>4. 输入、重建和生成结果</h2>
+      <p>输入图像经过编码器和解码器得到重建图像；不同训练图像的潜向量经过插值后送入解码器得到生成图像。三者的用途不同：输入用于观察原始结构，重建用于检查模型保留输入信息的程度，生成用于检查模型从潜空间产生新样本的能力。</p>
+      <div class="p03-comparison-grid" aria-label="输入、重建和生成的比较">
+        <figure class="p03-figure">
+          <img src="../assets/results/project-03/task2_real_xray_grid.png" alt="留出集真实 NORMAL 胸部 X 射线样本网格" loading="lazy">
+          <figcaption>输入：未用于参数更新的 NORMAL 胸片留出集。</figcaption>
+        </figure>
+        <div class="p03-card p03-reconstruction-card">
+          <h3>重建</h3>
+          <p>同一批输入先编码为 <code>μ</code> 和 <code>log σ²</code>，再解码为重建图像。留出集重建 L1 为 <strong>0.0878</strong>；这个数值越小，表示像素层面的还原越接近输入。</p>
+          <pre class="p03-code"><code>mu, logvar = vae.encode(x)
+reconstruction = vae.decode(
+    vae.reparameterize(mu, logvar)
+)</code></pre>
+        </div>
+        <figure class="p03-figure">
+          <img src="../assets/results/project-03/task2_generated_samples.png" alt="50轮ResidualConvVAE训练后生成的胸部 X 射线样本网格" loading="lazy">
+          <figcaption>生成：50 轮训练后，在不同训练图像的潜向量之间插值并加入少量噪声后得到的胸片。</figcaption>
+        </figure>
+      </div>
+      <figure class="p03-figure">
+        <img src="../assets/results/project-03/task2_input_generated_comparison.png" alt="真实输入胸片与生成胸片上下对比" loading="lazy">
+        <figcaption>上排是留出集真实输入，中排是对应重建，下排是生成输出；三排分别用于观察输入结构、重建效果和新样本差异。</figcaption>
+      </figure>
+    </section>
+
+    <section class="p03-section" id="training-curve">
+      <h2>5. 训练曲线和像素分布</h2>
+      <p>总损失、重建 L1 和梯度 L1 在训练过程中下降，说明模型逐步学到了训练集中的灰度和空间结构；KL 项在前 10 轮完成权重预热后保持在约 3 附近。像素直方图用于比较真实留出集和生成样本的整体灰度分布。</p>
+      <figure class="p03-figure">
+        <img src="../assets/results/project-03/task2_training_curve.png" alt="50轮ResidualConvVAE训练总损失、重建损失、梯度损失和 KL 损失曲线" loading="lazy">
+        <figcaption>真实训练曲线：每个点是一个 epoch 的 batch 平均损失。</figcaption>
+      </figure>
+      <figure class="p03-figure">
+        <img src="../assets/results/project-03/task2_intensity_histogram.png" alt="真实胸片和生成胸片的像素强度分布直方图" loading="lazy">
+        <figcaption>真实留出集与生成候选图像的像素强度分布。</figcaption>
+      </figure>
+    </section>
+
+    <section class="p03-section" id="metrics">
+      <h2>6. 真实指标和结果判断</h2>
+      <div class="p03-metric-grid">
+        <div class="p03-metric"><b>0.0878</b><small>留出集重建 L1</small></div>
+        <div class="p03-metric"><b>64</b><small>潜变量维度</small></div>
+        <div class="p03-metric"><b>0.2334</b><small>展示样本两两 L1</small></div>
+        <div class="p03-metric"><b>0.0114</b><small>生成特征均值差</small></div>
+      </div>
+      <div class="p03-table-wrap">
+        <table>
+          <thead><tr><th>图像统计</th><th>真实 NORMAL 留出集</th><th>生成候选图像</th><th>读法</th></tr></thead>
+          <tbody>
+            <tr><td>平均灰度</td><td>0.5521</td><td>0.5371</td><td>整体亮度接近。</td></tr>
+            <tr><td>灰度标准差</td><td>0.1816</td><td>0.1867</td><td>两组图像的灰度波动接近。</td></tr>
+            <tr><td>边缘强度</td><td>0.0382</td><td>0.0288</td><td>生成图的边缘变化更平滑。</td></tr>
+            <tr><td>中央—边缘对比</td><td>0.0224</td><td>0.0211</td><td>中央纵隔与周边区域的关系接近。</td></tr>
+            <tr><td>双肺对比</td><td>0.2221</td><td>0.2485</td><td>生成图保留了双肺与中央区域的整体对比。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="p03-figure">
+        <img src="../assets/results/project-03/task2_quality_metrics.png" alt="真实留出集和生成胸片的五项图像统计柱状图" loading="lazy">
+        <figcaption>五项图像统计的真实测量值；这些数值用于教学检查，记录真实与生成图像的统计变化。</figcaption>
+      </figure>
+      <div class="p03-comparison-grid" aria-label="潜空间分析结果">
+        <figure class="p03-figure">
+          <img src="../assets/results/project-03/task2_nearest_neighbors.png" alt="生成胸片与最近训练参考图像对照" loading="lazy">
+          <figcaption>最近邻比较：生成图与训练图像的平均最近邻 L1 为 0.1072，最小值为 0.0630。</figcaption>
+        </figure>
+        <figure class="p03-figure">
+          <img src="../assets/results/project-03/task2_latent_interpolation.png" alt="ResidualConvVAE潜空间插值生成胸片" loading="lazy">
+          <figcaption>潜空间插值：插值系数从 0 到 1 变化时，解码输出连续变化。</figcaption>
+        </figure>
+      </div>
+      <p class="p03-note">结论：这次 50 轮真实训练已经得到可辨认的正常胸片外观，双肺和纵隔结构清晰可见；生成图像的边缘和肺纹理仍比真实胸片平滑，适合用来观察生成模型如何学习整体形态以及输入与输出之间的差异。</p>
+    </section>
+
+    <section class="p03-section">
+      <h2>7. 结果文件</h2>
+      <p>图像、曲线和原始指标 JSON 均来自同一次训练运行。完整数值记录见 <a href="../assets/results/project-03/task2_pytorch_result.json">task2_pytorch_result.json</a>。</p>
+      <div class="p03-intro-grid">
+        <div class="p03-card"><strong>输入和输出</strong><code>task2_real_xray_grid.png</code><br><code>task2_reconstruction_grid.png</code><br><code>task2_generated_samples.png</code><br><code>task2_input_generated_comparison.png</code></div>
+        <div class="p03-card"><strong>训练观察</strong><code>task2_training_curve.png</code><br><code>task2_training_progress.png</code><br><code>task2_intensity_histogram.png</code><br><code>task2_quality_metrics.png</code></div>
+        <div class="p03-card"><strong>潜空间与记录</strong><code>task2_nearest_neighbors.png</code><br><code>task2_latent_interpolation.png</code><br><code>task2_pytorch_result.json</code><br>包含数据数量、训练历史、指标和检查结果。</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="p03-shell p03-footer">胸部 X 射线与生成模型 · 公开体验项目 02 · 站内编号 project-03</footer>
+</body>
+</html>

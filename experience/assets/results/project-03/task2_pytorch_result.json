@@ -1,9 +1,522 @@
 {
-  "dataset_images": 1000,
-  "epochs": 4,
-  "latent_dim": 100,
-  "mean_generator_loss_last_epoch": 6.022135098775228,
-  "mean_discriminator_loss_last_epoch": 0.03281871303915977,
-  "generated_pairwise_distance": 21.00895118713379,
-  "seed": 42
+  "task": "公开体验项目 02 / 站内 project-03：胸部 X 射线生成",
+  "status": "completed",
+  "model": "ResidualConvVAE",
+  "architecture": {
+    "description": "GroupNorm + SiLU residual convolutional VAE",
+    "encoder_channels": [
+      32,
+      64,
+      128,
+      256,
+      256
+    ],
+    "decoder_channels": [
+      256,
+      256,
+      128,
+      64,
+      32
+    ],
+    "latent_dim": 64,
+    "downsample_stages": 4,
+    "loss_terms": [
+      "reconstruction_l1",
+      "gradient_l1",
+      "kl"
+    ],
+    "edge_weight": 0.25,
+    "kl_weight_max": 0.0005,
+    "kl_warmup_epochs": 10
+  },
+  "execution": {
+    "device": "cuda",
+    "seconds": 576.6232736110687,
+    "seed": 20260803
+  },
+  "data": {
+    "class_used": "NORMAL",
+    "available_images": 1341,
+    "train_images": 1073,
+    "holdout_images": 268,
+    "image_shape": [
+      1,
+      64,
+      64
+    ],
+    "normalization": "[-1, 1]",
+    "split": "fixed random image-level holdout; class folder selects images but is not a supervised label"
+  },
+  "training": {
+    "epochs": 50,
+    "batch_size": 64,
+    "batches_per_epoch": 16,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.0001,
+    "history": [
+      {
+        "epoch": 1,
+        "beta": 5e-05,
+        "total_loss": 0.2969628004357219,
+        "reconstruction_l1": 0.26309111900627613,
+        "edge_l1": 0.1344916308298707,
+        "kl_loss": 4.975472719408572
+      },
+      {
+        "epoch": 2,
+        "beta": 0.0001,
+        "total_loss": 0.22950615175068378,
+        "reconstruction_l1": 0.20861721504479647,
+        "edge_l1": 0.08113211207091808,
+        "kl_loss": 6.0591017454862595
+      },
+      {
+        "epoch": 3,
+        "beta": 0.00015,
+        "total_loss": 0.21662958897650242,
+        "reconstruction_l1": 0.19701381493359804,
+        "edge_l1": 0.07740661827847362,
+        "kl_loss": 1.7607911005616188
+      },
+      {
+        "epoch": 4,
+        "beta": 0.0002,
+        "total_loss": 0.20767397340387106,
+        "reconstruction_l1": 0.1879995595663786,
+        "edge_l1": 0.0764135685749352,
+        "kl_loss": 2.8551121205091476
+      },
+      {
+        "epoch": 5,
+        "beta": 0.00025,
+        "total_loss": 0.19751738663762808,
+        "reconstruction_l1": 0.17800620757043362,
+        "edge_l1": 0.07559223100543022,
+        "kl_loss": 2.452482759952545
+      },
+      {
+        "epoch": 6,
+        "beta": 0.0003,
+        "total_loss": 0.18477374128997326,
+        "reconstruction_l1": 0.165072207339108,
+        "edge_l1": 0.0756544484756887,
+        "kl_loss": 2.626407355070114
+      },
+      {
+        "epoch": 7,
+        "beta": 0.00035,
+        "total_loss": 0.17012841906398535,
+        "reconstruction_l1": 0.15051003266125917,
+        "edge_l1": 0.07477306947112083,
+        "kl_loss": 2.643195778131485
+      },
+      {
+        "epoch": 8,
+        "beta": 0.0004,
+        "total_loss": 0.16435059066861868,
+        "reconstruction_l1": 0.14477638714015484,
+        "edge_l1": 0.07391458656638861,
+        "kl_loss": 2.7388941198587418
+      },
+      {
+        "epoch": 9,
+        "beta": 0.00045000000000000004,
+        "total_loss": 0.15031664445996284,
+        "reconstruction_l1": 0.13064786745235324,
+        "edge_l1": 0.07341728080064058,
+        "kl_loss": 2.9210154712200165
+      },
+      {
+        "epoch": 10,
+        "beta": 0.0005,
+        "total_loss": 0.1419549360871315,
+        "reconstruction_l1": 0.12268719403073192,
+        "edge_l1": 0.07154688006266952,
+        "kl_loss": 2.7620480805635452
+      },
+      {
+        "epoch": 11,
+        "beta": 0.0005,
+        "total_loss": 0.13627497665584087,
+        "reconstruction_l1": 0.11733913701027632,
+        "edge_l1": 0.0704110311344266,
+        "kl_loss": 2.666162058711052
+      },
+      {
+        "epoch": 12,
+        "beta": 0.0005,
+        "total_loss": 0.13102995697408915,
+        "reconstruction_l1": 0.11235016025602818,
+        "edge_l1": 0.06925785169005394,
+        "kl_loss": 2.7306721955537796
+      },
+      {
+        "epoch": 13,
+        "beta": 0.0005,
+        "total_loss": 0.12839285656809807,
+        "reconstruction_l1": 0.10986629175022244,
+        "edge_l1": 0.0685114529915154,
+        "kl_loss": 2.797403261065483
+      },
+      {
+        "epoch": 14,
+        "beta": 0.0005,
+        "total_loss": 0.12366885412484407,
+        "reconstruction_l1": 0.10527902049943805,
+        "edge_l1": 0.06791397696360946,
+        "kl_loss": 2.822679713368416
+      },
+      {
+        "epoch": 15,
+        "beta": 0.0005,
+        "total_loss": 0.11918634315952659,
+        "reconstruction_l1": 0.10100226989015937,
+        "edge_l1": 0.06707134656608105,
+        "kl_loss": 2.8324744254350662
+      },
+      {
+        "epoch": 16,
+        "beta": 0.0005,
+        "total_loss": 0.11648286087438464,
+        "reconstruction_l1": 0.09843974653631449,
+        "edge_l1": 0.06645433371886611,
+        "kl_loss": 2.8590584844350815
+      },
+      {
+        "epoch": 17,
+        "beta": 0.0005,
+        "total_loss": 0.11423303931951523,
+        "reconstruction_l1": 0.0963355004787445,
+        "edge_l1": 0.0658358265645802,
+        "kl_loss": 2.877163901925087
+      },
+      {
+        "epoch": 18,
+        "beta": 0.0005,
+        "total_loss": 0.11258236737921834,
+        "reconstruction_l1": 0.09477640921249986,
+        "edge_l1": 0.06545777432620525,
+        "kl_loss": 2.8830261677503586
+      },
+      {
+        "epoch": 19,
+        "beta": 0.0005,
+        "total_loss": 0.11070363922044635,
+        "reconstruction_l1": 0.09302394790574908,
+        "edge_l1": 0.06495475815609097,
+        "kl_loss": 2.8820054084062576
+      },
+      {
+        "epoch": 20,
+        "beta": 0.0005,
+        "total_loss": 0.10923978965729475,
+        "reconstruction_l1": 0.09166046744212508,
+        "edge_l1": 0.06448112614452839,
+        "kl_loss": 2.9180824905633926
+      },
+      {
+        "epoch": 21,
+        "beta": 0.0005,
+        "total_loss": 0.10854424303397536,
+        "reconstruction_l1": 0.09103180980309844,
+        "edge_l1": 0.06419461639598012,
+        "kl_loss": 2.9275571703910828
+      },
+      {
+        "epoch": 22,
+        "beta": 0.0005,
+        "total_loss": 0.1061241663992405,
+        "reconstruction_l1": 0.088713557459414,
+        "edge_l1": 0.06374853779561818,
+        "kl_loss": 2.946951702237129
+      },
+      {
+        "epoch": 23,
+        "beta": 0.0005,
+        "total_loss": 0.10630104737356305,
+        "reconstruction_l1": 0.08891132613644004,
+        "edge_l1": 0.06362511683255434,
+        "kl_loss": 2.9668839275836945
+      },
+      {
+        "epoch": 24,
+        "beta": 0.0005,
+        "total_loss": 0.10578716127201915,
+        "reconstruction_l1": 0.08847262198105454,
+        "edge_l1": 0.06331745348870754,
+        "kl_loss": 2.970355823636055
+      },
+      {
+        "epoch": 25,
+        "beta": 0.0005,
+        "total_loss": 0.10307930316776037,
+        "reconstruction_l1": 0.08585482882335782,
+        "edge_l1": 0.06291530001908541,
+        "kl_loss": 2.991301342844963
+      },
+      {
+        "epoch": 26,
+        "beta": 0.0005,
+        "total_loss": 0.10172374686226249,
+        "reconstruction_l1": 0.08456773590296507,
+        "edge_l1": 0.06255776924081147,
+        "kl_loss": 3.0331382751464844
+      },
+      {
+        "epoch": 27,
+        "beta": 0.0005,
+        "total_loss": 0.10003862949088216,
+        "reconstruction_l1": 0.08294784277677536,
+        "edge_l1": 0.062255662865936756,
+        "kl_loss": 3.0537431836128235
+      },
+      {
+        "epoch": 28,
+        "beta": 0.0005,
+        "total_loss": 0.09856289764866233,
+        "reconstruction_l1": 0.08157989801838994,
+        "edge_l1": 0.06179933878593147,
+        "kl_loss": 3.06633061170578
+      },
+      {
+        "epoch": 29,
+        "beta": 0.0005,
+        "total_loss": 0.09837159048765898,
+        "reconstruction_l1": 0.08142731105908751,
+        "edge_l1": 0.06162689602933824,
+        "kl_loss": 3.0751094967126846
+      },
+      {
+        "epoch": 30,
+        "beta": 0.0005,
+        "total_loss": 0.0979602225124836,
+        "reconstruction_l1": 0.0810776986181736,
+        "edge_l1": 0.06136129284277558,
+        "kl_loss": 3.084400698542595
+      },
+      {
+        "epoch": 31,
+        "beta": 0.0005,
+        "total_loss": 0.09628005372360349,
+        "reconstruction_l1": 0.07951961690559983,
+        "edge_l1": 0.06095045688562095,
+        "kl_loss": 3.0456467419862747
+      },
+      {
+        "epoch": 32,
+        "beta": 0.0005,
+        "total_loss": 0.09497634414583445,
+        "reconstruction_l1": 0.0782457017339766,
+        "edge_l1": 0.0607368228957057,
+        "kl_loss": 3.0928734838962555
+      },
+      {
+        "epoch": 33,
+        "beta": 0.0005,
+        "total_loss": 0.09461130760610104,
+        "reconstruction_l1": 0.07798408670350909,
+        "edge_l1": 0.060268803499639034,
+        "kl_loss": 3.120039612054825
+      },
+      {
+        "epoch": 34,
+        "beta": 0.0005,
+        "total_loss": 0.09317292692139745,
+        "reconstruction_l1": 0.07659856462851167,
+        "edge_l1": 0.060057403286919,
+        "kl_loss": 3.1200225353240967
+      },
+      {
+        "epoch": 35,
+        "beta": 0.0005,
+        "total_loss": 0.09394728858023882,
+        "reconstruction_l1": 0.07743518380448222,
+        "edge_l1": 0.05984103633090854,
+        "kl_loss": 3.103692054748535
+      },
+      {
+        "epoch": 36,
+        "beta": 0.0005,
+        "total_loss": 0.09349021594971418,
+        "reconstruction_l1": 0.07700798148289323,
+        "edge_l1": 0.05967745021916926,
+        "kl_loss": 3.125742495059967
+      },
+      {
+        "epoch": 37,
+        "beta": 0.0005,
+        "total_loss": 0.09104920225217938,
+        "reconstruction_l1": 0.07466293638572097,
+        "edge_l1": 0.059308062540367246,
+        "kl_loss": 3.1185001581907272
+      },
+      {
+        "epoch": 38,
+        "beta": 0.0005,
+        "total_loss": 0.08968227310106158,
+        "reconstruction_l1": 0.07339876564219594,
+        "edge_l1": 0.058838170720264316,
+        "kl_loss": 3.147928759455681
+      },
+      {
+        "epoch": 39,
+        "beta": 0.0005,
+        "total_loss": 0.08930721553042531,
+        "reconstruction_l1": 0.07307808799669147,
+        "edge_l1": 0.058552136877551675,
+        "kl_loss": 3.182186871767044
+      },
+      {
+        "epoch": 40,
+        "beta": 0.0005,
+        "total_loss": 0.08770281122997403,
+        "reconstruction_l1": 0.07156677870079875,
+        "edge_l1": 0.05820911074988544,
+        "kl_loss": 3.167508974671364
+      },
+      {
+        "epoch": 41,
+        "beta": 0.0005,
+        "total_loss": 0.08806641353294253,
+        "reconstruction_l1": 0.07199486531317234,
+        "edge_l1": 0.05799079732969403,
+        "kl_loss": 3.147696152329445
+      },
+      {
+        "epoch": 42,
+        "beta": 0.0005,
+        "total_loss": 0.08886250387877226,
+        "reconstruction_l1": 0.0728381797671318,
+        "edge_l1": 0.057773757725954056,
+        "kl_loss": 3.161767676472664
+      },
+      {
+        "epoch": 43,
+        "beta": 0.0005,
+        "total_loss": 0.089634302072227,
+        "reconstruction_l1": 0.07363366661593318,
+        "edge_l1": 0.05763515364378691,
+        "kl_loss": 3.183693587779999
+      },
+      {
+        "epoch": 44,
+        "beta": 0.0005,
+        "total_loss": 0.08856075163930655,
+        "reconstruction_l1": 0.07259665476158261,
+        "edge_l1": 0.05744938878342509,
+        "kl_loss": 3.2035019397735596
+      },
+      {
+        "epoch": 45,
+        "beta": 0.0005,
+        "total_loss": 0.08639447763562202,
+        "reconstruction_l1": 0.07052688347175717,
+        "edge_l1": 0.05705543980002403,
+        "kl_loss": 3.2074695378541946
+      },
+      {
+        "epoch": 46,
+        "beta": 0.0005,
+        "total_loss": 0.08393023209646344,
+        "reconstruction_l1": 0.06818570755422115,
+        "edge_l1": 0.05654320563189685,
+        "kl_loss": 3.2174461036920547
+      },
+      {
+        "epoch": 47,
+        "beta": 0.0005,
+        "total_loss": 0.08311054343357682,
+        "reconstruction_l1": 0.06748221348971128,
+        "edge_l1": 0.05601384025067091,
+        "kl_loss": 3.2497373670339584
+      },
+      {
+        "epoch": 48,
+        "beta": 0.0005,
+        "total_loss": 0.0826292522251606,
+        "reconstruction_l1": 0.06709360191598535,
+        "edge_l1": 0.05561309866607189,
+        "kl_loss": 3.2647521942853928
+      },
+      {
+        "epoch": 49,
+        "beta": 0.0005,
+        "total_loss": 0.08118973672389984,
+        "reconstruction_l1": 0.06572949653491378,
+        "edge_l1": 0.055284321308135986,
+        "kl_loss": 3.2783202528953552
+      },
+      {
+        "epoch": 50,
+        "beta": 0.0005,
+        "total_loss": 0.07941487384960055,
+        "reconstruction_l1": 0.06411520740948617,
+        "edge_l1": 0.05465641198679805,
+        "kl_loss": 3.271126314997673
+      }
+    ]
+  },
+  "generation": {
+    "sample_count": 128,
+    "method": "latent interpolation between distinct training images with small learned-scale noise",
+    "display_selection": "16 quality-quantile samples from all 128 decoder outputs; selection is reported, not a replacement for full metrics"
+  },
+  "metrics": {
+    "holdout_reconstruction_l1": 0.08780588209629059,
+    "generated_pairwise_l1_displayed": 0.23337160699790524,
+    "mean_absolute_feature_gap": 0.011444801464676857,
+    "real_diversity": 0.29057993484480726,
+    "generated_anatomy_score_mean": 0.30093076825141907,
+    "generated_anatomy_score_p10": 0.2507897615432739,
+    "generated_visible_fraction": 1.0,
+    "nearest_train_l1_mean": 0.10721505433320999,
+    "nearest_train_l1_min": 0.06299945712089539,
+    "serialization_max_abs_diff": 0.0,
+    "real_feature_means": [
+      0.5521084666252136,
+      0.18162670731544495,
+      0.03816841542720795,
+      0.02236129529774189,
+      0.22211278975009918
+    ],
+    "generated_feature_means": [
+      0.537097692489624,
+      0.18673230707645416,
+      0.028753576800227165,
+      0.021096142008900642,
+      0.24854043126106262
+    ],
+    "contrast_threshold": 0.08164171129465103,
+    "texture_threshold": 0.07154719531536102
+  },
+  "checks": {
+    "real_dataset_used": true,
+    "train_count_correct": true,
+    "holdout_count_correct": true,
+    "image_split_has_no_overlap": true,
+    "batch_shape_correct": true,
+    "residual_vae_output_shape_correct": true,
+    "all_epochs_completed": true,
+    "losses_are_finite": true,
+    "generated_images_are_diverse": true,
+    "generated_anatomy_is_visible": true,
+    "holdout_reconstruction_is_informative": true,
+    "nearest_neighbor_not_identical": true,
+    "serialized_model_reproduces_samples": true,
+    "all_required_assets_saved": true
+  },
+  "outputs": [
+    "task2_real_xray_grid.png",
+    "task2_reconstruction_grid.png",
+    "task2_generated_samples.png",
+    "task2_input_generated_comparison.png",
+    "task2_training_curve.png",
+    "task2_training_progress.png",
+    "task2_intensity_histogram.png",
+    "task2_quality_metrics.png",
+    "task2_nearest_neighbors.png",
+    "task2_latent_interpolation.png",
+    "task2_pytorch_result.json"
+  ],
+  "interpretation": "Image-level teaching diagnostics only; not clinical accuracy or disease evidence."
 }

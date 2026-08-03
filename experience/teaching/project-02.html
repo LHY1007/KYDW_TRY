@@ -477,15 +477,15 @@ assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
           <div class="threshold-note"><strong>从 logit 到 mask：</strong>设输出 logit 为 <code>z</code>，先计算 <code>p = 1 / (1 + e<sup>−z</sup>)</code>；再用阈值 <code>t</code> 判断 <code>p ≥ t</code> 的位置，把它写成 1，其余位置写成 0。训练阶段用 <code>BCEWithLogitsLoss</code> 与 soft Dice 组合，概率图可以直接参与反向传播；结果评价再用阈值化 Dice 与 IoU。</div>
         </div>
         <h3>DoubleConv 是网络的基本积木</h3>
-        <p>每个卷积块连续执行两次 <code>3×3 Conv → BatchNorm → ReLU</code>。卷积层学习局部模式，归一化稳定数值，ReLU 提供非线性表达；编码器和解码器只改变通道数与空间分辨率。</p>
+        <p>每个卷积块连续执行两次 <code>3×3 Conv → GroupNorm → ReLU</code>。卷积层学习局部模式，归一化稳定数值，ReLU 提供非线性表达；编码器和解码器只改变通道数与空间分辨率。当前参考运行使用 GroupNorm、AdamW 和带正类权重的 BCE 与 soft Dice 组合。</p>
         <pre class="code">class DoubleConv(nn.Module):
     def __init__(self,cin,cout):
         super().__init__()
         self.block=nn.Sequential(
             nn.Conv2d(cin,cout,3,padding=1),
-            nn.BatchNorm2d(cout), nn.ReLU(inplace=True),
+            nn.GroupNorm(8 if cout >= 8 else 1,cout), nn.ReLU(inplace=True),
             nn.Conv2d(cout,cout,3,padding=1),
-            nn.BatchNorm2d(cout), nn.ReLU(inplace=True))
+            nn.GroupNorm(8 if cout >= 8 else 1,cout), nn.ReLU(inplace=True))
     def forward(self,x):
         return self.block(x)</pre>
       </section>
@@ -531,20 +531,20 @@ i=(inter+1e-6)/(union+1e-6)</pre>
       <section class="lesson" id="run">
         <h2>6. Notebook 中的训练过程</h2>
          <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互图示用于理解配对、分割和评价指标的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；训练曲线、Dice、IoU、空 mask 统计和预测图以你的实际运行输出为准。</div>
-         <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会说明配对、网络、训练和评价中的填写位置与检查方式，实际运行在 Kaggle 中完成；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。</p>
+          <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会说明配对、网络、训练和评价中的填写位置与检查方式，实际运行在 Kaggle 中完成；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。当前参考运行使用 20 轮训练，优化器为 AdamW，卷积块使用 GroupNorm，以及 <code>0.5 × BCEWithLogitsLoss(pos_weight=5) + 0.5 × soft Dice loss</code>。</p>
          <table class="shape-table"><thead><tr><th>任务</th><th>填写位置</th><th>依据与检查</th></tr></thead><tbody>
            <tr><td>1 数据核对</td><td><code>TODO 1</code>：<code>patient_count</code>、<code>positive_masks</code>、<code>empty_ratio</code></td><td>根据 <code>pairs</code> 和每个 mask 的像素内容统计；随机查看 MRI、mask、overlay 是否同位置。</td></tr>
            <tr><td>2 Dice</td><td><code>TODO 2</code>：阈值化、交集、预测面积和真实面积</td><td>先把概率图按 <code>threshold</code> 变成 0/1；用简单的全零和完全相同输入检查边界。</td></tr>
-           <tr><td>3 卷积块</td><td><code>DoubleConv</code> 的 <code>self.block</code></td><td>按两次 <code>3×3 Conv → BatchNorm → ReLU</code> 填写，并用后续 U-Net shape 检查拼接通道。</td></tr>
+           <tr><td>3 卷积块</td><td><code>DoubleConv</code> 的 <code>self.block</code></td><td>按两次 <code>3×3 Conv → GroupNorm → ReLU</code> 填写，并用后续 U-Net shape 检查拼接通道。</td></tr>
            <tr><td>4 训练更新</td><td><code>run_epoch</code> 中标注 TODO 的清梯度、反向传播和更新</td><td>训练损失使用 <code>soft_dice_score</code>；阈值化 Dice 只用于曲线和测试评价。</td></tr>
-           <tr><td>5 测试评价</td><td><code>TODO 5</code>：验证集阈值表与测试结果</td><td>用验证 Dice 最高的阈值锁定设置，再在测试集统计 Dice、IoU、空 mask 和预测图。</td></tr>
+            <tr><td>5 测试评价</td><td><code>TODO 5</code>：验证集阈值表与测试结果</td><td>比较候选阈值 <code>0.25、0.35、0.45、0.50、0.55、0.65、0.75</code>，用验证 Dice 最高的阈值锁定设置，再在测试集统计 Dice、IoU、空 mask 和预测图。</td></tr>
          </tbody></table>
          <div class="process-list">
           <div class="process-step"><strong>配对与统计：</strong>完成 image/mask 配对，统计患者数量、阳性 mask 数量和空 mask 比例，保存 MRI、mask、overlay。</div>
           <div class="process-step"><strong>患者级划分：</strong>用 <code>GroupShuffleSplit</code> 获得 train、validation、test 索引，检查患者集合没有交集。</div>
           <div class="process-step"><strong>同步预处理：</strong>把图像归一化、mask 二值化，训练集使用同步翻转增强，三个 DataLoader 保持同一输入输出 shape。</div>
           <div class="process-step"><strong>补全 TinyUNet：</strong>完成 DoubleConv，保持编码器、跳跃连接、解码器和输出通道的 shape 对齐。</div>
-          <div class="process-step"><strong>训练与选择：</strong>完成一次训练更新，运行 3 个 epoch，保存 train/validation loss 与 Dice 曲线；在验证集比较 0.3、0.5、0.7 阈值。</div>
+          <div class="process-step"><strong>训练与选择：</strong>完成一次训练更新，运行 20 轮，保存 train/validation loss 与 Dice 曲线；在验证集比较候选阈值。</div>
           <div class="process-step"><strong>测试与保存：</strong>用验证集选出的最佳阈值评价测试集，记录 test Dice、test IoU，展示真实 mask 与预测区域。</div>
         </div>
         <div class="two-col">
@@ -569,6 +569,15 @@ opt.step()</pre>
           <div class="result-item"><code>task1_training_curve.png</code><span>训练/验证损失与 Dice 曲线</span></div>
           <div class="result-item"><code>task1_prediction.png</code><span>测试样本、真实 mask 与预测</span></div>
           <div class="result-item"><code>task1_result.json</code><span>切片规模、阈值、Dice、IoU、空 mask 统计与 seed</span></div>
+        </div>
+         <div class="reference-output">
+          <h3>20 轮真实运行结果</h3>
+          <p>下面的图像来自同一轮 MRI 分割运行：展示样本均来自测试集中真实 mask 非空的切片，预测图同时保留真实 mask、预测 mask 和 TP/FP/FN 编码。</p>
+          <div class="two-col">
+            <figure class="figure"><img src="../assets/results/project-02/task1_data_check.png" alt="真实阳性 MRI、mask 与叠加图" loading="lazy"><figcaption>真实阳性样本：MRI、真实 mask 与叠加图。</figcaption></figure>
+            <figure class="figure"><img src="../assets/results/project-02/task1_prediction.png" alt="MRI 真实 mask 预测 mask 与 TP FP FN 编码对比" loading="lazy"><figcaption>输入、真实 mask、预测 mask 与 TP/FP/FN 编码对比。</figcaption></figure>
+          </div>
+          <p class="source-note">患者级划分：训练/验证/测试为 2604 / 547 / 778 个切片；训练使用 600 个平衡样本；测试阳性 mask Dice 为 0.4870，阳性 mask IoU 为 0.3725，最佳阈值为 0.75。</p>
         </div>
       </section>
 

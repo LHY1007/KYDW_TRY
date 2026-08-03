@@ -334,7 +334,7 @@ L(θ) = (1 / m) Σᵢ ℓ(ŷᵢ, yᵢ)
 <p>模型在训练集上减少损失，称为经验风险最小化。训练样本来自总体分布的有限抽样，研究目标是让模型在总体中的新样本上保持低误差。训练表现与测试表现之间的差距反映泛化问题。</p>
 <div class="miniapp" id="app00lr">
 <div class="miniapp-title">学习率如何改变参数更新</div>
-<div class="miniapp-sub">三条参考轨迹保持数据、网络和划分不变，只改变学习率；图中按 20 轮绘制，方便看出更新步长的差异。Notebook 的默认短训练为 2 轮，基础设置是 <code>1e-3</code>。</div>
+<div class="miniapp-sub">三条参考轨迹保持数据、网络和划分不变，只改变学习率；图中按 20 轮绘制，方便看出更新步长的差异。Notebook 的基础设置为 20 轮，学习率为 <code>1e-3</code>。</div>
 <div class="real-data-note">阅读重点：学习率决定每次参数更新的步长。页面曲线用于理解变化趋势；你的训练损失、验证准确率和测试结果从 Kaggle 输出文件读取。</div>
 <div class="miniapp-grid">
 <div class="panel">
@@ -567,7 +567,16 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <li>只修改学习率，完成一次对照实验</li>
 </ol>
 <p>每完成一项，运行当前单元格和后续检查单元格，确认输出 shape、指标与文件内容，再进入下一项。完成最后一项对照实验时，重新打开训练设置单元格，只把学习率从 <code>1e-3</code> 改为 <code>1e-2</code>，重新运行短训练，再把原设置、新设置和最佳验证准确率写入 <code>comparison</code>。</p>
-<div class="files"><strong>需要保存的结果：</strong><code>task0_data_visualization.png</code><code>task0_training_curve.png</code><code>task0_confusion_matrix.png</code><code>task0_result.json</code></div>
+<div class="files"><strong>需要保存的结果：</strong><code>task0_data_visualization.png</code><code>task0_input_prediction_comparison.png</code><code>task0_training_curve.png</code><code>task0_confusion_matrix.png</code><code>task0_result.json</code></div>
+</div>
+<div class="reference-output">
+<h3>20 轮真实运行结果</h3>
+<p>下面的图像和指标来自同一轮 MNIST 测试运行，用来对照输入、预测、训练过程和噪声评价。</p>
+<div class="two-col">
+<figure class="figure"><img src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="MNIST 测试输入、真实标签与模型预测对比" loading="lazy"><figcaption>测试输入、真实标签和模型预测对比。</figcaption></figure>
+<figure class="figure"><img src="../assets/results/project-01/task0_training_curve.png" alt="MNIST 20 轮训练曲线" loading="lazy"><figcaption>20 轮训练损失、验证损失与验证准确率。</figcaption></figure>
+</div>
+<p class="source-note">测试准确率 0.9897，测试 macro-F1 0.98965；加入标准差 0.25 的高斯噪声后，准确率为 0.9771，下降 0.0126。</p>
 </div>
 </section>
 </div>
