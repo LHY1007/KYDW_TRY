@@ -114,8 +114,8 @@ window.KYDW = {
         "他曾获中国大学生生物医学工程创新设计竞赛国家级一等奖。",
         "作为 2024 级负责人，他与其他负责人共同维护团队的培训、合作项目和专题交流。"
       ] },
-      { name: "汤昊天", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA、Expert Systems With Applications论文。", paragraphs: [
-        "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA、Expert Systems With Applications论文。"
+      { name: "汤昊天", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA、ESWA论文。", paragraphs: [
+        "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。以第一作者发表 CMBBE、MICCAI2025-CMMCA、ESWA论文。"
       ] },
       { name: "吴熙东", role: "2022 级负责人", preview: "东北大学生物医学工程专业学生，现任 2022 级负责人。以第一作者发表 CMBBE、BSPC 等 3 篇期刊论文，另有 MICCAI CMMCA Oral，现为新加坡国立大学医学院 PhD。", paragraphs: [
         "吴熙东是东北大学生物医学工程专业学生，现任 KYDW 2022 级负责人。",
