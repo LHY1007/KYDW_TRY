@@ -595,7 +595,7 @@ details.fold[open] summary::after { content: "−"; }
   .home-overview-left { grid-template-rows: auto auto; }
   .home-results-card { height: auto; }
   .home-results-card .home-news-list { max-height: 420px; }
-  .home-leader-scroll { max-height: 360px; }
+  .home-leader-scroll { max-height: none; }
   .week-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .directory-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .material-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
