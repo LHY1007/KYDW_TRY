@@ -8,7 +8,7 @@
 
 1. 先读本文件，确认当前有效要求和待确认事项。
 2. 再读本地状态文件 `_codex_state/current_task_state.md`（若存在），确认上次任务停在哪里。
-3. 涉及页面、数据或同步时，再读 [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 和对应专题文档。
+3. 涉及页面、数据或同步时，再读 [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md)、[`DESIGN-LINKAGE.md`](DESIGN-LINKAGE.md) 和对应专题文档。
 4. [`session-requirements-audit-2026-08-04.md`](session-requirements-audit-2026-08-04.md) 只作为本次历史要求的详细合并审查，不作为重复执行所有检查的理由。
 5. 只有当前表、状态文件和专题文档无法解决冲突时，才回看原始会话。
 
@@ -50,6 +50,7 @@
 | REQ-017 | 本地浏览器 | Tabbit 的旧自定义域名跳转属于本机缓存问题，不修改网站代码；已清理缓存并验证 GitHub Pages 地址正常。 | Tabbit 本地配置、状态文件 | `resolved` | 本地 `_codex_state/current_task_state.md` |
 | REQ-018 | 长会话维护 | 长任务先读取本表和状态文件；新要求先分类、判断是否替代旧要求、登记影响范围，再实施和按影响范围验证。不得因为历史会话很长而默认重做全站检查。 | 所有后续 KYDW 维护任务 | `active` | 本文件、项目 `AGENTS.md` |
 | REQ-019 | 快速处理 | 简单文字、按钮和局部样式只做直接文件定位、最小补丁、目标检查和必要语法检查；只有涉及部署、云端同步、Notebook 运行或用户明确要求时才做外部核验。 | 执行流程、验证流程、推送流程 | `active` | `Extra-Materials/AGENTS.md` |
+| REQ-020 | 设计联动 | 页面、合集、区块和教学材料按单一数据源与明确职责维护；新需求先判断新增、替代或局部修正，再更新设计联动文档、要求登记表和受影响数据/页面。 | 页面架构、`content.js`、`site.js`、教学材料、维护文档 | `active` | [`DESIGN-LINKAGE.md`](DESIGN-LINKAGE.md)、[`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) |
 
 ## 四、已被后文替代的历史要求
 
@@ -114,3 +115,4 @@
 | 日期 | 要求编号 | 变化摘要 | 替代编号 | 实际文件/平台 | 验证证据 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-08-04 | REQ-017/018/019 | 建立要求登记表；定位 Tabbit 旧跳转缓存；启用长会话快速处理规则 | 旧的重复全量检查流程 | 本表、项目 AGENTS、Tabbit 本地缓存 | Tabbit 实际打开 GitHub Pages 后最终 URL 正确；本地文档已回读 | `resolved` |
+| 2026-08-04 | REQ-020 | 新建设计与联动文档，记录页面/合集/区块职责、单一数据源、材料关系、扩展方式和按影响范围验证规则；补充首页联系人标题上下文规则 | 无 | `docs/DESIGN-LINKAGE.md`、`SITE-MAINTENANCE.md`、`README.md`、`content.js`、`site.js`、项目 AGENTS | 定向语法检查、内容回读、首页与体验项目页联系人标题检查 | `resolved` |

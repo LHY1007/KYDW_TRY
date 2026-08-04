@@ -2,7 +2,7 @@
 
 更新日期：2026-08-04
 
-本文件负责页面、数据和平台联动，不作为网站正文展示。长期要求总表见 [`docs/REQUIREMENTS-REGISTER.md`](docs/REQUIREMENTS-REGISTER.md)；修改网站前先读要求总表，再读本文件和对应专题维护文档。
+本文件负责页面、数据和平台联动，不作为网站正文展示。长期要求总表见 [`docs/REQUIREMENTS-REGISTER.md`](docs/REQUIREMENTS-REGISTER.md)；页面、合集、区块和材料之间的设计关系见 [`docs/DESIGN-LINKAGE.md`](docs/DESIGN-LINKAGE.md)。修改网站前先读要求总表，再按影响范围读取本文件、设计联动文档和对应专题维护文档。
 
 ## 本轮维护记录（2026-08-03）
 
@@ -297,6 +297,7 @@
 | 专业解读 | `professional` | 资源中心、专业介绍、专业答疑 | 资源中心、专业解读合集及两个专题页 |
 | 环境准备 | `resources/environment.html` 与 Notion 原生页 | 首页项目区、体验目录、教学文档库 | 体验项目、教学文档库、科研基础环境准备 |
 | 宣传文案 | `docs/promotions/*.md` | 无网站正文渲染；链接、日期、开放状态改变时检查三份文案 | Notion 项目页、群公告和公众号发布稿 |
+| 联系方式 | `experience.contact` | 首页“联系我们”、体验项目主页底部 | 首页联系人标题、项目专属群标题、二维码图片和邮箱 |
 
 ## 八、Notion 页面清单与 GitHub 对应
 
@@ -382,6 +383,7 @@ Notion 的项目主树与教学文档库是同一材料的两个阅读场景：
 ## 十、相关维护文件
 
 - `docs/REQUIREMENTS-REGISTER.md`：历史要求合并、当前有效口径、替代关系、待确认事项和后续要求登记流程。
+- `docs/DESIGN-LINKAGE.md`：页面、合集、区块、数据源、教学材料和未来扩展之间的设计与联动关系。
 - `docs/site-architecture.md`：设计原则、页面层级和公开文案边界。
 - `docs/experience-materials.md`：体验/进阶材料、公开编号和文件映射。
 - `docs/environment-materials.md`：科研基础环境准备的 GitHub、Notion 和图片维护方式。
