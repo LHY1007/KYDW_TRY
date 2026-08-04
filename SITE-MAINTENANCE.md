@@ -348,7 +348,7 @@ Notion 根页：`3af9e718-eb68-80cd-8039-c2f794e20a65`。
 | 项目与活动资料 | `3af9e718-eb68-813e-aaf5-ca20c3f1861e` | 资源中心项目与活动资料、`programs/index.html` |
 | 教学文档库 | `3af9e718-eb68-8155-a0bd-cb8de30f8bf0` | `resources/index.html#teaching-library` |
 | 科研基础环境准备 | `3af9e718-eb68-811f-9c73-f7ce61dbf272` | `resources/environment.html` |
-| 东北大学生物医学工程（中外合办）历年去向表 | 待建立或现有专业解读子页 | `professional/destinations.html` |
+| 东北大学生物医学工程（中外合办）历年去向表 | `3b09e718-eb68-815e-9439-f9dab0cb89ce` | `professional/destinations.html` |
 | 基础编程与人工智能 | `3af9e718-eb68-8137-9c08-e0c04935ed05` | 项目 00 教学、实践与答案 |
 | MRI 肿瘤图像分割 | `3af9e718-eb68-8125-adfe-d1d3d7029be9` | 项目 01 体验与进阶材料 |
 | 胸部 X 射线与生成模型 | `3af9e718-eb68-81c5-bbb4-c9c9c9ea53da` | 项目 02 体验与进阶材料 |
