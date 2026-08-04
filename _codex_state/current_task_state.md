@@ -7,6 +7,12 @@
 - 长会话恢复和新要求合并先读取 `docs/REQUIREMENTS-REGISTER.md`；本文件只记录当前执行状态、差异、验证证据和下一步，不重复保存完整历史要求。
 - 新要求若改变既有口径，先在要求登记表记录替代关系，再更新本文件中的执行清单。
 
+## 2026-08-04 要求登记与发布状态
+
+- `docs/REQUIREMENTS-REGISTER.md` 已建立并发布；GitHub 远端 `main` 当前为 `e3e0ddd3b745d71425c63adc9859faf0a155f2ad`。
+- 本地 `main` 保留提交 `9af7784`；由于 HTTPS 推送失败，远端通过已认证的 GitHub API 生成了等内容的提交链。当前 `git diff main origin/main` 无内容差异，不得把 ahead/behind 的提交数量当作内容未同步。
+- 本次只发布维护文档和状态文件；`docs/promotions/` 下四份未跟踪宣传文件未加入提交。
+
 ## 目标
 
 按“内容、交互、实践材料、维护文档、部署同步”五类核对本地与最新 GitHub 版本，补齐真实未完成项，再把已验证的本地版本推送到 `main`，最后回读 GitHub Pages。
