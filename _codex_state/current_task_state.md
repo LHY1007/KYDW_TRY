@@ -1,6 +1,6 @@
 # KYDW 网站当前任务状态
 
-更新日期：2026-08-04 13:29（中国标准时间）
+更新日期：2026-08-04 21:34（中国标准时间）
 
 ## 要求登记入口
 
@@ -9,8 +9,8 @@
 
 ## 2026-08-04 要求登记与发布状态
 
-- `docs/REQUIREMENTS-REGISTER.md` 已建立并发布；GitHub 远端 `main` 当前为 `055d2df9902d320fd2601b39880e063494eaef44`。
-- 本地 `main` 保留提交链 `9af7784`、`a256ba8`；由于 HTTPS 推送失败，远端通过已认证的 GitHub API 生成了等内容的提交链。当前 `git diff main origin/main` 无内容差异，不得把 ahead/behind 的提交数量当作内容未同步。
+- `docs/REQUIREMENTS-REGISTER.md` 与 `docs/DESIGN-LINKAGE.md` 已建立并发布；本次 GitHub 远端 `main` 更新为 `e3ae7d7e9dd3841d374f32d98753261a0731a6da`。
+- 本地 `main` 当前提交为 `7bd8056`；由于本地与远端提交历史分叉，直接 `git push` 被安全拒绝，本次以远端 `2c4cb02` 为父提交通过 GitHub API 发布等内容文件树，没有强制覆盖。
 - 本次只发布维护文档和状态文件；`docs/promotions/` 下四份未跟踪宣传文件未加入提交。
 
 ## 目标
@@ -21,8 +21,8 @@
 
 - 仓库：`D:\00_同步\BaiduSyncdisk\01_学术研究\展示\山大\Extra-Materials\kydw_try_site`
 - 当前分支：`main`
-- 本地提交：`e9270265c0382e46a8e4ace3752b080c62a89174`；由于 Git HTTPS 连接被重置，已通过 GitHub API 将同一文件树发布为远端提交 `658a151ff8248e9296e9ee70f178e06e9eba5e79`
-- 远端 `main` 已指向 `658a151ff8248e9296e9ee70f178e06e9eba5e79`；该提交与本地当前文件内容一致（本地 Git 的中文路径显示转义，文本文件换行差异不影响内容）
+- 本地提交：`7bd8056`；本次发布对应远端提交 `e3ae7d7e9dd3841d374f32d98753261a0731a6da`
+- 远端文件树已回读，包含本次修改的文档、数据和渲染文件；四份 `docs/promotions/` 未跟踪文件没有加入发布。
 - 公开入口：`https://lhy1007.github.io/KYDW_TRY/`
 - Notion：主页、团队介绍、成果/动态、项目与活动、资源中心及体验项目页面均已同步；项目 00—02 的主页面和教学文档库副本均嵌入最新 HTML，嵌入副本使用可加载的公开资源路径。体验项目页中的 3 个未开放项目已移出公开主树保留为内部页面，主页面改为不可点击的“尚未开放”文字。
 
@@ -34,7 +34,7 @@
 | 交互与布局 | `site.js`、`styles.css`、项目材料卡和实践入口 | 本地与 Pages 的脚本、样式字节完全一致；材料卡只保留“打开”，Week 2/进阶锁定，首页项目预览不直达 |
 | 实践材料 | A00—A02 教学页、题目 Notebook、参考答案、真实结果资产 | 本地材料已完成；A00/A01 Kaggle 参考版完成，A02 第 8 版也已完成并有 10 个输出文件 |
 | 维护文档 | README、`SITE-MAINTENANCE.md`、架构和材料维护表 | 已登记 Notion 历年去向表页面；关键 HTML 与 Pages 内容按统一换行规范逐项一致 |
-| 部署同步 | GitHub `main`、GitHub Pages、Notion | 远端 `main` 为 `658a151...`；Pages 返回 200 且项目 02 页面标签正确；Notion 项目主树与教学文档库副本已回读，匿名访问入口均返回公开 Notion Site 重定向元数据 |
+| 部署同步 | GitHub `main`、GitHub Pages、Notion | 本次远端 `main` 为 `e3ae7d7...`；Pages 已构建该提交，公开首页和体验项目页已回读联系人标题；Notion 本轮未改动 |
 
 ## 已验证内容
 
@@ -82,6 +82,14 @@
 - 总群二维码和项目专属群二维码已重新裁剪为 759×759，并通过原有同名资产同步到首页与体验项目页；本地浏览器已加载四张联系图片。
 - Notion 负责人页已将汤昊天简介更新为 `CMBBE、MICCAI2025-CMMCA、ESWA论文`。体验项目页继续使用原有 GitHub `main` 图片地址，文件已原位替换，避免破坏 Notion 图片块。
 - 2026-08-04 复核：A00、A01、A02 参考答案均为 `KernelWorkerStatus.COMPLETE`；A00/A01 日志无 Traceback/Exception/ERROR，三个结果 JSON 均可解析。A02 有一次辅助输出文件下载时的 Kaggle 内容服务器 SSL 重试失败，不影响内核完成状态，主要图像和结果 JSON 已取得。
+
+## 2026-08-04 21:34 本轮增量
+
+- 新增 `docs/DESIGN-LINKAGE.md`，记录主页、团队介绍、项目与活动、资源中心、三类教学材料、联系方式和未来新增内容的职责与传播关系。
+- `README.md`、`SITE-MAINTENANCE.md`、`docs/REQUIREMENTS-REGISTER.md` 和 `Extra-Materials/AGENTS.md` 已加入设计联动文档入口及“新需求先登记、再按影响范围修改”的长期规则。
+- `content.js` 增加首页联系人上下文标题，`site.js` 只在首页将“本项目专属群聊二维码”显示为“本科生科研入门体验项目专属群聊”；体验项目主页仍显示“本项目专属群聊二维码”。
+- 本地检查：`node --check content.js`、`node --check site.js`、`git diff --check` 和本地首页/体验项目页浏览器回归通过。
+- GitHub API 发布提交：`e3ae7d7e9dd3841d374f32d98753261a0731a6da`；Pages 构建状态为 `built`。线上首页和体验项目页二维码标题已分别回读，未执行 Notion 同步。
 
 ## 后续维护
 
