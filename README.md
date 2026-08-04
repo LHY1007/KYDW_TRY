@@ -18,6 +18,7 @@ KYDW（科研大王）学生自主运营的静态网站，面向团队介绍、�
 - `site.js` / `styles.css`：页面渲染与统一视觉样式。
 - `SITE-MAINTENANCE.md`：逐页职责、GitHub 与 Notion 对照、联动关系、新增文档与发布检查的统一维护入口。
 - `docs/site-architecture.md`：页面职责、内容联动关系和后续维护规则。
+- `docs/DESIGN-LINKAGE.md`：页面、合集、区块、单一数据源和教学材料之间的设计关系与可扩展规则；涉及联动的需求先查此文档。
 - `docs/experience-materials.md`：体验项目原材料、网站编号、页面路径和替换规则。
 - `docs/promotions/`：面向公众号、普通群聊和项目专属群的宣传文案；项目时间、开放状态和入口变化时同步检查。
 

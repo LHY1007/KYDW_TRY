@@ -338,7 +338,10 @@
 
   function contactMarkup(contact, options = {}) {
     if (!contact) return "";
-    const channels = (contact.channels || []).map((channel) => `<figure class="contact-channel"><div class="contact-image-frame"><img src="${rootHref(channel.image)}" alt="${esc(channel.title)}" loading="lazy" /></div><figcaption>${esc(channel.title)}</figcaption></figure>`).join("");
+    const channels = (contact.channels || []).map((channel) => {
+      const channelTitle = options.context === "home" && channel.homeTitle ? channel.homeTitle : channel.title;
+      return `<figure class="contact-channel"><div class="contact-image-frame"><img src="${rootHref(channel.image)}" alt="${esc(channelTitle)}" loading="lazy" /></div><figcaption>${esc(channelTitle)}</figcaption></figure>`;
+    }).join("");
     const email = contact.email ? `<p class="contact-email">邮件：<a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></p>` : "";
     const title = options.title || contact.title || "答疑/反馈渠道";
     const text = options.text || contact.text || "";
@@ -405,7 +408,7 @@
     </section>
     <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "进入资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
-    </section>${contactMarkup(e.contact, { id: "home-contact", title: "联系我们", text: "加入项目公告群，关注 KYDW 公众号，或通过负责人微信和邮件联系团队。" })}`);
+    </section>${contactMarkup(e.contact, { id: "home-contact", context: "home", title: "联系我们", text: "加入项目公告群，关注 KYDW 公众号，或通过负责人微信和邮件联系团队。" })}`);
   }
 
   function team() {
