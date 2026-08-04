@@ -81,7 +81,7 @@ if __name__ == "__main__":
         "project-03",
         '[{"stepIndex": 0, "title": "胸片输入", "image": "experience/assets/results/project-03/task2_real_xray_grid.png", "caption": "正常胸片样本网格"}, '
         '{"stepIndex": 2, "title": "训练过程", "image": "experience/assets/results/project-03/task2_training_curve.png", "caption": "残差卷积 VAE 的总损失、重建 L1、边缘 L1 与 KL 损失曲线"}, '
-        '{"stepIndex": 3, "title": "输入与生成结果", "image": "experience/assets/results/project-03/task2_input_generated_comparison.png", "caption": "胸片、留出集重建与潜空间采样结果对比", "text": "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\n模型：ResidualConvVAE；潜变量维度：64\n留出集重建 L1：0.0878；生成样本两两 L1：0.2334\n五项图像特征平均差：0.0114"}, '
+        '{"stepIndex": 3, "title": "输入与生成结果", "image": "experience/assets/results/project-03/task2_input_generated_comparison.png", "caption": "图左侧明确标出 INPUT / REAL CHEST X-RAY 与 GENERATED OUTPUT / LATENT SAMPLE", "text": "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\n模型：ResidualConvVAE；潜变量维度：64\n留出集重建 L1：0.0878；生成样本两两 L1：0.2334\n五项图像特征平均差：0.0114"}, '
         '{"stepIndex": 4, "title": "图像统计", "image": "experience/assets/results/project-03/task2_quality_metrics.png", "caption": "留出集与生成样本的五项图像统计"}]',
     )
     patch_answer_page(

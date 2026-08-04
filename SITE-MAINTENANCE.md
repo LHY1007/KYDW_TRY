@@ -1,6 +1,6 @@
 # KYDW 网站维护手册
 
-更新日期：2026-08-03
+更新日期：2026-08-04
 
 本文件是 GitHub Pages 与 Notion 的统一维护入口，不作为网站正文展示。修改网站前先阅读本文件，再查对应的专题维护文档。
 
@@ -12,6 +12,12 @@
 - 题目版、Kaggle 题目副本和参考 Notebook 的标题、任务编号、任务说明、检查方式及代码注释必须一致；参考版只补全可执行代码，不另写题目或注释。
 - 本轮只把本地 `tmp/kaggle-practice-publish`、`tmp/kaggle-publish`、`tmp/kaggle-reference` 视为生成暂存区；本地生成不等于已上传、已公开或已核对。
 - 本轮只确认 `a00/a01/a02` 的本地题目与参考暂存文件存在；远端上传、公开可读和内容核对未重新回读，后续记录为 `未核实`。
+
+## 本轮维护记录（2026-08-04）
+
+- 项目 02 的输入/生成对比图统一使用两排标签：上排为 `INPUT / REAL CHEST X-RAY`，下排为 `GENERATED OUTPUT / LATENT SAMPLE`。这两个标签必须同时存在于网站教学页、实践项目 Notebook、实践项目参考答案和 Kaggle 题目/参考版；不要只依赖图注或颜色区分。
+- 项目 02 的 Notion 项目页与教学文档库副本已替换为最新 HTML 附件；项目主页正文保留输入、实践入口、Kaggle 使用方式、结果标签和参考答案说明。
+- Notion“团队近期动态”页面 ID 为 `3b29e718-eb68-81e7-bf0a-f128f62ab991`，与主页使用同一套 2025.4—2026.8 动态记录。
 
 ## 同步与一致性规则（按顺序执行）
 
@@ -303,6 +309,7 @@ Notion 根页：`3af9e718-eb68-80cd-8039-c2f794e20a65`。
 | 科研大王KYDW | `3af9e718-eb68-80cd-8039-c2f794e20a65` | `index.html` |
 | 团队介绍 | `3af9e718-eb68-8116-b844-de9818562d6b` | `team/index.html` |
 | 团队概况 | `3af9e718-eb68-81b7-8ef9-f88f39e89850` | 首页团队概况、`team/index.html` |
+| 团队近期动态 | `3b29e718-eb68-81e7-bf0a-f128f62ab991` | `team/news.html`、首页动态预览 |
 | 代表性成果（成员一作/项目负责人） | `3af9e718-eb68-8162-84c5-ef6a0a3093db` | `team/achievements.html` |
 | 已毕业成员去向 | `3af9e718-eb68-8100-9309-cc22af836da1` | `team/destinations.html` |
 | 负责人 | `3af9e718-eb68-81e3-b4ce-c11653ed48b7` | `team/people.html` |

@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <title>第3节实践｜胸部 X 射线与残差卷积 VAE</title>
 <meta name="description" content="从胸部 X 射线输入、ResidualConvVAE 的概率潜空间到图像生成结果的实践教学页。">
 <style>
@@ -259,7 +260,7 @@ interpolation_z = (1 - alpha) * z_a + alpha * z_b</div>
         <div class="result-note"><strong>指标口径：</strong>“留出集重建 L1”比较留出胸片与其重建；“展示样本两两 L1”反映展示生成样本之间的平均像素差异；“五项特征均值差”是生成图与真实留出图在强度、波动、边缘、中心—边缘对比和双侧肺部对比五项特征上的平均绝对差。</div>
         <div class="result-grid">
           <article class="result-card"><h4>解码器生成样本</h4><img src="../assets/results/project-03/task2_generated_samples.png" alt="ResidualConvVAE 生成的胸部 X 射线样本" loading="lazy"><p>128 个候选潜向量经过训练后的解码器得到新图像；这里展示按图像统计选出的 16 张样本。</p></article>
-          <article class="result-card"><h4>输入、重建与生成对照</h4><img src="../assets/results/project-03/task2_input_generated_comparison.png" alt="真实输入、留出集重建和ResidualConvVAE生成输出对照" loading="lazy"><p>上排是留出集真实输入，中排是重建结果，下排是生成结果，可分别观察结构还原和新样本差异。</p></article>
+          <article class="result-card"><h4>输入与生成结果对照</h4><img src="../assets/results/project-03/task2_input_generated_comparison.png" alt="带有明确行标签的真实胸片输入与生成输出对照" loading="lazy"><p>图中左侧已经标明：INPUT / REAL CHEST X-RAY 是真实输入，GENERATED OUTPUT / LATENT SAMPLE 是潜空间生成结果。两排不代表同一张胸片的前后处理关系。</p></article>
           <article class="result-card"><h4>训练曲线</h4><img src="../assets/results/project-03/task2_training_curve.png" alt="ResidualConvVAE 的损失曲线" loading="lazy"><p>曲线包含总损失、重建 L1、梯度 L1 和 KL 项；前两项逐步下降，KL 项在前期完成权重预热后保持在约 3 附近。</p></article>
           <article class="result-card"><h4>真实与生成强度分布</h4><img src="../assets/results/project-03/task2_intensity_histogram.png" alt="真实和生成胸片的像素强度分布" loading="lazy"><p>直方图用于检查整体灰度分布是否偏离真实留出图像。</p></article>
           <article class="result-card"><h4>五项图像特征均值</h4><img src="../assets/results/project-03/task2_quality_metrics.png" alt="真实和生成胸片的五项图像特征均值比较" loading="lazy"><p>五项特征均值差为 0.0114，用于比较真实留出图像和生成图像的整体统计。</p></article>
