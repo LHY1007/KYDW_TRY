@@ -2,7 +2,7 @@
 
 更新日期：2026-08-04
 
-本文件是 GitHub Pages 与 Notion 的统一维护入口，不作为网站正文展示。修改网站前先阅读本文件，再查对应的专题维护文档。
+本文件负责页面、数据和平台联动，不作为网站正文展示。长期要求总表见 [`docs/REQUIREMENTS-REGISTER.md`](docs/REQUIREMENTS-REGISTER.md)；修改网站前先读要求总表，再读本文件和对应专题维护文档。
 
 ## 本轮维护记录（2026-08-03）
 
@@ -381,6 +381,7 @@ Notion 的项目主树与教学文档库是同一材料的两个阅读场景：
 
 ## 十、相关维护文件
 
+- `docs/REQUIREMENTS-REGISTER.md`：历史要求合并、当前有效口径、替代关系、待确认事项和后续要求登记流程。
 - `docs/site-architecture.md`：设计原则、页面层级和公开文案边界。
 - `docs/experience-materials.md`：体验/进阶材料、公开编号和文件映射。
 - `docs/environment-materials.md`：科研基础环境准备的 GitHub、Notion 和图片维护方式。
