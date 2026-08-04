@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <title>实践项目参考答案｜ResidualConvVAE 胸部 X 射线生成</title>
   <meta name="description" content="公开体验项目 02：ResidualConvVAE 胸部 X 射线生成的参考答案、模型结构和生成结果。">
   <style>
@@ -415,8 +416,8 @@ reconstruction = vae.decode(
         </figure>
       </div>
       <figure class="p03-figure">
-        <img src="../assets/results/project-03/task2_input_generated_comparison.png" alt="真实输入胸片与生成胸片上下对比" loading="lazy">
-        <figcaption>上排是留出集真实输入，中排是对应重建，下排是生成输出；三排分别用于观察输入结构、重建效果和新样本差异。</figcaption>
+        <img src="../assets/results/project-03/task2_input_generated_comparison.png" alt="带有明确行标签的真实输入胸片与生成输出对比" loading="lazy">
+        <figcaption>图中左侧标签直接区分两排：INPUT / REAL CHEST X-RAY 是真实输入，GENERATED OUTPUT / LATENT SAMPLE 是生成结果。该图不包含重建排，重建结果见上方“输入、重建和生成结果”部分的单独说明。</figcaption>
       </figure>
     </section>
 
