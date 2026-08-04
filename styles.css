@@ -568,7 +568,7 @@ details.fold[open] summary::after { content: "−"; }
   .home-intro-grid > .home-overview-left,
   .home-intro-grid > .home-overview-side { height: 100%; min-height: 0; }
   .home-overview-left {
-    grid-template-rows: minmax(0, 1.15fr) minmax(0, .85fr);
+    grid-template-rows: minmax(0, .9fr) minmax(0, 1.1fr);
     align-self: stretch;
   }
   .home-overview-side { display: grid; grid-template-rows: minmax(0, 1fr); }
