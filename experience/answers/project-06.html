@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/>
+<title>实践项目参考答案 05：空间转录组表达超分辨率｜KYDW</title>
+<style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.25rem;margin-top:0}
+.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+pre{overflow:auto;background:#14232b;color:#e9f2f4;border-radius:12px;padding:16px;line-height:1.55}code{font-family:Consolas,"SFMono-Regular",monospace}
+ul{padding-left:1.4em}a{color:#176c75}
+.results{display:grid;grid-template-columns:1fr;gap:20px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figure img[src$="task3_sample_he_tile.png"]{width:320px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px;word-break:break-all}
+details summary{cursor:pointer;font-weight:700;color:#176c75}details pre{max-height:70vh}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-06.html">返回项目详情</a><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 05：空间转录组表达超分辨率</h1><p>使用配对 H&amp;E、16 μm Snap25 输入和 2 μm 参考表达图，训练轻量融合模型并与插值基线比较。</p>
+<p class="note">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。打开公开 Kaggle Notebook 后，先复制到自己的账户，再修改题目中标记的区域并运行。</p></section>
+<section class="card"><h2>读取配对数据</h2><p>只读取固定文件名，并检查 he、lr、hr 和 split 四个字段。</p><pre><code>candidates = sorted(Path('/kaggle/input').rglob('kydw-try-a05-paired-patches.npz'))
+assert candidates, '请挂载课程数据集。'
+data = np.load(candidates[0], allow_pickle=True)
+he = data['he'].astype(np.float32) / 255.0
+lr = data['lr'].astype(np.float32)
+hr = data['hr'].astype(np.float32)
+split = data['split'].astype(str)</code></pre></section><section class="card"><h2>输入与目标</h2><p>LR 粗尺度总量除以 64 后作为细网格密度基线，H&amp;E 与表达通道拼接。</p><pre><code>lr_total = lr[i]
+lr_density = lr_total / 64.0
+x = np.concatenate([he[i], np.log1p(lr_density)], axis=0)
+y = np.log1p(hr[i])</code></pre></section><section class="card"><h2>轻量联合输入模型</h2><p>三个 H&amp;E 通道与一个表达通道共同进入卷积网络。</p><pre><code>self.body = nn.Sequential(
+    nn.Conv2d(4, 16, 3, padding=1), nn.ReLU(),
+    nn.Conv2d(16, 16, 3, padding=1), nn.ReLU(),
+    nn.Conv2d(16, 1, 3, padding=1),
+)
+
+def forward(self, x):
+    return torch.nn.functional.softplus(x[:, 3:4] + self.body(x))</code></pre></section><section class="card"><h2>聚合一致性</h2><p>高分辨率预测按 8×8 区域求和后与低分辨率总量比较。</p><pre><code>def aggregate8(x):
+    return torch.nn.functional.avg_pool2d(x, 8, 8) * 64
+
+pred = torch.expm1(pred_log).clamp_min(0)
+lr_total_coarse = torch.nn.functional.avg_pool2d(lr_raw, 8, 8)
+consistency = (aggregate8(pred) - lr_total_coarse).abs().mean()
+loss = (pred_log - target_log).abs().mean() + .1 * consistency</code></pre></section><section class="card"><h2>模型与插值比较</h2><p>同一测试区域使用相同色标，比较 MAE、相关性和误差图。</p><pre><code>mae_model = np.abs(pred - target).mean()
+mae_baseline = np.abs(baseline - target).mean()
+pearson = np.corrcoef(pred.ravel(), target.ravel())[0, 1]
+vmax = np.percentile(target, 99)</code></pre></section>
+<section class="card"><h2>本次参考结果</h2><p>插值基线测试 MAE 为 0.199，轻量模型测试 MAE 为 0.184，模型与 2 μm 参考表达图的像素相关性为 0.117。MAE 略有下降但相关性仍低，当前结果不能解释为已恢复可靠的细尺度表达结构。</p><div class="results"><figure><img alt="项目 05 参考结果：task5_data_visualization.png" loading="lazy" src="../assets/results/project-06/task5_data_visualization.png"/><figcaption>task5_data_visualization.png</figcaption></figure><figure><img alt="项目 05 参考结果：task5_training_curve.png" loading="lazy" src="../assets/results/project-06/task5_training_curve.png"/><figcaption>task5_training_curve.png</figcaption></figure><figure><img alt="项目 05 参考结果：task5_prediction_visualization.png" loading="lazy" src="../assets/results/project-06/task5_prediction_visualization.png"/><figcaption>task5_prediction_visualization.png</figcaption></figure></div></section>
+<section class="card"><h2>结果文件</h2><p>完成参考版运行后，按下列文件核对数据、图像和指标。</p><ul><li><code>task5_data_visualization.png</code></li><li><code>task5_training_curve.png</code></li><li><code>task5_prediction_visualization.png</code></li><li><code>task5_result.json</code></li></ul></section>
+</main></body></html>

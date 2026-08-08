@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/><title>胸部 X 射线生成：潜空间、覆盖度与记忆风险｜KYDW</title><style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:'Microsoft YaHei',Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:30px 20px 70px}.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+h1{font-size:2rem;margin:.2em 0}h2{font-size:1.28rem;margin-top:0}.tag{color:#176c75;font-weight:700}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}code{font-family:Consolas,monospace;background:#edf2f4;padding:.12em .35em;border-radius:4px}li{margin:.45em 0}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-03.html">返回项目详情</a><main><section class="hero"><div class="tag">KYDW 进阶项目</div><h1>胸部 X 射线生成：潜空间、覆盖度与记忆风险</h1><p>把生成结果拆成重建质量、样本多样性和训练样本记忆三个问题。</p></section><section class="card"><h2>1. 重建图回答模型能否保留输入结构</h2><p>重建图回答模型能否保留输入结构，随机采样图回答潜空间能否生成多样结果。</p></section><section class="card"><h2>2. 只展示几张好看的图容易忽略模式坍塌</h2><p>只展示几张好看的图容易忽略模式坍塌，应同时比较强度、边缘和样本间距离。</p></section><section class="card"><h2>3. 生成图与训练图过近可能提示记忆风险</h2><p>生成图与训练图过近可能提示记忆风险，最近邻检查不能证明隐私安全，但能发现明显复制。</p></section><section class="card"><h2>4. 患者级留出避免同一患者的相似胸片同时出现在训练和测试中。</h2><p>患者级留出避免同一患者的相似胸片同时出现在训练和测试中。</p></section><section class="card"><h2>5. 生成图像不能作为临床影像使用</h2><p>生成图像不能作为临床影像使用，评价只说明当前数据与方法中的统计接近程度。</p></section><section class="card"><h2>实践中的方法关系</h2><p>前面的数据单位、划分、方法比较和评价会在实践中依次使用。实践题目已经提供读取与保存框架，只需补全关键步骤。</p><ol><li>建立训练与留出特征</li><li>比较真实与生成分布</li><li>计算样本多样性</li><li>完成最近邻审计</li><li>解释统计相似与临床真实性的区别</li></ol><p class="note">进阶项目增加方法比较、验证设计和结果边界，难度来自判断与实验设计，不要求一次补写整套模型。</p></section></main></body></html>

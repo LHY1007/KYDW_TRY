@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/><title>计算病理：原图级验证与染色稳定性｜KYDW</title><style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:'Microsoft YaHei',Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:30px 20px 70px}.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+h1{font-size:2rem;margin:.2em 0}h2{font-size:1.28rem;margin-top:0}.tag{color:#176c75;font-weight:700}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}code{font-family:Consolas,monospace;background:#edf2f4;padding:.12em .35em;border-radius:4px}li{margin:.45em 0}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-04.html">返回项目详情</a><main><section class="hero"><div class="tag">KYDW 进阶项目</div><h1>计算病理：原图级验证与染色稳定性</h1><p>从图块分类继续进入原图级聚合、分组验证和染色变化分析。</p></section><section class="card"><h2>1. 病理图块不是独立患者</h2><p>病理图块不是独立患者，划分与交叉验证必须以原图或病例作为分组单位。</p></section><section class="card"><h2>2. 图块预测可以按平均概率或最高风险区域聚合；聚合规则应在验证集确定。</h2><p>图块预测可以按平均概率或最高风险区域聚合；聚合规则应在验证集确定。</p></section><section class="card"><h2>3. 颜色归一化和染色扰动用于检查模型是否过度依赖实验室染色风格。</h2><p>颜色归一化和染色扰动用于检查模型是否过度依赖实验室染色风格。</p></section><section class="card"><h2>4. 高分图块应重新映射到原图位置</h2><p>高分图块应重新映射到原图位置，才能判断模型关注的是组织结构还是伪影。</p></section><section class="card"><h2>5. 代理标签支持教学实验</h2><p>代理标签支持教学实验，不应写成 WHO 分级或临床诊断结果。</p></section><section class="card"><h2>实践中的方法关系</h2><p>前面的数据单位、划分、方法比较和评价会在实践中依次使用。实践题目已经提供读取与保存框架，只需补全关键步骤。</p><ol><li>按原图分组划分</li><li>提取颜色与纹理特征</li><li>比较图块级和原图级结果</li><li>完成染色扰动测试</li><li>定位代表性错误区域</li></ol><p class="note">进阶项目增加方法比较、验证设计和结果边界，难度来自判断与实验设计，不要求一次补写整套模型。</p></section></main></body></html>

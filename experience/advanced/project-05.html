@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/><title>脑疾病表格预测：校准、阈值与验证设计｜KYDW</title><style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:'Microsoft YaHei',Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:30px 20px 70px}.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+h1{font-size:2rem;margin:.2em 0}h2{font-size:1.28rem;margin-top:0}.tag{color:#176c75;font-weight:700}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}code{font-family:Consolas,monospace;background:#edf2f4;padding:.12em .35em;border-radius:4px}li{margin:.45em 0}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-05.html">返回项目详情</a><main><section class="hero"><div class="tag">KYDW 进阶项目</div><h1>脑疾病表格预测：校准、阈值与验证设计</h1><p>从一次四分类结果继续检查验证策略、概率校准和模型解释的稳定性。</p></section><section class="card"><h2>1. 测试集只用于最终评价；模型选择、阈值选择和校准都应在训练或验证数据中完成。</h2><p>测试集只用于最终评价；模型选择、阈值选择和校准都应在训练或验证数据中完成。</p></section><section class="card"><h2>2. 宏平均 F1、概率损失和校准误差回答不同问题</h2><p>宏平均 F1、概率损失和校准误差回答不同问题，应按研究用途组合报告。</p></section><section class="card"><h2>3. 置换重要性会受相关变量影响</h2><p>置换重要性会受相关变量影响，跨折稳定性比单次排序更值得关注。</p></section><section class="card"><h2>4. 高置信度错误能够暴露标签噪声、分布偏移或模型过度确定。</h2><p>高置信度错误能够暴露标签噪声、分布偏移或模型过度确定。</p></section><section class="card"><h2>5. 变量贡献是预测依赖</h2><p>变量贡献是预测依赖，不等同于疾病机制或治疗靶点。</p></section><section class="card"><h2>实践中的方法关系</h2><p>前面的数据单位、划分、方法比较和评价会在实践中依次使用。实践题目已经提供读取与保存框架，只需补全关键步骤。</p><ol><li>完成分层交叉验证</li><li>比较逻辑回归与树模型</li><li>校准类别概率</li><li>统计高置信度错误</li><li>比较变量重要性稳定性</li></ol><p class="note">进阶项目增加方法比较、验证设计和结果边界，难度来自判断与实验设计，不要求一次补写整套模型。</p></section></main></body></html>

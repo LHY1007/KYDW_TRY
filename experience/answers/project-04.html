@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/>
+<title>实践项目参考答案 03：脑膜瘤 H&amp;E 形态代理分类｜KYDW</title>
+<style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.25rem;margin-top:0}
+.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+pre{overflow:auto;background:#14232b;color:#e9f2f4;border-radius:12px;padding:16px;line-height:1.55}code{font-family:Consolas,"SFMono-Regular",monospace}
+ul{padding-left:1.4em}a{color:#176c75}
+.results{display:grid;grid-template-columns:1fr;gap:20px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figure img[src$="task3_sample_he_tile.png"]{width:320px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px;word-break:break-all}
+details summary{cursor:pointer;font-weight:700;color:#176c75}details pre{max-height:70vh}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-04.html">返回项目详情</a><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 03：脑膜瘤 H&amp;E 形态代理分类</h1><p>使用固定的真实脑膜瘤 H&amp;E 图块数据，按原图划分训练、验证和测试集合，比较颜色统计基线与小型 CNN。</p>
+<p class="note">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。打开公开 Kaggle Notebook 后，先复制到自己的账户，再修改题目中标记的区域并运行。</p></section>
+<section class="card"><h2>读取固定课程数据</h2><p>只查找指定 NPZ，避免读取 Kaggle 中其他大图。</p><pre><code>candidates = sorted(Path('/kaggle/input').rglob('meningioma_public_morphology_tiles.npz'))
+assert candidates, '请挂载课程数据集。'
+data = np.load(candidates[0], allow_pickle=True)
+images = data['images']
+labels = data['labels']
+source_image_ids = data['source_image_ids'].astype(str)
+split = data['split'].astype(str)</code></pre></section><section class="card"><h2>数据核对</h2><p>每个集合分别统计图块、原图编号和三类标签数量。</p><pre><code>summary = {
+    kind: {
+        'patches': int((split == kind).sum()),
+        'sources': np.unique(source_image_ids[split == kind]).tolist(),
+        'class_counts': np.bincount(labels[split == kind], minlength=3).tolist(),
+    }
+    for kind in ('train', 'validation', 'test')
+}
+print(summary)</code></pre></section><section class="card"><h2>颜色统计基线</h2><p>RGB 均值和标准差先建立可解释的参照。</p><pre><code>def color_features(batch):
+    z = batch.astype(np.float32) / 255.0
+    return np.c_[z.mean((1, 2)), z.std((1, 2))]
+
+tr = np.where(split == 'train')[0]
+te = np.where(split == 'test')[0]
+baseline = LogisticRegression(max_iter=1200, class_weight='balanced')
+baseline.fit(color_features(images)[tr], labels[tr])
+base_f1 = f1_score(labels[te], baseline.predict(color_features(images)[te]), average='macro')</code></pre></section><section class="card"><h2>小型 CNN</h2><p>三组卷积模块提取局部纹理，全局池化后输出三类 logits。</p><pre><code>def block(cin, cout):
+    return nn.Sequential(nn.Conv2d(cin, cout, 3, padding=1), nn.BatchNorm2d(cout), nn.ReLU(), nn.MaxPool2d(2))
+
+self.features = nn.Sequential(block(3, 24), block(24, 48), block(48, 96), nn.AdaptiveAvgPool2d(1))
+self.classifier = nn.Linear(96, 3)</code></pre></section><section class="card"><h2>训练与染色变化</h2><p>验证集选择模型，测试集计算宏平均 F1；随后固定模型并改变测试图块颜色。</p><pre><code>optimizer.zero_grad()
+logits = model(x.to(DEVICE))
+loss = loss_fn(logits, y.to(DEVICE))
+loss.backward()
+optimizer.step()
+
+# 测试完成后对红、蓝通道作固定变化，再由同一模型重新预测。</code></pre></section>
+<section class="card"><h2>本次参考结果</h2><p>颜色统计基线宏平均 F1 为 0.601，CNN 准确率为 0.677、宏平均 F1 为 0.667。固定染色变化后宏平均 F1 降至 0.188，说明当前模型对染色变化不稳健。</p><div class="results"><figure><img alt="项目 03 参考结果：task3_sample_he_tile.png" loading="lazy" src="../assets/results/project-04/task3_sample_he_tile.png"/><figcaption>task3_sample_he_tile.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_data_visualization.png" loading="lazy" src="../assets/results/project-04/task3_data_visualization.png"/><figcaption>task3_data_visualization.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_training_curve.png" loading="lazy" src="../assets/results/project-04/task3_training_curve.png"/><figcaption>task3_training_curve.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_prediction_visualization.png" loading="lazy" src="../assets/results/project-04/task3_prediction_visualization.png"/><figcaption>task3_prediction_visualization.png</figcaption></figure></div></section>
+<section class="card"><h2>结果文件</h2><p>完成参考版运行后，按下列文件核对数据、图像和指标。</p><ul><li><code>task3_sample_he_tile.png</code></li><li><code>task3_data_visualization.png</code></li><li><code>task3_training_curve.png</code></li><li><code>task3_prediction_visualization.png</code></li><li><code>task3_pytorch_result.json</code></li></ul></section>
+</main></body></html>

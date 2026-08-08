@@ -1,0 +1,33 @@
+{
+  "data_shapes": {
+    "he": [
+      126,
+      3,
+      256,
+      256
+    ],
+    "lr": [
+      126,
+      1,
+      256,
+      256
+    ],
+    "hr": [
+      126,
+      1,
+      256,
+      256
+    ]
+  },
+  "split_counts": {
+    "train": 72,
+    "validation": 9,
+    "test": 45
+  },
+  "test_mae_model": 0.1844942691632443,
+  "test_mae_interpolation": 0.1990284177992079,
+  "test_pearson_model": 0.11665338229915807,
+  "test_pearson_interpolation": 0.3980500193653299,
+  "test_8x8_aggregation_mae": 10.357501027319167,
+  "seed": 42
+}

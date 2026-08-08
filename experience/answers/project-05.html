@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/>
+<title>实践项目参考答案 04：XGBoost 脑疾病表格分类｜KYDW</title>
+<style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.25rem;margin-top:0}
+.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+pre{overflow:auto;background:#14232b;color:#e9f2f4;border-radius:12px;padding:16px;line-height:1.55}code{font-family:Consolas,"SFMono-Regular",monospace}
+ul{padding-left:1.4em}a{color:#176c75}
+.results{display:grid;grid-template-columns:1fr;gap:20px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figure img[src$="task3_sample_he_tile.png"]{width:320px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px;word-break:break-all}
+details summary{cursor:pointer;font-weight:700;color:#176c75}details pre{max-height:70vh}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-05.html">返回项目详情</a><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 04：XGBoost 脑疾病表格分类</h1><p>使用课程提供的 Data.csv，将 CTL、AD、PD 和 DEP 作为四分类目标，完成预处理、XGBoost 训练和变量贡献分析。</p>
+<p class="note">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。打开公开 Kaggle Notebook 后，先复制到自己的账户，再修改题目中标记的区域并运行。</p></section>
+<section class="card"><h2>固定目标和输入</h2><p>目标列固定为 label，ID 只用于识别受试者。</p><pre><code>df = pd.read_csv(DATA_PATH)
+encoder = LabelEncoder()
+y = encoder.fit_transform(df['label'].astype(str))
+X = df.drop(columns=['ID', 'label'])
+print(dict(zip(encoder.classes_, np.bincount(y))))</code></pre></section><section class="card"><h2>训练集拟合预处理</h2><p>数值列和类别列分别处理，预处理规则只从训练集学习。</p><pre><code>numeric_cols = list(X.select_dtypes(include=np.number).columns)
+categorical_cols = [c for c in X.columns if c not in numeric_cols]
+pre = ColumnTransformer([
+    ('num', Pipeline([('imputer', SimpleImputer(strategy='median'))]), numeric_cols),
+    ('cat', Pipeline([('imputer', SimpleImputer(strategy='most_frequent')), ('onehot', OneHotEncoder(handle_unknown='ignore'))]), categorical_cols),
+])</code></pre></section><section class="card"><h2>XGBoost 参数</h2><p>轻量设置用于完成四分类体验。</p><pre><code>clf = XGBClassifier(
+    n_estimators=180, max_depth=3, learning_rate=.05,
+    objective='multi:softprob', num_class=4,
+    subsample=.8, colsample_bytree=.8,
+    eval_metric='mlogloss', random_state=SEED,
+)
+model = Pipeline([('pre', pre), ('clf', clf)])</code></pre></section><section class="card"><h2>四分类评价</h2><p>先计算逻辑回归基线，再使用混淆矩阵、分类报告和宏平均 F1 查看 XGBoost 的结果。</p><pre><code>baseline.fit(X_train, y_train)
+baseline_f1 = f1_score(y_test, baseline.predict(X_test), average='macro')
+model.fit(X_train, y_train)
+test_prob = model.predict_proba(X_test)
+test_pred = test_prob.argmax(axis=1)
+macro_f1 = f1_score(y_test, test_pred, average='macro')
+cm = confusion_matrix(y_test, test_pred)
+report = classification_report(y_test, test_pred, target_names=encoder.classes_, output_dict=True)</code></pre></section><section class="card"><h2>置换重要性</h2><p>逐列打乱输入，观察宏平均 F1 的下降。</p><pre><code>pi = permutation_importance(
+    model, X_test, y_test, n_repeats=5,
+    random_state=SEED, scoring='f1_macro'
+)
+order = np.argsort(pi.importances_mean)[-12:]</code></pre></section><section class="card"><h2>概率曲线与高置信度错误</h2><p>ROC/PR 是概率排序的补充，高置信度错误用于查看模型非常确定但仍判断错误的样本。</p><pre><code>confidence = test_prob.max(axis=1)
+wrong = np.where(test_pred != y_test)[0]
+high_confidence_wrong = wrong[np.argsort(confidence[wrong])[::-1]][:10]
+print(X_test.iloc[high_confidence_wrong].assign(
+    true=y_encoder.inverse_transform(y_test[high_confidence_wrong]),
+    predicted=y_encoder.inverse_transform(test_pred[high_confidence_wrong]),
+    confidence=confidence[high_confidence_wrong],
+))</code></pre></section>
+<section class="card"><h2>本次参考结果</h2><p>逻辑回归基线宏平均 F1 为 0.739；XGBoost 准确率为 0.753、宏平均 F1 为 0.751。这些数值描述课程数据上的预测结果，不表示变量具有疾病因果作用。</p><div class="results"><figure><img alt="项目 04 参考结果：task4_data_summary.png" loading="lazy" src="../assets/results/project-05/task4_data_summary.png"/><figcaption>task4_data_summary.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_confusion.png" loading="lazy" src="../assets/results/project-05/task4_confusion.png"/><figcaption>task4_confusion.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_roc_pr.png" loading="lazy" src="../assets/results/project-05/task4_roc_pr.png"/><figcaption>task4_roc_pr.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_importance.png" loading="lazy" src="../assets/results/project-05/task4_importance.png"/><figcaption>task4_importance.png</figcaption></figure></div></section>
+<section class="card"><h2>结果文件</h2><p>完成参考版运行后，按下列文件核对数据、图像和指标。</p><ul><li><code>task4_data_summary.png</code></li><li><code>task4_confusion.png</code></li><li><code>task4_roc_pr.png</code></li><li><code>task4_importance.png</code></li><li><code>task4_result.json</code></li></ul></section>
+</main></body></html>

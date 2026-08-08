@@ -712,4 +712,25 @@ for (const [id, results] of Object.entries(_kydwProjectResults)) {
   const project = window.KYDW.projects.find((item) => item.id === id);
   if (project) project.referenceResults = results;
 }
+// 进阶 00—05 已更新并同步到云端归档；导航开放状态仍由 site.js 统一控制。
+for (let publicNo = 0; publicNo <= 5; publicNo += 1) {
+  const siteNo = String(publicNo + 1).padStart(2, "0");
+  const publicId = String(publicNo).padStart(2, "0");
+  const project = window.KYDW.projects.find((item) => item.id === `project-${siteNo}`);
+  if (!project) continue;
+  project.single = false;
+  project.advanced = `experience/advanced/project-${siteNo}.html`;
+  project.advancedPractice = `experience/advanced-practice/project-${siteNo}.ipynb`;
+  project.advancedAnswer = `experience/advanced-answers/project-${siteNo}.ipynb`;
+  project.advancedReportTemplate = `experience/advanced-reports/templates/project-${siteNo}.html`;
+  project.advancedReferenceReport = `experience/advanced-reports/examples/project-${siteNo}.html`;
+  project.advancedKagglePractice = `https://www.kaggle.com/code/liuhanyu1007/kydw-advanced-a${publicId}`;
+  project.advancedKaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-advanced-a${publicId}-reference`;
+  project.advancedOpen = false;
+  project.advancedStatus = "尚未开放";
+  project.advancedStudentVisible = false;
+  if (publicNo >= 3) {
+    project.kaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-try-a${publicId}-reference`;
+  }
+}
 delete window._kydwProjectResults;
