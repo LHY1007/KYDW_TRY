@@ -91,6 +91,13 @@
 - 本地检查：`node --check content.js`、`node --check site.js`、`git diff --check` 和本地首页/体验项目页浏览器回归通过。
 - GitHub API 发布提交：`e3ae7d7e9dd3841d374f32d98753261a0731a6da`；Pages 构建状态为 `built`。线上首页和体验项目页二维码标题已分别回读，未执行 Notion 同步。
 
+## 2026-08-08 二维码资源替换
+
+- 总群二维码替换为 `bf114a66459e5ec29e77c2931f65b36b.png`，体验项目群二维码替换为 `060a0d0bbe44f305d5a7e8b4e600eba7.png`；两张图片均裁去群名、头像和有效期，仅保留二维码区域，输出规格均为 759×759。
+- 原有两张网站资源已备份至 `_codex_state/backups/`，官网文字、`content.js` 引用和页面结构未修改。
+- 本地资源提交为 `a37afad`；远端 GitHub API 发布提交为 `402283a61781ad1bd656d9dbcb0c4a76761d8146`，Pages 构建状态为 `built`。
+- 两个公开图片地址均返回 HTTP 200、`image/png`、759×759；本地二维码资源与远端内容 SHA 一致。
+
 ## 后续维护
 
 1. 后续更新项目 00—02 HTML 时，重新生成带公开资源路径的 Notion 嵌入副本，并同时替换项目主页面与教学文档库副本。
