@@ -97,8 +97,8 @@ def main() -> None:
         student = load(ROOT / "experience" / "practice" / f"project-{site_no}.ipynb")
         reference = reference_experience(public_no, student)
         code_file = f"KYDW_TRY_A{public_no}.ipynb"
-        package(publish / f"a{public_no}-practice", student, metadata(f"liuhanyu1007/kydw-try-a{public_no}", f"KYDW_TRY_A{public_no}", code_file, DATASETS[f"a{public_no}"], public_no == "05"))
-        package(publish / f"a{public_no}-reference", reference, metadata(f"liuhanyu1007/kydw-try-a{public_no}-reference", f"KYDW_TRY_A{public_no}_REFERENCE", code_file, DATASETS[f"a{public_no}"], public_no == "05"))
+        package(publish / f"a{public_no}-practice", student, metadata(f"liuhanyu1007/kydw-try-a{public_no}", f"KYDW_TRY_A{public_no}", code_file, DATASETS[f"a{public_no}"], False))
+        package(publish / f"a{public_no}-reference", reference, metadata(f"liuhanyu1007/kydw-try-a{public_no}-reference", f"KYDW_TRY_A{public_no}_REFERENCE", code_file, DATASETS[f"a{public_no}"], False))
     for public_no in range(6):
         public_id=f"{public_no:02d}"; site_no=f"{public_no+1:02d}"
         student=load(ROOT/"experience"/"advanced-practice"/f"project-{site_no}.ipynb")
