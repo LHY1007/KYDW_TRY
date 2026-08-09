@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>项目 05 参考设计报告</title><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style>
+:root{--ink:#172532;--muted:#5d6f7d;--line:#dbe4e9;--paper:#fff;--soft:#f4f8fa;--blue:#185b7b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef3f5;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.78}
+.report-top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px clamp(16px,4vw,42px);background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}
+.report-top b{color:var(--blue)}.report-actions{display:flex;gap:8px;flex-wrap:wrap}.report-actions a{display:inline-flex;padding:8px 13px;border:1px solid #bfd0da;border-radius:999px;color:var(--blue);text-decoration:none;font-size:13px;background:#fff}
+.report-shell{width:min(940px,calc(100% - 28px));margin:28px auto 70px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(33,60,76,.09);padding:clamp(24px,5vw,58px)}
+.report-shell h1{font-size:clamp(28px,4vw,44px);line-height:1.3;margin:0 0 28px;color:#153f5a}.report-shell h2{margin-top:36px;padding-bottom:9px;border-bottom:2px solid #e6eef2;color:#194f6d}.report-shell h3{margin-top:27px;color:#245f7c}.report-shell p,.report-shell li{font-size:16px;overflow-wrap:anywhere}.report-shell blockquote{margin:20px 0;padding:13px 17px;border-left:4px solid #4d91a9;background:var(--soft);color:#435b69}.report-shell code{font-family:Consolas,monospace;background:#edf3f6;border-radius:5px;padding:2px 5px}.report-shell pre{overflow:auto;background:#132b3a;color:#eef7fa;border-radius:12px;padding:16px}.report-shell pre code{background:transparent;padding:0}.report-shell table{width:100%;border-collapse:collapse;display:block;overflow:auto}.report-shell th,.report-shell td{border:1px solid var(--line);padding:9px 11px;text-align:left}.report-shell th{background:var(--soft)}.report-shell a{color:#12658b}.report-shell hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+@media(max-width:650px){.report-top{align-items:flex-start;flex-direction:column}.report-shell{width:min(100% - 18px,940px);margin-top:12px;padding:22px 18px}.report-shell p,.report-shell li{font-size:15px}}
+</style></head>
+<body><header class="report-top"><b>KYDW 本科生科研入门体验项目</b><nav class="report-actions"><a href="../../project-06.html">返回项目详情</a><a href="project-06.md" download>下载 Markdown 文件</a></nav></header><main class="report-shell"><h1 id="05">项目 05 参考设计报告：空间表达超分辨率：消融、空间留出与守恒</h1>
+<h2 id="_1">研究问题</h2>
+<p>本项目把可复现的课程数据作为方法练习，先明确样本单位，再比较基线和主要方法。</p>
+<h2 id="_2">数据与划分</h2>
+<p>划分规则避免同一患者、原图、受试者或空间邻域跨集合。所有参数在训练或验证数据中确定，测试集仅用于最终评价。</p>
+<h2 id="_3">方法与对照</h2>
+<p>参考实现保留一个简单基线和一个主要方法；对照只改变一个条件，便于解释性能差异。</p>
+<h2 id="_4">评价</h2>
+<p>同时阅读总体指标、类别或区域级指标、错误样本和结果图。较好的单一指标不替代数据质量与失败案例检查。</p>
+<h2 id="_5">结果边界</h2>
+<p>结果只描述当前课程数据和实现。模型依赖不等于因果机制，生成或预测结果也不能替代直接测量与临床判断。</p></main></body></html>

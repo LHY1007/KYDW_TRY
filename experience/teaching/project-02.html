@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>体验教学项目 01｜二维 MRI 脑肿瘤图像分割</title>
-<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <style>
 :root{
   --bg:#edf3f6;--paper:#fff;--ink:#173044;--muted:#5d7280;--line:#d5e2e8;
@@ -178,163 +179,156 @@ details p,details ul{padding:0 15px 12px;margin:0}
 </head>
 <body>
 <header class="topbar">
-  <div class="topbar-left">
-    <button class="mobile-menu" id="menuBtn">目录</button>
-    <span class="brand">KYDW 科研体验</span>
-    <span class="edition">体验教学项目 01</span>
-  </div>
-  <div class="tools">
-    <button id="fontMinus">字号 −</button>
-    <button id="fontPlus">字号 +</button>
-    <button id="widthBtn">宽阅读</button>
-    <button id="themeBtn">明暗</button>
-    <a class="site-return" href="../project-02.html">返回项目详情</a>
-  </div>
+<div class="topbar-left">
+<button class="mobile-menu" id="menuBtn">目录</button>
+<span class="brand">KYDW 科研体验</span>
+<span class="edition">体验教学项目 01</span>
+</div>
+<div class="tools">
+<button id="fontMinus">字号 −</button>
+<button id="fontPlus">字号 +</button>
+<button id="widthBtn">宽阅读</button>
+<button id="themeBtn">明暗</button>
+<a class="site-return" href="../project-02.html">返回项目详情</a>
+</div>
 </header>
 <div class="layout">
-  <aside class="sidebar">
-    <div class="side-title">二维分割主路径</div>
-    <a href="#start">入口：四个视觉阶段</a>
-    <a href="#foundation">MRI 图像基础</a>
-    <a href="#pairing">1. 配对切片</a>
-    <a href="#binary">2. 二值 mask</a>
-    <a href="#split">3. 患者级划分</a>
-    <a href="#unet">4. TinyUNet</a>
-    <a href="#metrics">5. Dice 与 IoU</a>
-    <a href="#run">6. Notebook 训练过程</a>
-    <div class="side-title" style="margin-top:18px">延伸概念</div>
-    <a href="#extensions">多序列、三维、多区域</a>
-    <a href="#check">实践成果检查</a>
-  </aside>
-  <main class="main">
-    <div class="reader">
-      <section class="hero" id="start">
-        <div class="eyebrow">体验教学项目 01 · 教学页</div>
-        <h1>从二维 MRI 切片到可检查的分割结果</h1>
-        <p>这页把 MRI 分割拆成一条可运行、可观察的二维路径：读取同一张灰度切片与对应的二值 mask，按患者划分数据，训练 TinyUNet，再用 Dice 和 IoU 检查预测区域。</p>
-        <div class="hero-tags">
-          <span>二维单通道</span><span>配对切片</span><span>二值 mask</span><span>TinyUNet</span><span>Dice / IoU</span>
-        </div>
-        <div class="orientation-strip" aria-label="本页阅读路线">
-          <span>MRI 切片</span><b>→</b><span>配对 mask</span><b>→</b><span>患者级划分</span><b>→</b><span>TinyUNet</span><b>→</b><span>Dice / IoU</span>
-        </div>
-        <p class="orientation-note">先确认输入图像和区域答案属于同一位置，再看数据怎样进入网络，最后用图像和指标一起检查分割结果。</p>
-      </section>
-
-      <section class="lesson" id="foundation">
-        <h2>MRI 图像基础：先认识信号、序列和空间</h2>
-        <div class="lead">进入分割实践前，先把 MRI 图像当作一种测量结果来读：组织在磁场和射频作用下产生信号，序列参数决定哪些差异更突出，连续切片共同记录一个三维对象。后面的图像配对、mask 和模型输入都建立在这三点上。</div>
-
-        <h3>MRI 灰度来自组织与采集条件的共同作用</h3>
-        <p>人体水和脂肪中含有大量氢原子。患者进入主磁场后，氢核的集体磁化形成可测量的方向；射频脉冲改变磁化状态，脉冲停止后，纵向磁化逐渐恢复，横向磁化逐渐衰减，接收线圈记录这一过程中的信号。T1 描述纵向恢复的时间尺度，T2 描述横向信号衰减的时间尺度。</p>
-        <p>梯度磁场让不同空间位置的氢核获得不同的频率或相位，采集到的信号经过空间编码和重建后才形成图像。图像上的一个位置因此对应患者身体中的一个空间位置，后续的体素、切片和 mask 都沿用这套空间关系。</p>
-        <p>屏幕上的亮暗由组织性质、脉冲序列、重复时间、回波时间、接收线圈、重建和预处理共同决定。MRI 灰度没有像 CT 那样可直接跨设备比较的固定绝对单位，同一组织在不同序列或不同扫描条件下可以呈现不同亮度。阅读图像时，灰度需要和序列名称、空间位置一起理解。</p>
-        <div class="foundation-chain" aria-label="MRI 信号形成过程">
-          <span>组织中的氢核</span><b>→</b><span>主磁场与射频脉冲</span><b>→</b><span>弛豫信号</span><b>→</b><span>空间编码</span><b>→</b><span>灰度图像</span>
-        </div>
-        <div class="mri-foundation-grid">
-          <figure class="mri-foundation-card">
-            <img src="../assets/experience/mri-t1.jpg" alt="T1 加权轴位脑 MRI 图像示例" loading="lazy">
-            <figcaption><strong>T1 加权图像：</strong>脑脊液通常较暗，解剖结构对比清楚；它常作为观察脑部基础结构的入口。</figcaption>
-          </figure>
-          <figure class="mri-foundation-card">
-            <img src="../assets/experience/mri-t2.jpg" alt="T2 加权轴位脑 MRI 图像示例" loading="lazy">
-            <figcaption><strong>T2 加权图像：</strong>含水量较高的区域通常更亮，脑脊液和部分病变的对比方式随之改变。</figcaption>
-          </figure>
-        </div>
-
-        <h3>不同序列在同一位置提供不同线索</h3>
-        <p>脑肿瘤影像通常同时查看多种序列。它们对应同一解剖位置，却对组织含水量、血脑屏障、结构边界和病变内部成分的敏感性不同。多序列的价值来自这些互补对比，前提是各序列经过正确配准，使相同数组位置仍对应同一解剖位置。</p>
-        <table class="mini-table">
-          <thead><tr><th>序列</th><th>图像中主要观察的线索</th><th>在分割中的作用</th></tr></thead>
-          <tbody>
-            <tr><td>T1</td><td>基础解剖结构，脑脊液通常较暗。</td><td>提供脑组织边界和整体结构参照。</td></tr>
-            <tr><td>T1 增强</td><td>对比剂进入血脑屏障受损区域后可能形成高信号。</td><td>辅助观察强化肿瘤区域，强化表现需要结合其他序列和标签定义。</td></tr>
-            <tr><td>T2</td><td>含水量增加的组织常呈较高信号。</td><td>辅助观察肿瘤、水肿和其他含水量变化。</td></tr>
-            <tr><td>FLAIR</td><td>抑制自由脑脊液信号，同时保留脑实质异常含水区域的对比。</td><td>常用于观察瘤周异常范围和水肿相关区域。</td></tr>
-          </tbody>
-        </table>
-
-        <h3>一组二维切片共同组成三维体数据</h3>
-        <p>医学影像查看器可以在轴位、冠状位和矢状位之间切换。三种视图来自同一个三维体，每一张二维图只是沿某个方向截取的一层。数组中的一个采样位置称为体素；数组形状记录每个方向有多少个采样位置，体素间距记录相邻位置在真实空间中相距多少毫米。DICOM 和 NIfTI 等医学图像文件还会保存体素间距、空间方向和患者坐标等信息。</p>
-        <div class="two-col">
-          <div class="card"><strong>数组形状</strong><p><code>240×240×155</code> 表示三个方向分别有 240、240 和 155 个采样位置。切片数量和图像宽高属于数组层面的信息。</p></div>
-          <div class="card"><strong>体素间距与方向</strong><p><code>1×1×5 mm</code> 表示第三个方向更稀疏。体积、距离和三维模型的上下文都要结合体素间距与空间方向理解。</p></div>
-        </div>
-        <p>当前体验实践从一张二维、单通道灰度切片开始，使用 <code>[1,H,W]</code> 的输入形状降低第一次操作的复杂度。理解三维体数据后，就能看出这个设置对应的是一条清晰的二维练习路径；多序列、三维输入和多区域标签会在后续内容中逐步展开。</p>
-
-        <h3>分割标签把影像区域写成可计算的 mask</h3>
-        <p>分类给整张图一个答案，分割给每个像素或体素一个空间答案。二分类 mask 中，背景记为 0，目标区域记为 1；多区域任务还可以分别标记水肿、肿瘤核心和强化肿瘤。标签的医学定义决定了模型究竟要画出哪一部分，图像与 mask 必须保持相同的宽高、方向和坐标关系。</p>
-        <p>脑肿瘤内部可能同时存在强化区、非强化肿瘤、坏死、囊变和水肿；增强表现与对比剂进入组织有关，水肿又常在 T2 或 FLAIR 中更明显。体验版把这些复杂情况压缩为一张灰度切片和一个二值前景区域，先练习“输入图像—对应标签—预测区域”的基本关系，再进入网络和指标。</p>
-        <div class="note"><strong>把基础认识带入实践：</strong>打开下一节时，先确认 image 与 mask 是同一空间位置的两份记录；看到 mask 时，记住它表达的是本次任务规定的区域；看到模型输出时，再观察它是否保留了原图中的位置和边界。</div>
-      </section>
-
-      <section class="lesson" id="visual">
-        <h2>先看清一个样本如何经过四个视觉阶段</h2>
-        <div class="lead">MRI 切片是一张由灰度值组成的二维矩阵；同一位置的二值 mask 是区域答案。叠加图检查图像与答案是否配对，模型预测再与真实区域放在一起比较。下面的图帮助把 Notebook 中的数组和图像动作对应起来。</div>
-        <div class="visual-pipeline">
-          <figure class="visual-card">
-            <h3>原始图像</h3>
-            <canvas id="rawCanvas01" width="240" height="190" aria-label="二维灰度 MRI 示意图"></canvas>
-            <p>单通道灰度输入，形状可写成 <code>[H,W]</code>。</p>
-          </figure>
-          <figure class="visual-card">
-            <h3>二值 mask</h3>
-            <canvas id="maskCanvas01" width="240" height="190" aria-label="二值肿瘤 mask 示意图"></canvas>
-            <p>背景为 0，目标区域为 1，边界保持在同一坐标。</p>
-          </figure>
-          <figure class="visual-card">
-            <h3>叠加检查</h3>
-            <canvas id="overlayCanvas01" width="240" height="190" aria-label="MRI 与二值 mask 叠加示意图"></canvas>
-            <p>颜色层覆盖在原图上，用来检查配对和边界位置。</p>
-          </figure>
-          <figure class="visual-card">
-            <h3>模型预测</h3>
-            <canvas id="predCanvas01" width="240" height="190" aria-label="TinyUNet 模型预测示意图"></canvas>
-            <p>预测概率经过阈值后成为待评价的二值区域。</p>
-          </figure>
-        </div>
-        <div class="visual-controls">
-          <label for="visualSlice01"><strong>示意切片位置</strong><span class="muted">：<span id="visualValue01">50</span></span><input id="visualSlice01" type="range" min="0" max="100" value="50"></label>
-          <div class="small muted">拖动后，四个画面仍表示同一张二维切片；病灶形状、叠加边界和预测偏差会同步变化。</div>
-        </div>
-        <div class="shape-strip">
-          <code>image → [1,H,W]</code><code>mask → [1,H,W]</code><code>DataLoader → [B,1,H,W]</code><code>logits → sigmoid → prediction</code>
-        </div>
-        <div class="reference-strip">
-          <img src="../assets/experience/mri-t1.jpg" alt="真实 T1 轴位脑 MRI 单通道样本">
-          <div>
-            <strong>真实单通道输入的灰度外观</strong>
-            <p>左侧小图来自页面现有的 T1 轴位样本，用于认识 MRI 灰度切片的视觉形式。上方四联图使用课程示意数据，使原始图像、mask、叠加和预测保持可读的空间关系。</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="lesson" id="pairing">
-        <h2>1. 配对切片把输入和答案放在同一坐标上</h2>
-        <p>Notebook 从 <code>/kaggle/input</code> 递归查找 <code>.tif</code> 和 <code>.png</code>，把 mask 文件名中的 <code>_mask</code> 去掉后检查原图是否存在。上级文件夹名作为患者标识，最终每条记录保存为 <code>(image_path, mask_path, patient_id)</code>。</p>
-        <div class="flowline">
-          <div class="flow-node">MRI 切片<br><code>slice_08.tif</code></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-node">对应 mask<br><code>slice_08_mask.tif</code></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-node">一条 pair<br><code>(image, mask, patient)</code></div>
-        </div>
-        <div class="two-col">
-          <div>
-            <h3>文件名关系</h3>
-            <table class="mini-table">
-              <thead><tr><th>字段</th><th>示例</th><th>用途</th></tr></thead>
-              <tbody>
-                <tr><td>image</td><td>slice_08.tif</td><td>模型读取的灰度切片</td></tr>
-                <tr><td>mask</td><td>slice_08_mask.tif</td><td>数据集提供的 mask，经二值化后作为目标区域</td></tr>
-                <tr><td>patient_id</td><td>患者文件夹名</td><td>患者级划分的分组键</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <h3>Notebook 中的配对骨架</h3>
-            <pre class="code">ROOT=Path('/kaggle/input')
+<aside class="sidebar">
+<div class="side-title">二维分割主路径</div><a href="#field-overview">先认识这个方向</a>
+<a href="#start">入口：四个视觉阶段</a>
+<a href="#foundation">MRI 图像基础</a>
+<a href="#pairing">1. 配对切片</a>
+<a href="#binary">2. 二值 mask</a>
+<a href="#split">3. 患者级划分</a>
+<a href="#unet">4. TinyUNet</a>
+<a href="#metrics">5. Dice 与 IoU</a>
+<a href="#run">6. Notebook 训练过程</a>
+<div class="side-title" style="margin-top:18px">延伸概念</div>
+<a href="#extensions">多序列、三维、多区域</a>
+<a href="#check">实践成果检查</a>
+</aside>
+<main class="main">
+<div class="reader">
+<section class="hero" id="start">
+<div class="eyebrow">体验教学项目 01 · 教学页</div>
+<h1>从二维 MRI 切片到可检查的分割结果</h1>
+<p>这页把 MRI 分割拆成一条可运行、可观察的二维路径：读取同一张灰度切片与对应的二值 mask，按患者划分数据，训练 TinyUNet，再用 Dice 和 IoU 检查预测区域。</p>
+<div class="hero-tags">
+<span>二维单通道</span><span>配对切片</span><span>二值 mask</span><span>TinyUNet</span><span>Dice / IoU</span>
+</div>
+<div aria-label="本页阅读路线" class="orientation-strip">
+<span>MRI 切片</span><b>→</b><span>配对 mask</span><b>→</b><span>患者级划分</span><b>→</b><span>TinyUNet</span><b>→</b><span>Dice / IoU</span>
+</div>
+<p class="orientation-note">先确认输入图像和区域答案属于同一位置，再看数据怎样进入网络，最后用图像和指标一起检查分割结果。</p>
+</section><section class="lesson concept-overview" data-kydw-concept-overview="1" id="field-overview"><h2>先认识这个方向</h2><p class="lecture-open">先认识 MRI 怎样形成组织对比、分割结果表示什么，再学习如何读取图像、mask 和患者级数据。</p><h3>核心概念</h3><p><b>MRI：</b>磁共振成像利用磁场、射频脉冲和组织中的氢核信号形成图像，不同序列突出不同的组织对比。</p><p><b>图像分割：</b>图像分割为每个像素或体素分配类别，用轮廓表示肿瘤、器官或其他目标区域。</p><h3>常见数据与基本对象</h3><p>分割数据通常包含患者编号、MRI 序列、二维切片或三维体积，以及与图像同坐标的 mask。患者编号决定怎样避免同一患者跨训练集和测试集。</p><h3>这个方向常见的应用</h3><p>MRI 分割可用于肿瘤体积测量、治疗计划、随访变化比较、手术或放疗研究，以及建立影像组学和预后分析的区域基础。</p><h3>常见研究问题</h3><p>常见研究问题包括不同序列是否互补、边界误差集中在哪里、阈值怎样选择，以及模型面对不同设备和患者时是否稳定。</p><h3>阅读结果时需要记住的边界</h3><p>分割结果是对图像区域的计算估计，不等于完整诊断；临床使用还需要多序列、病史、检查质量和专业人员复核。</p></section>
+<section class="lesson" id="foundation">
+<h2>MRI 图像基础：先认识信号、序列和空间</h2>
+<div class="lead">进入分割实践前，先把 MRI 图像当作一种测量结果来读：组织在磁场和射频作用下产生信号，序列参数决定哪些差异更突出，连续切片共同记录一个三维对象。后面的图像配对、mask 和模型输入都建立在这三点上。</div>
+<h3>MRI 灰度来自组织与采集条件的共同作用</h3>
+<p>人体水和脂肪中含有大量氢原子。患者进入主磁场后，氢核的集体磁化形成可测量的方向；射频脉冲改变磁化状态，脉冲停止后，纵向磁化逐渐恢复，横向磁化逐渐衰减，接收线圈记录这一过程中的信号。T1 描述纵向恢复的时间尺度，T2 描述横向信号衰减的时间尺度。</p>
+<p>梯度磁场让不同空间位置的氢核获得不同的频率或相位，采集到的信号经过空间编码和重建后才形成图像。图像上的一个位置因此对应患者身体中的一个空间位置，后续的体素、切片和 mask 都沿用这套空间关系。</p>
+<p>屏幕上的亮暗由组织性质、脉冲序列、重复时间、回波时间、接收线圈、重建和预处理共同决定。MRI 灰度没有像 CT 那样可直接跨设备比较的固定绝对单位，同一组织在不同序列或不同扫描条件下可以呈现不同亮度。阅读图像时，灰度需要和序列名称、空间位置一起理解。</p>
+<div aria-label="MRI 信号形成过程" class="foundation-chain">
+<span>组织中的氢核</span><b>→</b><span>主磁场与射频脉冲</span><b>→</b><span>弛豫信号</span><b>→</b><span>空间编码</span><b>→</b><span>灰度图像</span>
+</div>
+<div class="mri-foundation-grid">
+<figure class="mri-foundation-card">
+<img alt="T1 加权轴位脑 MRI 图像示例" loading="lazy" src="../assets/experience/mri-t1.jpg"/>
+<figcaption><strong>T1 加权图像：</strong>脑脊液通常较暗，解剖结构对比清楚；它常作为观察脑部基础结构的入口。</figcaption>
+</figure>
+<figure class="mri-foundation-card">
+<img alt="T2 加权轴位脑 MRI 图像示例" loading="lazy" src="../assets/experience/mri-t2.jpg"/>
+<figcaption><strong>T2 加权图像：</strong>含水量较高的区域通常更亮，脑脊液和部分病变的对比方式随之改变。</figcaption>
+</figure>
+</div>
+<h3>不同序列在同一位置提供不同线索</h3>
+<p>脑肿瘤影像通常同时查看多种序列。它们对应同一解剖位置，却对组织含水量、血脑屏障、结构边界和病变内部成分的敏感性不同。多序列的价值来自这些互补对比，前提是各序列经过正确配准，使相同数组位置仍对应同一解剖位置。</p>
+<table class="mini-table">
+<thead><tr><th>序列</th><th>图像中主要观察的线索</th><th>在分割中的作用</th></tr></thead>
+<tbody>
+<tr><td>T1</td><td>基础解剖结构，脑脊液通常较暗。</td><td>提供脑组织边界和整体结构参照。</td></tr>
+<tr><td>T1 增强</td><td>对比剂进入血脑屏障受损区域后可能形成高信号。</td><td>辅助观察强化肿瘤区域，强化表现需要结合其他序列和标签定义。</td></tr>
+<tr><td>T2</td><td>含水量增加的组织常呈较高信号。</td><td>辅助观察肿瘤、水肿和其他含水量变化。</td></tr>
+<tr><td>FLAIR</td><td>抑制自由脑脊液信号，同时保留脑实质异常含水区域的对比。</td><td>常用于观察瘤周异常范围和水肿相关区域。</td></tr>
+</tbody>
+</table>
+<h3>一组二维切片共同组成三维体数据</h3>
+<p>医学影像查看器可以在轴位、冠状位和矢状位之间切换。三种视图来自同一个三维体，每一张二维图只是沿某个方向截取的一层。数组中的一个采样位置称为体素；数组形状记录每个方向有多少个采样位置，体素间距记录相邻位置在真实空间中相距多少毫米。DICOM 和 NIfTI 等医学图像文件还会保存体素间距、空间方向和患者坐标等信息。</p>
+<div class="two-col">
+<div class="card"><strong>数组形状</strong><p><code>240×240×155</code> 表示三个方向分别有 240、240 和 155 个采样位置。切片数量和图像宽高属于数组层面的信息。</p></div>
+<div class="card"><strong>体素间距与方向</strong><p><code>1×1×5 mm</code> 表示第三个方向更稀疏。体积、距离和三维模型的上下文都要结合体素间距与空间方向理解。</p></div>
+</div>
+<p>当前体验实践从一张二维、单通道灰度切片开始，使用 <code>[1,H,W]</code> 的输入形状降低第一次操作的复杂度。理解三维体数据后，就能看出这个设置对应的是一条清晰的二维练习路径；多序列、三维输入和多区域标签会在后续内容中逐步展开。</p>
+<h3>分割标签把影像区域写成可计算的 mask</h3>
+<p>分类给整张图一个答案，分割给每个像素或体素一个空间答案。二分类 mask 中，背景记为 0，目标区域记为 1；多区域任务还可以分别标记水肿、肿瘤核心和强化肿瘤。标签的医学定义决定了模型究竟要画出哪一部分，图像与 mask 必须保持相同的宽高、方向和坐标关系。</p>
+<p>脑肿瘤内部可能同时存在强化区、非强化肿瘤、坏死、囊变和水肿；增强表现与对比剂进入组织有关，水肿又常在 T2 或 FLAIR 中更明显。体验版把这些复杂情况压缩为一张灰度切片和一个二值前景区域，先练习“输入图像—对应标签—预测区域”的基本关系，再进入网络和指标。</p>
+<div class="note"><strong>把基础认识带入实践：</strong>打开下一节时，先确认 image 与 mask 是同一空间位置的两份记录；看到 mask 时，记住它表达的是本次任务规定的区域；看到模型输出时，再观察它是否保留了原图中的位置和边界。</div>
+</section>
+<section class="lesson" id="visual">
+<h2>先看清一个样本如何经过四个视觉阶段</h2>
+<div class="lead">MRI 切片是一张由灰度值组成的二维矩阵；同一位置的二值 mask 是区域答案。叠加图检查图像与答案是否配对，模型预测再与真实区域放在一起比较。下面的图帮助把 Notebook 中的数组和图像动作对应起来。</div>
+<div class="visual-pipeline">
+<figure class="visual-card">
+<h3>原始图像</h3>
+<canvas aria-label="二维灰度 MRI 示意图" height="190" id="rawCanvas01" width="240"></canvas>
+<p>单通道灰度输入，形状可写成 <code>[H,W]</code>。</p>
+</figure>
+<figure class="visual-card">
+<h3>二值 mask</h3>
+<canvas aria-label="二值肿瘤 mask 示意图" height="190" id="maskCanvas01" width="240"></canvas>
+<p>背景为 0，目标区域为 1，边界保持在同一坐标。</p>
+</figure>
+<figure class="visual-card">
+<h3>叠加检查</h3>
+<canvas aria-label="MRI 与二值 mask 叠加示意图" height="190" id="overlayCanvas01" width="240"></canvas>
+<p>颜色层覆盖在原图上，用来检查配对和边界位置。</p>
+</figure>
+<figure class="visual-card">
+<h3>模型预测</h3>
+<canvas aria-label="TinyUNet 模型预测示意图" height="190" id="predCanvas01" width="240"></canvas>
+<p>预测概率经过阈值后成为待评价的二值区域。</p>
+</figure>
+</div>
+<div class="visual-controls">
+<label for="visualSlice01"><strong>示意切片位置</strong><span class="muted">：<span id="visualValue01">50</span></span><input id="visualSlice01" max="100" min="0" type="range" value="50"/></label>
+<div class="small muted">拖动后，四个画面仍表示同一张二维切片；病灶形状、叠加边界和预测偏差会同步变化。</div>
+</div>
+<div class="shape-strip">
+<code>image → [1,H,W]</code><code>mask → [1,H,W]</code><code>DataLoader → [B,1,H,W]</code><code>logits → sigmoid → prediction</code>
+</div>
+<div class="reference-strip">
+<img alt="真实 T1 轴位脑 MRI 单通道样本" src="../assets/experience/mri-t1.jpg"/>
+<div>
+<strong>真实单通道输入的灰度外观</strong>
+<p>左侧小图来自页面现有的 T1 轴位样本，用于认识 MRI 灰度切片的视觉形式。上方四联图使用课程示意数据，使原始图像、mask、叠加和预测保持可读的空间关系。</p>
+</div>
+</div>
+</section>
+<section class="lesson" id="pairing">
+<h2>1. 配对切片把输入和答案放在同一坐标上</h2>
+<p>Notebook 从 <code>/kaggle/input</code> 递归查找 <code>.tif</code> 和 <code>.png</code>，把 mask 文件名中的 <code>_mask</code> 去掉后检查原图是否存在。上级文件夹名作为患者标识，最终每条记录保存为 <code>(image_path, mask_path, patient_id)</code>。</p>
+<div class="flowline">
+<div class="flow-node">MRI 切片<br/><code>slice_08.tif</code></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">对应 mask<br/><code>slice_08_mask.tif</code></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">一条 pair<br/><code>(image, mask, patient)</code></div>
+</div>
+<div class="two-col">
+<div>
+<h3>文件名关系</h3>
+<table class="mini-table">
+<thead><tr><th>字段</th><th>示例</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>image</td><td>slice_08.tif</td><td>模型读取的灰度切片</td></tr>
+<tr><td>mask</td><td>slice_08_mask.tif</td><td>数据集提供的 mask，经二值化后作为目标区域</td></tr>
+<tr><td>patient_id</td><td>患者文件夹名</td><td>患者级划分的分组键</td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<h3>Notebook 中的配对骨架</h3>
+<pre class="code">ROOT=Path('/kaggle/input')
 all_tif=list(ROOT.glob('**/*.tif'))+list(ROOT.glob('**/*.png'))
 mask_paths=[p for p in all_tif if '_mask' in p.stem.lower()]
 pairs=[]
@@ -343,67 +337,65 @@ for m in mask_paths:
     if img.exists():
         patient=m.parent.name
         pairs.append((img,m,patient))</pre>
-          </div>
-        </div>
-        <div class="note"><strong>先检查配对：</strong>随机打开一条 image、mask 和 overlay，观察它们的宽高、方向和目标位置。配对表是后续 shape 检查与训练结果的起点。</div>
-      </section>
-
-      <section class="lesson" id="binary">
-        <h2>2. 二值 mask 把分割目标写成 H×W 答案</h2>
-        <p>当前实践使用单张灰度 MRI 和一个前景区域。图像转为灰度后缩放到 <code>128×128</code>，再除以 <code>255</code>；mask 使用最近邻插值，所有大于 0 的像素归为前景。这样，输入和答案拥有相同的空间尺寸。Dataset 返回单张样本 <code>[1,128,128]</code>，当前 Notebook 的 <code>DataLoader</code> 使用 <code>batch_size=16</code>，训练时的批量输入为 <code>[16,1,128,128]</code>。</p>
-        <div class="two-col">
-          <div class="card">
-            <strong>矩阵中的两个值</strong>
-            <div class="state-grid">
-              <div class="state-box bg"><span class="bit">0</span>背景</div>
-              <div class="state-box fg"><span class="bit">1</span>肿瘤前景</div>
-            </div>
-            <p class="small muted">每个位置都有一个答案。mask 的 0/1 结构让网络学习“哪里属于目标”。</p>
-          </div>
-          <div class="card">
-            <strong>Dataset 返回的张量</strong>
-            <div class="shape-strip"><code>x: [1,128,128]</code><code>y: [1,128,128]</code></div>
-            <p class="small muted">第一个维度由 <code>x[None]</code> 和 <code>y[None]</code> 加入，表示单通道；DataLoader 再加入 batch 维，得到 <code>[B,1,128,128]</code>。</p>
-          </div>
-        </div>
-        <pre class="code">image=Image.open(ip).convert('L').resize((self.size,self.size))
+</div>
+</div>
+<div class="note"><strong>先检查配对：</strong>随机打开一条 image、mask 和 overlay，观察它们的宽高、方向和目标位置。配对表是后续 shape 检查与训练结果的起点。</div>
+</section>
+<section class="lesson" id="binary">
+<h2>2. 二值 mask 把分割目标写成 H×W 答案</h2>
+<p>当前实践使用单张灰度 MRI 和一个前景区域。图像转为灰度后缩放到 <code>128×128</code>，再除以 <code>255</code>；mask 使用最近邻插值，所有大于 0 的像素归为前景。这样，输入和答案拥有相同的空间尺寸。Dataset 返回单张样本 <code>[1,128,128]</code>，当前 Notebook 的 <code>DataLoader</code> 使用 <code>batch_size=16</code>，训练时的批量输入为 <code>[16,1,128,128]</code>。</p>
+<div class="two-col">
+<div class="card">
+<strong>矩阵中的两个值</strong>
+<div class="state-grid">
+<div class="state-box bg"><span class="bit">0</span>背景</div>
+<div class="state-box fg"><span class="bit">1</span>肿瘤前景</div>
+</div>
+<p class="small muted">每个位置都有一个答案。mask 的 0/1 结构让网络学习“哪里属于目标”。</p>
+</div>
+<div class="card">
+<strong>Dataset 返回的张量</strong>
+<div class="shape-strip"><code>x: [1,128,128]</code><code>y: [1,128,128]</code></div>
+<p class="small muted">第一个维度由 <code>x[None]</code> 和 <code>y[None]</code> 加入，表示单通道；DataLoader 再加入 batch 维，得到 <code>[B,1,128,128]</code>。</p>
+</div>
+</div>
+<pre class="code">image=Image.open(ip).convert('L').resize((self.size,self.size))
 mask=Image.open(mp).convert('L').resize((self.size,self.size),
                                          Image.Resampling.NEAREST)
 x=np.asarray(image,dtype=np.float32)/255.0
-y=(np.asarray(mask)>0).astype(np.float32)
+y=(np.asarray(mask)&gt;0).astype(np.float32)
 return torch.from_numpy(x[None]),torch.from_numpy(y[None]),pid</pre>
-        <div class="metric-app" id="pixelApp01">
-          <div class="app-title">一个像素怎样得到训练信号</div>
-          <div class="app-sub">模型为每个像素输出前景概率，阈值把概率转换成 0/1 预测；这个小例子把一个像素的判断过程展开。</div>
-          <div class="metric-layout">
-            <div class="metric-panel">
-              <label for="pixelProb01">前景概率：<span id="pixelProbValue01">0.70</span></label>
-              <input id="pixelProb01" type="range" min="1" max="99" value="70">
-              <label for="pixelTarget01">真实标签</label>
-              <select id="pixelTarget01"><option value="1">1 · 前景</option><option value="0">0 · 背景</option></select>
-              <div class="metric-boxes"><div class="metric-box"><b id="pixelPred01">1</b>阈值后预测</div><div class="metric-box"><b id="pixelLoss01">0.36</b>像素损失</div></div>
-            </div>
-            <div class="pixel-read" id="pixelRead01" aria-live="polite">概率 0.70 ≥ 0.50，阈值后预测为前景；真实标签为前景时，损失较小。</div>
-          </div>
-        </div>
-        <div class="note"><strong>空间操作的规则：</strong>本 Notebook 的增强步骤是同步水平翻转，图像和 mask 使用同一翻转方向；mask 保持离散的 0/1 标签。强度变化会改变图像数值，属于后续可以继续尝试的增强方式。</div>
-      </section>
-
-      <section class="lesson" id="split">
-        <h2>3. 患者级划分让测试集代表新患者</h2>
-        <p>同一患者的相邻切片共享解剖结构和扫描特征。Notebook 用患者标识构成 <code>groups</code>，先划分患者，再获得训练、验证和测试切片索引；最后用集合交集检查三个集合的患者 ID 没有重叠。数据统计先基于配对后的全部切片：患者数量是去重后的患者 ID 数，阳性 mask 是含有前景像素的 mask，空 mask 比例以全部 pair 数为分母。随后取 <code>MAX_SLICES=min(1200,len(pairs))</code> 进入训练，训练、验证和测试的切片数量以截取后的数据为准。</p>
-        <div class="split-app" id="splitApp01">
-          <div class="app-title">切片归属随划分单位变化</div>
-          <div class="app-sub">每一行代表一位患者，格子代表该患者的六张切片。切换两种方式，观察同一患者是否跨集合。</div>
-          <div class="control-row">
-            <button class="active" id="patientSplit01">患者级划分</button>
-            <button id="sliceSplit01">切片级随机示意</button>
-          </div>
-          <div class="legend"><span class="train">训练</span><span class="val">验证</span><span class="test">测试</span><span class="leak">同一患者跨集合</span></div>
-          <div class="patient-board" id="patientBoard01"></div>
-          <div class="split-output" id="splitText01" aria-live="polite"></div>
-        </div>
-        <pre class="code">groups=np.array([x[2] for x in pairs])
+<div class="metric-app" id="pixelApp01">
+<div class="app-title">一个像素怎样得到训练信号</div>
+<div class="app-sub">模型为每个像素输出前景概率，阈值把概率转换成 0/1 预测；这个小例子把一个像素的判断过程展开。</div>
+<div class="metric-layout">
+<div class="metric-panel">
+<label for="pixelProb01">前景概率：<span id="pixelProbValue01">0.70</span></label>
+<input id="pixelProb01" max="99" min="1" type="range" value="70"/>
+<label for="pixelTarget01">真实标签</label>
+<select id="pixelTarget01"><option value="1">1 · 前景</option><option value="0">0 · 背景</option></select>
+<div class="metric-boxes"><div class="metric-box"><b id="pixelPred01">1</b>阈值后预测</div><div class="metric-box"><b id="pixelLoss01">0.36</b>像素损失</div></div>
+</div>
+<div aria-live="polite" class="pixel-read" id="pixelRead01">概率 0.70 ≥ 0.50，阈值后预测为前景；真实标签为前景时，损失较小。</div>
+</div>
+</div>
+<div class="note"><strong>空间操作的规则：</strong>本 Notebook 的增强步骤是同步水平翻转，图像和 mask 使用同一翻转方向；mask 保持离散的 0/1 标签。强度变化会改变图像数值，属于后续可以继续尝试的增强方式。</div>
+</section>
+<section class="lesson" id="split">
+<h2>3. 患者级划分让测试集代表新患者</h2>
+<p>同一患者的相邻切片共享解剖结构和扫描特征。Notebook 用患者标识构成 <code>groups</code>，先划分患者，再获得训练、验证和测试切片索引；最后用集合交集检查三个集合的患者 ID 没有重叠。数据统计先基于配对后的全部切片：患者数量是去重后的患者 ID 数，阳性 mask 是含有前景像素的 mask，空 mask 比例以全部 pair 数为分母。随后取 <code>MAX_SLICES=min(1200,len(pairs))</code> 进入训练，训练、验证和测试的切片数量以截取后的数据为准。</p>
+<div class="split-app" id="splitApp01">
+<div class="app-title">切片归属随划分单位变化</div>
+<div class="app-sub">每一行代表一位患者，格子代表该患者的六张切片。切换两种方式，观察同一患者是否跨集合。</div>
+<div class="control-row">
+<button class="active" id="patientSplit01">患者级划分</button>
+<button id="sliceSplit01">切片级随机示意</button>
+</div>
+<div class="legend"><span class="train">训练</span><span class="val">验证</span><span class="test">测试</span><span class="leak">同一患者跨集合</span></div>
+<div class="patient-board" id="patientBoard01"></div>
+<div aria-live="polite" class="split-output" id="splitText01"></div>
+</div>
+<pre class="code">groups=np.array([x[2] for x in pairs])
 idx=np.arange(len(pairs))
 gss=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=SEED)
 train_idx,test_idx=next(gss.split(idx,groups=groups))
@@ -411,227 +403,222 @@ train_groups=groups[train_idx]
 gss2=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=SEED)
 tr_rel,va_rel=next(gss2.split(train_idx,groups=train_groups))
 tr_idx=train_idx[tr_rel]; va_idx=train_idx[va_rel]
-assert not (set(groups[tr_idx]) & set(groups[va_idx]) |
-            set(groups[tr_idx]) & set(groups[test_idx]) |
-            set(groups[va_idx]) & set(groups[test_idx]))</pre>
-        <div class="note"><strong>读图方式：</strong>上方“患者级划分”中，一行的颜色保持一致；切片级随机示意中，一行出现多种颜色，训练和测试会共享同一患者的纹理。Notebook 为保持体验运行规模，先取最多 1200 对切片；实际数量会写入结果文件。</div>
-      </section>
-
-      <section class="lesson" id="unet">
-        <h2>4. TinyUNet 把局部纹理和空间细节接回来</h2>
-        <p>分割既要判断区域像什么，也要保留边界位于哪里。TinyUNet 用编码器逐步扩大感受野，用解码器恢复分辨率，再把编码阶段的特征通过跳跃连接送回对应层级。Notebook 的网络从 1 个输入通道开始，最后输出 1 个 logit 通道。</p>
-        <div class="unet-app">
-          <div class="app-title">TinyUNet 的数据流</div>
-          <div class="app-sub">选择一个模块，观察它在当前实践中的任务。</div>
-          <div class="unet-layout">
-            <svg class="unet-svg" id="unetSvg01" viewBox="0 0 1000 370" role="img" aria-label="TinyUNet 编码器、瓶颈、解码器和跳跃连接示意图">
-              <defs>
-                <marker id="arrow01" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#54869a"></path></marker>
-                <marker id="arrowGreen01" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2c8a72"></path></marker>
-              </defs>
-              <path class="arrow" d="M120 150 H155"></path><path class="arrow" d="M285 150 H320"></path><path class="arrow" d="M390 150 H425"></path><path class="arrow" d="M555 150 H590"></path><path class="arrow" d="M660 150 H700"></path>
-              <path class="arrow" d="M770 210 V260"></path><path class="arrow" d="M700 300 H660"></path><path class="arrow" d="M590 300 H555"></path><path class="arrow" d="M425 300 H390"></path><path class="arrow" d="M320 300 H285"></path><path class="arrow" d="M155 300 H120"></path>
-              <path class="skip" d="M220 205 C220 245 355 245 355 280"></path><path class="skip" d="M490 205 C490 235 625 235 625 280"></path>
-              <rect class="node active" data-node="input" x="15" y="120" width="105" height="60" rx="10"></rect><text class="label" x="67" y="146" text-anchor="middle">输入</text><text class="shape" x="67" y="166" text-anchor="middle">[B,1,H,W]</text>
-              <rect class="node" data-node="e1" x="155" y="95" width="130" height="110" rx="10"></rect><text class="label" x="220" y="137" text-anchor="middle">DoubleConv</text><text class="shape" x="220" y="160" text-anchor="middle">1 → 16</text><text class="shape" x="220" y="180" text-anchor="middle">保留边缘</text>
-              <rect class="node" data-node="pool1" x="320" y="125" width="70" height="50" rx="10"></rect><text class="shape" x="355" y="155" text-anchor="middle">Pool</text>
-              <rect class="node" data-node="e2" x="425" y="95" width="130" height="110" rx="10"></rect><text class="label" x="490" y="137" text-anchor="middle">DoubleConv</text><text class="shape" x="490" y="160" text-anchor="middle">16 → 32</text><text class="shape" x="490" y="180" text-anchor="middle">更大上下文</text>
-              <rect class="node" data-node="pool2" x="590" y="125" width="70" height="50" rx="10"></rect><text class="shape" x="625" y="155" text-anchor="middle">Pool</text>
-              <rect class="bottleneck" data-node="bottleneck" x="700" y="95" width="140" height="115" rx="10"></rect><text class="label" x="770" y="137" text-anchor="middle">瓶颈</text><text class="shape" x="770" y="160" text-anchor="middle">DoubleConv</text><text class="shape" x="770" y="182" text-anchor="middle">32 → 64</text>
-              <rect class="node" data-node="u2" x="590" y="260" width="70" height="50" rx="10"></rect><text class="shape" x="625" y="290" text-anchor="middle">Up 2×</text>
-              <rect class="node" data-node="d2" x="425" y="245" width="130" height="110" rx="10"></rect><text class="label" x="490" y="283" text-anchor="middle">拼接 + Conv</text><text class="shape" x="490" y="306" text-anchor="middle">64 → 32</text><text class="shape" x="490" y="326" text-anchor="middle">接回 e2</text>
-              <rect class="node" data-node="u1" x="320" y="260" width="70" height="50" rx="10"></rect><text class="shape" x="355" y="290" text-anchor="middle">Up 2×</text>
-              <rect class="node" data-node="d1" x="155" y="245" width="130" height="110" rx="10"></rect><text class="label" x="220" y="283" text-anchor="middle">拼接 + Conv</text><text class="shape" x="220" y="306" text-anchor="middle">32 → 16</text><text class="shape" x="220" y="326" text-anchor="middle">接回 e1</text>
-              <rect class="node" data-node="out" x="15" y="270" width="105" height="60" rx="10"></rect><text class="label" x="67" y="296" text-anchor="middle">输出</text><text class="shape" x="67" y="316" text-anchor="middle">[B,1,H,W]</text>
-              <text class="shape" x="250" y="238" text-anchor="middle">跳跃连接</text><text class="shape" x="520" y="229" text-anchor="middle">跳跃连接</text>
-            </svg>
-            <div>
-              <div class="step-buttons">
-                <button class="active" data-unet-step="input">输入张量</button>
-                <button data-unet-step="encoder">编码器</button>
-                <button data-unet-step="bottleneck">瓶颈</button>
-                <button data-unet-step="decoder">解码器</button>
-                <button data-unet-step="output">输出概率</button>
-              </div>
-              <div class="unet-explain" id="unetExplain01" aria-live="polite"></div>
-            </div>
-          </div>
-          <div class="shape-flow">
-            <span class="shape-chip">image [B,1,128,128]</span><span class="flow-arrow">→</span>
-            <span class="shape-chip">logits [B,1,128,128]</span><span class="flow-arrow">→</span>
-            <span class="shape-chip">sigmoid(prob)</span><span class="flow-arrow">→</span>
-            <span class="shape-chip">binary prediction</span>
-          </div>
-          <table class="shape-table">
-            <thead><tr><th>位置</th><th>本层输出 shape</th><th>这一层改变了什么</th></tr></thead>
-            <tbody>
-              <tr><td>输入</td><td><code>[B,1,128,128]</code></td><td>B 张切片、1 个灰度通道、128×128 像素。</td></tr>
-              <tr><td>e1 → p1</td><td><code>[B,16,128,128] → [B,16,64,64]</code></td><td>提取局部纹理，池化后空间尺寸减半。</td></tr>
-              <tr><td>e2 → p2</td><td><code>[B,32,64,64] → [B,32,32,32]</code></td><td>增加通道，汇总更大范围的上下文。</td></tr>
-              <tr><td>瓶颈</td><td><code>[B,64,32,32]</code></td><td>在较小的空间网格上保留 64 个特征通道。</td></tr>
-              <tr><td>u2 → 拼接 → d2</td><td><code>[B,32,64,64] → [B,64,64,64] → [B,32,64,64]</code></td><td>恢复分辨率，与 e2 拼接后重新融合。</td></tr>
-              <tr><td>u1 → 拼接 → d1</td><td><code>[B,16,128,128] → [B,32,128,128] → [B,16,128,128]</code></td><td>恢复到原图大小，与 e1 拼接后补回边界细节。</td></tr>
-              <tr><td>输出</td><td><code>logits [B,1,128,128]</code></td><td>每个像素一个分数，经 sigmoid 得到概率。</td></tr>
-            </tbody>
-          </table>
-          <div class="threshold-note"><strong>从 logit 到 mask：</strong>设输出 logit 为 <code>z</code>，先计算 <code>p = 1 / (1 + e<sup>−z</sup>)</code>；再用阈值 <code>t</code> 判断 <code>p ≥ t</code> 的位置，把它写成 1，其余位置写成 0。训练阶段用 <code>BCEWithLogitsLoss</code> 与 soft Dice 组合，概率图可以直接参与反向传播；结果评价再用阈值化 Dice 与 IoU。</div>
-        </div>
-        <h3>DoubleConv 是网络的基本积木</h3>
-        <p>每个卷积块连续执行两次 <code>3×3 Conv → GroupNorm → ReLU</code>。卷积层学习局部模式，归一化稳定数值，ReLU 提供非线性表达；编码器和解码器只改变通道数与空间分辨率。示例代码使用 GroupNorm、AdamW 和带正类权重的 BCE 与 soft Dice 组合。</p>
-        <pre class="code">class DoubleConv(nn.Module):
+assert not (set(groups[tr_idx]) &amp; set(groups[va_idx]) |
+            set(groups[tr_idx]) &amp; set(groups[test_idx]) |
+            set(groups[va_idx]) &amp; set(groups[test_idx]))</pre>
+<div class="note"><strong>读图方式：</strong>上方“患者级划分”中，一行的颜色保持一致；切片级随机示意中，一行出现多种颜色，训练和测试会共享同一患者的纹理。Notebook 为保持体验运行规模，先取最多 1200 对切片；实际数量会写入结果文件。</div>
+</section>
+<section class="lesson" id="unet">
+<h2>4. TinyUNet 把局部纹理和空间细节接回来</h2>
+<p>分割既要判断区域像什么，也要保留边界位于哪里。TinyUNet 用编码器逐步扩大感受野，用解码器恢复分辨率，再把编码阶段的特征通过跳跃连接送回对应层级。Notebook 的网络从 1 个输入通道开始，最后输出 1 个 logit 通道。</p>
+<div class="unet-app">
+<div class="app-title">TinyUNet 的数据流</div>
+<div class="app-sub">选择一个模块，观察它在当前实践中的任务。</div>
+<div class="unet-layout">
+<svg aria-label="TinyUNet 编码器、瓶颈、解码器和跳跃连接示意图" class="unet-svg" id="unetSvg01" role="img" viewbox="0 0 1000 370">
+<defs>
+<marker id="arrow01" markerheight="8" markerwidth="8" orient="auto" refx="7" refy="3"><path d="M0,0 L8,3 L0,6 Z" fill="#54869a"></path></marker>
+<marker id="arrowGreen01" markerheight="8" markerwidth="8" orient="auto" refx="7" refy="3"><path d="M0,0 L8,3 L0,6 Z" fill="#2c8a72"></path></marker>
+</defs>
+<path class="arrow" d="M120 150 H155"></path><path class="arrow" d="M285 150 H320"></path><path class="arrow" d="M390 150 H425"></path><path class="arrow" d="M555 150 H590"></path><path class="arrow" d="M660 150 H700"></path>
+<path class="arrow" d="M770 210 V260"></path><path class="arrow" d="M700 300 H660"></path><path class="arrow" d="M590 300 H555"></path><path class="arrow" d="M425 300 H390"></path><path class="arrow" d="M320 300 H285"></path><path class="arrow" d="M155 300 H120"></path>
+<path class="skip" d="M220 205 C220 245 355 245 355 280"></path><path class="skip" d="M490 205 C490 235 625 235 625 280"></path>
+<rect class="node active" data-node="input" height="60" rx="10" width="105" x="15" y="120"></rect><text class="label" text-anchor="middle" x="67" y="146">输入</text><text class="shape" text-anchor="middle" x="67" y="166">[B,1,H,W]</text>
+<rect class="node" data-node="e1" height="110" rx="10" width="130" x="155" y="95"></rect><text class="label" text-anchor="middle" x="220" y="137">DoubleConv</text><text class="shape" text-anchor="middle" x="220" y="160">1 → 16</text><text class="shape" text-anchor="middle" x="220" y="180">保留边缘</text>
+<rect class="node" data-node="pool1" height="50" rx="10" width="70" x="320" y="125"></rect><text class="shape" text-anchor="middle" x="355" y="155">Pool</text>
+<rect class="node" data-node="e2" height="110" rx="10" width="130" x="425" y="95"></rect><text class="label" text-anchor="middle" x="490" y="137">DoubleConv</text><text class="shape" text-anchor="middle" x="490" y="160">16 → 32</text><text class="shape" text-anchor="middle" x="490" y="180">更大上下文</text>
+<rect class="node" data-node="pool2" height="50" rx="10" width="70" x="590" y="125"></rect><text class="shape" text-anchor="middle" x="625" y="155">Pool</text>
+<rect class="bottleneck" data-node="bottleneck" height="115" rx="10" width="140" x="700" y="95"></rect><text class="label" text-anchor="middle" x="770" y="137">瓶颈</text><text class="shape" text-anchor="middle" x="770" y="160">DoubleConv</text><text class="shape" text-anchor="middle" x="770" y="182">32 → 64</text>
+<rect class="node" data-node="u2" height="50" rx="10" width="70" x="590" y="260"></rect><text class="shape" text-anchor="middle" x="625" y="290">Up 2×</text>
+<rect class="node" data-node="d2" height="110" rx="10" width="130" x="425" y="245"></rect><text class="label" text-anchor="middle" x="490" y="283">拼接 + Conv</text><text class="shape" text-anchor="middle" x="490" y="306">64 → 32</text><text class="shape" text-anchor="middle" x="490" y="326">接回 e2</text>
+<rect class="node" data-node="u1" height="50" rx="10" width="70" x="320" y="260"></rect><text class="shape" text-anchor="middle" x="355" y="290">Up 2×</text>
+<rect class="node" data-node="d1" height="110" rx="10" width="130" x="155" y="245"></rect><text class="label" text-anchor="middle" x="220" y="283">拼接 + Conv</text><text class="shape" text-anchor="middle" x="220" y="306">32 → 16</text><text class="shape" text-anchor="middle" x="220" y="326">接回 e1</text>
+<rect class="node" data-node="out" height="60" rx="10" width="105" x="15" y="270"></rect><text class="label" text-anchor="middle" x="67" y="296">输出</text><text class="shape" text-anchor="middle" x="67" y="316">[B,1,H,W]</text>
+<text class="shape" text-anchor="middle" x="250" y="238">跳跃连接</text><text class="shape" text-anchor="middle" x="520" y="229">跳跃连接</text>
+</svg>
+<div>
+<div class="step-buttons">
+<button class="active" data-unet-step="input">输入张量</button>
+<button data-unet-step="encoder">编码器</button>
+<button data-unet-step="bottleneck">瓶颈</button>
+<button data-unet-step="decoder">解码器</button>
+<button data-unet-step="output">输出概率</button>
+</div>
+<div aria-live="polite" class="unet-explain" id="unetExplain01"></div>
+</div>
+</div>
+<div class="shape-flow">
+<span class="shape-chip">image [B,1,128,128]</span><span class="flow-arrow">→</span>
+<span class="shape-chip">logits [B,1,128,128]</span><span class="flow-arrow">→</span>
+<span class="shape-chip">sigmoid(prob)</span><span class="flow-arrow">→</span>
+<span class="shape-chip">binary prediction</span>
+</div>
+<table class="shape-table">
+<thead><tr><th>位置</th><th>本层输出 shape</th><th>这一层改变了什么</th></tr></thead>
+<tbody>
+<tr><td>输入</td><td><code>[B,1,128,128]</code></td><td>B 张切片、1 个灰度通道、128×128 像素。</td></tr>
+<tr><td>e1 → p1</td><td><code>[B,16,128,128] → [B,16,64,64]</code></td><td>提取局部纹理，池化后空间尺寸减半。</td></tr>
+<tr><td>e2 → p2</td><td><code>[B,32,64,64] → [B,32,32,32]</code></td><td>增加通道，汇总更大范围的上下文。</td></tr>
+<tr><td>瓶颈</td><td><code>[B,64,32,32]</code></td><td>在较小的空间网格上保留 64 个特征通道。</td></tr>
+<tr><td>u2 → 拼接 → d2</td><td><code>[B,32,64,64] → [B,64,64,64] → [B,32,64,64]</code></td><td>恢复分辨率，与 e2 拼接后重新融合。</td></tr>
+<tr><td>u1 → 拼接 → d1</td><td><code>[B,16,128,128] → [B,32,128,128] → [B,16,128,128]</code></td><td>恢复到原图大小，与 e1 拼接后补回边界细节。</td></tr>
+<tr><td>输出</td><td><code>logits [B,1,128,128]</code></td><td>每个像素一个分数，经 sigmoid 得到概率。</td></tr>
+</tbody>
+</table>
+<div class="threshold-note"><strong>从 logit 到 mask：</strong>设输出 logit 为 <code>z</code>，先计算 <code>p = 1 / (1 + e<sup>−z</sup>)</code>；再用阈值 <code>t</code> 判断 <code>p ≥ t</code> 的位置，把它写成 1，其余位置写成 0。训练阶段用 <code>BCEWithLogitsLoss</code> 与 soft Dice 组合，概率图可以直接参与反向传播；结果评价再用阈值化 Dice 与 IoU。</div>
+</div>
+<h3>DoubleConv 是网络的基本积木</h3>
+<p>每个卷积块连续执行两次 <code>3×3 Conv → GroupNorm → ReLU</code>。卷积层学习局部模式，归一化稳定数值，ReLU 提供非线性表达；编码器和解码器只改变通道数与空间分辨率。示例代码使用 GroupNorm、AdamW 和带正类权重的 BCE 与 soft Dice 组合。</p>
+<pre class="code">class DoubleConv(nn.Module):
     def __init__(self,cin,cout):
         super().__init__()
         self.block=nn.Sequential(
             nn.Conv2d(cin,cout,3,padding=1),
-            nn.GroupNorm(8 if cout >= 8 else 1,cout), nn.ReLU(inplace=True),
+            nn.GroupNorm(8 if cout &gt;= 8 else 1,cout), nn.ReLU(inplace=True),
             nn.Conv2d(cout,cout,3,padding=1),
-            nn.GroupNorm(8 if cout >= 8 else 1,cout), nn.ReLU(inplace=True))
+            nn.GroupNorm(8 if cout &gt;= 8 else 1,cout), nn.ReLU(inplace=True))
     def forward(self,x):
         return self.block(x)</pre>
-      </section>
-
-      <section class="lesson" id="metrics">
-        <h2>5. Dice 与 IoU 把区域重叠变成可比较数字</h2>
-        <p>模型输出概率图后，实践使用阈值生成二值预测，再和真实 mask 比较。Dice 强调两块区域的重叠，IoU 用并集作为分母；两者都直接关注前景区域，适合观察病灶分割的覆盖情况。</p>
-        <div class="metric-formula">
-          <div><strong>交集</strong><code>|P ∩ G|</code><span class="small muted">预测区域与真实区域共同覆盖的像素数。</span></div>
-          <div><strong>Dice</strong><code>2 × |P ∩ G| / (|P| + |G|)</code><span class="small muted">同时看预测区域和真实区域，范围通常为 0—1。</span></div>
-          <div><strong>IoU</strong><code>|P ∩ G| / |P ∪ G|</code><span class="small muted">用并集作为分母，重叠越充分，数值越高。</span></div>
-        </div>
-        <div class="formula-grid">
-          <div class="formula"><strong>Dice</strong><code>2 × |P ∩ G| / (|P| + |G|)</code><span class="small muted">P 是预测前景，G 是真实前景。</span></div>
-          <div class="formula"><strong>IoU</strong><code>|P ∩ G| / |P ∪ G|</code><span class="small muted">交集越大、并集越小，IoU 越高。</span></div>
-        </div>
-        <div class="metric-app">
-          <div class="app-title">调整位置和大小，观察 Dice / IoU</div>
-          <div class="app-sub">蓝色是真实区域，橙色是预测区域。滑块改变预测轮廓，指标由两块区域的几何重叠实时计算。</div>
-          <div class="metric-layout">
-            <div class="metric-panel">
-              <label for="dx01">水平偏移</label><input id="dx01" type="range" min="-80" max="80" value="20">
-              <label for="dy01">垂直偏移</label><input id="dy01" type="range" min="-60" max="60" value="0">
-              <label for="rr01">预测半径</label><input id="rr01" type="range" min="35" max="95" value="65">
-              <label for="threshold01">概率阈值</label><input id="threshold01" type="range" min="30" max="70" value="50">
-              <div class="small muted">阈值：<span id="thresholdValue01">0.50</span>。Notebook 的评价步骤在阈值后计算二值区域。</div>
-              <div class="threshold-note" id="thresholdNote01">阈值降低时，更多低概率像素会进入预测区域；阈值升高时，预测区域会收缩。</div>
-              <div class="metric-boxes">
-                <div class="metric-box"><b id="diceM01">–</b>Dice</div>
-                <div class="metric-box"><b id="iouM01">–</b>IoU</div>
-              </div>
-            </div>
-            <canvas class="metric-canvas" id="diceCanvas01" width="540" height="320" aria-label="Dice 和 IoU 区域重叠示意图"></canvas>
-          </div>
-        </div>
-        <pre class="code">inter=(pred*y).sum((1,2,3))
-union=((pred+y)>0).float().sum((1,2,3))
+</section>
+<section class="lesson" id="metrics">
+<h2>5. Dice 与 IoU 把区域重叠变成可比较数字</h2>
+<p>模型输出概率图后，实践使用阈值生成二值预测，再和真实 mask 比较。Dice 强调两块区域的重叠，IoU 用并集作为分母；两者都直接关注前景区域，适合观察病灶分割的覆盖情况。</p>
+<div class="metric-formula">
+<div><strong>交集</strong><code>|P ∩ G|</code><span class="small muted">预测区域与真实区域共同覆盖的像素数。</span></div>
+<div><strong>Dice</strong><code>2 × |P ∩ G| / (|P| + |G|)</code><span class="small muted">同时看预测区域和真实区域，范围通常为 0—1。</span></div>
+<div><strong>IoU</strong><code>|P ∩ G| / |P ∪ G|</code><span class="small muted">用并集作为分母，重叠越充分，数值越高。</span></div>
+</div>
+<div class="formula-grid">
+<div class="formula"><strong>Dice</strong><code>2 × |P ∩ G| / (|P| + |G|)</code><span class="small muted">P 是预测前景，G 是真实前景。</span></div>
+<div class="formula"><strong>IoU</strong><code>|P ∩ G| / |P ∪ G|</code><span class="small muted">交集越大、并集越小，IoU 越高。</span></div>
+</div>
+<div class="metric-app">
+<div class="app-title">调整位置和大小，观察 Dice / IoU</div>
+<div class="app-sub">蓝色是真实区域，橙色是预测区域。滑块改变预测轮廓，指标由两块区域的几何重叠实时计算。</div>
+<div class="metric-layout">
+<div class="metric-panel">
+<label for="dx01">水平偏移</label><input id="dx01" max="80" min="-80" type="range" value="20"/>
+<label for="dy01">垂直偏移</label><input id="dy01" max="60" min="-60" type="range" value="0"/>
+<label for="rr01">预测半径</label><input id="rr01" max="95" min="35" type="range" value="65"/>
+<label for="threshold01">概率阈值</label><input id="threshold01" max="70" min="30" type="range" value="50"/>
+<div class="small muted">阈值：<span id="thresholdValue01">0.50</span>。Notebook 的评价步骤在阈值后计算二值区域。</div>
+<div class="threshold-note" id="thresholdNote01">阈值降低时，更多低概率像素会进入预测区域；阈值升高时，预测区域会收缩。</div>
+<div class="metric-boxes">
+<div class="metric-box"><b id="diceM01">–</b>Dice</div>
+<div class="metric-box"><b id="iouM01">–</b>IoU</div>
+</div>
+</div>
+<canvas aria-label="Dice 和 IoU 区域重叠示意图" class="metric-canvas" height="320" id="diceCanvas01" width="540"></canvas>
+</div>
+</div>
+<pre class="code">inter=(pred*y).sum((1,2,3))
+union=((pred+y)&gt;0).float().sum((1,2,3))
 d=(2*inter+1e-6)/(pred.sum((1,2,3))+y.sum((1,2,3))+1e-6)
 i=(inter+1e-6)/(union+1e-6)</pre>
-        <div class="note"><strong>读指标的顺序：</strong>先看 overlay 和 prediction 的空间位置，再看 Dice 与 IoU；平均值之后继续查看单个测试样本、空 mask 统计和预测偏差，训练曲线与这些图像共同构成结果解释。</div>
-      </section>
-
-      <section class="lesson" id="run">
-        <h2>6. Notebook 中的训练过程</h2>
-         <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互图示用于理解配对、分割和评价指标的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；训练曲线、Dice、IoU、空 mask 统计和预测图以你的输出为准。</div>
-          <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会说明配对、网络、训练和评价中的填写位置与检查方式，实践在 Kaggle 中完成；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。示例代码使用 AdamW、GroupNorm，以及 <code>0.5 × BCEWithLogitsLoss(pos_weight=5) + 0.5 × soft Dice loss</code>。</p>
-         <table class="shape-table"><thead><tr><th>任务</th><th>填写位置</th><th>依据与检查</th></tr></thead><tbody>
-           <tr><td>1 数据核对</td><td><code>TODO 1</code>：<code>patient_count</code>、<code>positive_masks</code>、<code>empty_ratio</code></td><td>根据 <code>pairs</code> 和每个 mask 的像素内容统计；随机查看 MRI、mask、overlay 是否同位置。</td></tr>
-           <tr><td>2 Dice</td><td><code>TODO 2</code>：阈值化、交集、预测面积和真实面积</td><td>先把概率图按 <code>threshold</code> 变成 0/1；用简单的全零和完全相同输入检查边界。</td></tr>
-           <tr><td>3 卷积块</td><td><code>DoubleConv</code> 的 <code>self.block</code></td><td>按两次 <code>3×3 Conv → GroupNorm → ReLU</code> 填写，并用后续 U-Net shape 检查拼接通道。</td></tr>
-           <tr><td>4 训练更新</td><td><code>run_epoch</code> 中标注 TODO 的清梯度、反向传播和更新</td><td>训练损失使用 <code>soft_dice_score</code>；阈值化 Dice 只用于曲线和测试评价。</td></tr>
-            <tr><td>5 测试评价</td><td><code>TODO 5</code>：验证集阈值表与测试结果</td><td>比较候选阈值 <code>0.25、0.35、0.45、0.50、0.55、0.65、0.75</code>，用验证 Dice 最高的阈值锁定设置，再在测试集统计 Dice、IoU、空 mask 和预测图。</td></tr>
-         </tbody></table>
-         <div class="process-list">
-          <div class="process-step"><strong>配对与统计：</strong>完成 image/mask 配对，统计患者数量、阳性 mask 数量和空 mask 比例，保存 MRI、mask、overlay。</div>
-          <div class="process-step"><strong>患者级划分：</strong>用 <code>GroupShuffleSplit</code> 获得 train、validation、test 索引，检查患者集合没有交集。</div>
-          <div class="process-step"><strong>同步预处理：</strong>把图像归一化、mask 二值化，训练集使用同步翻转增强，三个 DataLoader 保持同一输入输出 shape。</div>
-          <div class="process-step"><strong>补全 TinyUNet：</strong>完成 DoubleConv，保持编码器、跳跃连接、解码器和输出通道的 shape 对齐。</div>
-          <div class="process-step"><strong>训练与选择：</strong>完成训练更新，保存 train/validation loss 与 Dice 曲线；在验证集比较候选阈值。</div>
-          <div class="process-step"><strong>测试与保存：</strong>用验证集选出的最佳阈值评价测试集，记录 test Dice、test IoU，展示真实 mask 与预测区域。</div>
-        </div>
-        <div class="two-col">
-          <div>
-            <h3>训练循环的关键张量</h3>
-            <pre class="code">opt.zero_grad()
+<div class="note"><strong>读指标的顺序：</strong>先看 overlay 和 prediction 的空间位置，再看 Dice 与 IoU；平均值之后继续查看单个测试样本、空 mask 统计和预测偏差，训练曲线与这些图像共同构成结果解释。</div>
+</section>
+<section class="lesson" id="run">
+<h2>6. Notebook 中的训练过程</h2>
+<div class="simulation-note"><b>模拟运行的注意事项</b><br/>页面中的交互图示用于理解配对、分割和评价指标的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；训练曲线、Dice、IoU、空 mask 统计和预测图以你的输出为准。</div>
+<p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会说明配对、网络、训练和评价中的填写位置与检查方式，实践在 Kaggle 中完成；下载到电脑运行属于补充路径。实践模板已经准备好数据读取、Dataset、DataLoader、TinyUNet 外壳和结果保存位置。示例代码使用 AdamW、GroupNorm，以及 <code>0.5 × BCEWithLogitsLoss(pos_weight=5) + 0.5 × soft Dice loss</code>。</p>
+<table class="shape-table"><thead><tr><th>任务</th><th>填写位置</th><th>依据与检查</th></tr></thead><tbody>
+<tr><td>1 数据核对</td><td><code>TODO 1</code>：<code>patient_count</code>、<code>positive_masks</code>、<code>empty_ratio</code></td><td>根据 <code>pairs</code> 和每个 mask 的像素内容统计；随机查看 MRI、mask、overlay 是否同位置。</td></tr>
+<tr><td>2 Dice</td><td><code>TODO 2</code>：阈值化、交集、预测面积和真实面积</td><td>先把概率图按 <code>threshold</code> 变成 0/1；用简单的全零和完全相同输入检查边界。</td></tr>
+<tr><td>3 卷积块</td><td><code>DoubleConv</code> 的 <code>self.block</code></td><td>按两次 <code>3×3 Conv → GroupNorm → ReLU</code> 填写，并用后续 U-Net shape 检查拼接通道。</td></tr>
+<tr><td>4 训练更新</td><td><code>run_epoch</code> 中标注 TODO 的清梯度、反向传播和更新</td><td>训练损失使用 <code>soft_dice_score</code>；阈值化 Dice 只用于曲线和测试评价。</td></tr>
+<tr><td>5 测试评价</td><td><code>TODO 5</code>：验证集阈值表与测试结果</td><td>比较候选阈值 <code>0.25、0.35、0.45、0.50、0.55、0.65、0.75</code>，用验证 Dice 最高的阈值锁定设置，再在测试集统计 Dice、IoU、空 mask 和预测图。</td></tr>
+</tbody></table>
+<div class="process-list">
+<div class="process-step"><strong>配对与统计：</strong>完成 image/mask 配对，统计患者数量、阳性 mask 数量和空 mask 比例，保存 MRI、mask、overlay。</div>
+<div class="process-step"><strong>患者级划分：</strong>用 <code>GroupShuffleSplit</code> 获得 train、validation、test 索引，检查患者集合没有交集。</div>
+<div class="process-step"><strong>同步预处理：</strong>把图像归一化、mask 二值化，训练集使用同步翻转增强，三个 DataLoader 保持同一输入输出 shape。</div>
+<div class="process-step"><strong>补全 TinyUNet：</strong>完成 DoubleConv，保持编码器、跳跃连接、解码器和输出通道的 shape 对齐。</div>
+<div class="process-step"><strong>训练与选择：</strong>完成训练更新，保存 train/validation loss 与 Dice 曲线；在验证集比较候选阈值。</div>
+<div class="process-step"><strong>测试与保存：</strong>用验证集选出的最佳阈值评价测试集，记录 test Dice、test IoU，展示真实 mask 与预测区域。</div>
+</div>
+<div class="two-col">
+<div>
+<h3>训练循环的关键张量</h3>
+<pre class="code">opt.zero_grad()
 logits=model(x)
 prob=torch.sigmoid(logits)
 loss=bce(logits,y)+(1-soft_dice_score(prob,y)).mean()
 loss.backward()
 opt.step()</pre>
-          </div>
-          <div>
-            <h3>结果与图像对照</h3>
-            <p>loss 和 Dice 曲线回答训练过程如何变化；阈值表回答预测概率如何转成区域；测试图像回答模型在一个具体切片上把哪里画出来。</p>
-            <div class="shape-strip"><code>loss curve</code><code>Dice curve</code><code>test overlay</code><code>result.json</code></div>
-          </div>
-        </div>
-        <h3>Notebook 需要保存的结果</h3>
-        <div class="result-grid">
-          <div class="result-item"><code>task1_data_check.png</code><span>MRI、mask 与叠加图</span></div>
-          <div class="result-item"><code>task1_training_curve.png</code><span>训练/验证损失与 Dice 曲线</span></div>
-          <div class="result-item"><code>task1_prediction.png</code><span>测试样本、真实 mask 与预测</span></div>
-          <div class="result-item"><code>task1_result.json</code><span>切片规模、阈值、Dice、IoU、空 mask 统计与 seed</span></div>
-        </div>
-         <div class="reference-output">
-          <h3>结果对照</h3>
-          <p>下面的图像用于展示 MRI 分割结果：样本均来自测试集中真实 mask 非空的切片，预测图同时保留真实 mask、预测 mask 和 TP/FP/FN 编码。</p>
-          <div class="two-col">
-            <figure class="figure"><img src="../assets/results/project-02/task1_data_check.png" alt="真实阳性 MRI、mask 与叠加图" loading="lazy"><figcaption>真实阳性样本：MRI、真实 mask 与叠加图。</figcaption></figure>
-            <figure class="figure"><img src="../assets/results/project-02/task1_prediction.png" alt="MRI 真实 mask 预测 mask 与 TP FP FN 编码对比" loading="lazy"><figcaption>输入、真实 mask、预测 mask 与 TP/FP/FN 编码对比。</figcaption></figure>
-          </div>
-          <p class="source-note">患者级划分：训练/验证/测试为 2604 / 547 / 778 个切片；训练使用 600 个平衡样本；测试阳性 mask Dice 为 0.4870，阳性 mask IoU 为 0.3725，最佳阈值为 0.75。</p>
-        </div>
-      </section>
-
-      <section class="lesson" id="extensions">
-        <h2>延伸：多序列、三维与多区域标签</h2>
-        <div class="extension-intro">当前 Notebook 聚焦一张二维灰度切片、一个二值前景通道和 TinyUNet。下面三项用于连接后续医学影像任务，数据维度、标签定义和模型规模都会随问题变化。</div>
-        <div class="extension-grid">
-          <article class="extension-card">
-            <h3>多序列 MRI</h3>
-            <span class="shape">[4,H,W]</span>
-            <p>T1、T1 增强、T2、FLAIR 作为四个输入通道，同一位置同时携带不同组织对比。</p>
-            <p>序列配准与通道顺序成为数据组织的关键。</p>
-          </article>
-          <article class="extension-card">
-            <h3>三维体数据</h3>
-            <span class="shape">[C,H,W,D]</span>
-            <p>连续切片组成体数据，体素间距和空间方向决定真实距离与体积。</p>
-            <p>3D U-Net、2.5D 输入和切片后处理利用层间连续性。</p>
-          </article>
-          <article class="extension-card">
-            <h3>多区域标签</h3>
-            <span class="shape">WT / TC / ET</span>
-            <p>一个病例可以同时标注 Whole Tumor、Tumor Core 和 Enhancing Tumor。</p>
-            <p>多类别或多标签输出需要对应的编码、损失和分区域指标。</p>
-          </article>
-        </div>
-        <div class="flowline">
-          <div class="flow-node">当前实践<br><code>1 通道 + 1 二值 mask</code></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-node">后续扩展<br><code>多通道 / 体数据 / 多区域</code></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-node">更完整评价<br><code>分区域 + 分病例</code></div>
-        </div>
-      </section>
-
-      <section class="lesson" id="check">
-        <h2>实践成果检查</h2>
-        <p>完成 Notebook 后，按“数据配对 → 患者级划分 → TinyUNet → Dice/IoU → 图像结果”的顺序回看输出文件。</p>
-        <table class="mini-table check-table">
-          <thead><tr><th>文件</th><th>打开后观察</th><th>对应教学节点</th></tr></thead>
-          <tbody>
-            <tr><td><code>task1_data_check.png</code></td><td>MRI、二值 mask、overlay 的空间对应</td><td>配对切片与二值标签</td></tr>
-            <tr><td><code>task1_training_curve.png</code></td><td>训练/验证 loss 和 Dice 的变化</td><td>TinyUNet 训练过程</td></tr>
-            <tr><td><code>task1_prediction.png</code></td><td>测试 MRI、真实 mask、模型预测</td><td>视觉结果与边界偏差</td></tr>
-            <tr><td><code>task1_result.json</code></td><td>数据规模、最佳阈值、test Dice、test IoU 与空 mask 统计</td><td>定量评价</td></tr>
-          </tbody>
-        </table>
-        <details>
-          <summary>结果阅读提示</summary>
-          <p>结合数据配对、患者级划分、最佳阈值、测试 Dice/IoU、空 mask 统计和一个预测偏差，说明图像结果与数字指标如何相互支持。</p>
-        </details>
-      </section>
-    </div>
-  </main>
+</div>
+<div>
+<h3>结果与图像对照</h3>
+<p>loss 和 Dice 曲线回答训练过程如何变化；阈值表回答预测概率如何转成区域；测试图像回答模型在一个具体切片上把哪里画出来。</p>
+<div class="shape-strip"><code>loss curve</code><code>Dice curve</code><code>test overlay</code><code>result.json</code></div>
+</div>
+</div>
+<h3>Notebook 需要保存的结果</h3>
+<div class="result-grid">
+<div class="result-item"><code>task1_data_check.png</code><span>MRI、mask 与叠加图</span></div>
+<div class="result-item"><code>task1_training_curve.png</code><span>训练/验证损失与 Dice 曲线</span></div>
+<div class="result-item"><code>task1_prediction.png</code><span>测试样本、真实 mask 与预测</span></div>
+<div class="result-item"><code>task1_result.json</code><span>切片规模、阈值、Dice、IoU、空 mask 统计与 seed</span></div>
+</div>
+<div class="reference-output">
+<h3>结果对照</h3>
+<p>下面的图像用于展示 MRI 分割结果：样本均来自测试集中真实 mask 非空的切片，预测图同时保留真实 mask、预测 mask 和 TP/FP/FN 编码。</p>
+<div class="two-col">
+<figure class="figure"><img alt="真实阳性 MRI、mask 与叠加图" loading="lazy" src="../assets/results/project-02/task1_data_check.png"/><figcaption>真实阳性样本：MRI、真实 mask 与叠加图。</figcaption></figure>
+<figure class="figure"><img alt="MRI 真实 mask 预测 mask 与 TP FP FN 编码对比" loading="lazy" src="../assets/results/project-02/task1_prediction.png"/><figcaption>输入、真实 mask、预测 mask 与 TP/FP/FN 编码对比。</figcaption></figure>
+</div>
+<p class="source-note">患者级划分：训练/验证/测试为 2604 / 547 / 778 个切片；训练使用 600 个平衡样本；测试阳性 mask Dice 为 0.4870，阳性 mask IoU 为 0.3725，最佳阈值为 0.75。</p>
+</div>
+</section>
+<section class="lesson" id="extensions">
+<h2>延伸：多序列、三维与多区域标签</h2>
+<div class="extension-intro">当前 Notebook 聚焦一张二维灰度切片、一个二值前景通道和 TinyUNet。下面三项用于连接后续医学影像任务，数据维度、标签定义和模型规模都会随问题变化。</div>
+<div class="extension-grid">
+<article class="extension-card">
+<h3>多序列 MRI</h3>
+<span class="shape">[4,H,W]</span>
+<p>T1、T1 增强、T2、FLAIR 作为四个输入通道，同一位置同时携带不同组织对比。</p>
+<p>序列配准与通道顺序成为数据组织的关键。</p>
+</article>
+<article class="extension-card">
+<h3>三维体数据</h3>
+<span class="shape">[C,H,W,D]</span>
+<p>连续切片组成体数据，体素间距和空间方向决定真实距离与体积。</p>
+<p>3D U-Net、2.5D 输入和切片后处理利用层间连续性。</p>
+</article>
+<article class="extension-card">
+<h3>多区域标签</h3>
+<span class="shape">WT / TC / ET</span>
+<p>一个病例可以同时标注 Whole Tumor、Tumor Core 和 Enhancing Tumor。</p>
+<p>多类别或多标签输出需要对应的编码、损失和分区域指标。</p>
+</article>
+</div>
+<div class="flowline">
+<div class="flow-node">当前实践<br/><code>1 通道 + 1 二值 mask</code></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">后续扩展<br/><code>多通道 / 体数据 / 多区域</code></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">更完整评价<br/><code>分区域 + 分病例</code></div>
+</div>
+</section>
+<section class="lesson" id="check">
+<h2>实践成果检查</h2>
+<p>完成 Notebook 后，按“数据配对 → 患者级划分 → TinyUNet → Dice/IoU → 图像结果”的顺序回看输出文件。</p>
+<table class="mini-table check-table">
+<thead><tr><th>文件</th><th>打开后观察</th><th>对应教学节点</th></tr></thead>
+<tbody>
+<tr><td><code>task1_data_check.png</code></td><td>MRI、二值 mask、overlay 的空间对应</td><td>配对切片与二值标签</td></tr>
+<tr><td><code>task1_training_curve.png</code></td><td>训练/验证 loss 和 Dice 的变化</td><td>TinyUNet 训练过程</td></tr>
+<tr><td><code>task1_prediction.png</code></td><td>测试 MRI、真实 mask、模型预测</td><td>视觉结果与边界偏差</td></tr>
+<tr><td><code>task1_result.json</code></td><td>数据规模、最佳阈值、test Dice、test IoU 与空 mask 统计</td><td>定量评价</td></tr>
+</tbody>
+</table>
+<details>
+<summary>结果阅读提示</summary>
+<p>结合数据配对、患者级划分、最佳阈值、测试 Dice/IoU、空 mask 统计和一个预测偏差，说明图像结果与数字指标如何相互支持。</p>
+</details>
+</section>
+</div>
+</main>
 </div>
 <footer class="footer">体验教学项目 01 · 二维 MRI 单通道分割主路径</footer>
 <script>

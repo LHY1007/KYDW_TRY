@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 
 
 EXPERIENCE_MAPPING = [(f"{number:02d}", f"{number + 1:02d}") for number in range(6)]
-ADVANCED_MAPPING = [(f"{number:02d}", f"{number + 1:02d}") for number in range(1, 6)]
+ADVANCED_MAPPING = [(f"{number:02d}", f"{number + 1:02d}") for number in range(6)]
 # 当前公开状态：Week 1 的项目 00—02 已开放；Week 2 及之后的体验材料不进入
 # GitHub Pages。开放新 Week 时只需更新这里和 content.js 的开放状态。
 OPEN_EXPERIENCE_NUMBERS = {"00", "01", "02"}
@@ -215,6 +215,10 @@ def transform_experience_teaching(source: Path, target: Path, public_no: str, si
     ensure_simulation_note(soup)
     ensure_interactive_labels(soup)
     localise_known_assets(soup)
+    for element in soup.select("[src]"):
+        element["src"] = element.get("src", "").replace(
+            f"assets/results/project-{public_no}/", f"assets/results/project-{site_no}/"
+        )
     label = f"体验教学项目 {public_no}"
     if soup.title:
         title = soup.title.get_text(" ", strip=True)
@@ -234,6 +238,10 @@ def transform_experience_answer(source: Path, target: Path, public_no: str, site
     soup = BeautifulSoup(read(source), "html.parser")
     remove_template_notes(soup)
     localise_known_assets(soup)
+    for element in soup.select("[src]"):
+        element["src"] = element.get("src", "").replace(
+            f"assets/results/project-{public_no}/", f"assets/results/project-{site_no}/"
+        )
     if site_no == "02":
         # 当前公开配图是单张 T1 轴位示例，避免沿用原始多序列图的旧图注。
         for image in soup.select('img[src*="mri-t1.jpg"]'):
@@ -435,7 +443,17 @@ def main() -> None:
     parser.add_argument(
         "--include-advanced",
         action="store_true",
-        help="仅在明确开放进阶项目时使用；默认不把进阶材料复制到公开仓库",
+        help="把进阶材料复制到云端归档路径；是否在导航开放仍由 site.js 控制",
+    )
+    parser.add_argument(
+        "--retain-locked-experience",
+        action="store_true",
+        help="保留尚未开放 Week 的体验材料文件，但不改变网站导航开放状态",
+    )
+    parser.add_argument(
+        "--experience-numbers",
+        default="00,01,02,03,04,05",
+        help="逗号分隔的公开项目编号；用于定向导入，默认 00—05",
     )
     args = parser.parse_args()
 
@@ -456,7 +474,10 @@ def main() -> None:
     manifest_rows: list[tuple[str, str, Path, str]] = []
     missing_assets: list[str] = []
 
+    selected_experience = {item.strip() for item in args.experience_numbers.split(",") if item.strip()}
     for public_no, site_no in EXPERIENCE_MAPPING:
+        if public_no not in selected_experience:
+            continue
         teaching = teaching_root / f"体验教学项目{public_no}.html"
         answer = answer_root / f"体验实践项目解析{public_no}.html"
         notebook = practice_root / f"体验实践项目{public_no}.ipynb"
@@ -465,6 +486,10 @@ def main() -> None:
         transform_experience_answer(answer, repo / "experience" / "answers" / f"project-{site_no}.html", public_no, site_no)
         target_notebook = repo / "experience" / "practice" / f"project-{site_no}.ipynb"
         copy_experience_notebook(notebook, target_notebook, public_no)
+        source_results = experience_root / "assets" / "results" / f"project-{public_no}"
+        target_results = repo / "experience" / "assets" / "results" / f"project-{site_no}"
+        if source_results.is_dir():
+            shutil.copytree(source_results, target_results, dirs_exist_ok=True)
         manifest_rows.append((public_no, "体验版", teaching, site_no))
 
     remove_public_advanced(repo)
@@ -502,9 +527,10 @@ def main() -> None:
         shared_markdown_document(advanced_root / "README.md", repo / "experience" / "advanced-resources" / "index.html", "进阶项目说明")
         shared_markdown_document(advanced_practice_root / "Kaggle数据与运行说明.md", repo / "experience" / "advanced-resources" / "data-guide.html", "进阶项目数据与运行说明")
         shared_markdown_document(advanced_root / "资料与文献索引.md", repo / "experience" / "advanced-resources" / "references.html", "进阶项目资料与文献索引")
-    remove_locked_experience_materials(repo)
+    if not args.retain_locked_experience:
+        remove_locked_experience_materials(repo)
     write_manifest(repo, manifest_rows, missing_assets)
-    advanced_message = "与进阶版 01—05" if args.include_advanced else "；进阶材料未复制到公开仓库"
+    advanced_message = "与进阶版 00—05" if args.include_advanced else "；进阶材料未复制到公开仓库"
     print(f"已导入体验版 00—05{advanced_message}。")
     if missing_assets:
         print(f"警告：来源目录缺少 {len(set(missing_assets))} 个进阶教学本地配图，已隐藏破损图框，详见 content/advanced-manifest.md。")

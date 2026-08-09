@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta content="width=device-width,initial-scale=1" name="viewport">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>体验教学项目 00｜基础编程与人工智能</title>
 <style>
 :root{--bg:#eef3f7;--paper:#fff;--ink:#17293a;--muted:#607487;--blue:#1d557c;--cyan:#27859c;--line:#d5e1e9;--soft:#edf5f8;--accent:#e7a34b;--shadow:0 9px 28px rgba(28,57,78,.07);--font-scale:1}
@@ -97,7 +98,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 .dark .orientation-strip span{background:rgba(255,255,255,.1)}
 @media(max-width:640px){.orientation-strip{display:grid;grid-template-columns:1fr;gap:5px}.orientation-strip b{display:none}.orientation-strip span{text-align:center}}
 </style>
-<link href="../../favicon.svg" rel="icon" type="image/svg+xml">
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <style id="kydw-mobile-overflow">
 @media(max-width:760px){.mini-table{display:block;overflow-x:auto;white-space:nowrap}.digits-cm-figure{overflow-x:auto}.digits-cm-figure #cmDemo00{min-width:340px}}
 .python-bridge{margin:18px 0;padding:16px;border:1px solid #c7dce5;border-radius:13px;background:#f7fbfc}.python-bridge h3{margin:0 0 8px}.python-bridge p{margin:10px 0 0;color:var(--muted)}
@@ -120,7 +121,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 </header>
 <div class="layout">
 <aside class="sidebar">
-<div class="side-title">本章目录</div>
+<div class="side-title">本章目录</div><a href="#field-overview">先认识这个方向</a>
 <a href="#ai">1. 人工智能研究的对象</a>
 <a href="#tasks">2. 任务类型由输出决定</a>
 <a href="#program">3. 程序与 Python</a>
@@ -143,11 +144,11 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <span>程序与 Python</span>
 <span>数据如何表示现实</span>
 </div>
-<div class="orientation-strip" aria-label="本页阅读路线">
+<div aria-label="本页阅读路线" class="orientation-strip">
 <span>输入图像</span><b>→</b><span>数据与 shape</span><b>→</b><span>模型学习</span><b>→</b><span>指标与错误</span><b>→</b><span>Kaggle 实践</span>
 </div>
 <p class="orientation-note">先把一张图像怎样进入计算机看清楚，再看模型怎样产生结果，最后在 Notebook 中完成一次分类实验。</p>
-</section>
+</section><section class="lesson concept-overview" data-kydw-concept-overview="1" id="field-overview"><h2>先认识这个方向</h2><p class="lecture-open">先把人工智能、机器学习、样本、标签和评价结果这些基本对象分清，再进入手写数字分类与后续稳健性分析。</p><h3>核心概念</h3><p><b>人工智能：</b>人工智能研究怎样把感知、识别、预测、生成和决策等任务写成计算机可以执行和评价的过程。</p><p><b>机器学习：</b>机器学习让程序从样本中学习输入与输出之间的规律，而不是为每一种情况手工编写固定规则。</p><h3>常见数据与基本对象</h3><p>常见输入包括图像、文字、表格和连续信号；标签可以是类别、数值、区域轮廓或下一段内容。一个数据集还需要样本编号、划分信息和产生数据的条件。</p><h3>这个方向常见的应用</h3><p>人工智能常用于图像识别、辅助测量、风险预测、文本与信号处理、生成内容和科研数据分析。应用价值取决于数据是否代表真实使用场景，以及输出能否被人检查。</p><h3>常见研究问题</h3><p>研究通常会比较不同数据表示和模型，观察哪些错误最常见，检查模型面对噪声或新数据时是否仍然稳定。</p><h3>阅读结果时需要记住的边界</h3><p>模型在一个数据集上取得高分，不表示它理解了所有现实情况，也不自动证明变量之间存在因果关系。</p></section>
 <section class="lesson" id="ai">
 <h2>1. 人工智能研究的对象</h2>
 <div class="lecture-open">我们先回答最基本的问题：人工智能是什么。人工智能关注的是机器如何完成通常需要感知、判断、推理、学习、规划或生成能力的任务。它包含规则、搜索、概率模型和机器学习等多种方法。</div>
@@ -182,14 +183,14 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <div class="miniapp-grid">
 <div class="panel">
 <label for="soft00a">数字 3 的 logit <span id="soft00av">2.0</span></label>
-<input id="soft00a" max="6" min="-2" step="0.1" type="range" value="2">
+<input id="soft00a" max="6" min="-2" step="0.1" type="range" value="2"/>
 <label for="soft00b">数字 5 的 logit <span id="soft00bv">1.0</span></label>
-<input id="soft00b" max="6" min="-2" step="0.1" type="range" value="1">
+<input id="soft00b" max="6" min="-2" step="0.1" type="range" value="1"/>
 <label for="soft00c">数字 8 的 logit <span id="soft00cv">0.0</span></label>
-<input id="soft00c" max="6" min="-2" step="0.1" type="range" value="0">
+<input id="soft00c" max="6" min="-2" step="0.1" type="range" value="0"/>
 </div>
 <div class="panel">
-<div id="softmaxBars00" aria-live="polite"></div>
+<div aria-live="polite" id="softmaxBars00"></div>
 <p id="softmaxRead00">当前最高概率对应模型的首选类别。</p>
 </div>
 </div>
@@ -211,7 +212,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 </select>
 <div class="static-note">重点观察输出是类别、数值、位置、逐像素区域，还是新的数据对象。</div>
 </div>
-<svg id="taskSvg00" viewBox="0 0 520 230" role="img" aria-labelledby="taskSvgTitle00">
+<svg aria-labelledby="taskSvgTitle00" id="taskSvg00" role="img" viewbox="0 0 520 230">
 <title id="taskSvgTitle00">任务类型示意图</title>
 </svg>
 </div>
@@ -283,10 +284,10 @@ print("top-left =", pixels[0][0])</pre><p>运行后会得到 <code>shape = (2, 3
 <label for="tensorBatch00">批次 B</label>
 <select id="tensorBatch00">
 <option value="1">1</option>
-<option selected>4</option>
+<option selected="">4</option>
 <option value="128">128</option>
 </select>
-<div id="tensorFlow00" class="flowline" aria-live="polite"></div>
+<div aria-live="polite" class="flowline" id="tensorFlow00"></div>
 <p id="tensorExplain00">每个 shape 都表示同一批数据在网络中的当前排列。</p>
 </div>
 </div>
@@ -339,7 +340,7 @@ L(θ) = (1 / m) Σᵢ ℓ(ŷᵢ, yᵢ)
 <div class="miniapp-grid">
 <div class="panel">
 <label>学习率<select id="lrSel00">
-<option selected value="0.001">0.001（Notebook 基线）</option>
+<option selected="" value="0.001">0.001（Notebook 基线）</option>
 <option value="0.01">0.01</option>
 <option value="0.1">0.1</option>
 </select>
@@ -430,7 +431,7 @@ a = ReLU(u) = max(0, u)</div>
 <option value="sharp">中心增强</option>
 </select>
 </label>
-<input id="convStep00" aria-label="卷积演示步骤" max="35" min="0" step="1" type="range" value="0">
+<input aria-label="卷积演示步骤" id="convStep00" max="35" min="0" step="1" type="range" value="0"/>
 <button id="convPrev00" type="button">上一步</button>
 <button id="convNext00" type="button">下一步</button>
 </div>
@@ -491,9 +492,9 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <div class="real-data-note">Notebook 任务固定使用 <code>noise_sigma = 0.25</code>；完成后请在 <code>task0_result.json</code> 中读取自己的加噪准确率与下降值。页面滑块用于观察 0—0.5 范围内的参考趋势。</div>
 <label>噪声标准差<span id="noiseVal00">0.20</span>
 </label>
-<input id="noiseSlider00" aria-label="噪声标准差" max="5" min="0" step="1" type="range" value="2">
+<input aria-label="噪声标准差" id="noiseSlider00" max="5" min="0" step="1" type="range" value="2"/>
 <div class="miniapp-grid">
-<canvas height="260" id="noisePlot00" width="520" role="img" aria-label="不同噪声强度下的测试准确率参考曲线">
+<canvas aria-label="不同噪声强度下的测试准确率参考曲线" height="260" id="noisePlot00" role="img" width="520">
 </canvas>
 <div class="panel">
 <div class="metric-box">
@@ -510,9 +511,9 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <div class="real-data-note">Notebook 任务固定使用 <code>noise_sigma = 0.25</code>；完成后请在 <code>task0_result.json</code> 中读取自己的加噪准确率与下降值。页面滑块用于观察 0—0.5 范围内的参考趋势。</div>
 <label>噪声标准差<span id="noiseVal00">0.20</span>
 </label>
-<input id="noiseSlider00" aria-label="噪声标准差" max="5" min="0" step="1" type="range" value="2">
+<input aria-label="噪声标准差" id="noiseSlider00" max="5" min="0" step="1" type="range" value="2"/>
 <div class="miniapp-grid">
-<canvas height="260" id="noisePlot00" width="520" role="img" aria-label="不同噪声强度下的测试准确率参考曲线">
+<canvas aria-label="不同噪声强度下的测试准确率参考曲线" height="260" id="noisePlot00" role="img" width="520">
 </canvas>
 <div class="panel">
 <div class="metric-box">
@@ -535,7 +536,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <section class="lesson" id="practice">
 <h2>9. 实践项目：MNIST 手写数字分类</h2>
 <div class="lecture-open">实践部分把本章内容落实到一次可运行的 MNIST 十分类实验。Notebook 已经给出主要结构，需要补上数据检查、训练计算、结果评价和结果保存。</div>
-<div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的交互组件用于理解像素、shape、Softmax、卷积与指标之间的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；准确率、F1、混淆矩阵、噪声下降和对照实验结果以你的输出为准。</div>
+<div class="simulation-note"><b>模拟运行的注意事项</b><br/>页面中的交互组件用于理解像素、shape、Softmax、卷积与指标之间的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；准确率、F1、混淆矩阵、噪声下降和对照实验结果以你的输出为准。</div>
 <div class="aligned-detail">
 <h3>从实践项目页面开始</h3>
 <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会标明需要填写的代码或文字位置、填写依据和检查方法，实践在 Kaggle 中完成；下载 Notebook 到电脑运行是补充路径。</p>
@@ -552,10 +553,10 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 </tbody></table>
 <div class="practice-box">
 <div class="flow">
-<div>读输入<br><small>图像、标签、shape</small></div><i>→</i>
-<div>补代码<br><small>数据、模型、训练</small></div><i>→</i>
-<div>看结果<br><small>指标、图像、错误</small></div><i>→</i>
-<div>做对照<br><small>只改一个参数</small></div>
+<div>读输入<br/><small>图像、标签、shape</small></div><i>→</i>
+<div>补代码<br/><small>数据、模型、训练</small></div><i>→</i>
+<div>看结果<br/><small>指标、图像、错误</small></div><i>→</i>
+<div>做对照<br/><small>只改一个参数</small></div>
 </div>
 <ol>
 <li>读取 MNIST 图像和标签，核对 shape、数据类型、像素范围与类别分布</li>
@@ -573,8 +574,8 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <h3>结果对照</h3>
 <p>下面的图像和指标用于对照输入、预测、训练过程和噪声评价。</p>
 <div class="two-col">
-<figure class="figure"><img src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="MNIST 测试输入、真实标签与模型预测对比" loading="lazy"><figcaption>测试输入、真实标签和模型预测对比。</figcaption></figure>
-<figure class="figure"><img src="../assets/results/project-01/task0_training_curve.png" alt="MNIST 训练曲线" loading="lazy"><figcaption>训练损失、验证损失与验证准确率。</figcaption></figure>
+<figure class="figure"><img alt="MNIST 测试输入、真实标签与模型预测对比" loading="lazy" src="../assets/results/project-01/task0_input_prediction_comparison.png"/><figcaption>测试输入、真实标签和模型预测对比。</figcaption></figure>
+<figure class="figure"><img alt="MNIST 训练曲线" loading="lazy" src="../assets/results/project-01/task0_training_curve.png"/><figcaption>训练损失、验证损失与验证准确率。</figcaption></figure>
 </div>
 <p class="source-note">测试准确率 0.9897，测试 macro-F1 0.98965；加入标准差 0.25 的高斯噪声后，准确率为 0.9771，下降 0.0126。</p>
 </div>
