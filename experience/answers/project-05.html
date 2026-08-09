@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/>
+<title>实践项目参考答案 04：XGBoost 脑疾病表格分类｜KYDW</title>
+<style>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
+main{max-width:980px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.25rem;margin-top:0}
+.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+pre{overflow:auto;background:#14232b;color:#e9f2f4;border-radius:12px;padding:16px;line-height:1.55;white-space:pre-wrap}code{font-family:Consolas,"SFMono-Regular",monospace}
+ul{padding-left:1.4em}a{color:#176c75}.results{display:grid;grid-template-columns:1fr;gap:20px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px;word-break:break-all}
+</style><style id="kydw-site-return-style">
+/* KYDW site return control: kept separate from the source reader styles. */
+.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
+.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
+.topbar .site-return{color:inherit;background:transparent}
+.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
+.source-asset-missing{display:none!important}
+@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
+@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
+</style></head><body><a class="site-return" href="../project-05.html">返回项目详情</a><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 04：XGBoost 脑疾病表格分类</h1><p>使用课程提供的 Data.csv，完成四分类表格预处理、逻辑回归基线、XGBoost、验证集比较、测试评价和变量贡献分析。</p>
+<p class="note">参考答案展示一种完整写法，代码中的路径和参数可以根据运行环境调整。打开公开 Kaggle Notebook 后，先复制到自己的账户，再运行并观察每一步输出。</p></section>
+<section class="card"><h2>任务对应关系</h2><p>题目 Notebook 的任务顺序与下面的完整脚本一致：数据读取和核对、基线或输入可视化、模型结构、训练与验证、测试评价和结果文件。</p><p>先阅读各任务的输入与输出，再查看完整代码。结果图与指标文件来自同一份课程数据。</p></section>
+<section class="card"><h2>完整参考脚本</h2><p>以下代码可以从头运行。它会自动查找 Kaggle 已挂载的数据集，并把图像与 JSON 写入 <code>/kaggle/working</code>。</p><pre><code>from __future__ import annotations
+
+import argparse
+
+import json
+
+import random
+
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+import pandas as pd
+
+import torch
+
+import torch.nn as nn
+
+import torch.nn.functional as F
+
+from matplotlib import colors as mcolors
+
+from matplotlib.patches import Rectangle
+
+from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
+
+from sklearn.compose import ColumnTransformer
+
+from sklearn.impute import SimpleImputer
+
+from sklearn.inspection import permutation_importance
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.metrics import (
+    accuracy_score,
+    average_precision_score,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+    precision_recall_curve,
+    roc_curve,
+)
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.pipeline import Pipeline
+
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler, label_binarize
+
+from torch.utils.data import DataLoader, Dataset
+
+from xgboost import XGBClassifier, XGBRegressor
+
+SEED = 42
+
+random.seed(SEED)
+
+np.random.seed(SEED)
+
+torch.manual_seed(SEED)
+
+torch.set_num_threads(min(4, max(1, torch.get_num_threads())))
+
+def save_json(path: Path, value: dict):
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def run_project04(data_path: Path, output: Path):
+    output.mkdir(parents=True, exist_ok=True)
+    frame = pd.read_csv(data_path)
+    encoder = LabelEncoder()
+    y = encoder.fit_transform(frame["label"].astype(str))
+    X = frame.drop(columns=["ID", "label"])
+    X_train, X_temp, y_train, y_temp = train_test_split(
+        X, y, test_size=0.30, stratify=y, random_state=SEED
+    )
+    X_val, X_test, y_val, y_test = train_test_split(
+        X_temp, y_temp, test_size=0.50, stratify=y_temp, random_state=SEED
+    )
+    numeric_cols = list(X.select_dtypes(include=np.number).columns)
+    categorical_cols = [column for column in X.columns if column not in numeric_cols]
+    data_summary = {
+        "class_counts": frame["label"].astype(str).value_counts().sort_index().to_dict(),
+        "missing_rate": X.isna().mean().sort_values(ascending=False).to_dict(),
+        "numeric_columns": numeric_cols,
+        "categorical_columns": categorical_cols,
+    }
+    print("data summary:", data_summary)
+    pre = ColumnTransformer(
+        [
+            ("num", Pipeline([("imputer", SimpleImputer(strategy="median"))]), numeric_cols),
+            (
+                "cat",
+                Pipeline(
+                    [
+                        ("imputer", SimpleImputer(strategy="most_frequent")),
+                        ("onehot", OneHotEncoder(handle_unknown="ignore")),
+                    ]
+                ),
+                categorical_cols,
+            ),
+        ]
+    )
+    baseline_pre = ColumnTransformer(
+        [
+            (
+                "num",
+                Pipeline(
+                    [
+                        ("imputer", SimpleImputer(strategy="median")),
+                        ("scaler", StandardScaler()),
+                    ]
+                ),
+                numeric_cols,
+            ),
+            (
+                "cat",
+                Pipeline(
+                    [
+                        ("imputer", SimpleImputer(strategy="most_frequent")),
+                        ("onehot", OneHotEncoder(handle_unknown="ignore")),
+                    ]
+                ),
+                categorical_cols,
+            ),
+        ]
+    )
+    baseline = Pipeline(
+        [
+            ("pre", baseline_pre),
+            ("clf", LogisticRegression(max_iter=3000, class_weight="balanced")),
+        ]
+    )
+    model = Pipeline(
+        [
+            ("pre", pre),
+            (
+                "clf",
+                XGBClassifier(
+                    n_estimators=180,
+                    max_depth=3,
+                    learning_rate=0.05,
+                    objective="multi:softprob",
+                    num_class=len(encoder.classes_),
+                    subsample=0.8,
+                    colsample_bytree=0.8,
+                    eval_metric="mlogloss",
+                    random_state=SEED,
+                    n_jobs=4,
+                    tree_method="hist",
+                ),
+            ),
+        ]
+    )
+    baseline.fit(X_train, y_train)  # 只用训练集拟合基线及其预处理规则
+    validation_baseline_pred = baseline.predict(X_val)  # 在验证集比较基线
+    validation_baseline_f1 = f1_score(y_val, validation_baseline_pred, average="macro")  # 记录验证集基线
+    baseline_pred = baseline.predict(X_test)  # 设置确定后查看测试集基线
+    baseline_f1 = f1_score(y_test, baseline_pred, average="macro")  # 记录测试集基线
+    model.fit(X_train, y_train)  # 只用训练集拟合 XGBoost
+    validation_prob = model.predict_proba(X_val)  # 取得验证集四分类概率
+    validation_pred = validation_prob.argmax(axis=1)  # 按最高概率得到验证集类别
+    validation_f1 = f1_score(y_val, validation_pred, average="macro")  # 用验证集选择模型设置
+    test_prob = model.predict_proba(X_test)  # 取得四个类别的测试概率
+    test_pred = test_prob.argmax(axis=1)
+    macro_f1 = f1_score(y_test, test_pred, average="macro")
+    accuracy = accuracy_score(y_test, test_pred)
+    report = classification_report(
+        y_test, test_pred, target_names=encoder.classes_, output_dict=True, zero_division=0
+    )
+    cm = confusion_matrix(y_test, test_pred)
+    confidence = test_prob.max(axis=1)
+    wrong = np.where(test_pred != y_test)[0]
+    high_confidence_wrong = wrong[np.argsort(confidence[wrong])[::-1]][:10]
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+    counts = frame["label"].value_counts().reindex(encoder.classes_)
+    axes[0].bar(counts.index, counts.values, color="#6ea0b8")
+    axes[0].set_title("Samples in each class")
+    axes[0].set_ylabel("Subjects")
+    missing = frame.drop(columns=["ID", "label"]).isna().mean().sort_values(ascending=False).head(10)
+    axes[1].barh(missing.index, missing.values, color="#d9a441")
+    axes[1].set_title("Highest missing proportions")
+    axes[1].set_xlabel("Proportion")
+    fig.tight_layout()
+    fig.savefig(output / "task4_data_summary.png", dpi=160)
+    plt.close(fig)
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+    axes[0].imshow(cm, cmap="Blues")
+    axes[0].set_xticks(range(len(encoder.classes_)), encoder.classes_)
+    axes[0].set_yticks(range(len(encoder.classes_)), encoder.classes_)
+    axes[0].set_xlabel("Predicted")
+    axes[0].set_ylabel("True")
+    axes[0].set_title(f"Confusion matrix | macro F1={macro_f1:.3f}")
+    for row in range(cm.shape[0]):
+        for col in range(cm.shape[1]):
+            axes[0].text(col, row, int(cm[row, col]), ha="center", va="center")
+    class_f1 = [report[name]["f1-score"] for name in encoder.classes_]
+    axes[1].bar(encoder.classes_, class_f1, color="#5c8c77")
+    axes[1].set_ylim(0, 1)
+    axes[1].set_title("F1 for each class")
+    axes[2].bar(["logistic baseline", "XGBoost"], [baseline_f1, macro_f1], color=["#b28a76", "#5c8c77"])
+    axes[2].set_ylim(0, 1)
+    axes[2].set_title("Macro F1 comparison")
+    fig.tight_layout()
+    fig.savefig(output / "task4_confusion.png", dpi=160)
+    plt.close(fig)
+
+    y_bin = label_binarize(y_test, classes=np.arange(len(encoder.classes_)))
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+    roc_values = {}
+    pr_values = {}
+    for idx, name in enumerate(encoder.classes_):
+        fpr, tpr, _ = roc_curve(y_bin[:, idx], test_prob[:, idx])
+        precision, recall, _ = precision_recall_curve(y_bin[:, idx], test_prob[:, idx])
+        axes[0].plot(fpr, tpr, label=name)
+        axes[1].plot(recall, precision, label=name)
+        roc_values[name] = float(np.trapezoid(tpr, fpr))
+        pr_values[name] = float(average_precision_score(y_bin[:, idx], test_prob[:, idx]))
+    axes[0].plot([0, 1], [0, 1], "--", color="#888")
+    axes[0].set_title("One-vs-rest ROC")
+    axes[1].set_title("One-vs-rest precision-recall")
+    for axis in axes:
+        axis.legend()
+        axis.set_xlim(0, 1)
+        axis.set_ylim(0, 1)
+    fig.tight_layout()
+    fig.savefig(output / "task4_roc_pr.png", dpi=160)
+    plt.close(fig)
+
+    importance = permutation_importance(  # 通过打乱单列观察性能变化
+        model, X_test, y_test, n_repeats=3, random_state=SEED, scoring="f1_macro", n_jobs=1
+    )
+    order = np.argsort(importance.importances_mean)[-12:]
+    fig, axis = plt.subplots(figsize=(8, 5))
+    axis.barh(np.asarray(X.columns)[order], importance.importances_mean[order], color="#537fa5")
+    axis.set_xlabel("Macro F1 decrease after permutation")
+    axis.set_title("Permutation importance")
+    fig.tight_layout()
+    fig.savefig(output / "task4_importance.png", dpi=160)
+    plt.close(fig)
+    save_json(
+        output / "task4_result.json",
+        {
+            "classes": encoder.classes_.tolist(),
+            "data_summary": data_summary,
+            "split_counts": {"train": len(X_train), "validation": len(X_val), "test": len(X_test)},
+            "accuracy": float(accuracy),
+            "baseline_macro_f1": float(baseline_f1),
+            "validation_baseline_macro_f1": float(validation_baseline_f1),
+            "validation_xgboost_macro_f1": float(validation_f1),
+            "macro_f1": float(macro_f1),
+            "classification_report": report,
+            "roc_auc_ovr": roc_values,
+            "average_precision_ovr": pr_values,
+            "high_confidence_errors": [
+                {
+                    "row_index": int(X_test.index[idx]),
+                    "true": str(encoder.inverse_transform([y_test[idx]])[0]),
+                    "predicted": str(encoder.inverse_transform([test_pred[idx]])[0]),
+                    "confidence": float(confidence[idx]),
+                }
+                for idx in high_confidence_wrong
+            ],
+            "seed": SEED,
+        },
+    )
+
+# 在 Kaggle 中自动找到课程数据并运行参考流程
+DATA_PATH = sorted(Path('/kaggle/input').rglob('Data.csv'))[0]  # 定位已挂载的课程数据
+OUT = Path('/kaggle/working')  # 保存图像和 JSON 结果
+run_project04(DATA_PATH, OUT)  # 运行完整参考流程</code></pre></section>
+<section class="card"><h2>本次参考结果</h2><p>结果用于理解数据、模型和评价指标之间的关系。数值会随环境、随机状态和库版本产生小幅变化，阅读时同时查看图像、错误类型和结果边界。</p><div class="results"><figure><img alt="项目 04 参考结果：task4_data_summary.png" loading="lazy" src="../assets/results/project-05/task4_data_summary.png"/><figcaption>task4_data_summary.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_confusion.png" loading="lazy" src="../assets/results/project-05/task4_confusion.png"/><figcaption>task4_confusion.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_roc_pr.png" loading="lazy" src="../assets/results/project-05/task4_roc_pr.png"/><figcaption>task4_roc_pr.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_importance.png" loading="lazy" src="../assets/results/project-05/task4_importance.png"/><figcaption>task4_importance.png</figcaption></figure></div></section>
+<section class="card"><h2>结果文件</h2><p>完成参考版运行后，按下列文件核对输入、输出和指标。</p><ul><li><code>task4_data_summary.png</code></li><li><code>task4_confusion.png</code></li><li><code>task4_roc_pr.png</code></li><li><code>task4_importance.png</code></li><li><code>task4_result.json</code></li></ul></section>
+</main></body></html>
