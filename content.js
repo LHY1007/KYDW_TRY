@@ -89,11 +89,15 @@ window.KYDW = {
       { date: "2026.8", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 的论文 <em>TriSCoV-Net: Cross-Scale Verified Virtual Immunomarker Proxy Generation from Diffusion Magnetic Resonance Imaging</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2026）</em></strong> 研讨会 <strong><em>CMMCA 2026</em> Oral 级（排名第 2）</strong>。" },
       { date: "2026.7", html: "团队本科生 <strong>李知彤（25级）</strong>、<strong>刘子铭（25级）</strong>、<strong>姜逸轩（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
       { date: "2026.7", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
+      { date: "2026.6", html: "团队本科生 <strong>苗正洋（23级）</strong>、<strong>万和欣（24级）</strong>、<strong>伍东辰（23级）</strong>、<strong>汤昊天（23级）</strong> 的论文 <em>Multi-Source Feature Fusion with Self-Supervised Contrastive Learning for AF Detection under Label Scarcity</em> 发表于 <strong>中科院一区期刊 <em>AI Engineering</em></strong>。" },
       { date: "2026.5", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>崔涵禹（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 发表于 <strong>中科院一区 TOP 学术期刊 <em>Expert Systems With Applications</em></strong>。" },
       { date: "2026.5", html: "团队本科生 <strong>苗正洋（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 发表于 <strong>CCF B 类国际顶级声学、语音与信号处理会议 IEEE International Conference on Acoustics, Speech, and Signal Processing（ICASSP 2026）</strong>。" },
+      { date: "2026.5", html: "团队本科生 <strong>孙宇嘉</strong> 的论文 <em>TASC-SwinMT: Task-Adaptive Synergistic Cross-Task Swin Multi-Task Framework for CT and MRI Image Interpolation and Segmentation</em> 发表于 <strong>SCI 收录、JCR Q2 期刊 <em>TOMOGRAPHY</em></strong>。" },
       { date: "2026.4", html: "团队 MPhil <strong>唐浩（东北大学生物医学工程21级本科）</strong> 的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 发表于 <strong>CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em></strong>。" },
       { date: "2026.2", html: "团队本科生 <strong>吴熙东（22级）</strong>、<strong>汤昊天（23级）</strong>、<strong>伍东辰（23级）</strong> 的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <strong>中科院一区期刊 <em>Biomedical Signal Processing and Control</em></strong>。" },
       { date: "2026.1", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>吴熙东（22级）</strong>、<strong>崔涵禹（23级）</strong> 的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <strong>中科院一区期刊 <em>Computer Methods and Programs in Biomedicine</em></strong>。" },
+      { date: "2025.11", html: "团队本科生 <strong>孙宇嘉</strong> 获 <strong>第十七届全国大学生数学竞赛（非数学 A 类）一等奖</strong>。" },
+      { date: "2025.9", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>唐欣蕊</strong>、<strong>吴运嘉</strong>、<strong>苗正洋（23级）</strong> 的论文 <em>Hierarchical Brain Structure Modeling for Predicting Genotype of Glioma</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong>。" },
       { date: "2025.9", html: "团队 PhD <strong>阙宁锋（东北大学生物医学工程21级本科）</strong> 的论文 <em>Adaptive spatial transcriptomics interpolation via cross-modal cross-slice modeling</em> 以 early accepted 形式发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong>。" },
       { date: "2025.9", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>OG-SAM: Enhancing Multi-Organ Segmentation with Organogenesis-Based Adaptive Modeling</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong>，并作 <strong>Oral</strong> 报告。" },
       { date: "2025.9", html: "团队本科生 <strong>蒋政（23级）</strong>、<strong>刘雪鹏（23级）</strong>、<strong>朱品安（24级）</strong> 的论文 <em>HaDM-ST: Histology-Assisted Differential Modeling for Spatial Transcriptomics Generation</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong>。" },
@@ -712,8 +716,8 @@ for (const [id, results] of Object.entries(_kydwProjectResults)) {
   const project = window.KYDW.projects.find((item) => item.id === id);
   if (project) project.referenceResults = results;
 }
-// 进阶 00—05 已更新并同步到云端归档；导航开放状态仍由 site.js 统一控制。
-for (let publicNo = 0; publicNo <= 5; publicNo += 1) {
+// 项目 00 仅保留体验版；进阶项目从 01 开始，导航开放状态仍由 site.js 统一控制。
+for (let publicNo = 1; publicNo <= 5; publicNo += 1) {
   const siteNo = String(publicNo + 1).padStart(2, "0");
   const publicId = String(publicNo).padStart(2, "0");
   const project = window.KYDW.projects.find((item) => item.id === `project-${siteNo}`);
