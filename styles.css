@@ -568,7 +568,7 @@ details.fold[open] summary::after { content: "−"; }
 
 @media (min-width: 901px) {
   .home-intro-grid {
-    grid-template-columns: minmax(0, .98fr) minmax(0, 1.02fr);
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
     aspect-ratio: 1 / 1;
     align-items: stretch;
   }
