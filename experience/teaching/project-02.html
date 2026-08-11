@@ -194,7 +194,7 @@ details p,details ul{padding:0 15px 12px;margin:0}
 </header>
 <div class="layout">
 <aside class="sidebar">
-<div class="side-title">二维分割主路径</div><a href="#field-overview">先认识这个方向</a>
+<div class="side-title">二维分割主路径</div>
 <a href="#start">入口：四个视觉阶段</a>
 <a href="#foundation">MRI 图像基础</a>
 <a href="#pairing">1. 配对切片</a>
@@ -211,7 +211,7 @@ details p,details ul{padding:0 15px 12px;margin:0}
 <div class="reader">
 <section class="hero" id="start">
 <div class="eyebrow">体验教学项目 01 · 教学页</div>
-<h1>从二维 MRI 切片到可检查的分割结果</h1>
+<h1>二维 MRI 切片分割结果</h1><p data-kydw-integrated-context="1">MRI 通过磁场和射频信号形成不同组织对比，分割则为每个像素或体素标出肿瘤、器官等区域。常见数据同时包含患者编号、序列图像和同坐标的 mask，结果可以支持体积测量和随访研究，但仍需要结合多序列、病史和专业复核。</p>
 <p>这页把 MRI 分割拆成一条可运行、可观察的二维路径：读取同一张灰度切片与对应的二值 mask，按患者划分数据，训练 TinyUNet，再用 Dice 和 IoU 检查预测区域。</p>
 <div class="hero-tags">
 <span>二维单通道</span><span>配对切片</span><span>二值 mask</span><span>TinyUNet</span><span>Dice / IoU</span>
@@ -220,9 +220,9 @@ details p,details ul{padding:0 15px 12px;margin:0}
 <span>MRI 切片</span><b>→</b><span>配对 mask</span><b>→</b><span>患者级划分</span><b>→</b><span>TinyUNet</span><b>→</b><span>Dice / IoU</span>
 </div>
 <p class="orientation-note">先确认输入图像和区域答案属于同一位置，再看数据怎样进入网络，最后用图像和指标一起检查分割结果。</p>
-</section><section class="lesson concept-overview" data-kydw-concept-overview="1" id="field-overview"><h2>先认识这个方向</h2><p class="lecture-open">先认识 MRI 怎样形成组织对比、分割结果表示什么，再学习如何读取图像、mask 和患者级数据。</p><h3>核心概念</h3><p><b>MRI：</b>磁共振成像利用磁场、射频脉冲和组织中的氢核信号形成图像，不同序列突出不同的组织对比。</p><p><b>图像分割：</b>图像分割为每个像素或体素分配类别，用轮廓表示肿瘤、器官或其他目标区域。</p><h3>常见数据与基本对象</h3><p>分割数据通常包含患者编号、MRI 序列、二维切片或三维体积，以及与图像同坐标的 mask。患者编号决定怎样避免同一患者跨训练集和测试集。</p><h3>这个方向常见的应用</h3><p>MRI 分割可用于肿瘤体积测量、治疗计划、随访变化比较、手术或放疗研究，以及建立影像组学和预后分析的区域基础。</p><h3>常见研究问题</h3><p>常见研究问题包括不同序列是否互补、边界误差集中在哪里、阈值怎样选择，以及模型面对不同设备和患者时是否稳定。</p><h3>阅读结果时需要记住的边界</h3><p>分割结果是对图像区域的计算估计，不等于完整诊断；临床使用还需要多序列、病史、检查质量和专业人员复核。</p></section>
+</section>
 <section class="lesson" id="foundation">
-<h2>MRI 图像基础：先认识信号、序列和空间</h2>
+<h2>MRI 信号、序列与空间</h2>
 <div class="lead">进入分割实践前，先把 MRI 图像当作一种测量结果来读：组织在磁场和射频作用下产生信号，序列参数决定哪些差异更突出，连续切片共同记录一个三维对象。后面的图像配对、mask 和模型输入都建立在这三点上。</div>
 <h3>MRI 灰度来自组织与采集条件的共同作用</h3>
 <p>人体水和脂肪中含有大量氢原子。患者进入主磁场后，氢核的集体磁化形成可测量的方向；射频脉冲改变磁化状态，脉冲停止后，纵向磁化逐渐恢复，横向磁化逐渐衰减，接收线圈记录这一过程中的信号。T1 描述纵向恢复的时间尺度，T2 描述横向信号衰减的时间尺度。</p>
@@ -261,11 +261,11 @@ details p,details ul{padding:0 15px 12px;margin:0}
 <p>当前体验实践从一张二维、单通道灰度切片开始，使用 <code>[1,H,W]</code> 的输入形状降低第一次操作的复杂度。理解三维体数据后，就能看出这个设置对应的是一条清晰的二维练习路径；多序列、三维输入和多区域标签会在后续内容中逐步展开。</p>
 <h3>分割标签把影像区域写成可计算的 mask</h3>
 <p>分类给整张图一个答案，分割给每个像素或体素一个空间答案。二分类 mask 中，背景记为 0，目标区域记为 1；多区域任务还可以分别标记水肿、肿瘤核心和强化肿瘤。标签的医学定义决定了模型究竟要画出哪一部分，图像与 mask 必须保持相同的宽高、方向和坐标关系。</p>
-<p>脑肿瘤内部可能同时存在强化区、非强化肿瘤、坏死、囊变和水肿；增强表现与对比剂进入组织有关，水肿又常在 T2 或 FLAIR 中更明显。体验版把这些复杂情况压缩为一张灰度切片和一个二值前景区域，先练习“输入图像—对应标签—预测区域”的基本关系，再进入网络和指标。</p>
+<p>脑肿瘤内部可能同时存在强化区、非强化肿瘤、坏死、囊变和水肿；增强表现与对比剂进入组织有关，水肿又常在 T2 或 FLAIR 中更明显。本次练习把这些复杂情况压缩为一张灰度切片和一个二值前景区域，先练习“输入图像—对应标签—预测区域”的基本关系，再进入网络和指标。</p>
 <div class="note"><strong>把基础认识带入实践：</strong>打开下一节时，先确认 image 与 mask 是同一空间位置的两份记录；看到 mask 时，记住它表达的是本次任务规定的区域；看到模型输出时，再观察它是否保留了原图中的位置和边界。</div>
 </section>
 <section class="lesson" id="visual">
-<h2>先看清一个样本如何经过四个视觉阶段</h2>
+<h2>四个视觉阶段</h2>
 <div class="lead">MRI 切片是一张由灰度值组成的二维矩阵；同一位置的二值 mask 是区域答案。叠加图检查图像与答案是否配对，模型预测再与真实区域放在一起比较。下面的图帮助把 Notebook 中的数组和图像动作对应起来。</div>
 <div class="visual-pipeline">
 <figure class="visual-card">
@@ -465,7 +465,7 @@ assert not (set(groups[tr_idx]) &amp; set(groups[va_idx]) |
 <tr><td>输出</td><td><code>logits [B,1,128,128]</code></td><td>每个像素一个分数，经 sigmoid 得到概率。</td></tr>
 </tbody>
 </table>
-<div class="threshold-note"><strong>从 logit 到 mask：</strong>设输出 logit 为 <code>z</code>，先计算 <code>p = 1 / (1 + e<sup>−z</sup>)</code>；再用阈值 <code>t</code> 判断 <code>p ≥ t</code> 的位置，把它写成 1，其余位置写成 0。训练阶段用 <code>BCEWithLogitsLoss</code> 与 soft Dice 组合，概率图可以直接参与反向传播；结果评价再用阈值化 Dice 与 IoU。</div>
+<div class="threshold-note"><strong>logit 与 mask 的转换：</strong>设输出 logit 为 <code>z</code>，先计算 <code>p = 1 / (1 + e<sup>−z</sup>)</code>；再用阈值 <code>t</code> 判断 <code>p ≥ t</code> 的位置，把它写成 1，其余位置写成 0。训练阶段用 <code>BCEWithLogitsLoss</code> 与 soft Dice 组合，概率图可以直接参与反向传播；结果评价再用阈值化 Dice 与 IoU。</div>
 </div>
 <h3>DoubleConv 是网络的基本积木</h3>
 <p>每个卷积块连续执行两次 <code>3×3 Conv → GroupNorm → ReLU</code>。卷积层学习局部模式，归一化稳定数值，ReLU 提供非线性表达；编码器和解码器只改变通道数与空间分辨率。示例代码使用 GroupNorm、AdamW 和带正类权重的 BCE 与 soft Dice 组合。</p>
@@ -613,7 +613,7 @@ opt.step()</pre>
 </tbody>
 </table>
 <details>
-<summary>结果阅读提示</summary>
+<summary>结果解读</summary>
 <p>结合数据配对、患者级划分、最佳阈值、测试 Dice/IoU、空 mask 统计和一个预测偏差，说明图像结果与数字指标如何相互支持。</p>
 </details>
 </section>

@@ -18,6 +18,8 @@
   const findProject = (id) => data.projects.find((project) => project.id === id);
   const findModule = (id) => data.modules.find((module) => module.id === id);
   const findTrainingChapter = (id) => (data.training?.chapters || []).find((chapter) => chapter.id === id);
+  const findResearchChapter = (id) => (data.researchSkills?.chapters || []).find((chapter) => chapter.id === id || chapter.slug === id);
+  const findRecruitment = (id) => (data.recruitment?.records || []).find((record) => record.id === id);
   const findWeek = (id) => data.experience.weeks.find((week) => String(week.id) === String(id));
   const LOCKED_WEEK_IDS = new Set(["3", "4", "5"]);
   const ANSWER_LABEL = "实践项目参考答案";
@@ -220,6 +222,37 @@
     return `<section class="section latest-news-section" id="latest-news"><article class="card latest-news-card"><div class="card-kicker">${esc(latest.title || "最新消息")}</div><p class="latest-news-lead">${esc(latest.lead || "")}</p><div class="latest-news-projects">${projectLinks}</div></article></section>`;
   }
 
+  function recruitmentStatusClass(status) {
+    if (status === "开放中") return "is-open";
+    if (status === "即将开始") return "is-upcoming";
+    if (status === "进行中") return "is-active";
+    if (status === "计划中") return "is-planned";
+    return "is-closed";
+  }
+
+  function recruitmentStatus(record) {
+    return `<span class="recruitment-status ${recruitmentStatusClass(record.status)}">${esc(record.status)}</span>`;
+  }
+
+  function recruitmentCard(record, compact = false) {
+    const href = `recruitment/detail.html?id=${encodeURIComponent(record.id)}`;
+    return `<article class="card recruitment-card${compact ? " is-compact" : ""}" data-recruitment-type="${esc(record.type)}" data-recruitment-status="${esc(record.status)}">
+      <div class="recruitment-card-head"><span class="card-kicker">${esc(record.type)}</span>${recruitmentStatus(record)}</div>
+      <h3>${esc(record.title)}</h3>
+      <p>${esc(record.field)}</p>
+      <div class="recruitment-card-meta"><span>公告：${esc(record.published)}</span><span>时间：${esc(record.period)}</span></div>
+      <div class="card-footer"><a class="outline-btn" href="${rootHref(href)}">查看详情</a></div>
+    </article>`;
+  }
+
+  function homeRecruitmentMarkup() {
+    const records = (data.recruitment?.records || []).filter((record) => ["开放中", "即将开始"].includes(record.status));
+    if (!records.length) return "";
+    return `<section class="section home-recruitment-section" id="current-recruitment">${sectionHead("当前招募", "正在开放或即将开始的培训、项目和合作信息。", "recruitment/index.html", "查看人员招募合集")}
+      <div class="recruitment-grid home-recruitment-grid">${records.map((record) => recruitmentCard(record, true)).join("")}</div>
+    </section>`;
+  }
+
   function moduleMeta(module) {
     const bits = [];
     if (module.audience) bits.push(`受众：${module.audience}`);
@@ -291,15 +324,15 @@
             { title: `项目 ${project.no} · ${project.title} · ${ANSWER_LABEL}`, href: materialViewerHref(project, "answer") }
           ]
           : [
-            { title: `项目 ${project.no} · ${project.title} · 体验版教学项目`, href: project.experienceTeaching },
-            { title: `项目 ${project.no} · ${project.title} · 体验版实践项目`, href: materialViewerHref(project, "practice") },
-            { title: `项目 ${project.no} · ${project.title} · 体验版${ANSWER_LABEL}`, href: materialViewerHref(project, "answer") }
+            { title: `项目 ${project.no} · ${project.title} · 教学项目`, href: project.experienceTeaching },
+            { title: `项目 ${project.no} · ${project.title} · 实践项目`, href: materialViewerHref(project, "practice") },
+            { title: `项目 ${project.no} · ${project.title} · ${ANSWER_LABEL}`, href: materialViewerHref(project, "answer") }
           ];
         if (project.advanced && isAdvancedOpen()) {
           materials.push(
-            { title: `项目 ${project.no} · ${project.title} · 进阶版教学项目`, href: project.advanced },
-            { title: `项目 ${project.no} · ${project.title} · 进阶版实践项目`, href: materialViewerHref(project, "advanced-practice") },
-            { title: `项目 ${project.no} · ${project.title} · 进阶版${ANSWER_LABEL}`, href: materialViewerHref(project, "advanced-answer") }
+            { title: `项目 ${project.no} · ${project.title} · 深入教学项目`, href: project.advanced },
+            { title: `项目 ${project.no} · ${project.title} · 深入实践项目`, href: materialViewerHref(project, "advanced-practice") },
+            { title: `项目 ${project.no} · ${project.title} · 深入学习参考答案`, href: materialViewerHref(project, "advanced-answer") }
           );
         }
         return materials.map((item) => ({ ...base, ...item }));
@@ -370,6 +403,101 @@
     return `<article class="card training-chapter-card"><div class="chapter-number">${String(index + 1).padStart(2, "0")}</div><h3>${esc(chapter.title)}</h3><p>${esc(chapter.lead)}</p><div class="card-footer"><a class="outline-btn" href="${rootHref(`programs/training/${chapter.id}.html`)}">进入章节</a></div></article>`;
   }
 
+  function researchChapterHref(chapter) {
+    return `programs/research-skills/${chapter.slug}.html`;
+  }
+
+  function researchChapterCard(chapter) {
+    return `<article class="card research-chapter-card"><div class="chapter-number">${esc(chapter.no)}</div><h3>${esc(chapter.title)}</h3><p>${esc(chapter.summary)}</p><div class="card-footer"><a class="outline-btn" href="${rootHref(researchChapterHref(chapter))}">进入章节</a></div></article>`;
+  }
+
+  function researchPathMarkup(path) {
+    const links = (path.chapterIds || []).map(findResearchChapter).filter(Boolean).map((chapter) => `<a href="${rootHref(researchChapterHref(chapter))}">${esc(chapter.no)} · ${esc(chapter.title)}</a>`).join("");
+    return `<article class="card research-path-card"><h3>${esc(path.title)}</h3><p>${esc(path.text)}</p><div class="research-path-links">${links}</div></article>`;
+  }
+
+  function researchSkillsOverview() {
+    const skills = data.researchSkills;
+    layout(`${hero({ eyebrow: "项目与活动 / 科研技能", title: skills.title, lead: skills.lead, actions: [{ label: "查看章节", href: "#research-skill-chapters", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
+      <section class="section"><div class="prose">${paragraphs(skills.paragraphs)}</div></section>
+      <section class="section">${sectionHead("学习路径", "根据当前任务选择需要的内容。", null)}<div class="research-path-grid">${skills.paths.map(researchPathMarkup).join("")}</div></section>
+      <section class="section">${sectionHead("按问题查找", "遇到具体问题时，可以直接进入对应章节。", null)}<div class="research-problem-links">${skills.problems.map((item) => { const chapter = findResearchChapter(item.chapterId); return chapter ? `<a href="${rootHref(researchChapterHref(chapter))}">${esc(item.label)}</a>` : ""; }).join("")}</div></section>
+      <section class="section" id="research-skill-chapters">${sectionHead("项目章节", "电脑、数据、代码、文献、实验和学术常识分别整理。", null)}<div class="research-chapter-grid">${skills.chapters.map(researchChapterCard).join("")}</div></section>
+      <section class="section"><div class="callout"><b>任务说明</b><p>章节中的短任务用于自学和检查理解，不需要提交。</p></div></section>`);
+  }
+
+  function researchSectionMarkup(section, index) {
+    const paragraphsHtml = (section.paragraphs || []).map((item) => `<p>${esc(item)}</p>`).join("");
+    const bullets = section.bullets?.length ? `<ul>${section.bullets.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : "";
+    const tools = section.tools?.length ? `<div class="research-tool-grid">${section.tools.map((tool) => `<article class="research-tool-card"><h3>${esc(tool.name)}</h3><p>${esc(tool.text)}</p></article>`).join("")}</div>` : "";
+    const code = section.code ? `<pre class="research-code"><code>${esc(section.code)}</code></pre>` : "";
+    const note = section.note ? `<div class="research-note"><p>${esc(section.note)}</p></div>` : "";
+    const task = section.task ? `<div class="research-task"><b>自学任务</b><p>${esc(section.task)}</p></div>` : "";
+    return `<section class="research-content-section" id="section-${index + 1}"><div class="chapter-index">知识点 ${String(index + 1).padStart(2, "0")}</div><h2>${esc(section.title)}</h2>${paragraphsHtml}${bullets}${tools}${code}${note}${task}</section>`;
+  }
+
+  function researchSkillChapterPage() {
+    const chapter = findResearchChapter(body.dataset.researchChapter);
+    if (!chapter) return layout(hero({ eyebrow: "科研技能入门与查缺补漏", title: "章节不存在", lead: "请返回项目主页选择章节。", actions: [{ label: "返回项目主页", href: "programs/research-skills.html", primary: true }] }));
+    const toc = chapter.sections.map((section, index) => `<a href="#section-${index + 1}">${esc(section.title)}</a>`).join("");
+    const previous = data.researchSkills.chapters[Number(chapter.no) - 2];
+    const next = data.researchSkills.chapters[Number(chapter.no)];
+    layout(`${hero({ eyebrow: `科研技能入门与查缺补漏 / ${chapter.no}`, title: chapter.title, lead: chapter.summary, actions: [{ label: "返回项目主页", href: "programs/research-skills.html", primary: true }, { label: "查看全部章节", href: "programs/research-skills.html#research-skill-chapters" }] })}
+      <section class="section research-reader-layout"><aside class="research-reader-toc"><b>本页目录</b>${toc}</aside><details class="research-reader-mobile-toc"><summary>本页目录</summary><nav>${toc}</nav></details><article class="research-reader-body"><div class="research-chapter-intro">${paragraphs(chapter.intro)}</div>${chapter.sections.map(researchSectionMarkup).join("")}<div class="research-self-check"><b>自学说明</b><p>这些任务用于自学和检查理解，不需要提交。</p></div><nav class="research-chapter-nav">${previous ? `<a href="${rootHref(researchChapterHref(previous))}">上一章 · ${esc(previous.title)}</a>` : `<span></span>`}${next ? `<a href="${rootHref(researchChapterHref(next))}">下一章 · ${esc(next.title)}</a>` : `<a href="${rootHref("programs/research-skills.html")}">返回项目主页</a>`}</nav></article></section>`);
+  }
+
+  function recruitmentMetaGrid(record) {
+    const items = [
+      ["公告日期", record.published], ["项目时间", record.period], ["项目类型", record.type], ["当前状态", record.status],
+      ["合作单位", (record.institutions || []).join("、")], ["研究方向", record.field], ["开展方式", record.mode], ["时间投入", record.commitment],
+      ["招募人数", record.capacity], ["适合人群", record.audience]
+    ];
+    return `<dl class="recruitment-meta-grid">${items.map(([term, value]) => `<div><dt>${esc(term)}</dt><dd>${esc(value || "未单独说明")}</dd></div>`).join("")}</dl>`;
+  }
+
+  function recruitmentListSection(title, items) {
+    if (!items?.length) return "";
+    return `<section class="recruitment-detail-section"><h2>${esc(title)}</h2><ul>${items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></section>`;
+  }
+
+  function bindRecruitmentFilters() {
+    const buttons = [...document.querySelectorAll("[data-recruitment-filter]")];
+    const cards = [...document.querySelectorAll(".recruitment-directory-card")];
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      const value = button.dataset.recruitmentFilter;
+      buttons.forEach((item) => item.classList.toggle("is-active", item === button));
+      cards.forEach((card) => {
+        const visible = value === "全部" || card.dataset.recruitmentType === value || card.dataset.recruitmentStatus === value;
+        card.hidden = !visible;
+      });
+    }));
+  }
+
+  function recruitmentPage() {
+    const recruitment = data.recruitment;
+    const records = [...(recruitment.records || [])].sort((a, b) => String(b.published).localeCompare(String(a.published)));
+    const current = records.filter((record) => ["开放中", "即将开始", "进行中"].includes(record.status));
+    const types = [...new Set(records.map((record) => record.type))];
+    const filters = ["全部", "开放中", "即将开始", "进行中", "已结束", "计划中", ...types];
+    layout(`${hero({ eyebrow: "KYDW / 人员招募", title: recruitment.title, lead: recruitment.lead, actions: [{ label: "查看当前项目", href: "#current-recruitment", primary: true }, { label: "返回主页", href: "index.html" }] })}
+      <section class="section" id="current-recruitment">${sectionHead("当前项目", "正在开放、即将开始或持续发布的项目。", null)}${current.length ? `<div class="recruitment-grid">${current.map((record) => recruitmentCard(record)).join("")}</div>` : `<div class="callout"><p>当前没有公开招募项目，历史记录可以在下方查看。</p></div>`}</section>
+      <section class="section">${sectionHead("招募记录", "按状态或项目类型查看历史公告。", null)}<div class="recruitment-filters" role="group" aria-label="招募筛选">${filters.map((filter, index) => `<button type="button" class="recruitment-filter${index === 0 ? " is-active" : ""}" data-recruitment-filter="${esc(filter)}">${esc(filter)}</button>`).join("")}</div><div class="recruitment-timeline">${records.map((record) => `<article class="card recruitment-directory-card" data-recruitment-type="${esc(record.type)}" data-recruitment-status="${esc(record.status)}"><time>${esc(record.published)}</time><div><div class="recruitment-card-head"><span class="card-kicker">${esc(record.type)}</span>${recruitmentStatus(record)}</div><h3>${esc(record.title)}</h3><p>${esc(record.field)}</p><p class="muted">${esc(record.period)} · ${esc(record.mode)}</p></div><a class="outline-btn" href="${rootHref(`recruitment/detail.html?id=${encodeURIComponent(record.id)}`)}">查看详情</a></article>`).join("")}</div></section>
+      <section class="section"><div class="callout"><b>当前联系入口</b><p>公众号：${esc(recruitment.contact.publicAccount)}；负责人微信：${esc(recruitment.contact.wechat)}；邮箱：${esc(recruitment.contact.email)}。</p></div></section>`);
+    bindRecruitmentFilters();
+  }
+
+  function recruitmentDetailPage() {
+    const id = new URLSearchParams(window.location.search).get("id");
+    const record = findRecruitment(id);
+    if (!record) return layout(hero({ eyebrow: "人员招募", title: "招募记录不存在", lead: "请返回人员招募合集选择项目。", actions: [{ label: "返回人员招募", href: "recruitment/index.html", primary: true }] }));
+    const updates = (record.updates || []).map((item) => `<li><time>${esc(item.date)}</time><p>${esc(item.text)}</p></li>`).join("");
+    const actions = [{ label: "返回人员招募", href: "recruitment/index.html", primary: true }];
+    if (record.href) actions.push({ label: "进入相关项目", href: record.href });
+    layout(`${hero({ eyebrow: `人员招募 / ${record.type}`, title: record.title, lead: record.field, actions, note: record.status })}
+      <section class="section"><div class="recruitment-detail-head">${recruitmentStatus(record)}<span>原公告：${esc(record.source)}</span></div>${recruitmentMetaGrid(record)}</section>
+      <section class="section recruitment-detail-content">${recruitmentListSection("基础要求", record.requirements)}${recruitmentListSection("工作内容", record.work)}${recruitmentListSection("训练与成果", record.outcomes)}<section class="recruitment-detail-section"><h2>报名与联系</h2><p>${esc(record.apply)}</p><p>当前统一联系入口：公众号“${esc(data.recruitment.contact.publicAccount)}”、负责人微信 ${esc(data.recruitment.contact.wechat)}、邮箱 ${esc(data.recruitment.contact.email)}。</p></section>${updates ? `<section class="recruitment-detail-section"><h2>时间线</h2><ol class="recruitment-update-list">${updates}</ol></section>` : ""}</section>`);
+  }
+
   function weekCard(week) {
     const projects = week.projects.map(findProject).filter(isListedProject);
     if (!projects.length) return "";
@@ -380,9 +508,9 @@
 
   function projectMode(project, advanced = false) {
     if (advanced && !project.single) {
-      return `<article class="project-mode advanced-mode is-locked" aria-disabled="true"><div class="mode-kicker">进阶项目</div><p>进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。</p><span class="material-status">尚未开放</span></article>`;
+      return `<article class="project-mode advanced-mode is-locked" aria-disabled="true"><div class="mode-kicker">后续学习</div><p>后续深入学习材料暂未开放，开放后提供相应的教学项目、实践项目和实践项目参考答案。</p><span class="material-status">尚未开放</span></article>`;
     }
-    const title = project.single ? "项目" : "体验项目";
+    const title = project.single ? "项目" : "当前项目";
     return `<article class="project-mode"><div class="mode-kicker">${title}</div><p>${esc(project.experience || project.short)}</p></article>`;
   }
 
@@ -410,6 +538,7 @@
       actions: [{ label: "团队介绍", href: "team/index.html", primary: true }, { label: "项目与活动", href: "programs/index.html" }, { label: "资源中心", href: "resources/index.html" }]
     })}
     ${latestNewsMarkup()}
+    ${homeRecruitmentMarkup()}
     <section class="section" id="team-overview">${sectionHead("团队概况", null, "team/index.html", "完整团队介绍")}
       <div class="home-intro-grid"><div class="home-overview-left"><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup(t.news || [])}</article></div></div>
     </section>
@@ -463,6 +592,7 @@
     const module = findModule(body.dataset.module);
     if (!module) return layout(hero({ eyebrow: "项目与活动", title: "活动不存在", lead: "请返回项目与活动目录选择内容。", actions: [{ label: "返回项目与活动", href: "programs/index.html", primary: true }] }));
     if (module.id === "training") return trainingOverview();
+    if (module.id === "research-skills") return researchSkillsOverview();
     const quickLinks = moduleQuickLinks(module, false, "授课目录");
     layout(`${hero({ eyebrow: module.id === "sdu" ? "项目与活动 / 历史项目" : "项目与活动", title: module.title, lead: module.subtitle, actions: [{ label: "返回项目与活动", href: "programs/index.html", primary: true }, { label: "进入资源中心", href: "resources/index.html" }] })}
     <section class="section"><div class="prose"><p>${esc(module.text)}</p>${moduleMeta(module)}</div>${quickLinks}</section>
@@ -482,7 +612,8 @@
     const t = data.training;
     const trainingModule = findModule("training");
     layout(`${hero({ eyebrow: "项目与活动 / 科研入门培训", title: t.title, lead: t.lead, actions: [{ label: "查看培训章节", href: "#training-chapters", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
-    <section class="section"><div class="prose">${paragraphs(t.paragraphs)}${moduleMeta(trainingModule)}</div>${moduleQuickLinks(trainingModule, false, "项目预览")}</section>
+    <section class="section"><div class="prose">${paragraphs(t.paragraphs)}${moduleMeta(trainingModule)}</div>${moduleQuickLinks(trainingModule, false, "项目入口")}</section>
+    <section class="section"><div class="card feature-callout"><h2>科研技能入门与查缺补漏</h2><p>电脑、数据、Kaggle、Python、人工智能、文献、科研工具、实验评价和学术常识集中在长期参考项目中。</p><div class="card-footer"><a class="solid-btn" href="${rootHref("programs/research-skills.html")}">进入科研技能项目 →</a></div></div></section>
     <section class="section" id="training-chapters">${sectionHead("培训章节", "从基础知识开始，逐步进入人工智能、科研实践与实战项目。", "programs/training/path.html", "查看培训路径")}<div class="training-chapter-grid">${t.chapters.map(trainingChapterCard).join("")}</div></section>
     <section class="section"><div class="card feature-callout"><h2>${esc(t.plan.title)}</h2><p>${esc(t.plan.lead)}</p><div class="card-footer"><a class="solid-btn" href="${rootHref("programs/training/path.html")}">查看培训路径 →</a></div></div></section>`);
   }
@@ -491,8 +622,10 @@
     const chapter = findTrainingChapter(body.dataset.trainingChapter);
     if (!chapter) return layout(hero({ eyebrow: "科研入门培训", title: "培训章节不存在", lead: "请返回科研入门培训主页选择章节。", actions: [{ label: "返回培训主页", href: "programs/training.html", primary: true }] }));
     if (chapter.locked) return layout(hero({ eyebrow: "科研入门培训", title: chapter.title, lead: "该章节尚未开放。", actions: [{ label: "返回培训主页", href: "programs/training.html", primary: true }] }));
+    const references = (chapter.researchChapterIds || []).map(findResearchChapter).filter(Boolean);
     layout(`${hero({ eyebrow: `科研入门培训 / ${chapter.title}`, title: chapter.title, lead: chapter.lead, actions: [{ label: "返回培训主页", href: "programs/training.html", primary: true }, { label: "查看培训路径", href: "programs/training/path.html" }] })}
-    <section class="section">${sectionHead("本章内容", null, null)}<div class="training-topic-grid">${chapter.topics.map((topic) => `<article class="card training-topic-card"><h3>${esc(topic.title)}</h3><p>${esc(topic.text)}</p></article>`).join("")}</div></section>`);
+    <section class="section">${sectionHead("本章任务", null, null)}<div class="training-topic-grid">${chapter.topics.map((topic) => `<article class="card training-topic-card"><h3>${esc(topic.title)}</h3><p>${esc(topic.text)}</p></article>`).join("")}</div></section>
+    ${references.length ? `<section class="section">${sectionHead("对应科研技能章节", "需要补充基础知识时进入对应长期参考。", null)}<div class="research-problem-links">${references.map((item) => `<a href="${rootHref(researchChapterHref(item))}">${esc(item.no)} · ${esc(item.title)}</a>`).join("")}</div></section>` : ""}`);
   }
 
   function trainingPlanPage() {
@@ -644,7 +777,7 @@
     if (cell.cell_type === "markdown") return /(?:^|\n)\s*(?:\*\*)?你的回答\s*(?:：|:)/m.test(source);
     const exceptionPass = /except\b[^:]*:\s*\n\s*pass\b/.test(source);
     const placeholderPass = /^\s*pass\s*(?:#.*)?$/m.test(source) && !exceptionPass;
-    return /TODO|待完成/.test(source) || placeholderPass || /^(?!\s*best_state\s*=)\s*(?:[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*=\s*None\b/m.test(source) || /self\.[A-Za-z_]\w*\s*=\s*None\b/.test(source);
+    return /TODO|待完成/.test(source) || placeholderPass || /^(?!\s*(?:best_state|best|DATA_PATH)\s*=)\s*(?:[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*=\s*None\b/m.test(source) || /self\.[A-Za-z_]\w*\s*=\s*None\b/.test(source);
   }
 
   function practiceTaskGuideMarkup(project) {
@@ -758,24 +891,33 @@
     try {
       const response = await fetch(rootHref(source));
       if (!response.ok) throw new Error("HTTP " + response.status);
-      if (kind === "answer" || kind === "advanced-answer") {
-        const documentText = await response.text();
-        const parsed = new DOMParser().parseFromString(documentText, "text/html");
-        parsed.querySelectorAll("script, style, link").forEach((node) => node.remove());
-        cleanRenderedText(parsed);
-        const baseUrl = new URL(rootHref(source), location.href);
-        parsed.querySelectorAll("[src], [href]").forEach((node) => {
-          for (const attribute of ["src", "href"]) {
-            const value = node.getAttribute(attribute);
-            if (value && !/^(?:https?:|data:|#|mailto:)/i.test(value)) node.setAttribute(attribute, new URL(value, baseUrl).href);
+        if (kind === "answer" || kind === "advanced-answer") {
+          // 参考 Notebook 与实践 Notebook 使用同一套单元格渲染；旧版 HTML
+          // 仍保留兼容入口，便于历史材料链接继续打开。
+          if (/\.ipynb(?:$|\?)/i.test(source)) {
+            const notebook = await response.json();
+            const referenceResults = referenceResultsFromAssets(project);
+            container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容保留实践 Notebook 的单元格顺序，只把待填写位置替换为一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p>参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></div>" + notebookCellsMarkup(notebook, referenceResults) + referenceResultsMarkup(referenceResults);
+            bindReferenceResultButtons();
+          } else {
+            const documentText = await response.text();
+            const parsed = new DOMParser().parseFromString(documentText, "text/html");
+            parsed.querySelectorAll("script, style, link").forEach((node) => node.remove());
+            cleanRenderedText(parsed);
+            const baseUrl = new URL(rootHref(source), location.href);
+            parsed.querySelectorAll("[src], [href]").forEach((node) => {
+              for (const attribute of ["src", "href"]) {
+                const value = node.getAttribute(attribute);
+                if (value && !/^(?:https?:|data:|#|mailto:)/i.test(value)) node.setAttribute(attribute, new URL(value, baseUrl).href);
+              }
+            });
+            parsed.querySelectorAll(".p03-actions, .actions").forEach((node) => node.remove());
+            // 参考答案页使用 <main><section> 结构；同时兼容旧版 .main 和 p03 容器。
+            // 部分本地静态页面会在解析时把 section 包在额外容器中，因此保留 main 内部的回退选择。
+            let sections = [...parsed.querySelectorAll(".page-intro, .page, main > .hero, main > .section, main > section, .main > .hero, .main > .section, .p03-hero, .p03-section")];
+            if (!sections.length) sections = [...parsed.querySelectorAll("main section, .main section, .p03-section")];
+            container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、说明和结果。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
           }
-        });
-        parsed.querySelectorAll(".p03-actions, .actions").forEach((node) => node.remove());
-        // 参考答案页使用 <main><section> 结构；同时兼容旧版 .main 和 p03 容器。
-        // 部分本地静态页面会在解析时把 section 包在额外容器中，因此保留 main 内部的回退选择。
-        let sections = [...parsed.querySelectorAll(".page-intro, .page, main > .hero, main > .section, main > section, .main > .hero, .main > .section, .p03-hero, .p03-section")];
-        if (!sections.length) sections = [...parsed.querySelectorAll("main section, .main section, .p03-section")];
-        container.innerHTML = "<div class=\"notebook-answer-note\"><b>" + esc(ANSWER_LABEL) + "</b><p>以下内容按实践步骤展示参考代码、说明和结果。</p><p>参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p></div>" + sections.map((section) => "<article class=\"notebook-answer-section\">" + section.innerHTML + "</article>").join("");
       } else {
         const notebook = await response.json();
         let referenceResults = referenceResultsFromAssets(project);
@@ -806,12 +948,12 @@
     const advancedPractice = project.advancedPractice ? materialViewerHref(project, "advanced-practice") : null;
     const advancedAnswer = project.advancedAnswer ? materialViewerHref(project, "advanced-answer") : null;
     const tier = (title, text, teachingHref, practiceLink, answerLink, options = {}) => {
-      const tierText = options.locked ? "进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。" : text;
+      const tierText = options.locked ? "后续深入学习材料暂未开放，开放后提供相应的教学项目、实践项目和实践项目参考答案。" : text;
       return `<article class="project-tier${options.locked ? " is-locked" : ""}"><div class="mode-kicker">${esc(title)}</div>${tierText ? `<p class="project-tier-text">${esc(tierText)}</p>` : ""}<div class="material-grid">${materialCard("教学项目", "教学", "", teachingHref, { locked: options.locked })}${materialCard("实践项目", "实践", "", practiceLink, { locked: options.locked })}${materialCard(ANSWER_LABEL, "答案", "", answerLink, { locked: options.locked })}</div></article>`;
     };
     const projectContent = project.single
       ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
-      : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen() })}</div>`;
+      : `<div class="project-tier-grid">${tier("教学与实践", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("深入学习", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen() })}</div>`;
     layout(`${hero({ eyebrow: `科研体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section"><div class="project-page-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
     <section class="section">${sectionHead("项目材料", null, null)}${projectContent}</section>`);
@@ -846,7 +988,7 @@
     layout(`${hero({ eyebrow: "资源中心 / 专业解读 / 历年去向", title: overview.title, lead: overview.lead, actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}${yearCards}<section class="section"><div class="callout"><p>${esc(overview.note)}</p></div></section>`);
   }
 
-  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
+  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, "research-skill-chapter": researchSkillChapterPage, recruitment: recruitmentPage, "recruitment-detail": recruitmentDetailPage, resources, experience, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
   if (renderers[page]) renderers[page]();
   else home();
 })();

@@ -3,41 +3,103 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://lhy1007.github.io/KYDW_TRY/favicon.svg" />
+  <meta name="description" content="KYDW 科研基础环境准备：Kaggle、Notebook、账户、运行设置与本地环境选择。" />
+  <link rel="icon" href="../favicon.svg" />
   <title>科研基础环境准备｜KYDW</title>
   <style>
-    :root { color-scheme: light; --ink: #182433; --muted: #657284; --line: #dfe6ee; --paper: #fff; --wash: #f5f8fb; --accent: #176b87; }
+    :root { color-scheme: light; --ink: #182433; --muted: #657284; --line: #dfe6ee; --paper: #fff; --wash: #f5f8fb; --accent: #176b87; --soft: #eaf4f7; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--wash); color: var(--ink); font: 16px/1.85 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; }
-    .doc-shell { max-width: 980px; margin: 0 auto; padding: 32px 22px 56px; }
-    .doc-top, .doc-body { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 14px 34px rgba(31, 52, 73, .06); }
-    .doc-top { padding: 28px 32px 24px; margin-bottom: 18px; }
-    .doc-top p { margin: 0; color: var(--muted); }
-    .doc-top h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 44px); line-height: 1.25; letter-spacing: -.02em; }
-    .doc-body { padding: 28px 32px 42px; }
-    h2 { margin: 34px 0 12px; font-size: 25px; line-height: 1.35; }
-    p { margin: 12px 0; }
-    ul, ol { padding-left: 1.5em; }
-    li { margin: 7px 0; }
+    body { margin: 0; background: var(--wash); color: var(--ink); font: 16px/1.8 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; }
     a { color: var(--accent); }
-    figure { margin: 20px 0 28px; text-align: center; }
-    img { display: block; max-width: 100%; height: auto; margin: 0 auto; border: 1px solid var(--line); border-radius: 10px; }
-    figcaption { margin-top: 7px; color: var(--muted); font-size: 13px; }
-    .image-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; margin: 20px 0 28px; }
-    .doc-notice { margin: 18px 0 24px; padding: 16px 18px; border: 1px solid #e7c66a; border-left: 5px solid #c58a18; border-radius: 12px; background: #fff8df; color: #59440d; }
-    .doc-notice strong, .doc-notice span, .doc-notice small { display: block; }
-    .doc-notice strong { font-size: 18px; }
-    .doc-notice small { margin-top: 4px; color: #7b6a3c; }
-    .image-column figure { margin: 0; }
-    .doc-footer { padding-top: 20px; margin-top: 26px; border-top: 1px solid var(--line); }
-    .back-link { display: inline-block; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; background: #fff; }
-    @media (max-width: 680px) { .doc-shell { padding: 16px 12px 36px; } .doc-top, .doc-body { padding: 22px 18px 30px; border-radius: 14px; } .image-grid { grid-template-columns: 1fr; } }
+    .doc-shell { max-width: 1040px; margin: 0 auto; padding: 28px 20px 56px; }
+    .doc-top, .doc-body { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 14px 34px rgba(31, 52, 73, .06); }
+    .doc-top { padding: 30px 34px; margin-bottom: 18px; }
+    .doc-top h1 { margin: 0 0 8px; font-size: clamp(30px, 4vw, 46px); line-height: 1.25; }
+    .doc-top p { max-width: 760px; margin: 0; color: var(--muted); }
+    .doc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .doc-actions a { padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; }
+    .doc-actions a:first-child { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .doc-body { padding: 30px 34px 42px; }
+    h2 { margin: 34px 0 12px; font-size: 25px; line-height: 1.35; }
+    h3 { margin: 20px 0 8px; }
+    p { margin: 11px 0; }
+    ul, ol { padding-left: 1.45em; }
+    li { margin: 7px 0; }
+    code { padding: 2px 5px; border-radius: 5px; background: #eef2f5; font-family: Consolas, monospace; }
+    .route-grid, .problem-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; margin: 20px 0; }
+    .route-card, .problem-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .route-card h2, .problem-card h3 { margin-top: 0; }
+    .route-card p, .problem-card p { color: var(--muted); }
+    .notice { margin: 20px 0; padding: 16px 18px; border-left: 5px solid var(--accent); border-radius: 12px; background: var(--soft); }
+    .steps { counter-reset: env-step; display: grid; gap: 14px; padding: 0; list-style: none; }
+    .steps > li { position: relative; padding: 16px 18px 16px 60px; border: 1px solid var(--line); border-radius: 14px; }
+    .steps > li::before { counter-increment: env-step; content: counter(env-step); position: absolute; left: 17px; top: 16px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; }
+    .task { margin-top: 28px; padding: 18px; border: 1px solid #e3c878; border-radius: 14px; background: #fff8e6; }
+    .doc-footer { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 22px; margin-top: 28px; border-top: 1px solid var(--line); }
+    .doc-footer a { padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; }
+    @media (max-width: 680px) { .doc-shell { padding: 14px 10px 34px; } .doc-top, .doc-body { padding: 22px 18px 30px; border-radius: 14px; } .route-grid, .problem-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <div class="doc-shell">
-    <header class="doc-top"><h1>科研基础环境准备</h1></header>
-    <main class="doc-body"><p>开始科研之前，我们首先要做好实践的前期工作，也就是准备好一个基本的工作环境。我们考虑到本教程受众包含纯0基础的同学，因此工作环境的构建会尽可能简单，也会更偏向短期可用，如果你之后想要继续做一些有趣的项目，那可以在这个基础上做更完备的环境准备。</p><p>具体来说，我们要通过kaggle平台学会一些基础的编程，项目文件，数据管理等任务基础实践知识，并确保大家的设备可以正常的访问和使用该平台，这听起来很简单，但kaggle本身是一个面向海外用户的平台，所以现在我们就像刚来到中国的外国人想要使用wechat一样需要很多的麻烦操作，但不要着急，我们现在开始一步一步来：</p><h2>第 1 节 整体流程介绍</h2><p>Kaggle平台的网址是：<a href="https://www.kaggle.com/" target="_blank" rel="noreferrer">https://www.kaggle.com/</a></p><figure><img src="assets/environment/image-01.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>如果你拥有vpn，那么可以直接跳转到第 4 节“注册 Kaggle”</p><p>如果你都没有，那么可以跟着接下来的流程进行</p><h2>第 2 节 获取海外网络访问权限</h2><p>Kaggle本身并没有被中国大陆禁止访问，但和多数海外网站一样，其没有在中国大陆设立服务器，所以我们想要访问会遇到各种各样的网络状况，并且在注册时会遇到谷歌人机验证，这也就导致我们必须要在电脑上开启海外网络访问的权限。一般情况下，我们可以通过海外服务器的网络代理或者VPN软件进行，为了简化流程，这里我们选定一个有免费公益性质的VPN软件进行示范。</p><p>网址：宝可梦免费加速</p><ol><li>点击进入并注册新账户</li></ol><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-02.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-03.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><ol><li>通过兑换码获取0元套餐</li></ol><div class="doc-notice"><strong>本月兑换码：飞天螳螂</strong><span>兑换码每月更新，每个月都会有新的免费会员。</span><small>图片中的“小火马”属于此前月份的示例，当前使用飞天螳螂。</small></div><figure><img src="assets/environment/image-04.png" alt="科研基础环境准备配图" loading="lazy" /></figure><figure><img src="assets/environment/image-05.png" alt="科研基础环境准备配图" loading="lazy" /></figure><figure><img src="assets/environment/image-06.png" alt="科研基础环境准备配图" loading="lazy" /></figure><figure><img src="assets/environment/image-07.png" alt="科研基础环境准备配图" loading="lazy" /></figure><ol><li>返回主页，根据电脑/平板/手机情况选择所需要的客户端</li></ol><figure><img src="assets/environment/image-08.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>如果你使用的是鸿蒙/Linux等系统，可以在文档中心查看相应的下载方式(优先使用专属客户端)</p><figure><img src="assets/environment/image-09.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>下载安装包后自行安装到本地路径即可，安装过程不进行演示了</p><ol><li>打开软件，选择节点</li></ol><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-10.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-11.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>节点信息很多，这里做简介，省时间可以跳过：</p><ul><li>直连 (1x - 2x) 最基础的线路。你的数据从本地直接通过网络到达海外服务器，没有经过额外的线路优化</li><li>V6 (1x) 通过 IPv6 地址连接的节点。在某些只有 IPv4 或 IPv4 线路拥堵的环境下，IPv6 线路可能更通畅。如果你的网络有 IPv6，可以试试，倍率也是 1</li><li>三网优化 (2x) 对这个节点到中国大陆的电信、联通、移动三大运营商的路由，都做了优化。比普通直连稳定，能有效避开拥堵线路。倍率 2，性价比不错，适合对稳定性有要求但不想消耗太高倍率的用户。</li><li>专线 (3x - 6x)你的流量会先进入服务商在国内的“中转服务器”，再通过优化的专有网络（非公网）转发到落地国家。能很大程度上缓解晚高峰的丢包和卡顿，延迟更低，体验有明显提升</li><li>IPLC / 游戏专线 (10x) IPLC 指国际私有专线，数据不走公共互联网，通过物理/虚拟专线直接在国内和境外之间传输。延迟最低、最稳定、几乎不受晚高峰影响，能有效应对网络时断时续的情况</li><li>家宽 (2x，6x) IP 地址是当地电信运营商分配给家庭用户的，不是云服务厂商的机房 IP。适合注册或登录要求高或对IP类型敏感的服务</li></ul><p>如果你在中国大陆，那么日常使用选择 V6，三网优化，专线(3x版)，家宽(2x版) 基本可以保证日常的高速网络访问，对于需要验证银行卡，IP地址(如Claude等严格限制属地的网站)的用户可以考虑家宽(6x版) 或IPLC / 游戏专线 (10x)。其中1x-10x是流量消耗的倍率，一般我们会综合选择一个1x-3x，延迟100ms以内且非直连的节点</p><p>选择好后，回到界面开启vpn (如电脑关机，则需要手动关闭开关，否则下次开机后除了qq和微信，大部分网站和联网应用都将无法使用，需要再手动打开vpn软件关闭后再打开，但这个状态下打开软件需要很久的时间)</p><figure><img src="assets/environment/image-12.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>看到这个状态就是完成了</p><h2>第 3 节 注册谷歌账户</h2><p>科研学习离不开谷歌账户，虽然并非所有平台都强制使用谷歌账户登录，但考虑通用性，便捷性和绝大多数浏览器适配情况，还是建议使用谷歌账户来避免以未知麻烦。但这个过程在近年以来变得极为繁琐，如果没有海外手机号的话需要花费大量时间进行，并且不属于必选项，这里不做流程演示，感兴趣的同学可以自行上网搜索教程。</p><p>不使用谷歌账户的同学可以使用其他邮箱注册Kaggle，但不要使用学校邮箱(国内许多高校邮箱系统接收验证码有阻碍，且毕业后会收回，导致绑定账户无法登录)。</p><h2>第 4 节 注册 Kaggle</h2><p>开启VPN后，在<a href="https://www.kaggle.com/" target="_blank" rel="noreferrer">https://www.kaggle.com/</a> 界面选择注册，确定刷出了人机验证，否则填写完也无法进入</p><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-13.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-14.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>注册完看到这个界面就是成功了</p><figure><img src="assets/environment/image-15.png" alt="科研基础环境准备配图" loading="lazy" /></figure><h2>第 5 节 创建一个代码项目</h2><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-16.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-17.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>在这里选择显卡，否则只能用CPU运行。这里可能需要绑定一个手机号(绑定时全程开启vpn，否则会被卡验证，可以开启全局模式和tun模式)，绑定后才会看到选项：</p><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-18.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-19.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>新账户有30小时每周的显卡使用限制，常使用的话会升级到40小时</p><p>到这里，最基础的环境就完成了</p><p>如果你学习过一些Python或者R的编程语言，可以尝试运行些程序熟悉下操作。如果没有学习过也没关系，在下一节中我们会尝试带同学们了解基本的Python编程语法并做一些简单实践项目。在此之前，你可以自己先熟悉一下这个平台的各项操作和内容。</p><footer class="doc-footer"><a class="back-link" href="https://lhy1007.github.io/KYDW_TRY/resources/index.html">返回资源中心</a></footer></main>
+    <header class="doc-top">
+      <h1>科研基础环境准备</h1>
+      <p>网站课程与代码实践优先使用 Kaggle。本地 Python 环境适合准备长期编程、处理私有数据、复现复杂项目或连接服务器的学习者。</p>
+      <div class="doc-actions">
+        <a href="https://www.kaggle.com/" target="_blank" rel="noreferrer">打开 Kaggle</a>
+        <a href="../programs/research-skills/03-kaggle-notebook.html">Kaggle 与 Notebook</a>
+        <a href="../programs/research-skills/04-local-python.html">本地 Python 环境</a>
+      </div>
+    </header>
+    <main class="doc-body">
+      <section class="route-grid" aria-label="环境选择">
+        <article class="route-card">
+          <h2>完成网站课程和实践</h2>
+          <p>使用 Kaggle 复制公开 Notebook，按单元格运行和修改。平台已经准备常用 Python 库，并可按账户当前设置选择可用计算资源。</p>
+        </article>
+        <article class="route-card">
+          <h2>准备长期科研</h2>
+          <p>继续配置 Python 3.13、独立虚拟环境、VS Code、Jupyter、Git 和远程连接。具体项目已有环境文件时，使用项目指定版本。</p>
+        </article>
+      </section>
+
+      <h2>访问与账户</h2>
+      <p>先在浏览器中打开 Kaggle，确认主页、登录页和 Notebook 页面能够正常加载。网络访问出现问题时，检查当前网络、浏览器扩展和学校提供的网络服务，再重新打开页面。</p>
+      <p>Kaggle 可以使用平台当前提供的注册方式创建账户。使用个人长期邮箱更便于持续维护；学校邮箱可能在毕业后停止使用。注册页面出现验证码或身份验证时，按照页面当前提示完成。</p>
+      <div class="notice"><b>账户准备完成的判断</b><p>能够登录个人主页、打开公开 Notebook，并看到复制或编辑入口即可继续。</p></div>
+
+      <h2>复制与运行 Notebook</h2>
+      <ol class="steps">
+        <li><b>从项目页进入公开 Notebook。</b><br />核对标题、项目编号和任务内容。</li>
+        <li><b>复制到个人账户。</b><br />使用页面当前提供的复制、编辑或保存副本入口，后续修改都在个人副本中完成。</li>
+        <li><b>从顶部依次运行。</b><br />先运行环境、导入和数据单元格，再进入模型与评价。出现变量不存在时，检查上游单元格是否已经执行。</li>
+        <li><b>完成留出的任务。</b><br />题目版会保留待填写代码或文字。完成后运行当前单元格并观察输出。</li>
+        <li><b>保存版本。</b><br />完成一次完整运行后保存版本，保留代码、图像和指标。</li>
+      </ol>
+
+      <h2>计算资源</h2>
+      <p>普通文件检查、表格分析和轻量模型可以使用 CPU。深度学习项目需要加速时，在 Notebook 设置中选择账户当前可用的 GPU 或其他加速器。平台提供的型号、额度和验证要求可能调整，因此本页不写固定型号和使用时长。</p>
+      <p>显存不足时可以减小 batch size、图像尺寸或模型规模，也可以重启会话释放显存。训练前先输出设备名称和关键数据 shape。</p>
+
+      <h2>常见问题</h2>
+      <section class="problem-grid">
+        <article class="problem-card"><h3>找不到文件</h3><p>检查数据是否已经添加、文件路径是否正确、大小写和目录层级是否一致。</p></article>
+        <article class="problem-card"><h3>变量不存在</h3><p>运行依赖它的上游单元格；状态混乱时重启会话并从头运行。</p></article>
+        <article class="problem-card"><h3>库无法导入</h3><p>确认库名、当前环境和安装单元格。项目已经准备环境时不要随意替换大型依赖。</p></article>
+        <article class="problem-card"><h3>运行速度很慢</h3><p>确认代码是否使用预期设备，减少数据规模完成调试，再恢复正式设置。</p></article>
+      </section>
+
+      <h2>本地环境入口</h2>
+      <p>准备长期学习时，进入“本地 Python 环境”章节，配置 Python 3.13、虚拟环境、VS Code 和 Jupyter。深度学习、医学影像或空间组学项目可能需要专门的 CUDA 与依赖版本，先阅读仓库的 README 和环境文件。</p>
+
+      <div class="task"><b>自学任务</b><p>打开一个公开 Notebook，复制到个人账户，从头运行全部单元格，记录一次数据 shape、一次模型输出和一项评价指标。这项任务用于自学和检查理解，不需要提交。</p></div>
+
+      <footer class="doc-footer">
+        <a href="../resources/index.html">返回资源中心</a>
+        <a href="../programs/research-skills.html">科研技能入门与查缺补漏</a>
+        <a href="../experience/index.html">进入科研体验项目</a>
+      </footer>
+    </main>
   </div>
 </body>
 </html>

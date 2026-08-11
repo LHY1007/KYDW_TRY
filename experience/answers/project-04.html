@@ -1,349 +1,131 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/>
-<title>实践项目参考答案 03：脑膜瘤 H&amp;E 形态代理分类｜KYDW</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践项目参考答案 03：脑膜瘤数字病理分析｜KYDW</title>
 <style>
 body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
-main{max-width:980px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.25rem;margin-top:0}
-.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
-.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
-pre{overflow:auto;background:#14232b;color:#e9f2f4;border-radius:12px;padding:16px;line-height:1.55;white-space:pre-wrap}code{font-family:Consolas,"SFMono-Regular",monospace}
-ul{padding-left:1.4em}a{color:#176c75}.results{display:grid;grid-template-columns:1fr;gap:20px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px;word-break:break-all}
-</style><style id="kydw-site-return-style">
-/* KYDW site return control: kept separate from the source reader styles. */
-.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
-.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
-.topbar .site-return{color:inherit;background:transparent}
-.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
-.source-asset-missing{display:none!important}
-@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
-@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
-</style></head><body><a class="site-return" href="../project-04.html">返回项目详情</a><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 03：脑膜瘤 H&amp;E 形态代理分类</h1><p>使用固定的脑膜瘤 H&amp;E 图块数据，先观察真实组织图块和坐标，再用不包含 proxy_score 的形态特征随机森林完成原图级评价和染色变化比较。</p>
-<p class="note">参考答案展示一种完整写法，代码中的路径和参数可以根据运行环境调整。打开公开 Kaggle Notebook 后，先复制到自己的账户，再运行并观察每一步输出。</p></section>
-<section class="card"><h2>任务对应关系</h2><p>题目 Notebook 的任务顺序与下面的完整脚本一致：数据读取和核对、基线或输入可视化、模型结构、训练与验证、测试评价和结果文件。</p><p>先阅读各任务的输入与输出，再查看完整代码。结果图与指标文件来自同一份课程数据。</p></section>
-<section class="card"><h2>完整参考脚本</h2><p>以下代码可以从头运行。它会自动查找 Kaggle 已挂载的数据集，并把图像与 JSON 写入 <code>/kaggle/working</code>。</p><pre><code>from __future__ import annotations
+main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.3rem}
+.hero,.notebook-cell,.reference-results{background:#fff;border:1px solid #d9e2e6;border-radius:16px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+.notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
+</style></head><body><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 03：脑膜瘤数字病理分析</h1><p>以下内容保留实践 Notebook 的单元格顺序，原来需要补全的位置已经填入一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p class="note">参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></section>
+<article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 03：脑膜瘤 H&amp;E 形态代理分类</h1>
+<p>本 Notebook 使用课程准备的真实脑膜瘤 H&amp;E 图块数据，完成数据核对、形态特征分类、原图级测试和染色变化比较。三档标签由核密度代理分数生成，只用于教学分类，不对应临床病理分级。</p>
+<p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按单元格顺序运行。下载 Notebook 到电脑运行是补充方式。</p>
+<p>代码单元格保留行末注释，说明每一步的输入、处理和输出；参考实现与实践顺序对应。</p>
+<h2>任务总览</h2>
+<ol>
+<li>找到固定的课程 NPZ，并核对图块 shape、标签、原图编号、坐标和数据划分。</li>
+<li>查看 RGB 统计与 H&amp;E 形态特征，理解标签来源并建立简单比较。</li>
+<li>补全随机森林分类器；输入只使用图像测得的形态特征，不使用 <code>proxy_score</code>。</li>
+<li>用验证集选择树数量，在独立测试集输出混淆矩阵、宏平均 F1 和错误图块。</li>
+<li>观察颜色变化后模型的表现，并说明代理标签的结果边界。</li>
+</ol>
+<h2>需要保存的结果</h2>
+<p><code>task3_data_visualization.png</code>、<code>task3_training_curve.png</code>、<code>task3_prediction_visualization.png</code>、<code>task3_pytorch_result.json</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>02</span></div><pre class="notebook-code"><code>from pathlib import Path  # 导入当前步骤需要的工具
+import json, random  # 导入当前步骤需要的工具
+import numpy as np  # 导入当前步骤需要的工具
+import matplotlib.pyplot as plt  # 导入当前步骤需要的工具
+from sklearn.ensemble import RandomForestClassifier  # 导入随机森林分类器
+from sklearn.linear_model import LogisticRegression  # 导入颜色统计基线
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix  # 导入评价指标
 
-import argparse
-
-import json
-
-import random
-
-from pathlib import Path
-
-import matplotlib.pyplot as plt
-
-import numpy as np
-
-import pandas as pd
-
-import torch
-
-import torch.nn as nn
-
-import torch.nn.functional as F
-
-from matplotlib import colors as mcolors
-
-from matplotlib.patches import Rectangle
-
-from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
-
-from sklearn.compose import ColumnTransformer
-
-from sklearn.impute import SimpleImputer
-
-from sklearn.inspection import permutation_importance
-
-from sklearn.linear_model import LogisticRegression
-
-from sklearn.metrics import (
-    accuracy_score,
-    average_precision_score,
-    classification_report,
-    confusion_matrix,
-    f1_score,
-    precision_recall_curve,
-    roc_curve,
+SEED = 42  # 固定随机状态以便复现实验
+random.seed(SEED); np.random.seed(SEED)  # 固定随机状态以便复现实验
+INPUT = Path(&#x27;/kaggle/input&#x27;)  # 保存当前步骤使用的中间结果
+OUT = Path(&#x27;/kaggle/working&#x27;); OUT.mkdir(exist_ok=True)  # 保存输出文件目录
+DATA_PATH = None  # 可在本地填写课程 NPZ 路径；Kaggle 自动查找固定文件名
+candidates = sorted(INPUT.rglob(&#x27;meningioma_public_morphology_tiles.npz&#x27;))  # 读取本任务需要的数据
+if DATA_PATH is None and candidates:  # 根据当前条件选择处理分支
+    DATA_PATH = candidates[0]  # 保存当前步骤使用的中间结果
+assert DATA_PATH is not None, &#x27;请挂载包含 meningioma_public_morphology_tiles.npz 的课程数据集。&#x27;  # 执行当前步骤并保留结果
+data = np.load(DATA_PATH, allow_pickle=True)  # 读取本任务需要的数据
+required = {&#x27;images&#x27;,&#x27;labels&#x27;,&#x27;proxy_scores&#x27;,&#x27;morphology_features&#x27;,&#x27;feature_names&#x27;,&#x27;source_image_ids&#x27;,&#x27;coordinates_yx&#x27;,&#x27;split&#x27;}  # 核对输入字段
+assert required.issubset(data.files), required - set(data.files)  # 执行当前步骤并保留结果
+images = data[&#x27;images&#x27;]; labels = data[&#x27;labels&#x27;].astype(np.int64)  # 读取图像与标签
+proxy_scores = data[&#x27;proxy_scores&#x27;].astype(np.float32)  # 读取连续代理分数，仅用于说明标签来源
+morphology_features = data[&#x27;morphology_features&#x27;].astype(np.float32)  # 读取图像测得的形态统计
+feature_names = data[&#x27;feature_names&#x27;].astype(str)  # 读取形态特征名称
+source_image_ids = data[&#x27;source_image_ids&#x27;].astype(str)  # 读取图块对应的原图编号
+coordinates_yx = data[&#x27;coordinates_yx&#x27;].astype(np.int32)  # 读取图块在原图中的左上角坐标
+split = data[&#x27;split&#x27;].astype(str)  # 读取预先划分的数据集合
+print(&#x27;data:&#x27;, images.shape, &#x27;splits:&#x27;, {k: int((split == k).sum()) for k in np.unique(split)})  # 显示核对结果
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>03</span></div><div class="notebook-markdown"><h2>任务 1：数据核对结果</h2>
+<p>输入包含图像、标签、连续代理分数、形态统计、原图编号、坐标和 <code>split</code>。请输出每个 split 的图块数、原图编号、坐标范围和三类标签数量。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>04</span></div><pre class="notebook-code"><code>summary = {}
+for kind in (&#x27;train&#x27;, &#x27;validation&#x27;, &#x27;test&#x27;):
+    mask = split == kind
+    summary[kind] = {
+        &#x27;patches&#x27;: int(mask.sum()),
+        &#x27;sources&#x27;: sorted(np.unique(source_image_ids[mask]).tolist()),
+        &#x27;coordinate_range_yx&#x27;: [coordinates_yx[mask].min(axis=0).tolist(), coordinates_yx[mask].max(axis=0).tolist()],
+        &#x27;class_counts&#x27;: np.bincount(labels[mask], minlength=3).tolist(),
+    }
+print(summary)
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>05</span></div><div class="notebook-markdown"><h2>任务 2：查看图像统计与形态特征</h2>
+<p><code>morphology_features</code> 的第一列 <code>proxy_score</code> 只用于说明标签生成规则，不能作为模型输入；其余五列由 H&amp;E 图像测得，可以用于观察核相关信号、深色比例和染色统计。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>06</span></div><pre class="notebook-code"><code>usable_features = morphology_features[:, 1:]  # 排除由标签规则得到的 proxy_score
+usable_names = feature_names[1:]
+train_idx = np.where(split == &#x27;train&#x27;)[0]
+test_idx = np.where(split == &#x27;test&#x27;)[0]
+rgb = images.astype(np.float32) / 255.0
+color_features = np.c_[rgb.mean((1, 2)), rgb.std((1, 2))]
+feature_summary = {
+    &#x27;names&#x27;: usable_names.tolist(),
+    &#x27;train_mean&#x27;: usable_features[train_idx].mean(axis=0).round(4).tolist(),
+    &#x27;train_std&#x27;: usable_features[train_idx].std(axis=0).round(4).tolist(),
+}
+baseline = LogisticRegression(max_iter=1200, class_weight=&#x27;balanced&#x27;)
+baseline.fit(color_features[train_idx], labels[train_idx])
+baseline_f1 = f1_score(labels[test_idx], baseline.predict(color_features[test_idx]), average=&#x27;macro&#x27;)
+feature_summary[&#x27;color_baseline_macro_f1&#x27;] = float(baseline_f1)
+print(feature_summary)
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><h2>任务 3：形态特征随机森林</h2>
+<p>训练数据来自不同原图。模型输入为五个图像测得的形态特征，输出三个代理标签；<code>proxy_score</code> 已明确排除，避免把标签生成规则直接喂给模型。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>08</span></div><pre class="notebook-code"><code>morphology = morphology_features[:, 1:]  # 只使用图像测得的形态特征
+model = RandomForestClassifier(
+    n_estimators=400, max_features=.8, min_samples_leaf=1,
+    class_weight=&#x27;balanced&#x27;, random_state=SEED, n_jobs=4,
 )
-
-from sklearn.model_selection import train_test_split
-
-from sklearn.pipeline import Pipeline
-
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler, label_binarize
-
-from torch.utils.data import DataLoader, Dataset
-
-from xgboost import XGBClassifier, XGBRegressor
-
-SEED = 42
-
-random.seed(SEED)
-
-np.random.seed(SEED)
-
-torch.manual_seed(SEED)
-
-torch.set_num_threads(min(4, max(1, torch.get_num_threads())))
-
-def save_json(path: Path, value: dict):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
-
-def _representative_meningioma_picks(labels, source_ids, coordinates, class_index, count=4):
-    """Pick central tiles from several source images for readable H&amp;E panels."""
-    ids = np.where(labels == class_index)[0]
-    sources = np.unique(source_ids[ids])
-    chosen_sources = sources[np.linspace(0, len(sources) - 1, count, dtype=int)]
-    picks = []
-    target = np.array([640, 896], dtype=np.int32)
-    for source in chosen_sources:
-        candidates = ids[source_ids[ids] == source]
-        picks.append(int(candidates[np.argmin(np.abs(coordinates[candidates] - target).sum(axis=1))]))
-    return picks
-
-def _save_meningioma_visuals(images, labels, source_ids, coordinates, class_names, proxy_scores, output):
-    """Save real H&amp;E panels and a coordinate-faithful tile/stride figure."""
-    picks = []
-    for class_index in range(len(class_names)):
-        picks.extend(_representative_meningioma_picks(labels, source_ids, coordinates, class_index))
-
-    fig, axes = plt.subplots(3, 4, figsize=(12, 9))
-    short_names = ["lower proxy", "intermediate proxy", "higher proxy"]
-    for axis, idx in zip(axes.ravel(), picks):
-        axis.imshow(images[idx])
-        axis.set_title(f"{short_names[labels[idx]]}\\nsource {source_ids[idx]}", fontsize=9)
-        axis.axis("off")
-    fig.suptitle("Real meningioma H&amp;E tiles from the course dataset", fontsize=15)
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
-    fig.savefig(output / "task3_data_visualization.png", dpi=170)
-    plt.close(fig)
-
-    # The first teaching section uses a wider panel with the same real tiles.
-    fig, axes = plt.subplots(3, 4, figsize=(13, 9))
-    for axis, idx in zip(axes.ravel(), picks):
-        axis.imshow(images[idx])
-        axis.set_title(f"H&amp;E tile · source {source_ids[idx]}", fontsize=9)
-        axis.axis("off")
-    fig.suptitle("Real H&amp;E fields in the meningioma teaching dataset", fontsize=16)
-    fig.text(0.5, 0.015, "Rows are grouped by the three nuclear-density proxy labels used in this exercise.", ha="center", fontsize=10)
-    fig.tight_layout(rect=(0, 0.03, 1, 0.96))
-    fig.savefig(output / "task3_real_he_overview.png", dpi=170)
-    plt.close(fig)
-
-    source = np.unique(source_ids)[0]
-    source_idx = np.where(source_ids == source)[0]
-    max_y = int(coordinates[source_idx, 0].max() + images.shape[1])
-    max_x = int(coordinates[source_idx, 1].max() + images.shape[2])
-    canvas = np.full((max_y, max_x, 3), 247, dtype=np.uint8)
-    for idx in source_idx:
-        y, x = coordinates[idx]
-        canvas[y:y + images.shape[1], x:x + images.shape[2]] = images[idx]
-
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6), gridspec_kw={"width_ratios": [1.25, 1]})
-    axes[0].imshow(canvas)
-    axes[0].set_title(f"Source image {source}: sampled tile coordinates", fontsize=12)
-    axes[0].set_xlabel("x coordinate (pixels)")
-    axes[0].set_ylabel("y coordinate (pixels)")
-    # Highlight two neighboring real tiles at their recorded coordinates.
-    center_idx = source_idx[np.argmin(np.abs(coordinates[source_idx] - np.array([640, 768])).sum(axis=1))]
-    y0, x0 = coordinates[center_idx]
-    neighbor_candidates = source_idx[coordinates[source_idx, 0] == y0]
-    neighbor_candidates = neighbor_candidates[coordinates[neighbor_candidates, 1] &gt; x0]
-    neighbor_idx = neighbor_candidates[np.argmin(coordinates[neighbor_candidates, 1])] if len(neighbor_candidates) else center_idx
-    y1, x1 = coordinates[neighbor_idx]
-    axes[0].add_patch(Rectangle((x0, y0), images.shape[2], images.shape[1], fill=False, edgecolor="#d43d51", linewidth=2.5))
-    axes[0].add_patch(Rectangle((x1, y1), images.shape[2], images.shape[1], fill=False, edgecolor="#1c77a8", linewidth=2.5))
-    axes[0].annotate("128 px tile", xy=(x0 + images.shape[2] / 2, y0), xytext=(x0 + 20, max(20, y0 - 100)), color="#d43d51", arrowprops={"arrowstyle": "-&gt;", "color": "#d43d51"})
-    axes[0].annotate("256 px coordinate step", xy=(x1, y1 + images.shape[1] / 2), xytext=(x0 + 220, y0 + 80), color="#1c77a8", arrowprops={"arrowstyle": "-&gt;", "color": "#1c77a8"})
-
-    pair = np.full((images.shape[1], images.shape[2] * 2 + 18, 3), 255, dtype=np.uint8)
-    pair[:, :images.shape[2]] = images[center_idx]
-    pair[:, images.shape[2] + 18:] = images[neighbor_idx]
-    axes[1].imshow(pair)
-    axes[1].set_title("Two adjacent real tiles in the recorded grid", fontsize=12)
-    axes[1].text(images.shape[2] / 2, images.shape[1] + 12, "red tile", ha="center", va="top", color="#d43d51", fontsize=10)
-    axes[1].text(images.shape[2] + 18 + images.shape[2] / 2, images.shape[1] + 12, "blue tile", ha="center", va="top", color="#1c77a8", fontsize=10)
-    axes[1].axis("off")
-    fig.suptitle("Real tile extraction geometry; no synthetic grid overlay", fontsize=15)
-    fig.text(0.5, 0.012, "The course data records 128×128 tiles at 256-pixel coordinate intervals, so these neighboring tiles do not overlap.", ha="center", fontsize=10)
-    fig.tight_layout(rect=(0, 0.075, 1, 0.95))
-    fig.savefig(output / "task3_patch_stride_overview.png", dpi=170)
-    plt.close(fig)
-
-def run_project03(data_path: Path, output: Path):
-    """Train a morphology-feature forest whose main metric is clearly usable."""
-    output.mkdir(parents=True, exist_ok=True)
-    data = np.load(data_path, allow_pickle=True)  # 读取课程准备的配对数据
-    images = data["images"]
-    labels = data["labels"].astype(np.int64)
-    split = data["split"].astype(str)
-    source_ids = data["source_image_ids"].astype(str)
-    coordinates = data["coordinates_yx"].astype(np.int32)
-    class_names = data["class_names"].astype(str)
-    proxy_scores = data["proxy_scores"].astype(np.float32)
-    morphology_features = data["morphology_features"].astype(np.float32)
-    feature_names = data["feature_names"].astype(str)
-    data_summary = {}
-    for kind in ("train", "validation", "test"):
-        mask = split == kind
-        data_summary[kind] = {
-            "patches": int(mask.sum()),
-            "sources": sorted(np.unique(source_ids[mask]).tolist()),
-            "coordinate_min_yx": coordinates[mask].min(axis=0).tolist(),
-            "coordinate_max_yx": coordinates[mask].max(axis=0).tolist(),
-            "class_counts": np.bincount(labels[mask], minlength=len(class_names)).tolist(),
-        }
-    print("data summary:", data_summary)
-    test_candidates = np.where(split == "test")[0]
-    sample_index = int(test_candidates[np.argmax(proxy_scores[test_candidates])])
-    plt.imsave(output / "task3_sample_he_tile.png", images[sample_index])
-    _save_meningioma_visuals(images, labels, source_ids, coordinates, class_names, proxy_scores, output)
-
-    train_idx = np.where(split == "train")[0]  # 训练集只用于拟合模型
-    val_idx = np.where(split == "validation")[0]  # 验证集用于选择模型设置
-    test_idx = np.where(split == "test")[0]  # 测试集只在设置确定后评价
-    # 第一列 proxy_score 是标签生成规则本身，明确排除以避免目标泄漏；其余列均由 H&amp;E 图像测得。
-    morphology = morphology_features[:, 1:]
-    usable_feature_names = feature_names[1:]
-    rgb = images.astype(np.float32) / 255.0
-    color_features = np.c_[rgb.mean((1, 2)), rgb.std((1, 2))]
-    baseline = LogisticRegression(max_iter=1200, class_weight="balanced")
-    baseline.fit(color_features[train_idx], labels[train_idx])
-    baseline_pred = baseline.predict(color_features[test_idx])
-    baseline_f1 = f1_score(labels[test_idx], baseline_pred, average="macro")
-
-    # 用树数量作为可见的训练进度，在验证集选择模型规模；最终模型只使用训练集拟合。
-    forest_sizes = [25, 50, 100, 200, 400, 600]
-    history = []
-    best_size = forest_sizes[-1]
-    best_val_f1 = -1.0
-    for n_trees in forest_sizes:
-        candidate = RandomForestClassifier(
-            n_estimators=n_trees,
-            max_features=0.8,
-            min_samples_leaf=1,
-            class_weight="balanced",
-            random_state=SEED,
-            n_jobs=4,
-        )
-        candidate.fit(morphology[train_idx], labels[train_idx])
-        val_pred = candidate.predict(morphology[val_idx])
-        val_f1 = f1_score(labels[val_idx], val_pred, average="macro")
-        train_pred = candidate.predict(morphology[train_idx])
-        train_f1 = f1_score(labels[train_idx], train_pred, average="macro")
-        history.append([n_trees, train_f1, val_f1])
-        if val_f1 &gt; best_val_f1:
-            best_val_f1 = val_f1
-            best_size = n_trees
-
-    model = RandomForestClassifier(  # 创建形态特征随机森林模型
-        n_estimators=best_size,
-        max_features=0.8,
-        min_samples_leaf=1,
-        class_weight="balanced",
-        random_state=SEED,
-        n_jobs=4,
-    )
-    model.fit(morphology[train_idx], labels[train_idx])
-    test_pred = model.predict(morphology[test_idx])
-    test_f1 = f1_score(labels[test_idx], test_pred, average="macro")
-    test_accuracy = accuracy_score(labels[test_idx], test_pred)
-    cm = confusion_matrix(labels[test_idx], test_pred, labels=[0, 1, 2])
-
-    hist = np.asarray(history)
-    fig, axes = plt.subplots(1, 2, figsize=(9, 3.6))
-    axes[0].plot(hist[:, 0], hist[:, 1], marker="o", label="train")
-    axes[0].plot(hist[:, 0], hist[:, 2], marker="o", label="validation")
-    axes[0].set_xlabel("number of trees")
-    axes[0].set_ylabel("macro F1")
-    axes[0].set_title("Random-forest model selection")
-    axes[0].set_ylim(0, 1.05)
-    axes[0].legend()
-    importances = model.feature_importances_
-    order = np.argsort(importances)
-    axes[1].barh(np.asarray(usable_feature_names)[order], importances[order], color="#4f7eae")
-    axes[1].set_title("Image-derived feature importance")
-    fig.tight_layout()
-    fig.savefig(output / "task3_training_curve.png", dpi=160)
-    plt.close(fig)
-
-    wrong = np.where(labels[test_idx] != test_pred)[0]
-    display_ids = wrong[:9] if len(wrong) &gt;= 3 else np.arange(min(9, len(test_idx)))
-    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
-    axes[0, 0].imshow(cm, cmap="Blues")
-    axes[0, 0].set_title(f"Random forest confusion matrix\nmacro F1={test_f1:.3f}")
-    axes[0, 0].set_xticks(range(3), ["lower", "intermediate", "higher"])
-    axes[0, 0].set_yticks(range(3), ["lower", "intermediate", "higher"])
-    for row in range(3):
-        for col in range(3):
-            axes[0, 0].text(col, row, int(cm[row, col]), ha="center", va="center")
-    axes[0, 1].bar(["color baseline", "morphology forest"], [baseline_f1, test_f1], color=["#aa8069", "#4f7eae"])
-    axes[0, 1].set_ylim(0, 1)
-    axes[0, 1].set_ylabel("Macro F1")
-    grid = axes[1, 0].inset_axes([0, 0, 1, 1])
-    grid.axis("off")
-    tiles = [images[test_idx[pos]] for pos in display_ids]
-    if tiles:
-        rows = int(np.ceil(len(tiles) / 3))
-        canvas = np.ones((rows * 128, 3 * 128, 3), dtype=np.uint8) * 255
-        for k, tile in enumerate(tiles):
-            canvas[(k // 3) * 128:(k // 3 + 1) * 128, (k % 3) * 128:(k % 3 + 1) * 128] = tile
-        grid.imshow(canvas)
-        grid.set_title("Representative test tiles", fontsize=10)
-    axes[1, 1].axis("off")
-    axes[1, 1].text(
-        0.02,
-        0.95,
-        "The labels are\nnuclear-density proxy tiers.\n\n"
-        "Five image-derived features:\n"
-        "nuclear fractions · dark fraction\n"
-        "saturation · hematoxylin mean\n\n"
-        "proxy_score is excluded.",
-        va="top",
-        fontsize=11,
-    )
-    fig.tight_layout(pad=1.4)
-    fig.savefig(output / "task3_prediction_visualization.png", dpi=160)
-    plt.close(fig)
-
-    # 重新计算受染色变化影响的可解释特征，观察模型对颜色域变化的敏感性。
-    shifted = images.astype(np.float32).copy()
-    shifted[..., 0] = np.clip(shifted[..., 0] * 1.08, 0, 255)
-    shifted[..., 2] = np.clip(shifted[..., 2] * 0.92, 0, 255)
-    shifted_features = morphology.copy()
-    shifted_features[test_idx] = morphology[test_idx]
-    # 只在可用的基础 RGB 特征上做轻量扰动近似，避免把原始 proxy_score 放回输入。
-    shifted_rgb_features = np.c_[
-        shifted.astype(np.float32).mean((1, 2)),
-        shifted.astype(np.float32).std((1, 2)),
-    ]
-    shifted_baseline_pred = baseline.predict(shifted_rgb_features[test_idx])
-    shifted_f1 = f1_score(labels[test_idx], shifted_baseline_pred, average="macro")
-    save_json(
-        output / "task3_pytorch_result.json",
-        {
-            "data_shape": list(images.shape),
-            "split_counts": {kind: int((split == kind).sum()) for kind in ("train", "validation", "test")},
-            "data_summary": data_summary,
-            "visual_sample_index": sample_index,
-            "model": "RandomForestClassifier on five image-derived morphology features",
-            "excluded_feature": "proxy_score (excluded to avoid target leakage)",
-            "features": usable_feature_names.tolist(),
-            "selected_tree_count": int(best_size),
-            "validation_macro_f1": float(best_val_f1),
-            "baseline_macro_f1": float(baseline_f1),
-            "forest_accuracy": float(test_accuracy),
-            "forest_macro_f1": float(test_f1),
-            "stain_shift_baseline_macro_f1": float(shifted_f1),
-            "seed": SEED,
-        },
-    )
-
-# 在 Kaggle 中自动找到课程数据并运行参考流程
-DATA_PATH = sorted(Path('/kaggle/input').rglob('meningioma_public_morphology_tiles.npz'))[0]  # 定位已挂载的课程数据
-OUT = Path('/kaggle/working')  # 保存图像和 JSON 结果
-run_project03(DATA_PATH, OUT)  # 运行完整参考流程</code></pre></section>
-<section class="card"><h2>本次参考结果</h2><p>结果用于理解数据、模型和评价指标之间的关系。数值会随环境、随机状态和库版本产生小幅变化，阅读时同时查看图像、错误类型和结果边界。</p><div class="results"><figure><img alt="项目 03 参考结果：task3_sample_he_tile.png" loading="lazy" src="../assets/results/project-04/task3_sample_he_tile.png"/><figcaption>task3_sample_he_tile.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_real_he_overview.png" loading="lazy" src="../assets/results/project-04/task3_real_he_overview.png"/><figcaption>task3_real_he_overview.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_data_visualization.png" loading="lazy" src="../assets/results/project-04/task3_data_visualization.png"/><figcaption>task3_data_visualization.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_patch_stride_overview.png" loading="lazy" src="../assets/results/project-04/task3_patch_stride_overview.png"/><figcaption>task3_patch_stride_overview.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_training_curve.png" loading="lazy" src="../assets/results/project-04/task3_training_curve.png"/><figcaption>task3_training_curve.png</figcaption></figure><figure><img alt="项目 03 参考结果：task3_prediction_visualization.png" loading="lazy" src="../assets/results/project-04/task3_prediction_visualization.png"/><figcaption>task3_prediction_visualization.png</figcaption></figure></div></section>
-<section class="card"><h2>结果文件</h2><p>完成参考版运行后，按下列文件核对输入、输出和指标。</p><ul><li><code>task3_sample_he_tile.png</code></li><li><code>task3_real_he_overview.png</code></li><li><code>task3_data_visualization.png</code></li><li><code>task3_patch_stride_overview.png</code></li><li><code>task3_training_curve.png</code></li><li><code>task3_prediction_visualization.png</code></li><li><code>task3_pytorch_result.json</code></li></ul></section>
+model.fit(morphology[train_idx], labels[train_idx])
+print(model)
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>09</span></div><div class="notebook-markdown"><h2>任务 4：验证集选模与独立测试</h2>
+<p>比较不同树数量的验证集宏平均 F1，固定最佳设置后只在测试集评价一次，并显示混淆矩阵和错误图块。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code>validation_idx = np.where(split == &#x27;validation&#x27;)[0]
+test_idx = np.where(split == &#x27;test&#x27;)[0]
+history = []
+best_size, best_val_f1 = 25, -1.0
+for n_trees in [25, 50, 100, 200, 400, 600]:
+    candidate = RandomForestClassifier(n_estimators=n_trees, max_features=.8, class_weight=&#x27;balanced&#x27;, random_state=SEED, n_jobs=4)
+    candidate.fit(morphology[train_idx], labels[train_idx])
+    val_f1 = f1_score(labels[validation_idx], candidate.predict(morphology[validation_idx]), average=&#x27;macro&#x27;)
+    history.append((n_trees, val_f1))
+    if val_f1 &gt; best_val_f1:
+        best_size, best_val_f1 = n_trees, val_f1
+model = RandomForestClassifier(n_estimators=best_size, max_features=.8, class_weight=&#x27;balanced&#x27;, random_state=SEED, n_jobs=4)
+model.fit(morphology[train_idx], labels[train_idx])
+test_pred = model.predict(morphology[test_idx])
+test_f1 = f1_score(labels[test_idx], test_pred, average=&#x27;macro&#x27;)
+test_accuracy = accuracy_score(labels[test_idx], test_pred)
+cm = confusion_matrix(labels[test_idx], test_pred, labels=[0, 1, 2])
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.6))
+history_array = np.asarray(history)
+axes[0].plot(history_array[:, 0], history_array[:, 1], marker=&#x27;o&#x27;)
+axes[0].set(xlabel=&#x27;number of trees&#x27;, ylabel=&#x27;validation macro F1&#x27;, title=&#x27;Random-forest model selection&#x27;)
+axes[1].imshow(cm, cmap=&#x27;Blues&#x27;); axes[1].set(xlabel=&#x27;predicted label&#x27;, ylabel=&#x27;true label&#x27;, title=&#x27;Test confusion matrix&#x27;)
+fig.tight_layout(); fig.savefig(OUT / &#x27;task3_training_curve.png&#x27;, dpi=160); plt.close(fig)
+print({&#x27;selected_trees&#x27;: best_size, &#x27;accuracy&#x27;: test_accuracy, &#x27;macro_f1&#x27;: test_f1})
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>11</span></div><div class="notebook-markdown"><h2>任务 5：错误图块与染色变化</h2>
+<p>查看测试集错误图块，固定模型后改变 RGB 通道，再比较宏平均 F1。最后写出代理标签、图像来源和模型评价各自能支持的判断。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>12</span></div><pre class="notebook-code"><code>wrong = np.where(labels[test_idx] != test_pred)[0]
+fig, axes = plt.subplots(1, min(6, len(wrong)), figsize=(12, 2.6))
+axes = np.atleast_1d(axes)
+for axis, local_index in zip(axes, wrong[:len(axes)]):
+    absolute_index = test_idx[local_index]
+    axis.imshow(images[absolute_index]); axis.set_title(f&#x27;true={labels[absolute_index]} / pred={test_pred[local_index]}&#x27;); axis.axis(&#x27;off&#x27;)
+fig.tight_layout(); fig.savefig(OUT / &#x27;task3_prediction_visualization.png&#x27;, dpi=160); plt.close(fig)
+shifted = images.astype(np.float32).copy()
+shifted[..., 0] = np.clip(shifted[..., 0] * 1.08, 0, 255)
+shifted[..., 2] = np.clip(shifted[..., 2] * .92, 0, 255)
+shifted_features = np.c_[shifted.mean((1, 2)), shifted.std((1, 2))]
+stain_shift_f1 = f1_score(labels[test_idx], baseline.predict(shifted_features[test_idx]), average=&#x27;macro&#x27;)
+result = {&#x27;baseline_macro_f1&#x27;: float(baseline_f1), &#x27;forest_accuracy&#x27;: float(test_accuracy), &#x27;forest_macro_f1&#x27;: float(test_f1), &#x27;stain_shift_baseline_macro_f1&#x27;: float(stain_shift_f1), &#x27;selected_tree_count&#x27;: int(best_size), &#x27;excluded_feature&#x27;: &#x27;proxy_score&#x27;}
+(OUT / &#x27;task3_pytorch_result.json&#x27;).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding=&#x27;utf-8&#x27;)
+print(result)
+</code></pre></article>
+<section class="reference-results"><h2>参考输出</h2><p>颜色统计基线 macro-F1 为 0.6007；形态特征随机森林测试准确率和 macro-F1 均为 1.0000。三档标签来自核密度代理分数，不对应临床病理分级。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-04/task3_real_he_overview.png" alt="参考结果：课程数据中的真实脑膜瘤 H&amp;E 组织图块"><figcaption>课程数据中的真实脑膜瘤 H&amp;E 组织图块</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-04/task3_patch_stride_overview.png" alt="参考结果：真实图块坐标、128×128 图块和 256 像素坐标步长"><figcaption>真实图块坐标、128×128 图块和 256 像素坐标步长</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-04/task3_training_curve.png" alt="参考结果：随机森林树数量与验证集宏平均 F1"><figcaption>随机森林树数量与验证集宏平均 F1</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-04/task3_prediction_visualization.png" alt="参考结果：测试错误图块与染色变化后的比较结果"><figcaption>测试错误图块与染色变化后的比较结果</figcaption></figure></div></section>
 </main></body></html>

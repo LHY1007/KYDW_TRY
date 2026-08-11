@@ -1,216 +1,448 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>实践项目参考答案 00｜MNIST 手写数字分类</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践项目参考答案 00：基础编程与人工智能｜KYDW</title>
 <style>
-:root{--bg:#f4f7fb;--panel:#fff;--ink:#172033;--muted:#5d6b7d;--line:#dce4ee;--accent:#315a8a;--teal:#16836f;--soft:#edf4fb;--code:#111c2b;--shadow:0 12px 34px rgba(31,55,82,.08)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif;line-height:1.75}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 28px;background:#122033;color:#fff;box-shadow:0 3px 16px rgba(10,25,45,.16)}
-.brand{font-weight:700;letter-spacing:.02em}.topbar-actions{display:flex;align-items:center;gap:18px;font-size:14px}.topbar a{color:#fff;border:1px solid rgba(255,255,255,.42);border-radius:9px;padding:5px 11px}
-.layout{display:grid;grid-template-columns:248px minmax(0,1fr);max-width:1440px;margin:0 auto;min-height:calc(100vh - 58px)}
-.side{position:sticky;top:58px;align-self:start;height:calc(100vh - 58px);overflow:auto;padding:27px 18px;border-right:1px solid var(--line);background:#fff}.side-title{margin:0 10px 12px;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.08em}.side a{display:block;padding:9px 11px;border-radius:8px;color:#34465c;font-size:14px}.side a:hover{background:var(--soft);text-decoration:none}
-.main{width:min(1040px,100%);padding:38px clamp(20px,5vw,72px) 80px;margin:0 auto}.hero,.section{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.hero{padding:34px 38px;margin-bottom:24px}.section{padding:30px 34px;margin:24px 0;scroll-margin-top:84px}
-.eyebrow,.step{display:inline-block;color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.06em}.eyebrow{padding:4px 10px;border-radius:999px;background:var(--soft)}
-h1{margin:15px 0 12px;font-size:clamp(27px,4vw,42px);line-height:1.28;letter-spacing:-.02em}h2{margin:0 0 13px;font-size:25px;line-height:1.35}h3{margin:24px 0 8px;font-size:18px;line-height:1.4}p{margin:9px 0;color:#334255}strong{color:#102b4c}
-.lead{max-width:820px;font-size:17px;color:#43566b}.notice{margin-top:22px;padding:15px 17px;border-left:4px solid var(--teal);background:#eef8f5;border-radius:8px;color:#28564e}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}.flow div{padding:13px 12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;text-align:center;font-size:14px}.flow b{display:block;margin-bottom:3px;color:var(--accent)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 24px}.stat{padding:15px 16px;border:1px solid var(--line);border-radius:12px;background:#fbfcfe}.stat small{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;margin-top:3px;font-size:25px;line-height:1.25}.stat em{display:block;color:var(--muted);font-style:normal;font-size:12px}
-.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}.code{margin:15px 0 0;padding:17px 18px;overflow:auto;border-radius:12px;background:var(--code);color:#e9f1fb;font:13px/1.6 Consolas,"Cascadia Code",monospace;white-space:pre-wrap}.answer{border-left:4px solid var(--teal)}
-figure{margin:22px 0 6px}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff}figcaption{margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
-.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.metric{padding:18px;border-radius:12px;background:#f1f7f6;border:1px solid #cfe8e2}.metric small{display:block;color:#47766e;font-size:13px}.metric strong{display:block;margin-top:3px;color:#126652;font-size:28px;line-height:1.25}.metric p{margin:4px 0 0;font-size:13px;color:#41645e}
-.table-wrap{overflow:auto;margin-top:17px;border:1px solid var(--line);border-radius:10px}.table-wrap table{width:100%;border-collapse:collapse;font-size:14px}.table-wrap th,.table-wrap td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left}.table-wrap th{background:#f5f8fc;color:#43566b}.table-wrap tr:last-child td{border-bottom:0}.table-wrap td:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.file-list{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:15px}.file-list code{display:block;padding:10px 12px;border-radius:8px;background:#f5f8fc;color:#29405a;font:13px Consolas,monospace;overflow-wrap:anywhere}.footnote{color:var(--muted);font-size:13px}.tag{display:inline-block;margin-right:6px;padding:2px 8px;border-radius:999px;background:#eaf1fb;color:#315a8a;font-size:12px}
-.answer-actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}.answer-actions a{display:inline-block;padding:7px 12px;border-radius:8px;background:#216b8d;color:#fff;text-decoration:none;font-weight:700}.answer-actions a.secondary{background:#fff;color:#216b8d;border:1px solid #9fc4d0}
-@media(max-width:850px){.topbar{padding:11px 15px}.topbar-actions span{display:none}.layout{display:block}.side{position:static;height:auto;padding:12px 14px;border-right:0;border-bottom:1px solid var(--line)}.side-title{display:inline-block;margin:0 8px 0 0}.side a{display:inline-block;padding:5px 8px}.main{padding:22px 14px 50px}.hero,.section{padding:24px 20px;border-radius:14px}.flow,.stats,.metric-row,.two-col,.file-list{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.flow,.stats,.metric-row,.two-col,.file-list{grid-template-columns:1fr}.topbar{gap:8px}.brand{font-size:14px}.topbar a{font-size:12px;padding:4px 8px}h1{font-size:28px}h2{font-size:22px}.hero,.section{padding:21px 16px}.code{font-size:12px;padding:14px}}
-</style>
-</head>
-<body>
-<header class="topbar">
-  <div class="brand">实践项目参考答案 00</div>
-  <div class="topbar-actions"><span>MNIST 手写数字分类</span><a href="../project-01.html">返回项目详情</a></div>
-</header>
-<div class="layout">
-  <aside class="side" aria-label="内容索引">
-    <div class="side-title">内容索引</div>
-    <a href="#overview">运行说明</a>
-    <a href="#data">1. 数据检查</a>
-    <a href="#normalize">2. 训练集归一化</a>
-    <a href="#model">3. 小型 CNN</a>
-    <a href="#training">4. 训练步骤</a>
-    <a href="#metrics">5. 测试指标</a>
-    <a href="#robustness">6. 噪声稳健性</a>
-    <a href="#comparison">7. 单变量对照</a>
-  </aside>
-  <main class="main">
-    <section id="overview" class="hero">
-      <span class="eyebrow">实践项目 00 · MNIST</span>
-      <h1>用小型卷积网络识别手写数字</h1>
-      <p class="lead">这份参考答案按照 Notebook 中的数据读取、归一化、模型补全、训练和评价顺序整理。每一段代码先说明输入和输出，再给出可以直接运行的写法。</p>
-      <p class="notice">参考答案仅做参考，并非代表唯一正确结果，效果以运行结果为准，具体代码形式可自行调整。</p>
-      <p>打开公开 Kaggle Notebook 后，先复制到自己的账户，再修改 TODO 位置并运行。下面按步骤给出参考代码、说明和结果，便于阅读与核对。</p>
-      <div class="actions answer-actions"><a href="../practice/project-01.ipynb" download>下载实践 Notebook</a><a class="secondary" href="https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00-reference" target="_blank" rel="noreferrer">在 Kaggle 中打开</a></div>
-      <div class="notice"><strong>数据与训练设置：</strong>使用完整 MNIST（60,000 张训练图像和 10,000 张测试图像），按固定随机种子 42 划分 51,000/9,000 的训练集和验证集，再用独立测试集计算指标。</div>
-      <div class="flow" aria-label="处理流程">
-        <div><b>真实输入</b>28×28 灰度图像</div>
-        <div><b>张量处理</b>[1, 28, 28] 与归一化</div>
-        <div><b>高维特征</b>两组卷积与池化</div>
-        <div><b>任务输出</b>10 个类别 logits</div>
-      </div>
-    </section>
+body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
+main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.3rem}
+.hero,.notebook-cell,.reference-results{background:#fff;border:1px solid #d9e2e6;border-radius:16px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+.notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
+</style></head><body><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 00：基础编程与人工智能</h1><p>以下内容保留实践 Notebook 的单元格顺序，原来需要补全的位置已经填入一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p class="note">参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></section>
+<article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 00：MNIST 手写数字分类</h1>
+<p>这份 Notebook 用手写数字图片完成一次完整的分类练习：先读取输入和标签，再检查数据，计算归一化参数，补全小型卷积神经网络，训练模型，评价测试集，最后观察输入加入噪声后结果怎样变化。</p>
+<p>Kaggle Notebook 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按顺序运行单元格；下载到电脑运行是补充方式。每个任务都会说明输入、处理、输出和参考实现。</p>
+<p>图片和 JSON 用于帮助自己检查代码和记录结果。</p>
+<p><strong>本页参考实现：</strong> 带有 <code>参考实现</code>、<code>None</code> 占位或“参考记录”的区域。只使用当前单元格提供的数据，不把参考结果数字直接写进代码。完成一个任务后，先运行当前单元格和后面的检查单元格。</p>
+<h2>任务总览</h2>
+<ol>
+<li>读取图像和标签，核对 shape、数据类型、像素范围和类别分布。</li>
+<li>只用训练子集计算均值和标准差，并让三个数据集使用同一组参数。</li>
+<li>补全 CNN 的第二个卷积块和分类层。</li>
+<li>按“清空梯度 → 前向传播 → 损失 → 反向传播 → 更新参数”的顺序训练。</li>
+<li>用独立测试集计算准确率、每类 F1 和混淆矩阵。</li>
+<li>给测试图像加入高斯噪声，比较清洁输入和扰动输入。</li>
+<li>只改变学习率，完成一次单变量对照。</li>
+</ol>
+<h2>需要保存的结果</h2>
+<ul>
+<li><code>task0_data_visualization.png</code></li>
+<li><code>task0_training_curve.png</code></li>
+<li><code>task0_confusion_matrix.png</code></li>
+<li><code>task0_result.json</code></li>
+</ul></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>02</span></div><div class="notebook-markdown"><h2>实践顺序</h2>
+<p>每个任务都沿着“输入 → 处理 → 输出”的顺序进行。前一个任务产生的变量会成为后一个任务的输入，所以不要跳过中间的检查结果。</p>
+<ol>
+<li>读取 MNIST，得到图像张量和数字标签。</li>
+<li>检查图像 shape、dtype、像素范围和 0–9 标签数量。</li>
+<li>用训练子集统计量归一化，并划分训练集、验证集和测试集。</li>
+<li>让 CNN 把 <code>[1, 28, 28]</code> 图像变成 10 个类别分数。</li>
+<li>训练模型，用验证集选择模型，再用测试集做最终评价。</li>
+<li>加入噪声，观察输入受到干扰时准确率的变化。</li>
+<li>只改学习率，记录一次可解释的比较。</li>
+</ol>
+<p>每个代码单元格运行后先读懂输出，再继续下一步。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>03</span></div><pre class="notebook-code"><code># 0. 导入库与固定随机性
+# 输入：无；输出：后续步骤使用的库、随机种子、计算设备和工作目录。
+from pathlib import Path  # 导入当前步骤需要的工具
+import json, random, time, warnings  # 导入当前步骤需要的工具
+import numpy as np  # 导入当前步骤需要的工具
+import pandas as pd  # 导入当前步骤需要的工具
+import matplotlib.pyplot as plt  # 导入当前步骤需要的工具
 
-    <section id="data" class="section">
-      <span class="step">步骤 1 / 7</span>
-      <h2>数据读取后先核对张量形状和标签</h2>
-      <p>单张图像的 shape 是 <code>[1, 28, 28]</code>：1 个灰度通道、28 个像素高、28 个像素宽。像素经过 <code>ToTensor</code> 后位于 0 到 1，标签覆盖 0 到 9。</p>
-      <div class="stats">
-        <div class="stat"><small>原始训练样本</small><strong>60,000</strong><em>MNIST train</em></div>
-        <div class="stat"><small>训练 / 验证</small><strong>51,000 / 9,000</strong><em>固定种子 42</em></div>
-        <div class="stat"><small>独立测试样本</small><strong>10,000</strong><em>MNIST test</em></div>
-        <div class="stat"><small>图像张量</small><strong>1×28×28</strong><em>float32, [0, 1]</em></div>
-      </div>
-      <figure><img src="../assets/results/project-01/task0_data_visualization.png" alt="MNIST 训练集手写数字样本与标签"><figcaption>MNIST 训练输入；每个小图上方标出了数据集标签。</figcaption></figure>
-      <pre class="code answer"><code>sample_image, sample_label = train_full[0]
-sample_count = len(train_full)
-image_shape = tuple(sample_image.shape)
-image_dtype = str(sample_image.dtype)
-pixel_min = float(sample_image.min())
-pixel_max = float(sample_image.max())
-all_labels = torch.tensor([int(train_full[i][1]) for i in range(len(train_full))])
-class_counts = torch.bincount(all_labels, minlength=10)</code></pre>
-    </section>
+import torch  # 导入当前步骤需要的工具
+import torch.nn as nn  # 导入当前步骤需要的工具
+from torch.utils.data import DataLoader, TensorDataset, random_split  # 导入当前步骤需要的工具
+from torchvision import datasets, transforms  # 导入当前步骤需要的工具
 
-    <section id="normalize" class="section">
-      <span class="step">步骤 2 / 7</span>
-      <h2>归一化参数只从训练子集计算</h2>
-      <p>均值和标准差不能从验证集或测试集反推。本页采用的训练均值为 <strong>0.1307254845</strong>、训练标准差为 <strong>0.3081756846</strong>，三个数据集都使用这两个参数。</p>
-      <pre class="code answer"><code>stat_loader = DataLoader(train_dataset, batch_size=256, shuffle=False)
-pixel_sum = 0.0
-pixel_sq_sum = 0.0
-pixel_count = 0
-for images, _ in stat_loader:
-    pixel_sum += images.sum().item()
-    pixel_sq_sum += (images ** 2).sum().item()
-    pixel_count += images.numel()
-train_mean = pixel_sum / pixel_count
-train_std = (pixel_sq_sum / pixel_count - train_mean ** 2) ** 0.5
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report  # 导入当前步骤需要的工具
 
-def normalize_batch(images):
-    return (images - train_mean) / (train_std + 1e-8)</code></pre>
-    </section>
+SEED = 42  # 固定随机状态以便复现实验
+random.seed(SEED)  # 固定随机状态以便复现实验
+np.random.seed(SEED)  # 固定随机状态以便复现实验
+torch.manual_seed(SEED)  # 固定随机状态以便复现实验
+if torch.cuda.is_available():  # 根据当前条件选择处理分支
+    torch.cuda.manual_seed_all(SEED)  # 固定随机状态以便复现实验
 
-    <section id="model" class="section">
-      <span class="step">步骤 3 / 7</span>
-      <h2>卷积模块把图像变成十类 logits</h2>
-      <p>第一组卷积将通道数变为 16，并通过池化得到 14×14 特征图。第二组卷积变为 32 个通道，再次池化后得到 7×7；全连接层将这些特征映射到 10 个数字类别。</p>
-      <div class="two-col">
-        <pre class="code answer"><code>self.features = nn.Sequential(
-    nn.Conv2d(1, 16, 3, padding=1),
-    nn.ReLU(), nn.MaxPool2d(2),
-    nn.Conv2d(16, 32, 3, padding=1),
-    nn.ReLU(), nn.MaxPool2d(2))
-self.classifier = nn.Sequential(
-    nn.Flatten(),
-    nn.Linear(32 * 7 * 7, 64),
-    nn.ReLU(), nn.Linear(64, 10))</code></pre>
-        <div>
-          <div class="stats" style="grid-template-columns:1fr 1fr;margin-top:0">
-            <div class="stat"><small>模型参数</small><strong>105,866</strong><em>SmallCNN</em></div>
-            <div class="stat"><small>输出维度</small><strong>[batch, 10]</strong><em>十类 logits</em></div>
-          </div>
-          <p class="footnote">输入先经过归一化，再送入卷积层；分类层输出未经 softmax 的 logits，交叉熵损失会直接处理它们。</p>
-        </div>
-      </div>
-    </section>
+device = torch.device(&#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;)  # 保存当前步骤使用的中间结果
+WORKDIR = Path(&#x27;/kaggle/working&#x27;) if Path(&#x27;/kaggle/working&#x27;).exists() else Path.cwd()  # 保存当前步骤使用的中间结果
+print(&#x27;device =&#x27;, device)  # 显示便于检查的关键信息
+print(&#x27;working directory =&#x27;, WORKDIR)  # 显示便于检查的关键信息
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>04</span></div><div class="notebook-markdown"><h2>1. 读取数据</h2>
+<p><strong>输入：</strong> Kaggle 中的 Digit Recognizer <code>train.csv</code>、<code>torchvision</code> 可以下载的 MNIST，或用于本地结构检查的小型回退数据。</p>
+<p><strong>处理：</strong> <code>load_digit_data()</code> 把每张图片整理为 <code>[1, 28, 28]</code> 的浮点张量，把标签整理为整数，并返回训练数据、测试数据和数据集名称。</p>
+<p><strong>输出：</strong> <code>train_full</code>、<code>test_dataset</code> 和 <code>dataset_name</code>。如果显示 <code>sklearn digits fallback</code>，只能说明 Notebook 结构可以检查；正式实践要在 Kaggle 中确认数据名称为 MNIST。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>05</span></div><pre class="notebook-code"><code>def load_digit_data():  # 定义可重复调用的计算步骤
+    &quot;&quot;&quot;返回 train_dataset, test_dataset, dataset_name。图像范围统一为 [0, 1]，形状为 [1, 28, 28]。&quot;&quot;&quot;  # 执行当前计算步骤
+    # 输入：可能存在的 CSV；输出：train_dataset、test_dataset、dataset_name。
+    # Kaggle Digit Recognizer 常见路径
+    csv_candidates = list(Path(&#x27;/kaggle/input&#x27;).glob(&#x27;**/train.csv&#x27;)) if Path(&#x27;/kaggle/input&#x27;).exists() else []  # 读取本任务需要的数据
+    for csv_path in csv_candidates:  # 逐批或逐样本执行当前步骤
+        try:  # 执行当前步骤并保留结果
+            df = pd.read_csv(csv_path)  # 读取本任务需要的数据
+            pixel_cols = [c for c in df.columns if str(c).startswith(&#x27;pixel&#x27;)]  # 保存当前步骤使用的中间结果
+            if &#x27;label&#x27; in df.columns and len(pixel_cols) == 784:  # 根据当前条件选择处理分支
+                x = torch.tensor(df[pixel_cols].to_numpy(), dtype=torch.float32).reshape(-1, 1, 28, 28) / 255.0  # 整理模型需要的数据格式
+                y = torch.tensor(df[&#x27;label&#x27;].to_numpy(), dtype=torch.long)  # 整理模型需要的数据格式
+                g = torch.Generator().manual_seed(SEED)  # 固定随机状态以便复现实验
+                n_test = max(1000, int(0.15 * len(x)))  # 保存当前步骤使用的中间结果
+                perm = torch.randperm(len(x), generator=g)  # 保存当前步骤使用的中间结果
+                test_idx, train_idx = perm[:n_test], perm[n_test:]  # 保存当前步骤使用的中间结果
+                return TensorDataset(x[train_idx], y[train_idx]), TensorDataset(x[test_idx], y[test_idx]), &#x27;MNIST / Kaggle Digit Recognizer&#x27;  # 返回当前步骤的计算结果
+        except Exception:  # 处理另一种情况或异常
+            continue  # 继续尝试其他数据来源
 
-    <section id="training" class="section">
-      <span class="step">步骤 4 / 7</span>
-      <h2>每个训练批次按固定顺序更新参数</h2>
-      <p>一个批次依次清空旧梯度、前向计算、得到交叉熵损失、反向传播，再由 Adam 更新参数。每轮训练结束后在验证集上记录损失和准确率，测试集暂时不参与模型选择。</p>
-      <pre class="code answer"><code>optimizer.zero_grad()
-logits = model(images)
-loss = criterion(logits, labels)
-loss.backward()
-optimizer.step()</code></pre>
-      <figure><img src="../assets/results/project-01/task0_training_curve.png" alt="MNIST SmallCNN 训练曲线"><figcaption>训练损失、验证损失和验证准确率；测试集评价使用验证集表现最好的 checkpoint。</figcaption></figure>
-      <div class="metric-row">
-        <div class="metric"><small>训练记录</small><strong>完整</strong><p>训练与验证指标均已保存</p></div>
-        <div class="metric"><small>最佳检查点</small><strong>验证集最优</strong><p>验证准确率 0.9891111</p></div>
-        <div class="metric"><small>评价方式</small><strong>独立测试集</strong><p>模型选择不使用测试集</p></div>
-      </div>
-    </section>
+    # 标准 torchvision MNIST
+    try:  # 执行当前步骤并保留结果
+        tfm = transforms.ToTensor()  # 整理模型需要的数据格式
+        root = WORKDIR / &#x27;mnist_data&#x27;  # 保存当前步骤使用的中间结果
+        train_ds = datasets.MNIST(root=root, train=True, transform=tfm, download=True)  # 建立互相隔离的数据划分
+        test_ds = datasets.MNIST(root=root, train=False, transform=tfm, download=True)  # 建立互相隔离的数据划分
+        return train_ds, test_ds, &#x27;MNIST / torchvision&#x27;  # 返回当前步骤的计算结果
+    except Exception as exc:  # 处理另一种情况或异常
+        warnings.warn(f&#x27;MNIST 暂时无法读取，使用 sklearn digits 完成本地结构检查：{exc}&#x27;)  # 执行当前计算步骤
 
-    <section id="metrics" class="section">
-      <span class="step">步骤 5 / 7</span>
-      <h2>在独立测试集上计算最终指标</h2>
-      <p>载入验证集表现最好的模型后，才在 10,000 张测试图像上计算准确率、macro-F1 和混淆矩阵。macro-F1 让每个数字类别获得相同权重。</p>
-      <div class="metric-row">
-        <div class="metric"><small>测试损失</small><strong>0.0358931</strong><p>CrossEntropyLoss</p></div>
-        <div class="metric"><small>测试准确率</small><strong>98.97%</strong><p>0.9897 / 10,000</p></div>
-        <div class="metric"><small>测试 macro-F1</small><strong>98.9650%</strong><p>0.9896499820</p></div>
-      </div>
-      <figure><img src="../assets/results/project-01/task0_confusion_matrix.png" alt="MNIST 测试集真实标签与预测标签混淆矩阵"><figcaption>测试集预测得到的混淆矩阵；行是真实标签，列是预测标签。</figcaption></figure>
-      <h3>每个数字类别的 F1</h3>
-      <div class="table-wrap"><table><thead><tr><th>数字</th><th>F1</th><th>数字</th><th>F1</th></tr></thead><tbody>
-        <tr><td>0</td><td>0.9944077</td><td>5</td><td>0.9876265</td></tr>
-        <tr><td>1</td><td>0.9947230</td><td>6</td><td>0.9921342</td></tr>
-        <tr><td>2</td><td>0.9868868</td><td>7</td><td>0.9897511</td></tr>
-        <tr><td>3</td><td>0.9848707</td><td>8</td><td>0.9886831</td></tr>
-        <tr><td>4</td><td>0.9928934</td><td>9</td><td>0.9845232</td></tr>
-      </tbody></table></div>
-      <pre class="code answer"><code>test_loss, test_acc, y_true, y_pred = evaluate(model, test_loader)
-macro_f1 = f1_score(y_true, y_pred, average='macro')
-per_class_f1 = f1_score(y_true, y_pred, average=None)
-cm = confusion_matrix(y_true, y_pred)</code></pre>
-    </section>
+    # 本地回退，仅用于检查 Notebook 结构
+    from sklearn.datasets import load_digits  # 导入当前步骤需要的工具
+    from sklearn.model_selection import train_test_split  # 导入当前步骤需要的工具
+    import torch.nn.functional as F  # 导入当前步骤需要的工具
+    d = load_digits()  # 保存当前步骤使用的中间结果
+    x = torch.tensor(d.images, dtype=torch.float32).unsqueeze(1) / 16.0  # 整理模型需要的数据格式
+    x = F.interpolate(x, size=(28, 28), mode=&#x27;bilinear&#x27;, align_corners=False)  # 保存当前步骤使用的中间结果
+    y = torch.tensor(d.target, dtype=torch.long)  # 整理模型需要的数据格式
+    idx = np.arange(len(y))  # 保存当前步骤使用的中间结果
+    tr, te = train_test_split(idx, test_size=0.2, random_state=SEED, stratify=y.numpy())  # 固定随机状态以便复现实验
+    return TensorDataset(x[tr], y[tr]), TensorDataset(x[te], y[te]), &#x27;sklearn digits fallback（仅环境检查）&#x27;  # 返回当前步骤的计算结果
 
-    <section id="robustness" class="section">
-      <span class="step">步骤 6 / 7</span>
-      <h2>加入噪声后重新观察同一个模型</h2>
-      <p>这里不更新模型参数，只向测试输入加入标准差为 0.25 的高斯噪声，并把像素裁剪回 0 到 1。这样比较的是输入扰动带来的变化。</p>
-      <div class="metric-row">
-        <div class="metric"><small>噪声标准差</small><strong>0.25</strong><p>输入扰动强度</p></div>
-        <div class="metric"><small>加噪准确率</small><strong>97.71%</strong><p>0.9771</p></div>
-        <div class="metric"><small>准确率下降</small><strong>1.26 个百分点</strong><p>0.9897 − 0.9771 = 0.0126</p></div>
-      </div>
-      <pre class="code answer"><code>noisy_loss, noisy_acc, _, _ = evaluate(
-    model, test_loader, noise_sigma=0.25)
-accuracy_drop = test_acc - noisy_acc</code></pre>
-    </section>
+train_full, test_dataset, dataset_name = load_digit_data()  # 保存当前步骤使用的中间结果
+print(dataset_name)  # 显示便于检查的关键信息
+print(&#x27;train_full =&#x27;, len(train_full), &#x27;test =&#x27;, len(test_dataset))  # 显示便于检查的关键信息
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>06</span></div><div class="notebook-markdown"><h2>任务 1：数据检查与真实样本可视化</h2>
+<p>这一步先看清楚模型将要接收的输入。<code>train_full[0]</code> 给出一张图像和它的数字标签；<code>[1, 28, 28]</code> 中，<code>1</code> 是灰度通道，两个 <code>28</code> 分别是高度和宽度。</p>
+<p><strong>本单元格说明：</strong> 下一个代码单元格中的训练样本数、单张图像 shape、dtype、像素最小值、像素最大值和 0–9 类别计数。<code>class_counts</code> 应是长度为 10 的一维计数张量。</p>
+<p><strong>输入与输出：</strong> 输入是 <code>train_full</code>、<code>sample_image</code> 和 <code>all_labels</code>；输出是统计量、真实手写数字样本图和类别分布图。统计量必须来自当前数据。</p>
+<p><strong>检查：</strong> 运行后底部的 shape、像素范围和类别数量断言应通过，并应显示真实样本。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>07</span></div><pre class="notebook-code"><code># 参考实现：完成数据检查
+sample_image, sample_label = train_full[0]  # 保存当前步骤使用的中间结果
 
-    <section id="comparison" class="section">
-      <span class="step">步骤 7 / 7</span>
-      <h2>先查看输入和预测是否逐个一致</h2>
-      <p>下面固定抽取测试集中的 20 个位置，把真实输入、真实标签和模型预测放在同一张图里。绿色表示预测与标签一致，置信度来自 softmax 后的最大类别概率；这组样本为 20/20 一致。</p>
-      <figure><img src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="20 个 MNIST 测试输入与模型预测标签的对比"><figcaption>真实测试输入与预测输出对比；图片中的 true 和 pred 分别表示真实标签和模型预测。</figcaption></figure>
-      <h3>单变量对照的填写方式</h3>
-      <p>如果完成 Notebook 的拓展任务，只改学习率或通道数中的一个条件，并保持数据划分、模型结构和训练设置不变。对照结果应来自重新训练后的模型，不要把尚未重新训练的数字写入测试指标。</p>
-      <pre class="code answer"><code>comparison = {
-    'changed_variable': 'learning_rate',
-    'baseline_value': 1e-3,
-    'new_value': 1e-2,
-    'baseline_best_val_accuracy': float(best_val),
-    'new_best_val_accuracy': float(new_best_val),
-}</code></pre>
-    </section>
+sample_count = len(train_full)            # 参考实现：训练数据样本数
+image_shape = tuple(sample_image.shape)             # 参考实现：单张图像 shape
+image_dtype = str(sample_image.dtype)             # 参考实现：数据类型
+pixel_min = float(sample_image.min())               # 参考实现：像素最小值，转成 Python float
+pixel_max = float(sample_image.max())               # 参考实现：像素最大值，转成 Python float
 
-    <section class="section">
-      <h2>结果文件</h2>
-      <p>答案页引用的图像和 JSON 都位于站内项目 00 的结果目录，与上面的代码、图像和指标相互对应。</p>
-      <div class="file-list">
-        <code>task0_data_visualization.png</code>
-        <code>task0_training_curve.png</code>
-        <code>task0_confusion_matrix.png</code>
-        <code>task0_input_prediction_comparison.png</code>
-        <code>task0_result.json</code>
-      </div>
-      <p class="footnote"><span class="tag">复核要点</span>JSON 中的 epochs、history、测试指标、噪声指标和对比样本记录与上述图像及文字保持一致。</p>
-    </section>
-  </main>
-</div>
-</body>
-</html>
+all_labels = torch.tensor([int(train_full[i][1]) for i in range(len(train_full))])  # 整理模型需要的数据格式
+class_counts = torch.bincount(all_labels, minlength=10)            # 参考实现：长度为 10 的类别计数张量
+
+print(&#x27;sample_count =&#x27;, sample_count)  # 显示便于检查的关键信息
+print(&#x27;image_shape =&#x27;, image_shape)  # 显示便于检查的关键信息
+print(&#x27;image_dtype =&#x27;, image_dtype)  # 显示便于检查的关键信息
+print(&#x27;pixel range =&#x27;, pixel_min, pixel_max)  # 显示便于检查的关键信息
+print(&#x27;label range =&#x27;, int(all_labels.min()), int(all_labels.max()))  # 显示便于检查的关键信息
+print(&#x27;class_counts =&#x27;, class_counts)  # 显示便于检查的关键信息
+
+assert sample_count == len(train_full)  # 保存当前步骤使用的中间结果
+assert tuple(image_shape) == (1, 28, 28)  # 保存当前步骤使用的中间结果
+assert pixel_min &gt;= 0 and pixel_max &lt;= 1  # 保存当前步骤使用的中间结果
+assert len(class_counts) == 10  # 保存当前步骤使用的中间结果
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>08</span></div><pre class="notebook-code"><code># 输入：train_full 和上一单元格得到的 class_counts。
+# 输出：真实样本图、标签分布图和 task0_data_visualization.png。
+# 真实样本与类别分布
+fig, axes = plt.subplots(3, 7, figsize=(12, 6))  # 绘制当前步骤的结果图
+for ax, idx in zip(axes.ravel()[:20], np.linspace(0, len(train_full)-1, 20, dtype=int)):  # 逐批或逐样本执行当前步骤
+    image, label = train_full[idx]  # 保存当前步骤使用的中间结果
+    ax.imshow(image.squeeze().numpy(), cmap=&#x27;gray&#x27;)  # 绘制当前步骤的结果图
+    ax.set_title(f&#x27;label={int(label)}&#x27;)  # 保存当前步骤使用的中间结果
+    ax.axis(&#x27;off&#x27;)  # 执行当前计算步骤
+for ax in axes.ravel()[20:]:  # 逐批或逐样本执行当前步骤
+    ax.axis(&#x27;off&#x27;)  # 执行当前计算步骤
+plt.tight_layout()  # 绘制当前步骤的结果图
+plt.savefig(WORKDIR/&#x27;task0_data_visualization.png&#x27;, dpi=180, bbox_inches=&#x27;tight&#x27;)  # 绘制当前步骤的结果图
+plt.show()  # 绘制当前步骤的结果图
+
+plt.figure(figsize=(8, 4))  # 绘制当前步骤的结果图
+plt.bar(np.arange(10), class_counts.numpy())  # 绘制当前步骤的结果图
+plt.xticks(np.arange(10))  # 绘制当前步骤的结果图
+plt.xlabel(&#x27;digit label&#x27;)  # 绘制当前步骤的结果图
+plt.ylabel(&#x27;sample count&#x27;)  # 绘制当前步骤的结果图
+plt.title(&#x27;Training label distribution&#x27;)  # 绘制当前步骤的结果图
+plt.show()  # 绘制当前步骤的结果图
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>09</span></div><div class="notebook-markdown"><h2>2. 划分训练集和验证集</h2>
+<p>训练集用于更新模型参数，验证集用于比较训练过程中的模型，测试集要留到所有设置确定后再使用。固定随机种子可以让这次划分保持一致。</p>
+<p><strong>输入：</strong> <code>train_full</code>。</p>
+<p><strong>输出：</strong> <code>train_dataset</code>、<code>val_dataset</code> 和保留的 <code>test_dataset</code>。下一个任务只能用 <code>train_dataset</code> 计算归一化参数。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code># 输入：train_full；输出：train_dataset、val_dataset 和保留的 test_dataset。
+val_size = max(1000, int(0.15 * len(train_full))) if len(train_full) &gt; 5000 else max(200, int(0.15 * len(train_full)))  # 保存当前步骤使用的中间结果
+train_size = len(train_full) - val_size  # 保存当前步骤使用的中间结果
+train_dataset, val_dataset = random_split(  # 建立互相隔离的数据划分
+    train_full, [train_size, val_size], generator=torch.Generator().manual_seed(SEED)  # 保存当前步骤的中间结果
+)  # 保存当前步骤使用的中间结果
+print(&#x27;train =&#x27;, len(train_dataset), &#x27;validation =&#x27;, len(val_dataset), &#x27;test =&#x27;, len(test_dataset))  # 显示便于检查的关键信息
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>11</span></div><div class="notebook-markdown"><h2>任务 2：训练集归一化</h2>
+<p>归一化把像素变成以训练集为基准的数值，能让优化过程更稳定。验证集和测试集不能各自重新计算均值和标准差。</p>
+<p><strong>本单元格说明：</strong> 遍历 <code>stat_loader</code>，累计每批 <code>images</code> 的像素总和、平方和和像素数量，再计算 <code>train_mean</code> 与 <code>train_std</code>。标准差使用 <code>E[x²] - E[x]²</code>。</p>
+<p><strong>输入与输出：</strong> 每批输入 <code>images</code> 的 shape 是 <code>[batch, 1, 28, 28]</code>；输出 <code>train_mean</code>、<code>train_std</code> 是标量，<code>normalize_batch(images)</code> 返回同样 shape 的归一化张量。</p>
+<p><strong>检查：</strong> 均值和标准差只能来自训练子集；底部断言和后面的三个 DataLoader 创建应顺利运行。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>12</span></div><pre class="notebook-code"><code># 参考实现：从训练子集计算像素均值与标准差
+stat_loader = DataLoader(train_dataset, batch_size=256, shuffle=False)  # 整理模型需要的数据格式
+pixel_sum = 0.0  # 保存当前步骤使用的中间结果
+pixel_sq_sum = 0.0  # 保存当前步骤使用的中间结果
+pixel_count = 0  # 保存当前步骤使用的中间结果
+
+for images, _ in stat_loader:  # 逐批或逐样本执行当前步骤
+    # 参考实现：累计 images 的总和、平方和与像素数量
+    pixel_sum += images.sum().item()  # 保存当前步骤使用的中间结果
+    pixel_sq_sum += (images ** 2).sum().item()  # 保存当前步骤使用的中间结果
+    pixel_count += images.numel()  # 保存当前步骤使用的中间结果
+
+train_mean = pixel_sum / pixel_count  # 参考实现：
+train_std = max(pixel_sq_sum / pixel_count - train_mean ** 2, 1e-8) ** 0.5   # 参考实现：，使用 E[x²] - E[x]²
+print(&#x27;train_mean =&#x27;, train_mean, &#x27;train_std =&#x27;, train_std)  # 显示便于检查的关键信息
+assert 0 &lt; train_mean &lt; 1  # 执行当前步骤并保留结果
+assert train_std &gt; 0  # 执行当前步骤并保留结果
+
+def normalize_batch(images):  # 定义可重复调用的计算步骤
+    return (images - train_mean) / (train_std + 1e-8)  # 返回当前步骤的计算结果
+
+BATCH_SIZE = 128  # 保存当前步骤使用的中间结果
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)  # 整理模型需要的数据格式
+val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)  # 整理模型需要的数据格式
+test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)  # 整理模型需要的数据格式
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>13</span></div><div class="notebook-markdown"><h2>任务 3：小型卷积神经网络</h2>
+<p>卷积层从局部图像区域提取特征，池化层缩小空间尺寸，全连接层把特征转换成 10 个类别分数。</p>
+<p><strong>本单元格说明：</strong> 在两个参考代码段加入第二个卷积块和分类层，不改动 <code>forward</code> 或已有的第一块。</p>
+<p><strong>输入与输出：</strong> 模型输入是 <code>[batch, 1, 28, 28]</code>；第一块后是 <code>[batch, 16, 14, 14]</code>，第二块和池化后是 <code>[batch, 32, 7, 7]</code>，最终 logits 是 <code>[batch, 10]</code>。</p>
+<p><strong>检查：</strong> 查看模型结构、参数量和 <code>output shape</code>；最后的 shape 断言应通过。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>14</span></div><pre class="notebook-code"><code>class SmallCNN(nn.Module):  # 定义本任务使用的模型或数据结构
+    def __init__(self):  # 定义可重复调用的计算步骤
+        super().__init__()  # 执行当前计算步骤
+        self.features = nn.Sequential(  # 保存当前步骤的中间结果
+            nn.Conv2d(1, 16, kernel_size=3, padding=1),  # 保存当前步骤的中间结果
+            nn.ReLU(),  # 执行当前计算步骤
+            nn.MaxPool2d(2),  # 执行当前计算步骤
+            # 参考实现：加入 16→32 的 3×3 卷积、ReLU 和 2×2 最大池化
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),  # 保存当前步骤的中间结果
+            nn.ReLU(),  # 执行当前计算步骤
+            nn.MaxPool2d(2),  # 执行当前计算步骤
+        )  # 保存当前步骤使用的中间结果
+        self.classifier = nn.Sequential(  # 保存当前步骤的中间结果
+            nn.Flatten(),  # 执行当前计算步骤
+            # 参考实现：加入 32×7×7 → 64 的全连接层、ReLU，以及 64 → 10 的输出层
+            nn.Linear(32 * 7 * 7, 64),  # 执行当前计算步骤
+            nn.ReLU(),  # 执行当前计算步骤
+            nn.Linear(64, 10),  # 执行当前计算步骤
+        )  # 保存当前步骤使用的中间结果
+
+    def forward(self, x):  # 定义可重复调用的计算步骤
+        x = self.features(x)  # 保存当前步骤使用的中间结果
+        return self.classifier(x)  # 返回当前步骤的计算结果
+
+model = SmallCNN().to(device)  # 建立用于比较的模型
+example = torch.zeros(4, 1, 28, 28, device=device)  # 保存当前步骤使用的中间结果
+with torch.no_grad():  # 在受控上下文中读取或计算
+    output = model(example)  # 计算模型输出或预测概率
+print(model)  # 显示便于检查的关键信息
+print(&#x27;output shape =&#x27;, tuple(output.shape))  # 显示便于检查的关键信息
+print(&#x27;parameter count =&#x27;, sum(p.numel() for p in model.parameters()))  # 显示便于检查的关键信息
+assert tuple(output.shape) == (4, 10)  # 保存当前步骤使用的中间结果
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>15</span></div><div class="notebook-markdown"><h2>任务 4：训练步骤</h2>
+<p>一个训练批次依次完成：清空旧梯度、前向传播、计算损失、反向传播、更新参数。每轮训练结束后，验证集只用于评价，不更新参数。</p>
+<p><strong>本单元格说明：</strong> 在参考代码段按上述顺序补全五个训练动作。</p>
+<p><strong>输入与输出：</strong> 输入是归一化后的 <code>images</code> <code>[batch, 1, 28, 28]</code> 和 <code>labels</code>；输出是标量 <code>loss</code>、批次预测和训练/验证指标。随后会保存训练曲线。</p>
+<p><strong>检查：</strong> 每轮都应打印 train loss、train accuracy 和 validation accuracy，并生成 <code>task0_training_curve.png</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>16</span></div><pre class="notebook-code"><code>criterion = nn.CrossEntropyLoss()  # 计算训练目标并传递梯度
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)  # 配置或更新模型参数
+
+def evaluate(model, loader, noise_sigma=0.0):  # 定义可重复调用的计算步骤
+    model.eval()  # 执行当前计算步骤
+    ys, ps = [], []  # 保存当前步骤使用的中间结果
+    total_loss = 0.0  # 计算训练目标并传递梯度
+    with torch.no_grad():  # 在受控上下文中读取或计算
+        for images, labels in loader:  # 逐批或逐样本执行当前步骤
+            images, labels = images.to(device), labels.to(device)  # 保存当前步骤使用的中间结果
+            if noise_sigma &gt; 0:  # 根据当前条件选择处理分支
+                images = torch.clamp(images + noise_sigma * torch.randn_like(images), 0, 1)  # 保存当前步骤使用的中间结果
+            logits = model(normalize_batch(images))  # 计算模型输出或预测概率
+            total_loss += criterion(logits, labels).item() * len(labels)  # 计算训练目标并传递梯度
+            preds = logits.argmax(dim=1)  # 计算模型输出或预测概率
+            ys.extend(labels.cpu().numpy())  # 执行当前计算步骤
+            ps.extend(preds.cpu().numpy())  # 执行当前计算步骤
+    return total_loss / len(loader.dataset), accuracy_score(ys, ps), np.array(ys), np.array(ps)  # 返回当前步骤的计算结果
+
+def train_one_epoch(model, loader, optimizer):  # 定义可重复调用的计算步骤
+    model.train()  # 在训练数据上拟合模型
+    running_loss = 0.0  # 计算训练目标并传递梯度
+    correct = 0  # 计算用于比较的评价指标
+    total = 0  # 保存当前步骤使用的中间结果
+    for images, labels in loader:  # 逐批或逐样本执行当前步骤
+        images, labels = images.to(device), labels.to(device)  # 保存当前步骤使用的中间结果
+        images = normalize_batch(images)  # 保存当前步骤使用的中间结果
+
+        # 参考实现：完成五个训练动作
+        # 1. optimizer 清空梯度
+        # 2. model 前向传播得到 logits
+        # 3. criterion 计算 loss
+        # 4. loss 反向传播
+        # 5. optimizer 更新参数
+        optimizer.zero_grad(set_to_none=True)  # 配置或更新模型参数
+        logits = model(images)  # 计算模型输出或预测概率
+        loss = criterion(logits, labels)  # 计算训练目标并传递梯度
+        loss.backward()  # 计算训练目标并传递梯度
+        optimizer.step()  # 配置或更新模型参数
+
+        running_loss += loss.item() * len(labels)  # 计算训练目标并传递梯度
+        correct += (logits.argmax(dim=1) == labels).sum().item()  # 计算模型输出或预测概率
+        total += len(labels)  # 保存当前步骤使用的中间结果
+    return running_loss / total, correct / total  # 返回当前步骤的计算结果
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>17</span></div><pre class="notebook-code"><code># 输入：已补全的 model、train_loader、val_loader 和 evaluate。
+# 输出：最佳验证模型、训练记录和 task0_training_curve.png。
+EPOCHS = 20  # 在训练数据上拟合模型
+history = {&#x27;train_loss&#x27;: [], &#x27;train_acc&#x27;: [], &#x27;val_loss&#x27;: [], &#x27;val_acc&#x27;: []}  # 计算训练目标并传递梯度
+best_state = None  # 保存当前步骤使用的中间结果
+best_val = -1  # 保存当前步骤使用的中间结果
+
+for epoch in range(EPOCHS):  # 逐批或逐样本执行当前步骤
+    train_loss, train_acc = train_one_epoch(model, train_loader, optimizer)  # 配置或更新模型参数
+    val_loss, val_acc, _, _ = evaluate(model, val_loader)  # 计算训练目标并传递梯度
+    history[&#x27;train_loss&#x27;].append(train_loss)  # 计算训练目标并传递梯度
+    history[&#x27;train_acc&#x27;].append(train_acc)  # 执行当前计算步骤
+    history[&#x27;val_loss&#x27;].append(val_loss)  # 计算训练目标并传递梯度
+    history[&#x27;val_acc&#x27;].append(val_acc)  # 执行当前计算步骤
+    if val_acc &gt; best_val:  # 根据当前条件选择处理分支
+        best_val = val_acc  # 保存当前步骤使用的中间结果
+        best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}  # 保存当前步骤使用的中间结果
+    print(f&#x27;Epoch {epoch+1}/{EPOCHS} | train loss {train_loss:.4f} | train acc {train_acc:.4f} | val acc {val_acc:.4f}&#x27;)  # 计算训练目标并传递梯度
+
+model.load_state_dict(best_state)  # 执行当前计算步骤
+model.to(device)  # 执行当前计算步骤
+
+fig, ax1 = plt.subplots(figsize=(8, 4.5))  # 绘制当前步骤的结果图
+ax1.plot(range(1, EPOCHS+1), history[&#x27;train_loss&#x27;], marker=&#x27;o&#x27;, label=&#x27;train loss&#x27;)  # 计算训练目标并传递梯度
+ax1.plot(range(1, EPOCHS+1), history[&#x27;val_loss&#x27;], marker=&#x27;o&#x27;, label=&#x27;validation loss&#x27;)  # 计算训练目标并传递梯度
+ax1.set_xlabel(&#x27;epoch&#x27;)  # 在训练数据上拟合模型
+ax1.set_ylabel(&#x27;loss&#x27;)  # 计算训练目标并传递梯度
+ax2 = ax1.twinx()  # 保存当前步骤使用的中间结果
+ax2.plot(range(1, EPOCHS+1), history[&#x27;val_acc&#x27;], marker=&#x27;s&#x27;, linestyle=&#x27;--&#x27;, label=&#x27;validation accuracy&#x27;)  # 在训练数据上拟合模型
+ax2.set_ylabel(&#x27;accuracy&#x27;)  # 计算用于比较的评价指标
+lines = ax1.get_lines() + ax2.get_lines()  # 保存当前步骤使用的中间结果
+ax1.legend(lines, [l.get_label() for l in lines], loc=&#x27;center right&#x27;)  # 保存当前步骤使用的中间结果
+plt.title(&#x27;Training history&#x27;)  # 绘制当前步骤的结果图
+plt.tight_layout()  # 绘制当前步骤的结果图
+plt.savefig(WORKDIR/&#x27;task0_training_curve.png&#x27;, dpi=180, bbox_inches=&#x27;tight&#x27;)  # 绘制当前步骤的结果图
+plt.show()  # 绘制当前步骤的结果图
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>18</span></div><div class="notebook-markdown"><h2>任务 5：测试集评价</h2>
+<p>测试集代表模型面对新输入时的表现。混淆矩阵的行是真实标签，列是预测标签；对角线上的数值表示预测正确的样本。</p>
+<p><strong>本单元格说明：</strong> 调用 <code>evaluate</code> 得到测试损失、准确率、真实标签和预测标签，再计算 macro-F1、每类 F1 和混淆矩阵。</p>
+<p><strong>输入与输出：</strong> 输入是最佳验证模型和 <code>test_loader</code>；输出是测试指标、长度为 10 的 <code>per_class_f1</code>、<code>[10, 10]</code> 的 <code>cm</code>，以及后面的混淆矩阵图片和分类报告。</p>
+<p><strong>检查：</strong> <code>cm.shape == (10, 10)</code> 和每类 F1 长度断言应通过。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>19</span></div><pre class="notebook-code"><code># 参考实现：调用 evaluate，并计算指标
+# test_loss, test_acc, y_true, y_pred = ...
+# macro_f1 = ...
+# per_class_f1 = ...
+# cm = ...
+
+test_loss, test_acc, y_true, y_pred = evaluate(model, test_loader)  # 计算训练目标并传递梯度
+macro_f1 = f1_score(y_true, y_pred, average=&#x27;macro&#x27;, zero_division=0)  # 计算用于比较的评价指标
+per_class_f1 = f1_score(y_true, y_pred, average=None, labels=np.arange(10), zero_division=0)  # 计算用于比较的评价指标
+cm = confusion_matrix(y_true, y_pred, labels=np.arange(10))  # 计算用于比较的评价指标
+
+print(&#x27;test accuracy =&#x27;, test_acc)  # 计算用于比较的评价指标
+print(&#x27;macro F1 =&#x27;, macro_f1)  # 计算用于比较的评价指标
+print(&#x27;per-class F1 =&#x27;, per_class_f1)  # 计算用于比较的评价指标
+
+assert cm.shape == (10, 10)  # 保存当前步骤使用的中间结果
+assert len(per_class_f1) == 10  # 计算用于比较的评价指标
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>20</span></div><pre class="notebook-code"><code># 输入：cm、y_true、y_pred；输出：混淆矩阵图片和分类报告。
+plt.figure(figsize=(7, 6))  # 绘制当前步骤的结果图
+plt.imshow(cm, cmap=&#x27;viridis&#x27;)  # 绘制当前步骤的结果图
+plt.colorbar(label=&#x27;sample count&#x27;)  # 绘制当前步骤的结果图
+plt.xticks(range(10))  # 绘制当前步骤的结果图
+plt.yticks(range(10))  # 绘制当前步骤的结果图
+plt.xlabel(&#x27;predicted label&#x27;)  # 计算模型输出或预测概率
+plt.ylabel(&#x27;true label&#x27;)  # 绘制当前步骤的结果图
+plt.title(&#x27;MNIST test confusion matrix&#x27;)  # 绘制当前步骤的结果图
+for i in range(10):  # 逐批或逐样本执行当前步骤
+    for j in range(10):  # 逐批或逐样本执行当前步骤
+        if cm[i, j] &gt; 0:  # 根据当前条件选择处理分支
+            plt.text(j, i, int(cm[i, j]), ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=7,  # 保存当前步骤的中间结果
+                     color=&#x27;white&#x27; if cm[i, j] &gt; cm.max()*0.45 else &#x27;black&#x27;)  # 保存当前步骤使用的中间结果
+plt.tight_layout()  # 绘制当前步骤的结果图
+plt.savefig(WORKDIR/&#x27;task0_confusion_matrix.png&#x27;, dpi=180, bbox_inches=&#x27;tight&#x27;)  # 计算用于比较的评价指标
+plt.show()  # 绘制当前步骤的结果图
+
+report = classification_report(y_true, y_pred, digits=4)  # 保存当前步骤使用的中间结果
+print(report)  # 显示便于检查的关键信息
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>21</span></div><div class="notebook-markdown"><h2>任务 6：噪声稳健性</h2>
+<p>这一步不再训练模型，只改变测试输入。代码给原始测试图像加入标准差为 <code>0.25</code> 的高斯噪声，并把像素裁剪回 <code>[0, 1]</code>，再用同一个模型预测。</p>
+<p><strong>本单元格说明：</strong> 使用 <code>evaluate(test_loader, noise_sigma=0.25)</code> 得到加噪准确率，并计算 <code>accuracy_drop = test_acc - noisy_acc</code>。</p>
+<p><strong>输入与输出：</strong> 输入是清洁测试图像和固定模型；输出是 <code>noisy_acc</code> 与 <code>accuracy_drop</code>。准确率下降越大，说明模型对这种输入扰动越敏感。</p>
+<p><strong>检查：</strong> 输出中应同时出现 clean accuracy、noisy accuracy 和 accuracy drop，<code>noisy_acc</code> 应在 <code>[0, 1]</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>22</span></div><pre class="notebook-code"><code># 参考实现：使用 evaluate 的 noise_sigma 参数完成稳健性评价
+noise_sigma = 0.25  # 保存当前步骤使用的中间结果
+noisy_loss, noisy_acc, _, _ = evaluate(model, test_loader, noise_sigma=noise_sigma)  # 计算训练目标并传递梯度
+accuracy_drop = test_acc - noisy_acc  # 计算用于比较的评价指标
+
+print(&#x27;clean accuracy =&#x27;, test_acc)  # 计算用于比较的评价指标
+print(&#x27;noisy accuracy =&#x27;, noisy_acc)  # 计算用于比较的评价指标
+print(&#x27;accuracy drop =&#x27;, accuracy_drop)  # 计算用于比较的评价指标
+assert noisy_acc &lt;= 1 and noisy_acc &gt;= 0  # 保存当前步骤使用的中间结果
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>23</span></div><div class="notebook-markdown"><h2>任务 7：单变量对照</h2>
+<p>对照实验一次只改一个条件。这里把基线学习率 <code>1e-3</code> 改成 <code>1e-2</code>，数据划分、模型结构、随机种子和训练轮数保持不变。</p>
+<p><strong>本单元格说明：</strong> 先在任务 4 的优化器代码中只修改学习率，重新运行训练单元格；再在本单元格记录改变的变量、基线值、新值、新设置的最佳验证准确率和观察。观察应说明比较条件、指标变化和可能原因。</p>
+<p><strong>输入与输出：</strong> 输入是前面训练产生的 <code>best_val</code> 和自己的新训练结果；输出是 <code>comparison</code> 字典。这份记录只用于理解单变量比较。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>24</span></div><pre class="notebook-code"><code># 参考实现：填写你的对照实验记录
+comparison_model = SmallCNN().to(device)  # 建立用于比较的模型
+comparison_optimizer = torch.optim.Adam(comparison_model.parameters(), lr=1e-2)  # 配置或更新模型参数
+comparison_best = -1.0  # 保存当前步骤使用的中间结果
+for _ in range(EPOCHS):  # 逐批或逐样本执行当前步骤
+    comparison_model.train()  # 在训练数据上拟合模型
+    for images, labels in train_loader:  # 逐批或逐样本执行当前步骤
+        images, labels = images.to(device), labels.to(device)  # 保存当前步骤使用的中间结果
+        comparison_optimizer.zero_grad(set_to_none=True)  # 配置或更新模型参数
+        comparison_loss = criterion(comparison_model(normalize_batch(images)), labels)  # 计算训练目标并传递梯度
+        comparison_loss.backward()  # 计算训练目标并传递梯度
+        comparison_optimizer.step()  # 配置或更新模型参数
+    _, comparison_val, _, _ = evaluate(comparison_model, val_loader)  # 保存当前步骤使用的中间结果
+    comparison_best = max(comparison_best, comparison_val)  # 保存当前步骤使用的中间结果
+comparison = {  # 保存当前步骤的中间结果
+    &#x27;changed_variable&#x27;: &#x27;learning_rate&#x27;,  # 执行当前计算步骤
+    &#x27;baseline_value&#x27;: 1e-3,  # 执行当前计算步骤
+    &#x27;new_value&#x27;: 1e-2,  # 执行当前计算步骤
+    &#x27;baseline_best_val_accuracy&#x27;: float(best_val),  # 计算模型评价指标
+    &#x27;new_best_val_accuracy&#x27;: float(comparison_best),  # 计算模型评价指标
+    &#x27;observation&#x27;: &#x27;只改变学习率，保持其他条件不变，重新训练并比较验证集最佳准确率。&#x27;,  # 执行当前计算步骤
+}  # 保存当前步骤使用的中间结果
+comparison  # 执行当前计算步骤
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>25</span></div><div class="notebook-markdown"><h2>8. 保存结果</h2>
+<p>这一单元把数据名称、数据规模、模型设置、测试指标、噪声结果和单变量对照写入 <code>task0_result.json</code>。</p>
+<p><strong>输入：</strong> 前面单元格生成的变量，如 <code>dataset_name</code>、<code>best_val</code>、<code>test_acc</code>、<code>noisy_acc</code> 和 <code>comparison</code>。</p>
+<p><strong>输出：</strong> 一个可以重新查看的 JSON 文件。若显示 <code>sklearn digits fallback</code>，结果只用于结构检查；正式实践要在 Kaggle 中用 MNIST 重新运行。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>26</span></div><pre class="notebook-code"><code># 输入：前面各任务产生的指标和 comparison。
+# 输出：task0_result.json。
+result = {  # 保存当前步骤的中间结果
+    &#x27;dataset_name&#x27;: dataset_name,  # 整理模型输入批次
+    &#x27;random_seed&#x27;: SEED,  # 执行当前计算步骤
+    &#x27;train_samples&#x27;: len(train_dataset),  # 整理模型输入批次
+    &#x27;validation_samples&#x27;: len(val_dataset),  # 整理模型输入批次
+    &#x27;test_samples&#x27;: len(test_dataset),  # 整理模型输入批次
+    &#x27;image_shape&#x27;: list(image_shape),  # 执行当前计算步骤
+    &#x27;train_mean&#x27;: float(train_mean),  # 执行当前计算步骤
+    &#x27;train_std&#x27;: float(train_std),  # 执行当前计算步骤
+    &#x27;model_name&#x27;: &#x27;SmallCNN&#x27;,  # 执行当前计算步骤
+    &#x27;parameter_count&#x27;: int(sum(p.numel() for p in model.parameters())),  # 执行当前计算步骤
+    &#x27;batch_size&#x27;: BATCH_SIZE,  # 整理模型输入批次
+    &#x27;epochs&#x27;: EPOCHS,  # 执行当前计算步骤
+    &#x27;optimizer&#x27;: &#x27;Adam&#x27;,  # 配置模型或优化过程
+    &#x27;learning_rate&#x27;: 1e-3,  # 执行当前计算步骤
+    &#x27;best_validation_accuracy&#x27;: float(best_val),  # 计算模型评价指标
+    &#x27;test_loss&#x27;: float(test_loss),  # 执行当前计算步骤
+    &#x27;test_accuracy&#x27;: float(test_acc),  # 计算模型评价指标
+    &#x27;test_macro_f1&#x27;: float(macro_f1),  # 执行当前计算步骤
+    &#x27;per_class_f1&#x27;: [float(x) for x in per_class_f1],  # 执行当前计算步骤
+    &#x27;noise_sigma&#x27;: noise_sigma,  # 执行当前计算步骤
+    &#x27;noisy_test_accuracy&#x27;: float(noisy_acc),  # 计算模型评价指标
+    &#x27;accuracy_drop&#x27;: float(accuracy_drop),  # 计算模型评价指标
+    &#x27;comparison&#x27;: comparison,  # 执行当前计算步骤
+    &#x27;output_files&#x27;: [  # 执行当前计算步骤
+        &#x27;task0_data_visualization.png&#x27;,  # 执行当前计算步骤
+        &#x27;task0_training_curve.png&#x27;,  # 执行当前计算步骤
+        &#x27;task0_confusion_matrix.png&#x27;,  # 计算模型评价指标
+        &#x27;task0_result.json&#x27;  # 执行当前计算步骤
+    ]
+}  # 保存当前步骤使用的中间结果
+with open(WORKDIR/&#x27;task0_result.json&#x27;, &#x27;w&#x27;, encoding=&#x27;utf-8&#x27;) as f:  # 在受控上下文中读取或计算
+    json.dump(result, f, ensure_ascii=False, indent=2)  # 保存结果供后续核对
+print(json.dumps(result, ensure_ascii=False, indent=2))  # 保存结果供后续核对
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>27</span></div><div class="notebook-markdown"><h2>结果检查</h2>
+<p>依次打开四个输出文件：数据图检查输入和标签，训练曲线检查参数是否发生学习，混淆矩阵定位容易混淆的数字，JSON 保存本次实验的设置和指标。</p>
+<p>一次参考运行记录为：测试准确率约 0.9897、测试集 macro-F1 约 0.98965；加入标准差 0.25 的高斯噪声后准确率约 0.9771。单变量对照只改变学习率，其余训练设置保持不变。实际运行时以自己的输出和图像为准。</p></div></article>
+<section class="reference-results"><h2>参考输出</h2><p>一次参考运行记录为：测试准确率约 0.9897，测试集 macro-F1 约 0.98965；加入标准差 0.25 的高斯噪声后准确率约 0.9771。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-01/task0_training_curve.png" alt="参考结果：训练损失、验证损失与验证准确率"><figcaption>训练损失、验证损失与验证准确率</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-01/task0_confusion_matrix.png" alt="参考结果：MNIST 测试集混淆矩阵"><figcaption>MNIST 测试集混淆矩阵</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="参考结果：测试输入、真实标签与预测结果对比"><figcaption>测试输入、真实标签与预测结果对比</figcaption></figure></div></section>
+</main></body></html>

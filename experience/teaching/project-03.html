@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <title>第3节实践｜胸部 X 射线与残差卷积 VAE</title>
-<meta content="从胸部 X 射线输入、ResidualConvVAE 的概率潜空间到图像生成结果的实践教学页。" name="description"/>
+<meta content="胸部 X 射线输入、ResidualConvVAE 概率潜空间与图像生成结果实践教学页。" name="description"/>
 <style>
 :root{--bg:#edf3f6;--paper:#fff;--ink:#163047;--muted:#5c7080;--line:#d5e2e8;--soft:#f3f8fa;--blue:#1b5c7d;--cyan:#2c8798;--green:#2d8877;--gold:#ad7634;--purple:#6b5b98;--shadow:0 7px 22px rgba(27,62,82,.07);--scale:1}
 *{box-sizing:border-box}
@@ -141,9 +141,9 @@ button,a{font:inherit}
 </header>
 <div class="layout">
 <aside class="sidebar">
-<div class="side-title">本章目录</div><a href="#field-overview">先认识这个方向</a>
-<a href="#task">1. 先定义实践任务</a>
-<a href="#input">2. 从胸片到输入张量</a>
+<div class="side-title">本章目录</div>
+<a href="#task">1. 实践任务定义</a>
+<a href="#input">2. 胸片输入张量</a>
 <a href="#encoder">3. 编码器得到潜变量分布</a>
 <a href="#decoder">4. 重参数化与解码器</a>
 <a href="#loss">5. 三种损失共同训练</a>
@@ -156,18 +156,18 @@ button,a{font:inherit}
 <div class="reader">
 <section class="hero">
 <div class="eyebrow">第3节实践 · X 射线图像生成</div>
-<h1>从胸部 X 射线到残差卷积 VAE</h1>
+<h1>胸部 X 射线与残差卷积 VAE</h1><p data-kydw-integrated-context="1">胸部 X 射线是骨骼、肺和心脏重叠在一起的二维投影，生成模型学习的是胸片像素分布和结构统计规律。它可用于表征学习、质量控制和受控数据增强；生成图看起来像胸片，并不表示其中的解剖或病理一定真实。</p>
 <p>我们把胸片转换为统一的图像张量，用 ResidualConvVAE 学习一个 64 维概率潜空间，再由解码器还原或生成胸片。页面先说明任务和模型，再结合图像和指标查看结果。</p>
 <div class="hero-tags"><span>胸片预处理</span><span>编码器与解码器</span><span>mu / logvar</span><span>潜空间分析</span></div>
 <div aria-label="内容顺序" class="orientation-strip"><span>任务定义</span><b>→</b><span>输入张量</span><b>→</b><span>概率潜空间</span><b>→</b><span>解码与损失</span><b>→</b><span>结果</span></div>
 <p class="orientation-note">先弄清楚模型要完成什么，再追踪一张胸片如何经过编码、采样和解码，最后把图像、曲线和指标放在一起阅读。</p>
-</section><section class="lesson concept-overview" data-kydw-concept-overview="1" id="field-overview"><h2>先认识这个方向</h2><p class="lecture-open">先认识胸部 X 射线的投影特点和生成模型的基本任务，再区分重建、随机生成与真实临床影像。</p><h3>核心概念</h3><p><b>胸部 X 射线：</b>X 射线穿过胸部后形成二维投影。骨骼、肺、心脏和软组织在同一图像中重叠，灰度差异与组织吸收、曝光和成像处理共同相关。</p><p><b>生成模型：</b>生成模型学习训练图像的统计分布，可以重建已有图像，也可以从潜变量生成新的图像样本。</p><h3>常见数据与基本对象</h3><p>常见数据包括胸片图像、患者或检查编号、投照体位、设备与曝光信息，以及在具体任务中使用的疾病标签或质量标记。</p><h3>这个方向常见的应用</h3><p>生成模型可用于表征学习、图像压缩、质量控制研究、受控数据增强和教学演示，也可帮助研究图像分布与潜空间变化。</p><h3>常见研究问题</h3><p>需要分别检查重建是否保留结构、随机样本是否具有多样性、生成分布是否覆盖真实数据，以及生成图是否过度接近训练样本。</p><h3>阅读结果时需要记住的边界</h3><p>视觉上像胸片不表示其中的解剖结构和病理表现一定正确。生成图不能替代真实检查，也不能直接用于临床判断。</p></section>
+</section>
 <section class="lesson" id="task">
-<h2>1. 先定义实践任务</h2>
-<div class="lecture-open">这次实践围绕一条可以检查的生成流程：真实胸片进入 ResidualConvVAE，模型学习图像的结构表示，再从学到的潜空间生成新的胸片样本。</div>
+<h2>1. 实践任务定义</h2>
+<div class="lecture-open">这次实践围绕一条可以检查的生成流程：真实胸片进入 ResidualConvVAE，模型学习图像的结构表示，并在潜空间中生成新的胸片样本。</div>
 <p>Notebook 使用 Chest X-ray Pneumonia 数据中的 <code>NORMAL</code> 胸片来学习图像分布，文件夹名称只用于选取图像，不作为疾病分类标签。我们先把图像统一成单通道 64×64 张量，再训练一个残差卷积变分自编码器（<code>ResidualConvVAE</code>）。训练结束后，既要检查已知图像的重建，也要检查潜空间生成的新样本是否具有结构、差异和连续变化。</p>
 <div class="compact-grid">
-<article class="task-card"><div class="task-number">TASK 01</div><h3>建立输入</h3><p>读取 NORMAL 胸片，统一灰度、尺寸和数值范围，得到 <code>[B,1,64,64]</code> 的批次。</p></article>
+<article class="task-card"><div class="task-number">TASK 01</div><h3>输入张量构建</h3><p>读取 NORMAL 胸片，统一灰度、尺寸和数值范围，得到 <code>[B,1,64,64]</code> 的批次。</p></article>
 <article class="task-card"><div class="task-number">TASK 02</div><h3>训练 VAE</h3><p>用编码器得到 <code>mu</code> 与 <code>logvar</code>，重参数化后交给解码器，联合优化重建、梯度和 KL 损失。</p></article>
 <article class="task-card"><div class="task-number">TASK 03</div><h3>检查输出</h3><p>观察重建 L1、样本两两 L1、图像特征均值差，并用潜空间生成、最近邻和插值分析输出。</p></article>
 </div>
@@ -180,11 +180,11 @@ button,a{font:inherit}
 <table class="mini-table"><thead><tr><th>实践中要回答的问题</th><th>对应检查</th></tr></thead><tbody><tr><td>图像怎样变成模型可以处理的数字？</td><td>预处理顺序、shape、归一化范围</td></tr><tr><td>模型怎样把图像压缩成可采样的表示？</td><td>编码器、mu、logvar、重参数化</td></tr><tr><td>训练后输出是否保留胸片结构并且不完全相同？</td><td>重建、潜空间操作、图像级指标</td></tr></tbody></table>
 </section>
 <section class="lesson" id="input">
-<h2>2. 从胸片到输入张量</h2>
+<h2>2. 胸片输入张量</h2>
 <div class="lecture-open">模型接收的是一个有固定 shape 和数值范围的矩阵。预处理把不同尺寸的 JPEG 变成可批量计算的单通道张量。</div>
-<p>Notebook 对图像进行 EXIF 方向校正，转成灰度图，先缩放到 72，再中心裁剪为 64×64，最后把像素从 <code>[0,1]</code> 映射到 <code>[-1,1]</code>。这样做既统一了空间尺寸，也让解码器最后的 <code>Tanh</code> 输出与训练输入处在同一范围。</p>
+<p>Notebook 对图像进行 EXIF 方向校正，转成灰度图，先缩放到 72，再中心裁剪为 64×64，最后把像素<code>[0,1]</code> 与 <code>[-1,1]</code> 的数值映射。这样做既统一了空间尺寸，也让解码器最后的 <code>Tanh</code> 输出与训练输入处在同一范围。</p>
 <div class="shape-flow"><div class="shape-node">原始 JPEG<br/>尺寸不一</div><div class="shape-arrow">→</div><div class="shape-node encoder">灰度<br/>1 通道</div><div class="shape-arrow">→</div><div class="shape-node encoder">Resize 72<br/>CenterCrop 64</div><div class="shape-arrow">→</div><div class="shape-node latent">[1,64,64]<br/>[-1,1]</div><div class="shape-arrow">→</div><div class="shape-node">[B,1,64,64]<br/>DataLoader</div></div>
-<div class="miniapp"><div class="miniapp-title">像素值怎样进入模型</div><div class="miniapp-sub">拖动滑块，把一个显示像素从 [0,1] 映射到模型输入范围 [-1,1]。</div><div class="miniapp-grid"><div class="panel"><label for="rawPixSlider">显示像素值：<span id="rawPix">0.50</span></label><input aria-label="显示像素值" id="rawPixSlider" max="100" min="0" type="range" value="50"/><div class="output" id="normPix">模型输入值：0.00</div></div><div class="panel"><strong>计算关系</strong><p><code>模型值 = 2 × 显示值 − 1</code></p><p id="normExplain">显示值 0.50 位于 [0,1]，映射后为 0.00。</p></div></div></div>
+<div class="miniapp"><div class="miniapp-title">像素值与模型输入</div><div class="miniapp-sub">拖动滑块，观察显示像素在 [0,1] 与模型输入范围 [-1,1] 之间的映射。</div><div class="miniapp-grid"><div class="panel"><label for="rawPixSlider">显示像素值：<span id="rawPix">0.50</span></label><input aria-label="显示像素值" id="rawPixSlider" max="100" min="0" type="range" value="50"/><div class="output" id="normPix">模型输入值：0.00</div></div><div class="panel"><strong>计算关系</strong><p><code>模型值 = 2 × 显示值 − 1</code></p><p id="normExplain">显示值 0.50 位于 [0,1]，映射后为 0.00。</p></div></div></div>
 <figure class="figure"><img alt="真实 NORMAL 胸部 X 射线输入样本网格" loading="lazy" src="../assets/results/project-03/task2_real_xray_grid.png"/><figcaption>真实输入示例：这些胸片用于说明任务输入，模型生成结果见后文。</figcaption></figure>
 <p class="source-note">输入规模：使用 1,073 张训练图像和 268 张留出图像，批大小为 64。</p>
 </section>
@@ -217,7 +217,7 @@ reconstruction = decoder(z)</div>
 <article class="loss-card edge"><h3>梯度 L1</h3><p>先计算水平与垂直方向的相邻像素差，再比较输入和重建的梯度，保留肋骨和肺纹理等变化。</p><div class="formula">Lgradient = 0.5 × [L1(dx̂, dx) + L1(dŷ, dy)]</div></article>
 <article class="loss-card kl"><h3>KL 散度</h3><p>让每张图像的潜变量分布靠近标准正态，避免潜空间只剩互不相连的孤立位置。</p><div class="formula">LKL = −0.5 × mean(1 + logvar − μ² − exp(logvar))</div></article>
 </div>
-<p>Notebook 中的总损失是 <code>Lpixel + 0.25 × Lgradient + β × LKL</code>。<code>β</code> 在前 10 轮从较小值逐渐增加到 <code>0.0005</code>，让模型逐步学习图像结构并整理潜空间。</p>
+<p>Notebook 中的总损失是 <code>Lpixel + 0.25 × Lgradient + β × LKL</code>。<code>β</code> 在前 10 轮采用逐步增大的 β，终值为 <code>0.0005</code>，让模型逐步学习图像结构并整理潜空间。</p>
 <div class="code">loss = pixel_loss + 0.25 * gradient_loss + beta * kl_loss
 beta = 0.0005 * min(1.0, (epoch + 1) / 10.0)
 loss.backward()
@@ -267,7 +267,7 @@ interpolation_z = (1 - alpha) * z_a + alpha * z_b</div>
 <div class="lecture-open">一个数字只回答一个角度的问题。把重建、差异、特征和潜空间操作放在一起，才能判断这次训练是否形成了可观察的图像分布。</div>
 <div class="compact-grid"><div class="card"><strong>0.0878：重建误差</strong><p>留出集图像经过编码和解码后的 L1 差异。它主要说明模型是否保留了未参与参数更新图像的整体灰度和结构。</p></div><div class="card"><strong>0.2334：样本差异</strong><p>展示生成样本之间的两两 L1。数值反映候选图像之间的差异，需要结合生成网格和最近邻图一起观察。</p></div><div class="card"><strong>0.0114：特征均值差</strong><p>五项图像特征的平均绝对差，用于比较真实留出图像和生成图像的整体统计。</p></div></div>
 <p>最近邻比较回答“生成图像与训练参考有多接近”，潜空间插值回答“两个潜位置之间是否产生连续变化”。这两种分析和结果图片一起使用，能把“看起来像”拆成可以解释的观察步骤。</p>
-<details class="quiz"><summary>思考：为什么不能只看一张生成胸片？</summary><div class="answer">单张图像可能偶然清晰，也可能偶然失败。重建 L1 看还原，样本两两 L1 看差异，特征均值差看整体统计，最近邻和插值再补充潜空间层面的检查；多种证据放在一起，结论才更稳妥。</div></details>
+<details class="quiz"><summary>生成结果的多证据评价</summary><div class="answer">单张图像可能偶然清晰，也可能偶然失败。重建 L1 看还原，样本两两 L1 看差异，特征均值差看整体统计，最近邻和插值再补充潜空间层面的检查；多种证据放在一起，结论才更稳妥。</div></details>
 </section>
 <section class="lesson" id="practice">
 <h2>9. 进入实践</h2>

@@ -1,301 +1,122 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/>
-<title>实践项目参考答案 04：XGBoost 脑疾病表格分类｜KYDW</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践项目参考答案 04：脑疾病临床数据分析｜KYDW</title>
 <style>
 body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
-main{max-width:980px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.25rem;margin-top:0}
-.hero,.card{background:#fff;border:1px solid #d9e2e6;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
-.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
-pre{overflow:auto;background:#14232b;color:#e9f2f4;border-radius:12px;padding:16px;line-height:1.55;white-space:pre-wrap}code{font-family:Consolas,"SFMono-Regular",monospace}
-ul{padding-left:1.4em}a{color:#176c75}.results{display:grid;grid-template-columns:1fr;gap:20px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px;word-break:break-all}
-</style><style id="kydw-site-return-style">
-/* KYDW site return control: kept separate from the source reader styles. */
-.site-return{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:10px;padding:6px 10px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:12px;line-height:1.2;white-space:nowrap;opacity:.92}
-.site-return:hover{opacity:1;text-decoration:none;transform:translateY(-1px)}
-.topbar .site-return{color:inherit;background:transparent}
-.top .site-return{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.55)}
-.source-asset-missing{display:none!important}
-@media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
-@media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
-</style></head><body><a class="site-return" href="../project-05.html">返回项目详情</a><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 04：XGBoost 脑疾病表格分类</h1><p>使用课程提供的 Data.csv，完成四分类表格预处理、逻辑回归基线、XGBoost、验证集比较、测试评价和变量贡献分析。</p>
-<p class="note">参考答案展示一种完整写法，代码中的路径和参数可以根据运行环境调整。打开公开 Kaggle Notebook 后，先复制到自己的账户，再运行并观察每一步输出。</p></section>
-<section class="card"><h2>任务对应关系</h2><p>题目 Notebook 的任务顺序与下面的完整脚本一致：数据读取和核对、基线或输入可视化、模型结构、训练与验证、测试评价和结果文件。</p><p>先阅读各任务的输入与输出，再查看完整代码。结果图与指标文件来自同一份课程数据。</p></section>
-<section class="card"><h2>完整参考脚本</h2><p>以下代码可以从头运行。它会自动查找 Kaggle 已挂载的数据集，并把图像与 JSON 写入 <code>/kaggle/working</code>。</p><pre><code>from __future__ import annotations
+main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.3rem}
+.hero,.notebook-cell,.reference-results{background:#fff;border:1px solid #d9e2e6;border-radius:16px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
+.hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
+.notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
+</style></head><body><main>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 04：脑疾病临床数据分析</h1><p>以下内容保留实践 Notebook 的单元格顺序，原来需要补全的位置已经填入一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p class="note">参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></section>
+<article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 04：XGBoost 脑疾病表格分类</h1>
+<p>本 Notebook 使用课程提供的 <code>Data.csv</code>，每行是一名受试者，<code>label</code> 包含 CTL、AD、PD 和 DEP 四类。你将完成数据检查、预处理、XGBoost 训练、四分类评价和变量贡献分析。</p>
+<p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按单元格顺序运行。下载 Notebook 到电脑运行是补充方式。</p>
+<p>代码单元格保留行末注释，说明每一步的输入、处理和输出；参考实现与实践顺序对应。</p>
+<h2>任务总览</h2>
+<ol>
+<li>核对每行的样本单位、类别数量和变量来源。</li>
+<li>处理缺失值、类别变量和标识符。</li>
+<li>补全 XGBoost 参数并完成训练。</li>
+<li>输出混淆矩阵、每类指标和预测概率。</li>
+<li>使用置换重要性分析模型依赖的变量。</li>
+</ol>
+<h2>需要保存的结果</h2>
+<p><code>task4_data_summary.png</code>、<code>task4_confusion.png</code>、<code>task4_roc_pr.png</code>、<code>task4_importance.png</code>、<code>task4_result.json</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>02</span></div><pre class="notebook-code"><code>from pathlib import Path  # 导入当前步骤需要的工具
+import json  # 导入当前步骤需要的工具
+import numpy as np  # 导入当前步骤需要的工具
+import pandas as pd  # 导入当前步骤需要的工具
+import matplotlib.pyplot as plt  # 导入当前步骤需要的工具
+from sklearn.model_selection import train_test_split  # 导入当前步骤需要的工具
+from sklearn.compose import ColumnTransformer  # 导入当前步骤需要的工具
+from sklearn.pipeline import Pipeline  # 导入当前步骤需要的工具
+from sklearn.impute import SimpleImputer  # 导入当前步骤需要的工具
+from sklearn.linear_model import LogisticRegression  # 导入当前步骤需要的工具
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler  # 导入当前步骤需要的工具
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report  # 导入当前步骤需要的工具
+from sklearn.inspection import permutation_importance  # 导入当前步骤需要的工具
+from xgboost import XGBClassifier  # 导入当前步骤需要的工具
 
-import argparse
-
-import json
-
-import random
-
-from pathlib import Path
-
-import matplotlib.pyplot as plt
-
-import numpy as np
-
-import pandas as pd
-
-import torch
-
-import torch.nn as nn
-
-import torch.nn.functional as F
-
-from matplotlib import colors as mcolors
-
-from matplotlib.patches import Rectangle
-
-from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
-
-from sklearn.compose import ColumnTransformer
-
-from sklearn.impute import SimpleImputer
-
-from sklearn.inspection import permutation_importance
-
-from sklearn.linear_model import LogisticRegression
-
-from sklearn.metrics import (
-    accuracy_score,
-    average_precision_score,
-    classification_report,
-    confusion_matrix,
-    f1_score,
-    precision_recall_curve,
-    roc_curve,
-)
-
-from sklearn.model_selection import train_test_split
-
-from sklearn.pipeline import Pipeline
-
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler, label_binarize
-
-from torch.utils.data import DataLoader, Dataset
-
-from xgboost import XGBClassifier, XGBRegressor
-
-SEED = 42
-
-random.seed(SEED)
-
-np.random.seed(SEED)
-
-torch.manual_seed(SEED)
-
-torch.set_num_threads(min(4, max(1, torch.get_num_threads())))
-
-def save_json(path: Path, value: dict):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
-
-def run_project04(data_path: Path, output: Path):
-    output.mkdir(parents=True, exist_ok=True)
-    frame = pd.read_csv(data_path)
-    encoder = LabelEncoder()
-    y = encoder.fit_transform(frame["label"].astype(str))
-    X = frame.drop(columns=["ID", "label"])
-    X_train, X_temp, y_train, y_temp = train_test_split(
-        X, y, test_size=0.30, stratify=y, random_state=SEED
-    )
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_temp, y_temp, test_size=0.50, stratify=y_temp, random_state=SEED
-    )
-    numeric_cols = list(X.select_dtypes(include=np.number).columns)
-    categorical_cols = [column for column in X.columns if column not in numeric_cols]
-    data_summary = {
-        "class_counts": frame["label"].astype(str).value_counts().sort_index().to_dict(),
-        "missing_rate": X.isna().mean().sort_values(ascending=False).to_dict(),
-        "numeric_columns": numeric_cols,
-        "categorical_columns": categorical_cols,
-    }
-    print("data summary:", data_summary)
-    pre = ColumnTransformer(
-        [
-            ("num", Pipeline([("imputer", SimpleImputer(strategy="median"))]), numeric_cols),
-            (
-                "cat",
-                Pipeline(
-                    [
-                        ("imputer", SimpleImputer(strategy="most_frequent")),
-                        ("onehot", OneHotEncoder(handle_unknown="ignore")),
-                    ]
-                ),
-                categorical_cols,
-            ),
-        ]
-    )
-    baseline_pre = ColumnTransformer(
-        [
-            (
-                "num",
-                Pipeline(
-                    [
-                        ("imputer", SimpleImputer(strategy="median")),
-                        ("scaler", StandardScaler()),
-                    ]
-                ),
-                numeric_cols,
-            ),
-            (
-                "cat",
-                Pipeline(
-                    [
-                        ("imputer", SimpleImputer(strategy="most_frequent")),
-                        ("onehot", OneHotEncoder(handle_unknown="ignore")),
-                    ]
-                ),
-                categorical_cols,
-            ),
-        ]
-    )
-    baseline = Pipeline(
-        [
-            ("pre", baseline_pre),
-            ("clf", LogisticRegression(max_iter=3000, class_weight="balanced")),
-        ]
-    )
-    model = Pipeline(
-        [
-            ("pre", pre),
-            (
-                "clf",
-                XGBClassifier(
-                    n_estimators=180,
-                    max_depth=3,
-                    learning_rate=0.05,
-                    objective="multi:softprob",
-                    num_class=len(encoder.classes_),
-                    subsample=0.8,
-                    colsample_bytree=0.8,
-                    eval_metric="mlogloss",
-                    random_state=SEED,
-                    n_jobs=4,
-                    tree_method="hist",
-                ),
-            ),
-        ]
-    )
-    baseline.fit(X_train, y_train)  # 只用训练集拟合基线及其预处理规则
-    validation_baseline_pred = baseline.predict(X_val)  # 在验证集比较基线
-    validation_baseline_f1 = f1_score(y_val, validation_baseline_pred, average="macro")  # 记录验证集基线
-    baseline_pred = baseline.predict(X_test)  # 设置确定后查看测试集基线
-    baseline_f1 = f1_score(y_test, baseline_pred, average="macro")  # 记录测试集基线
-    model.fit(X_train, y_train)  # 只用训练集拟合 XGBoost
-    validation_prob = model.predict_proba(X_val)  # 取得验证集四分类概率
-    validation_pred = validation_prob.argmax(axis=1)  # 按最高概率得到验证集类别
-    validation_f1 = f1_score(y_val, validation_pred, average="macro")  # 用验证集选择模型设置
-    test_prob = model.predict_proba(X_test)  # 取得四个类别的测试概率
-    test_pred = test_prob.argmax(axis=1)
-    macro_f1 = f1_score(y_test, test_pred, average="macro")
-    accuracy = accuracy_score(y_test, test_pred)
-    report = classification_report(
-        y_test, test_pred, target_names=encoder.classes_, output_dict=True, zero_division=0
-    )
-    cm = confusion_matrix(y_test, test_pred)
-    confidence = test_prob.max(axis=1)
-    wrong = np.where(test_pred != y_test)[0]
-    high_confidence_wrong = wrong[np.argsort(confidence[wrong])[::-1]][:10]
-
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
-    counts = frame["label"].value_counts().reindex(encoder.classes_)
-    axes[0].bar(counts.index, counts.values, color="#6ea0b8")
-    axes[0].set_title("Samples in each class")
-    axes[0].set_ylabel("Subjects")
-    missing = frame.drop(columns=["ID", "label"]).isna().mean().sort_values(ascending=False).head(10)
-    axes[1].barh(missing.index, missing.values, color="#d9a441")
-    axes[1].set_title("Highest missing proportions")
-    axes[1].set_xlabel("Proportion")
-    fig.tight_layout()
-    fig.savefig(output / "task4_data_summary.png", dpi=160)
-    plt.close(fig)
-
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
-    axes[0].imshow(cm, cmap="Blues")
-    axes[0].set_xticks(range(len(encoder.classes_)), encoder.classes_)
-    axes[0].set_yticks(range(len(encoder.classes_)), encoder.classes_)
-    axes[0].set_xlabel("Predicted")
-    axes[0].set_ylabel("True")
-    axes[0].set_title(f"Confusion matrix | macro F1={macro_f1:.3f}")
-    for row in range(cm.shape[0]):
-        for col in range(cm.shape[1]):
-            axes[0].text(col, row, int(cm[row, col]), ha="center", va="center")
-    class_f1 = [report[name]["f1-score"] for name in encoder.classes_]
-    axes[1].bar(encoder.classes_, class_f1, color="#5c8c77")
-    axes[1].set_ylim(0, 1)
-    axes[1].set_title("F1 for each class")
-    axes[2].bar(["logistic baseline", "XGBoost"], [baseline_f1, macro_f1], color=["#b28a76", "#5c8c77"])
-    axes[2].set_ylim(0, 1)
-    axes[2].set_title("Macro F1 comparison")
-    fig.tight_layout()
-    fig.savefig(output / "task4_confusion.png", dpi=160)
-    plt.close(fig)
-
-    y_bin = label_binarize(y_test, classes=np.arange(len(encoder.classes_)))
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
-    roc_values = {}
-    pr_values = {}
-    for idx, name in enumerate(encoder.classes_):
-        fpr, tpr, _ = roc_curve(y_bin[:, idx], test_prob[:, idx])
-        precision, recall, _ = precision_recall_curve(y_bin[:, idx], test_prob[:, idx])
-        axes[0].plot(fpr, tpr, label=name)
-        axes[1].plot(recall, precision, label=name)
-        roc_values[name] = float(np.trapezoid(tpr, fpr))
-        pr_values[name] = float(average_precision_score(y_bin[:, idx], test_prob[:, idx]))
-    axes[0].plot([0, 1], [0, 1], "--", color="#888")
-    axes[0].set_title("One-vs-rest ROC")
-    axes[1].set_title("One-vs-rest precision-recall")
-    for axis in axes:
-        axis.legend()
-        axis.set_xlim(0, 1)
-        axis.set_ylim(0, 1)
-    fig.tight_layout()
-    fig.savefig(output / "task4_roc_pr.png", dpi=160)
-    plt.close(fig)
-
-    importance = permutation_importance(  # 通过打乱单列观察性能变化
-        model, X_test, y_test, n_repeats=3, random_state=SEED, scoring="f1_macro", n_jobs=1
-    )
-    order = np.argsort(importance.importances_mean)[-12:]
-    fig, axis = plt.subplots(figsize=(8, 5))
-    axis.barh(np.asarray(X.columns)[order], importance.importances_mean[order], color="#537fa5")
-    axis.set_xlabel("Macro F1 decrease after permutation")
-    axis.set_title("Permutation importance")
-    fig.tight_layout()
-    fig.savefig(output / "task4_importance.png", dpi=160)
-    plt.close(fig)
-    save_json(
-        output / "task4_result.json",
-        {
-            "classes": encoder.classes_.tolist(),
-            "data_summary": data_summary,
-            "split_counts": {"train": len(X_train), "validation": len(X_val), "test": len(X_test)},
-            "accuracy": float(accuracy),
-            "baseline_macro_f1": float(baseline_f1),
-            "validation_baseline_macro_f1": float(validation_baseline_f1),
-            "validation_xgboost_macro_f1": float(validation_f1),
-            "macro_f1": float(macro_f1),
-            "classification_report": report,
-            "roc_auc_ovr": roc_values,
-            "average_precision_ovr": pr_values,
-            "high_confidence_errors": [
-                {
-                    "row_index": int(X_test.index[idx]),
-                    "true": str(encoder.inverse_transform([y_test[idx]])[0]),
-                    "predicted": str(encoder.inverse_transform([test_pred[idx]])[0]),
-                    "confidence": float(confidence[idx]),
-                }
-                for idx in high_confidence_wrong
-            ],
-            "seed": SEED,
-        },
-    )
-
-# 在 Kaggle 中自动找到课程数据并运行参考流程
-DATA_PATH = sorted(Path('/kaggle/input').rglob('Data.csv'))[0]  # 定位已挂载的课程数据
-OUT = Path('/kaggle/working')  # 保存图像和 JSON 结果
-run_project04(DATA_PATH, OUT)  # 运行完整参考流程</code></pre></section>
-<section class="card"><h2>本次参考结果</h2><p>结果用于理解数据、模型和评价指标之间的关系。数值会随环境、随机状态和库版本产生小幅变化，阅读时同时查看图像、错误类型和结果边界。</p><div class="results"><figure><img alt="项目 04 参考结果：task4_data_summary.png" loading="lazy" src="../assets/results/project-05/task4_data_summary.png"/><figcaption>task4_data_summary.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_confusion.png" loading="lazy" src="../assets/results/project-05/task4_confusion.png"/><figcaption>task4_confusion.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_roc_pr.png" loading="lazy" src="../assets/results/project-05/task4_roc_pr.png"/><figcaption>task4_roc_pr.png</figcaption></figure><figure><img alt="项目 04 参考结果：task4_importance.png" loading="lazy" src="../assets/results/project-05/task4_importance.png"/><figcaption>task4_importance.png</figcaption></figure></div></section>
-<section class="card"><h2>结果文件</h2><p>完成参考版运行后，按下列文件核对输入、输出和指标。</p><ul><li><code>task4_data_summary.png</code></li><li><code>task4_confusion.png</code></li><li><code>task4_roc_pr.png</code></li><li><code>task4_importance.png</code></li><li><code>task4_result.json</code></li></ul></section>
+SEED = 42; OUT = Path(&#x27;/kaggle/working&#x27;); OUT.mkdir(exist_ok=True)  # 固定随机状态以便复现实验
+DATA_PATH = None  # 保存当前步骤使用的中间结果
+candidates = sorted(Path(&#x27;/kaggle/input&#x27;).rglob(&#x27;Data.csv&#x27;))  # 读取本任务需要的数据
+if DATA_PATH is None and candidates: DATA_PATH = candidates[0]  # 根据当前条件选择处理分支
+assert DATA_PATH is not None, &#x27;请挂载包含课程 Data.csv 的数据集。&#x27;  # 执行当前步骤并保留结果
+df = pd.read_csv(DATA_PATH)  # 读取本任务需要的数据
+assert {&#x27;ID&#x27;,&#x27;label&#x27;}.issubset(df.columns), &#x27;需要课程 Data.csv 中的 ID 和 label 列。&#x27;  # 执行当前步骤并保留结果
+y_encoder = LabelEncoder(); y = y_encoder.fit_transform(df[&#x27;label&#x27;].astype(str))  # 保存当前步骤使用的中间结果
+X = df.drop(columns=[&#x27;ID&#x27;,&#x27;label&#x27;])  # 保存当前步骤使用的中间结果
+print(df.shape, dict(zip(y_encoder.classes_, np.bincount(y))))  # 显示便于检查的关键信息
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>03</span></div><div class="notebook-markdown"><h2>任务 1：确定样本单位和输入变量</h2>
+<p>每行对应一名受试者，<code>ID</code> 只用于识别，不作为输入。请输出类别数量、变量类型和缺失率。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>04</span></div><pre class="notebook-code"><code>summary = {
+    &#x27;numeric_columns&#x27;: list(X.select_dtypes(include=np.number).columns),
+    &#x27;categorical_columns&#x27;: [column for column in X.columns if column not in X.select_dtypes(include=np.number).columns],
+    &#x27;class_counts&#x27;: dict(zip(y_encoder.classes_, np.bincount(y))),
+    &#x27;missing_rate&#x27;: df.isna().mean().round(4).to_dict(),
+}
+print(summary)
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>05</span></div><div class="notebook-markdown"><h2>任务 2：划分数据、拟合预处理并建立基线</h2>
+<p>预处理只能使用训练集拟合。验证集用于比较逻辑回归和 XGBoost，测试集在模型设置确定后只评价一次。当前 <code>Data.csv</code> 的缺失值总数为 0；代码仍保留训练集内的填补步骤，并在下一段用一小段复制数据观察填补行为。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>06</span></div><pre class="notebook-code"><code>X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=.30, stratify=y, random_state=SEED)  # 固定随机状态以便复现实验
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=.50, stratify=y_temp, random_state=SEED)  # 固定随机状态以便复现实验
+numeric_cols = list(X.select_dtypes(include=np.number).columns)  # 保存当前步骤使用的中间结果
+categorical_cols = [c for c in X.columns if c not in numeric_cols]  # 保存当前步骤使用的中间结果
+pre = ColumnTransformer([  # 保存当前步骤的中间结果
+    (&#x27;num&#x27;, Pipeline([(&#x27;imputer&#x27;, SimpleImputer(strategy=&#x27;median&#x27;))]), numeric_cols),  # 保存当前步骤的中间结果
+    (&#x27;cat&#x27;, Pipeline([(&#x27;imputer&#x27;, SimpleImputer(strategy=&#x27;most_frequent&#x27;)), (&#x27;onehot&#x27;, OneHotEncoder(handle_unknown=&#x27;ignore&#x27;))]), categorical_cols),  # 保存当前步骤的中间结果
+])  # 保存当前步骤使用的中间结果
+baseline_pre = ColumnTransformer([  # 保存当前步骤的中间结果
+    (&#x27;num&#x27;, Pipeline([(&#x27;imputer&#x27;, SimpleImputer(strategy=&#x27;median&#x27;)), (&#x27;scaler&#x27;, StandardScaler())]), numeric_cols),  # 保存当前步骤的中间结果
+    (&#x27;cat&#x27;, Pipeline([(&#x27;imputer&#x27;, SimpleImputer(strategy=&#x27;most_frequent&#x27;)), (&#x27;onehot&#x27;, OneHotEncoder(handle_unknown=&#x27;ignore&#x27;))]), categorical_cols),  # 保存当前步骤的中间结果
+])  # 保存当前步骤使用的中间结果
+baseline = Pipeline([(&#x27;pre&#x27;, baseline_pre), (&#x27;clf&#x27;, LogisticRegression(max_iter=3000, class_weight=&#x27;balanced&#x27;))])  # 建立用于比较的模型
+print(len(X_train), len(X_val), len(X_test))  # 显示便于检查的关键信息
+# 用训练集复制数据制造一个缺失值，仅观察填补动作，不改动原始 Data.csv  # 保持原始数据不变
+demo_col = numeric_cols[0]  # 选择第一个数值变量作为演示列
+demo_values = X_train[[demo_col]].copy()  # 复制训练集中的一列
+demo_values.iloc[:5, 0] = np.nan  # 在副本中放入几个缺失值
+demo_imputer = SimpleImputer(strategy=&#x27;median&#x27;)  # 使用训练集规则建立中位数填补器
+demo_imputer.fit(X_train[[demo_col]])  # 只用训练集拟合填补规则
+demo_filled = demo_imputer.transform(demo_values)  # 将训练规则应用到带缺失值的副本
+print(&#x27;缺失演示:&#x27;, demo_col, &#x27;缺失数=&#x27;, int(demo_values.isna().sum().iloc[0]), &#x27;填补后缺失数=&#x27;, int(np.isnan(demo_filled).sum()))  # 检查填补结果
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><h2>任务 3：XGBoost 模型</h2>
+<p>四分类模型输出四个类别的概率。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>08</span></div><pre class="notebook-code"><code>model = Pipeline([(&#x27;pre&#x27;, pre), (&#x27;clf&#x27;, XGBClassifier(
+    n_estimators=180, max_depth=3, learning_rate=.05,
+    objective=&#x27;multi:softprob&#x27;, num_class=len(y_encoder.classes_),
+    subsample=.8, colsample_bytree=.8, eval_metric=&#x27;mlogloss&#x27;, random_state=SEED,
+))])
+print(model)
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>09</span></div><div class="notebook-markdown"><h2>任务 4：评价四分类结果</h2>
+<p>先在验证集比较基线和 XGBoost，再在设置确定后查看测试集的混淆矩阵、每类 precision/recall/F1、宏平均 F1 和预测概率。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code>baseline.fit(X_train, y_train)
+baseline_val_pred = baseline.predict(X_val)
+baseline_test_pred = baseline.predict(X_test)
+baseline_val_f1 = f1_score(y_val, baseline_val_pred, average=&#x27;macro&#x27;)
+baseline_f1 = f1_score(y_test, baseline_test_pred, average=&#x27;macro&#x27;)
+model.fit(X_train, y_train)
+val_pred = model.predict(X_val); test_prob = model.predict_proba(X_test); test_pred = test_prob.argmax(axis=1)
+validation_xgboost_f1 = f1_score(y_val, val_pred, average=&#x27;macro&#x27;)
+macro_f1 = f1_score(y_test, test_pred, average=&#x27;macro&#x27;)
+accuracy = accuracy_score(y_test, test_pred)
+cm = confusion_matrix(y_test, test_pred)
+report = classification_report(y_test, test_pred, target_names=y_encoder.classes_, output_dict=True)
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.8))
+axes[0].imshow(cm, cmap=&#x27;Blues&#x27;); axes[0].set(xlabel=&#x27;predicted&#x27;, ylabel=&#x27;true&#x27;, title=&#x27;Test confusion matrix&#x27;)
+axes[1].bar(y_encoder.classes_, [report[name][&#x27;f1-score&#x27;] for name in y_encoder.classes_]); axes[1].set_ylim(0, 1); axes[1].set_title(&#x27;Per-class F1&#x27;)
+fig.tight_layout(); fig.savefig(OUT / &#x27;task4_confusion.png&#x27;, dpi=160); plt.close(fig)
+print({&#x27;validation_baseline_macro_f1&#x27;: baseline_val_f1, &#x27;validation_xgboost_macro_f1&#x27;: validation_xgboost_f1, &#x27;test_macro_f1&#x27;: macro_f1, &#x27;accuracy&#x27;: accuracy})
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>11</span></div><div class="notebook-markdown"><h2>任务 5：变量贡献与错误分析</h2>
+<p>置换重要性描述当前模型对变量的依赖，不代表变量的生物学因果作用。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>12</span></div><pre class="notebook-code"><code>pi = permutation_importance(model, X_test, y_test, n_repeats=5, random_state=SEED, scoring=&#x27;f1_macro&#x27;)
+feature_names = np.asarray(X_test.columns)
+order = np.argsort(pi.importances_mean)[-12:]
+fig, axis = plt.subplots(figsize=(7, 4.5))
+axis.barh(feature_names[order], pi.importances_mean[order], color=&#x27;#4f7eae&#x27;)
+axis.set_xlabel(&#x27;permutation decrease in macro F1&#x27;); axis.set_title(&#x27;Variable contribution&#x27;)
+fig.tight_layout(); fig.savefig(OUT / &#x27;task4_importance.png&#x27;, dpi=160); plt.close(fig)
+confidence = test_prob.max(axis=1)
+wrong = np.where(test_pred != y_test)[0]
+high_confidence_wrong = wrong[np.argsort(confidence[wrong])[::-1]][:10]
+errors = [{&#x27;row_index&#x27;: int(index), &#x27;true&#x27;: str(y_encoder.inverse_transform([y_test[index]])[0]), &#x27;predicted&#x27;: str(y_encoder.inverse_transform([test_pred[index]])[0]), &#x27;confidence&#x27;: float(confidence[index])} for index in high_confidence_wrong]
+result = {&#x27;classes&#x27;: y_encoder.classes_.tolist(), &#x27;accuracy&#x27;: float(accuracy), &#x27;baseline_macro_f1&#x27;: float(baseline_f1), &#x27;validation_xgboost_macro_f1&#x27;: float(validation_xgboost_f1), &#x27;macro_f1&#x27;: float(macro_f1), &#x27;classification_report&#x27;: report, &#x27;high_confidence_errors&#x27;: errors}
+(OUT / &#x27;task4_result.json&#x27;).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding=&#x27;utf-8&#x27;)
+print(errors)
+</code></pre></article>
+<section class="reference-results"><h2>参考输出</h2><p>逻辑回归基线 macro-F1 为 0.7392；验证集 XGBoost macro-F1 为 0.7565；测试集准确率为 0.7533，macro-F1 为 0.7507。变量贡献描述模型依赖，不表示疾病因果关系。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-05/task4_data_summary.png" alt="参考结果：四类脑疾病表格的类别和变量摘要"><figcaption>四类脑疾病表格的类别和变量摘要</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-05/task4_confusion.png" alt="参考结果：测试集四分类混淆矩阵"><figcaption>测试集四分类混淆矩阵</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-05/task4_roc_pr.png" alt="参考结果：四类分类概率的 ROC/PR 评价"><figcaption>四类分类概率的 ROC/PR 评价</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-05/task4_importance.png" alt="参考结果：置换重要性排名"><figcaption>置换重要性排名</figcaption></figure></div></section>
 </main></body></html>

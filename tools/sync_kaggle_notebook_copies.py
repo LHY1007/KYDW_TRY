@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from pathlib import Path
 
 
@@ -353,8 +354,29 @@ def comment_lines(notebook: dict) -> list[str]:
     return lines
 
 
+AUTO_INLINE_COMMENT = re.compile(
+    r"\s{2}# (?:导入当前步骤需要的工具|定义本任务使用的模型或数据结构|定义可重复调用的计算步骤|"
+    r"逐批或逐样本执行当前步骤|根据当前条件选择处理分支|处理另一种情况或异常|在受控上下文中读取或计算|"
+    r"返回当前步骤的计算结果|保留题目版的待完成位置|固定随机状态以便复现实验|读取本任务需要的数据|"
+    r"建立互相隔离的数据划分|整理模型需要的数据格式|建立用于比较的模型|配置或更新模型参数|"
+    r"计算训练目标并传递梯度|在训练数据上拟合模型|计算模型输出或预测概率|计算用于比较的评价指标|"
+    r"绘制当前步骤的结果图|保存结果供后续核对|显示便于检查的关键信息|保存当前步骤使用的中间结果|"
+    r"执行当前计算步骤|执行当前步骤并保留结果)\s*$"
+)
+
+
+def strip_auto_inline_comments(notebook: dict) -> None:
+    """参考版补全依赖精确占位文本，因此只临时移除自动生成的行末教学注释。"""
+    for cell in notebook.get("cells", []):
+        if cell.get("cell_type") != "code":
+            continue
+        text = source(cell)
+        set_source(cell, "\n".join(AUTO_INLINE_COMMENT.sub("", line) for line in text.splitlines()))
+
+
 def build_reference(student: dict, project: str) -> dict:
     reference = copy.deepcopy(student)
+    strip_auto_inline_comments(reference)
     if project == "a00":
         complete_a00(reference)
     elif project == "a01":
@@ -367,8 +389,6 @@ def build_reference(student: dict, project: str) -> dict:
         if cell.get("cell_type") == "code":
             cell["outputs"] = []
             cell["execution_count"] = None
-    if comment_lines(student) != comment_lines(reference):
-        raise AssertionError(f"{project} 参考版与题目版的代码注释不一致")
     return reference
 
 
@@ -381,7 +401,7 @@ def main() -> None:
         dump(ROOT / "tmp" / "kaggle-practice-publish" / project / reference_name, student)
         dump(ROOT / "tmp" / "kaggle-publish" / project / reference_name, student)
         dump(ROOT / "tmp" / "kaggle-reference" / project / reference_name, reference)
-        print(f"同步 {project}: {len(student['cells'])} cells；参考版保留全部题目版注释并完成实现")
+        print(f"同步 {project}: {len(student['cells'])} cells；参考版完成实现，随后统一补充行末教学注释")
 
 
 if __name__ == "__main__":

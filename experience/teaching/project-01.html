@@ -121,13 +121,13 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 </header>
 <div class="layout">
 <aside class="sidebar">
-<div class="side-title">本章目录</div><a href="#field-overview">先认识这个方向</a>
+<div class="side-title">本章目录</div>
 <a href="#ai">1. 人工智能研究的对象</a>
-<a href="#tasks">2. 任务类型由输出决定</a>
+<a href="#tasks">2. 任务类型与输出形式</a>
 <a href="#program">3. 程序与 Python</a>
-<a href="#data">4. 数据如何表示现实</a>
+<a href="#data">4. 数据与现实表示</a>
 <a href="#learn">5. 机器学习的基本过程</a>
-<a href="#nn">6. 神经网络怎样学习</a>
+<a href="#nn">6. 神经网络的学习机制</a>
 <a href="#cnn">7. 卷积网络与图像结构</a>
 <a href="#eval">8. 模型评价与错误分析</a>
 <a href="#practice">9. 实践项目</a>
@@ -136,19 +136,19 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <div class="reader">
 <section class="hero">
 <div class="eyebrow">体验教学项目 00</div>
-<h1>基础编程与人工智能</h1>
+<h1>基础编程与人工智能</h1><p data-kydw-integrated-context="1">手写数字分类把一张 28×28 的灰度图看作像素矩阵，把它映射到 0—9 的类别标签。类似的输入—标签关系也用于图像识别、风险预测和科研数据分析；本页的分数只说明模型在当前样本和划分下的表现，不能自动代表所有真实场景。</p>
 <p>我们从人工智能的研究对象开始，逐步认识任务类型、数据、程序、机器学习、神经网络和模型评价。手写数字作为最后的练习材料，把前面的概念串成一次完整实验。</p>
 <div class="hero-tags">
 <span>人工智能研究的对象</span>
-<span>任务类型由输出决定</span>
+<span>任务类型与输出形式</span>
 <span>程序与 Python</span>
-<span>数据如何表示现实</span>
+<span>数据与现实表示</span>
 </div>
 <div aria-label="本页阅读路线" class="orientation-strip">
 <span>输入图像</span><b>→</b><span>数据与 shape</span><b>→</b><span>模型学习</span><b>→</b><span>指标与错误</span><b>→</b><span>Kaggle 实践</span>
 </div>
 <p class="orientation-note">先把一张图像怎样进入计算机看清楚，再看模型怎样产生结果，最后在 Notebook 中完成一次分类实验。</p>
-</section><section class="lesson concept-overview" data-kydw-concept-overview="1" id="field-overview"><h2>先认识这个方向</h2><p class="lecture-open">先把人工智能、机器学习、样本、标签和评价结果这些基本对象分清，再进入手写数字分类与后续稳健性分析。</p><h3>核心概念</h3><p><b>人工智能：</b>人工智能研究怎样把感知、识别、预测、生成和决策等任务写成计算机可以执行和评价的过程。</p><p><b>机器学习：</b>机器学习让程序从样本中学习输入与输出之间的规律，而不是为每一种情况手工编写固定规则。</p><h3>常见数据与基本对象</h3><p>常见输入包括图像、文字、表格和连续信号；标签可以是类别、数值、区域轮廓或下一段内容。一个数据集还需要样本编号、划分信息和产生数据的条件。</p><h3>这个方向常见的应用</h3><p>人工智能常用于图像识别、辅助测量、风险预测、文本与信号处理、生成内容和科研数据分析。应用价值取决于数据是否代表真实使用场景，以及输出能否被人检查。</p><h3>常见研究问题</h3><p>研究通常会比较不同数据表示和模型，观察哪些错误最常见，检查模型面对噪声或新数据时是否仍然稳定。</p><h3>阅读结果时需要记住的边界</h3><p>模型在一个数据集上取得高分，不表示它理解了所有现实情况，也不自动证明变量之间存在因果关系。</p></section>
+</section>
 <section class="lesson" id="ai">
 <h2>1. 人工智能研究的对象</h2>
 <div class="lecture-open">我们先回答最基本的问题：人工智能是什么。人工智能关注的是机器如何完成通常需要感知、判断、推理、学习、规划或生成能力的任务。它包含规则、搜索、概率模型和机器学习等多种方法。</div>
@@ -163,7 +163,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <p>预测能力用于估计尚未观察到的结果。例如，根据既往检查预测患者未来风险，根据历史传感器信号预测下一时刻状态，根据图像特征预测某个连续数值。预测通常需要从过去数据中学习稳定关系。</p>
 </section>
 <section class="lesson" id="tasks">
-<h2>2. 任务类型由输出决定</h2>
+<h2>2. 任务类型与输出形式</h2>
 <div class="lecture-open">同一个现实问题可以被写成不同的计算任务。分类输出类别，回归输出连续数值，检测输出对象位置，分割输出逐像素区域，生成模型产生新的数据对象。理解输出形式，比记住模型名称更重要。</div>
 <p>机器学习任务可以从输出形式来区分。输入可以是一张图像、一段信号、一行表格、一段文本或一组空间坐标，模型最终需要产生的结果决定了任务属于哪一类。分类输出类别，回归输出连续数值，检测输出对象的位置和类别，分割输出逐像素或逐体素的区域标签，生成输出新的数据对象。研究者在选择模型之前，需要先把输出定义清楚，因为标签形式、网络结构、损失函数、评价指标和结果解释都会随输出变化。</p>
 <p>理解这些任务时，可以先固定一个共同框架。每个任务都包含样本、输入、目标、模型输出和评价五个部分。样本表示一次独立观察，例如一位患者、一张图像或一个时间窗口。输入表示模型在预测时能够获得的信息。目标表示训练时提供的参考答案。模型输出表示系统真正产生的结果。评价表示研究者怎样判断结果是否满足使用需求。下面分别展开五类最常见任务。</p>
@@ -218,7 +218,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 </div>
 </div>
 <div class="knowledge-check">
-<h3>思考</h3>
+<h3>指标例题</h3>
 <p>选择“识别手写数字”，写出输入、模型输出和一项合适的评价指标；再说明 Softmax 概率最大的类别如何成为预测结果。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -232,7 +232,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <h2>3. 程序与 Python</h2>
 <div class="lecture-open">人工智能系统最终需要由程序执行。变量保存状态，条件和循环控制过程，函数组织可重复计算，Notebook 把代码、文字和结果放在同一条实验记录中。</div>
 <p>计算机由硬件和软件共同组成。处理器执行指令，内存暂时保存正在使用的数据和程序状态，存储设备长期保存文件，输入输出设备负责与外部环境交换信息。程序把任务描述成一系列可以被处理器执行的操作。</p>
-<div class="python-bridge"><h3>先让一小段 Python 显示出数据的形状</h3><pre class="code">pixels = [[0.0, 1.0, 0.0], [0.2, 0.8, 0.1]]
+<div class="python-bridge"><h3>Python 显示数据形状</h3><pre class="code">pixels = [[0.0, 1.0, 0.0], [0.2, 0.8, 0.1]]
 height = len(pixels)
 width = len(pixels[0])
 print("shape =", (height, width))
@@ -240,12 +240,12 @@ print("top-left =", pixels[0][0])</pre><p>运行后会得到 <code>shape = (2, 3
 <p>中央处理器适合执行通用控制和复杂逻辑。图形处理器包含大量并行计算单元，适合同时执行许多相似的数值运算。神经网络训练包含大量矩阵乘法和卷积，因此 GPU 往往能够显著加速训练；具体收益取决于程序是否包含足够的并行计算。</p>
 <p>程序运行时，代码和数据被加载到内存。解释器或编译后的程序把代码转换成处理器能够执行的指令。每一步运算会读取输入、产生中间结果并更新状态。理解这一过程有助于解释内存不足、运行速度、设备选择和程序崩溃等问题。</p>
 <p>科研计算还涉及运行环境。Python 版本、库版本、操作系统和硬件都可能影响代码行为。Notebook 能够记录代码和结果，环境配置决定代码能否复现。一个完整实验需要同时保存代码、参数、数据版本和依赖信息。</p>
-<p>算法是一套解决问题的明确步骤。排序算法规定如何把一组数字按大小排列，搜索算法规定如何从状态空间找到目标，训练算法规定如何根据误差更新模型参数。算法描述关注逻辑，可以使用自然语言、流程图、伪代码或数学表达。</p>
+<p>算法是一套解决问题的明确步骤。排序算法规定如何把一组数字按大小排列，搜索算法规定如何搜索算法在状态空间中寻找目标，训练算法根据误差更新模型参数。算法描述关注逻辑，可以使用自然语言、流程图、伪代码或数学表达。</p>
 <p>代码是用编程语言写出的具体实现。相同算法可以由不同语言实现，也可以有不同工程写法。程序是可以被运行的代码及其依赖。一个科研项目还会包含数据、配置文件、模型权重、日志和输出结果。</p>
 <p>算法需要满足输入明确、步骤可执行和结果可检查。程序还需要处理现实问题，例如文件不存在、数据格式错误、内存不足和用户输入异常。科研代码的质量体现在结果正确、结构清楚、能够复现和便于修改。</p>
 </section>
 <section class="lesson" id="data">
-<h2>4. 数据如何表示现实</h2>
+<h2>4. 数据与现实表示</h2>
 <div class="lecture-open">模型读取的是经过测量、记录和编码的数据。样本、特征和标签定义了数据表的基本结构，图像在程序中表现为带有形状和数值类型的张量。</div>
 <p>人工智能模型接触到的是数据。现实中的患者、组织、声音、动作和文字需要经过测量与记录，才能进入计算机。一次血压测量把生理状态转换成数值，一张 MRI 把组织的磁共振信号转换成空间灰度，一段 ECG 把心脏电活动转换成随时间变化的电压序列，一张病理切片把组织结构转换成彩色像素。</p>
 <p>数据形成过程决定了模型能够获得什么信息。测量设备的分辨率、采样频率、噪声、校准和操作流程都会影响数据。标签则来自人工判断、实验测量、临床记录或计算规则。一个模型学习到的关系，始终建立在这些测量和标签之上。</p>
@@ -262,7 +262,7 @@ print("top-left =", pixels[0][0])</pre><p>运行后会得到 <code>shape = (2, 3
 <div><b>H、W：空间尺寸</b>图像的行数与列数，MNIST 为 28×28。</div>
 </div>
 <div class="miniapp" id="app00tensor">
-<div class="miniapp-title">从像素网格到 SmallCNN 的张量尺寸</div>
+<div class="miniapp-title">像素网格与 SmallCNN 张量尺寸</div>
 <div class="miniapp-sub">左侧把一个 8×8 像素片段显示成数字网格；右侧按 Notebook 的 SmallCNN 结构查看每一步的 shape。</div>
 <div class="miniapp-grid">
 <div class="panel">
@@ -294,13 +294,13 @@ print("top-left =", pixels[0][0])</pre><p>运行后会得到 <code>shape = (2, 3
 </div>
 <div class="aligned-detail">
 <h3>归一化让输入尺度适合训练</h3>
-<p>Notebook 先从训练子集计算像素均值和标准差，再把同一组参数应用到训练、验证和测试数据：</p>
+<p>Notebook 先使用训练子集计算像素均值和标准差，再把同一组参数应用到训练、验证和测试数据：</p>
 <div class="code">μ = (1 / N) Σᵢ xᵢ　　　 σ = √(E[x²] − μ²)
 x_norm = (x − μ) / (σ + 1e−8)</div>
 <p>均值和标准差来自训练子集，验证集与测试集沿用它们，这样评价阶段使用的尺度由训练过程确定。</p>
 </div>
 <div class="knowledge-check">
-<h3>思考</h3>
+<h3>指标例题</h3>
 <p>看到 <code>[128, 1, 28, 28]</code> 时，依次指出四个维度的含义；再说明训练集均值和标准差在三个数据集上的使用方式。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -334,7 +334,7 @@ L(θ) = (1 / m) Σᵢ ℓ(ŷᵢ, yᵢ)
 <p>模型容量表示模型能够表达的函数复杂度。容量太低时，对数据规律的表达有限；容量很高时，模型可以拟合复杂模式，也更容易记住训练样本中的偶然噪声。数据量、任务复杂度和正则化共同决定合适容量。</p>
 <p>模型在训练集上减少损失，称为经验风险最小化。训练样本来自总体分布的有限抽样，研究目标是让模型在总体中的新样本上保持低误差。训练表现与测试表现之间的差距反映泛化问题。</p>
 <div class="miniapp" id="app00lr">
-<div class="miniapp-title">学习率如何改变参数更新</div>
+<div class="miniapp-title">学习率与参数更新</div>
 <div class="miniapp-sub">三条参考轨迹保持数据、网络和划分不变，只改变学习率，方便比较不同更新步长的差异。Notebook 的基础学习率为 <code>1e-3</code>。</div>
 <div class="real-data-note">阅读重点：学习率决定每次参数更新的步长。页面曲线用于理解变化趋势；你的训练损失、验证准确率和测试结果从 Kaggle 输出文件读取。</div>
 <div class="miniapp-grid">
@@ -364,7 +364,7 @@ L(θ) = (1 / m) Σᵢ ℓ(ŷᵢ, yᵢ)
 </div>
 </section>
 <section class="lesson" id="nn">
-<h2>6. 神经网络怎样学习</h2>
+<h2>6. 神经网络的学习机制</h2>
 <div class="lecture-open">神经网络把许多简单计算单元连接起来。前向传播产生预测，损失函数衡量误差，反向传播计算各参数对误差的影响，优化器据此更新参数。</div>
 <p>神经网络由大量可调整的计算单元组成。单个单元接收多个输入，为每个输入分配权重，加上偏置，再通过激活函数得到输出：</p>
 <div class="aligned-detail">
@@ -379,7 +379,7 @@ a = ReLU(u) = max(0, u)</div>
 <p>对于 MNIST，可以先把 28×28 图像展平成 784 维向量。第一隐藏层把 784 个像素转换成若干隐藏特征，第二隐藏层继续组合这些特征，输出层产生十个类别得分。网络中每个连接都有权重，每个隐藏单元有偏置。</p>
 <p>隐藏层特征由训练目标共同塑造。某些单元可能对竖直笔画敏感，某些单元可能对闭合区域或弯曲结构敏感。判断单元含义时，需要结合多张图像和上下文。</p>
 <div class="knowledge-check">
-<h3>思考</h3>
+<h3>指标例题</h3>
 <p>对于一张 MNIST 图像，按“前向传播 → 损失 → 反向传播 → 参数更新”的顺序说出每一步产生的对象，并指出参数发生改变的位置。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -505,25 +505,8 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 </div>
 <p>MNIST 类别大致均衡，总体准确率具有直观意义。真实医学数据常不均衡，宏 F1 和每类召回更有信息。记录平均指标时，应同时展示各类别表现。</p>
 <p>Top-k 准确率检查真实类别是否进入概率最高的 k 个类别。类别数量很大时有用，十分类 MNIST 通常使用 Top-1。</p>
-<div class="miniapp" id="app00noise">
-<div class="miniapp-title">输入噪声怎样改变模型表现</div>
-<div class="miniapp-sub">曲线记录同一已训练模型在测试集上的参考结果。滑块改变加入测试图像的高斯噪声标准差，观察输入变化与准确率之间的关系。</div>
-<div class="real-data-note">Notebook 任务固定使用 <code>noise_sigma = 0.25</code>；完成后请在 <code>task0_result.json</code> 中读取自己的加噪准确率与下降值。页面滑块用于观察 0—0.5 范围内的参考趋势。</div>
-<label>噪声标准差<span id="noiseVal00">0.20</span>
-</label>
-<input aria-label="噪声标准差" id="noiseSlider00" max="5" min="0" step="1" type="range" value="2"/>
-<div class="miniapp-grid">
-<canvas aria-label="不同噪声强度下的测试准确率参考曲线" height="260" id="noisePlot00" role="img" width="520">
-</canvas>
-<div class="panel">
-<div class="metric-box">
-<b id="noiseAcc00">–</b>测试准确率</div>
-<p>训练数据与实际输入之间的差异扩大时，模型仍可能输出高置信度结果，因此稳健性评价需要主动构造扰动。</p>
-</div>
-</div>
-</div>
 <div class="knowledge-check">
-<h3>思考</h3>
+<h3>指标例题</h3>
 <p>某个数字的 TP=8、FP=2、FN=2 时，计算它的 Precision、Recall 和 F1；再说明为什么宏 F1 需要先算每一类 F1。</p>
 <details class="reference-answer">
 <summary>实践项目参考答案</summary>
@@ -538,7 +521,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <div class="lecture-open">实践部分把本章内容落实到一次可运行的 MNIST 十分类实验。Notebook 已经给出主要结构，需要补上数据检查、训练计算、结果评价和结果保存。</div>
 <div class="simulation-note"><b>模拟运行的注意事项</b><br/>页面中的交互组件用于理解像素、shape、Softmax、卷积与指标之间的关系。请先在 Kaggle 中复制 Notebook 到自己的账户，再按单元格填写、运行并观察；准确率、F1、混淆矩阵、噪声下降和对照实验结果以你的输出为准。</div>
 <div class="aligned-detail">
-<h3>从实践项目页面开始</h3>
+<h3>实践项目入口</h3>
 <p>完成本页教学内容后，返回本项目详情页的“项目材料”区域进入实践项目。实践项目页面会标明需要填写的代码或文字位置、填写依据和检查方法，实践在 Kaggle 中完成；下载 Notebook 到电脑运行是补充路径。</p>
 <p>Notebook 会优先读取 Kaggle 中的 MNIST / Digit Recognizer 数据；没有挂载数据时再尝试 torchvision MNIST，最后的 sklearn digits 回退数据用于环境检查。完成实践时，在 <code>task0_result.json</code> 中确认 <code>dataset_name</code> 表示 MNIST。</p>
 </div>
