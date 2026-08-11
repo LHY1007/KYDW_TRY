@@ -20,7 +20,7 @@
 │   ├── 代表性成果
 │   └── 团队近期动态
 ├── 项目与活动预览
-├── 论文项目招募（有开放项目时显示）
+├── 论文项目招募
 ├── 资源中心预览
 └── 联系我们
 
@@ -84,7 +84,7 @@
 | 负责人 | 展示负责人摘要，点击后进入 `team/people.html` 对应条目，不在首页展开完整履历 | `team.leaders` | 负责人子页面锚点、姓名、年级和简介 |
 | 代表性成果 | 展示成果分类摘要，并为团队近期动态留出连续浏览空间 | `team.achievementMetrics`、`team.achievementNote`、`team.news` | 完整成果页、动态页；数字和详细条目不能只改一处 |
 | 项目与活动 | 突出当前本科生科研入门体验项目；环境准备可直接进入，其他项目先显示项目预览并进入项目主页详情 | `experience`、`projects`、`modules` | 项目总览、Week 页面、项目详情和开放状态 |
-| 论文项目招募 | 只接收论文研究项目；没有开放项目时首页不显示该区块 | `recruitment.records` | 论文项目历史合集、详情页和状态筛选 |
+| 论文项目招募 | 接收论文研究项目与科研实习项目发布群；体验项目和科研与实践活动不进入 | `recruitment.records` | 招募合集、详情页、状态筛选和发布群二维码 |
 | 资源中心 | 只显示三个同层级合集的用途和入口，不把单个专业或单个材料提升为顶层栏目 | `resourceCollections` | 资源中心目录及各专题页 |
 | 联系我们 | 为团队和体验项目提供公开联系方式；同一组二维码在不同页面可以使用不同标题 | `experience.contact` + `contactMarkup` 上下文参数 | 首页和体验项目主页，图片路径、邮箱和标题 |
 
@@ -121,7 +121,7 @@
 
 ### 3.4 人员招募
 
-`recruitment/index.html` 从 `recruitment.records` 生成论文研究项目时间线；只有存在开放论文项目时才生成当前项目区块。`recruitment/detail.html?id=<项目ID>` 使用同一记录生成统一字段与更新历史。课程、培训、竞赛互助、一般实习和项目发布群不进入该数据源。
+`recruitment/index.html` 从 `recruitment.records` 生成论文研究项目和科研实习项目发布群记录。记录状态只使用“进行中、即将开始、已结束”。发布群详情读取 `recruitment.contact.internshipGroupQr`，该字段与首页、体验项目联系区域共用 `assets/contact/project-announcement-qr-cropped.png`；替换这一图片文件后，所有引用页面同步更新。
 
 ### 3.4 本科生科研入门体验项目
 

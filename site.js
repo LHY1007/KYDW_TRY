@@ -223,10 +223,8 @@
   }
 
   function recruitmentStatusClass(status) {
-    if (status === "开放中") return "is-open";
-    if (status === "即将开始") return "is-upcoming";
     if (status === "进行中") return "is-active";
-    if (status === "计划中") return "is-planned";
+    if (status === "即将开始") return "is-upcoming";
     return "is-closed";
   }
 
@@ -246,7 +244,7 @@
   }
 
   function homeRecruitmentMarkup() {
-    const records = (data.recruitment?.records || []).filter((record) => ["开放中", "即将开始"].includes(record.status));
+    const records = (data.recruitment?.records || []).filter((record) => record.showAsCurrent && ["进行中", "即将开始"].includes(record.status));
     if (!records.length) return "";
     return `<section class="section home-recruitment-section" id="current-recruitment">${sectionHead("当前论文项目招募", "正在开放或即将开始的论文研究项目。", "recruitment/index.html", "查看论文项目招募")}
       <div class="recruitment-grid home-recruitment-grid">${records.map((record) => recruitmentCard(record, true)).join("")}</div>
@@ -475,15 +473,15 @@
 
   function recruitmentPage() {
     const recruitment = data.recruitment;
-    const records = [...(recruitment.records || [])].sort((a, b) => String(b.published).localeCompare(String(a.published)));
-    const current = records.filter((record) => ["开放中", "即将开始", "进行中"].includes(record.status));
+    const statusOrder = { "进行中": 0, "即将开始": 1, "已结束": 2 };
+    const records = [...(recruitment.records || [])].sort((a, b) => (statusOrder[a.status] ?? 9) - (statusOrder[b.status] ?? 9) || String(b.published).localeCompare(String(a.published)));
+    const current = records.filter((record) => record.showAsCurrent && ["进行中", "即将开始"].includes(record.status));
     const types = [...new Set(records.map((record) => record.type))];
-    const statuses = [...new Set(records.map((record) => record.status))];
-    const filters = ["全部", ...statuses, ...types];
+    const filters = ["全部", "进行中", "即将开始", "已结束", ...types];
     const currentSection = current.length ? `<section class="section" id="current-recruitment">${sectionHead("当前论文项目", "正在开放、即将开始或持续招募的论文研究项目。", null)}<div class="recruitment-grid">${current.map((record) => recruitmentCard(record)).join("")}</div></section>` : "";
     layout(`${hero({ eyebrow: "KYDW / 论文项目招募", title: recruitment.title, lead: recruitment.lead, actions: [{ label: "查看历史项目", href: "#recruitment-records", primary: true }, { label: "返回主页", href: "index.html" }] })}
       ${currentSection}
-      <section class="section" id="recruitment-records">${sectionHead("历史论文项目", "按公告日期查看已经结束的论文研究项目招募。", null)}<div class="recruitment-filters" role="group" aria-label="招募筛选">${filters.map((filter, index) => `<button type="button" class="recruitment-filter${index === 0 ? " is-active" : ""}" data-recruitment-filter="${esc(filter)}">${esc(filter)}</button>`).join("")}</div><div class="recruitment-timeline">${records.map((record) => `<article class="card recruitment-directory-card" data-recruitment-type="${esc(record.type)}" data-recruitment-status="${esc(record.status)}"><time>${esc(record.published)}</time><div><div class="recruitment-card-head"><span class="card-kicker">${esc(record.type)}</span>${recruitmentStatus(record)}</div><h3>${esc(record.title)}</h3><p>${esc(record.field)}</p><p class="muted">${esc(record.period)} · ${esc(record.mode)}</p></div><a class="outline-btn" href="${rootHref(`recruitment/detail.html?id=${encodeURIComponent(record.id)}`)}">查看详情</a></article>`).join("")}</div></section>
+      <section class="section" id="recruitment-records">${sectionHead("招募记录", "查看论文研究项目和科研实习项目发布群。", null)}<div class="recruitment-filters" role="group" aria-label="招募筛选">${filters.map((filter, index) => `<button type="button" class="recruitment-filter${index === 0 ? " is-active" : ""}" data-recruitment-filter="${esc(filter)}">${esc(filter)}</button>`).join("")}</div><div class="recruitment-timeline">${records.map((record) => `<article class="card recruitment-directory-card" data-recruitment-type="${esc(record.type)}" data-recruitment-status="${esc(record.status)}"><time>${esc(record.published)}</time><div><div class="recruitment-card-head"><span class="card-kicker">${esc(record.type)}</span>${recruitmentStatus(record)}</div><h3>${esc(record.title)}</h3><p>${esc(record.field)}</p><p class="muted">${esc(record.period)} · ${esc(record.mode)}</p></div><a class="outline-btn" href="${rootHref(`recruitment/detail.html?id=${encodeURIComponent(record.id)}`)}">查看详情</a></article>`).join("")}</div></section>
       <section class="section"><div class="callout"><b>当前联系入口</b><p>公众号：${esc(recruitment.contact.publicAccount)}；负责人微信：${esc(recruitment.contact.wechat)}；邮箱：${esc(recruitment.contact.email)}。</p></div></section>`);
     bindRecruitmentFilters();
   }
@@ -493,11 +491,13 @@
     const record = findRecruitment(id);
     if (!record) return layout(hero({ eyebrow: "人员招募", title: "招募记录不存在", lead: "请返回人员招募合集选择项目。", actions: [{ label: "返回人员招募", href: "recruitment/index.html", primary: true }] }));
     const updates = (record.updates || []).map((item) => `<li><time>${esc(item.date)}</time><p>${esc(item.text)}</p></li>`).join("");
+    const groupQr = record.showGroupQr ? data.recruitment.contact.internshipGroupQr : null;
+    const groupQrSection = groupQr ? `<section class="recruitment-detail-section recruitment-group-qr"><h2>${esc(groupQr.title)}</h2><p>${esc(groupQr.text)}</p><figure class="contact-channel"><div class="contact-image-frame"><img src="${rootHref(groupQr.image)}" alt="${esc(groupQr.title)}" loading="lazy" /></div><figcaption>${esc(groupQr.title)}</figcaption></figure></section>` : "";
     const actions = [{ label: "返回人员招募", href: "recruitment/index.html", primary: true }];
     if (record.href) actions.push({ label: "进入相关项目", href: record.href });
     layout(`${hero({ eyebrow: `人员招募 / ${record.type}`, title: record.title, lead: record.field, actions, note: record.status })}
       <section class="section"><div class="recruitment-detail-head">${recruitmentStatus(record)}<span>原公告：${esc(record.source)}</span></div>${recruitmentMetaGrid(record)}</section>
-      <section class="section recruitment-detail-content">${recruitmentListSection("基础要求", record.requirements)}${recruitmentListSection("工作内容", record.work)}${recruitmentListSection("训练与成果", record.outcomes)}<section class="recruitment-detail-section"><h2>报名与联系</h2><p>${esc(record.apply)}</p><p>当前统一联系入口：公众号“${esc(data.recruitment.contact.publicAccount)}”、负责人微信 ${esc(data.recruitment.contact.wechat)}、邮箱 ${esc(data.recruitment.contact.email)}。</p></section>${updates ? `<section class="recruitment-detail-section"><h2>时间线</h2><ol class="recruitment-update-list">${updates}</ol></section>` : ""}</section>`);
+      <section class="section recruitment-detail-content">${groupQrSection}${recruitmentListSection("基础要求", record.requirements)}${recruitmentListSection("工作内容", record.work)}${recruitmentListSection("训练与成果", record.outcomes)}<section class="recruitment-detail-section"><h2>报名与联系</h2><p>${esc(record.apply)}</p><p>当前统一联系入口：公众号“${esc(data.recruitment.contact.publicAccount)}”、负责人微信 ${esc(data.recruitment.contact.wechat)}、邮箱 ${esc(data.recruitment.contact.email)}。</p></section>${updates ? `<section class="recruitment-detail-section"><h2>时间线</h2><ol class="recruitment-update-list">${updates}</ol></section>` : ""}</section>`);
   }
 
   function weekCard(week) {

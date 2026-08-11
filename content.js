@@ -1,3 +1,5 @@
+const KYDW_INTERNSHIP_GROUP_QR = "assets/contact/project-announcement-qr-cropped.png";
+
 window.KYDW = {
   site: {
     name: "科研大王",
@@ -519,7 +521,7 @@ window.KYDW = {
       title: "答疑/反馈渠道",
       text: "参与项目的同学可以加入群聊、通过公众号后台私信、添加负责人微信或邮件联系等多种渠道进行提问和反馈，具体联系方式见页面最下方。",
       channels: [
-        { title: "KYDW项目公告群二维码", image: "assets/contact/project-announcement-qr-cropped.png" },
+        { title: "科研实习项目发布二群二维码", image: KYDW_INTERNSHIP_GROUP_QR },
         { title: "本项目专属群聊二维码", homeTitle: "本科生科研入门体验项目专属群聊", image: "assets/contact/project-group-qr-cropped.png" },
         { title: "微信公众号", image: "assets/contact/official-account-qr.jpg" },
         { title: "负责人微信二维码", image: "assets/contact/leader-wechat-qr-cropped.png" }
@@ -1203,16 +1205,45 @@ window.KYDW.researchSkills = {
   ]
 };
 
-// 论文项目招募合集。课程、培训和一般活动不进入本集合。
+// 招募合集保留论文研究项目和科研实习项目发布群。体验项目与科研实践活动不进入本集合。
 window.KYDW.recruitment = {
   title: "论文项目招募",
-  lead: "集中整理 KYDW 历史论文研究项目招募信息。当前没有开放招募，历史项目按公告日期保留。",
+  lead: "集中整理 KYDW 论文研究项目招募记录与科研实习项目发布群。体验项目、科研与实践活动不进入本页。",
   contact: {
     wechat: window.KYDW.site.wechat,
     email: "lhanyu07@foxmail.com",
-    publicAccount: "科研大王"
+    publicAccount: "科研大王",
+    internshipGroupQr: {
+      title: "科研实习项目发布二群二维码",
+      image: KYDW_INTERNSHIP_GROUP_QR,
+      text: "群内持续发布科研实习与论文研究项目信息，具体要求以每次项目公告为准。"
+    }
   },
   records: [
+    {
+      id: "2025-internship-board",
+      title: "科研实习项目发布群",
+      published: "2025-02-11",
+      period: "持续更新",
+      status: "进行中",
+      type: "科研实习项目发布群",
+      institutions: ["KYDW", "合作高校与课题组"],
+      field: "论文研究项目、短期科研任务与科研实习信息",
+      mode: "群内发布与负责人对接",
+      commitment: "由每次项目公告单独说明",
+      capacity: "由每次项目公告单独说明",
+      audience: "希望获取论文研究项目或科研实习信息的学生",
+      requirements: ["阅读每次公告的研究方向、时间投入和基础要求", "报名后按项目要求保持沟通并完成任务"],
+      work: ["查看论文研究项目与科研实习公告", "按公告要求联系项目负责人", "根据项目安排参与数据、代码、实验或论文工作"],
+      outcomes: ["及时获取科研实习与论文项目招募信息", "具体训练、成果和作者安排由对应项目根据实际贡献确定"],
+      apply: "扫描本页的科研实习项目发布二群二维码入群。",
+      source: "【宣传】科研实习项目发布群（剑桥，东大等）",
+      showGroupQr: true,
+      updates: [
+        { date: "2025-02-11", text: "建立科研实习项目发布群。" },
+        { date: "2025-02-18", text: "补充项目类别、参与方式和任务交付规则。" }
+      ]
+    },
     {
       id: "2026-st-benchmark",
       title: "空间转录组学基准研究专项合作",
