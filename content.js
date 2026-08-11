@@ -1208,7 +1208,7 @@ window.KYDW.researchSkills = {
 // 招募合集保留论文研究项目和科研实习项目发布群。体验项目与科研实践活动不进入本集合。
 window.KYDW.recruitment = {
   title: "论文项目招募",
-  lead: "集中整理 KYDW 论文研究项目招募记录与科研实习项目发布群。体验项目、科研与实践活动不进入本页。",
+  lead: "集中整理 KYDW 论文研究项目招募记录与科研实习项目发布群。",
   contact: {
     wechat: window.KYDW.site.wechat,
     email: "lhanyu07@foxmail.com",
