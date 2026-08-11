@@ -1207,7 +1207,7 @@ window.KYDW.researchSkills = {
 
 // 招募合集保留论文研究项目和科研实习项目发布群。体验项目与科研实践活动不进入本集合。
 window.KYDW.recruitment = {
-  title: "论文项目招募",
+  title: "人员招募",
   lead: "集中整理 KYDW 论文研究项目招募记录与科研实习项目发布群。",
   contact: {
     wechat: window.KYDW.site.wechat,
@@ -1235,7 +1235,7 @@ window.KYDW.recruitment = {
       audience: "希望获取论文研究项目或科研实习信息的学生",
       requirements: ["阅读每次公告的研究方向、时间投入和基础要求", "报名后按项目要求保持沟通并完成任务"],
       work: ["查看论文研究项目与科研实习公告", "按公告要求联系项目负责人", "根据项目安排参与数据、代码、实验或论文工作"],
-      outcomes: ["及时获取科研实习与论文项目招募信息", "具体训练、成果和作者安排由对应项目根据实际贡献确定"],
+      outcomes: ["及时获取科研实习与论文研究项目信息", "具体训练、成果和作者安排由对应项目根据实际贡献确定"],
       apply: "扫描本页的科研实习项目发布二群二维码入群。",
       source: "【宣传】科研实习项目发布群（剑桥，东大等）",
       showGroupQr: true,
@@ -1376,7 +1376,7 @@ window.KYDW.recruitment = {
 // 新项目与招募合集接入现有单一内容源。
 window.KYDW.collections.push({
   id: "recruitment",
-  label: "论文项目招募",
+  label: "人员招募",
   href: "recruitment/index.html",
   pages: ["recruitment", "recruitment-detail"],
   home: false
