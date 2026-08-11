@@ -212,8 +212,7 @@
 
 | 页面 | 描述 | 返回关系 |
 | --- | --- | --- |
-| `resources/environment.html` | 科研基础环境准备；区分 Kaggle 实践与本地长期环境，说明账户、Notebook、计算资源和常见问题 | 返回体验项目、科研技能项目或资源中心 |
-| `programs/research-skills.html`、`programs/research-skills/*.html` | 科研技能入门与查缺补漏主页和十二个章节 | 返回项目与活动或项目主页 |
+| `resources/environment.html` | 科研基础环境准备；区分 Kaggle 实践与本地长期环境，说明账户、Notebook、计算资源和常见问题 | 返回体验项目或资源中心 |
 | `recruitment/index.html`、`recruitment/detail.html` | 人员招募合集、筛选、时间线和详情 | 返回主页或人员招募合集 |
 | `assets/contact/` | 科研实习项目发布二群、本项目群、微信公众号和负责人微信二维码；二群二维码由首页、体验项目页和发布群招募详情共同引用 | `experience.contact.channels`、`recruitment.contact.internshipGroupQr`、Notion 体验项目页 |
 | `experience/teaching/index.html` | 体验教学辅助目录；不是主导航唯一入口 | 返回体验项目 |

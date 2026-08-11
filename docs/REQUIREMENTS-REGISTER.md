@@ -33,7 +33,7 @@
 | --- | --- | --- | --- | --- | --- |
 | REQ-001 | 公开入口 | 当前唯一公开主页为 `https://lhy1007.github.io/KYDW_TRY/`；`kydw.is-a.dev` 完成注册、DNS、Pages 绑定和线上回读前不得作为公开入口。 | GitHub Pages、仓库 Homepage、README、宣传入口 | `active` | [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 主页地址规则 |
 | REQ-002 | 数据源 | 团队、成果、动态、负责人、去向、活动、课程、资源和项目状态优先维护 `content.js`；页面模板只负责组合和渲染。 | `content.js`、`site.js`、首页及子页面 | `active` | [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 内容来源与修改顺序 |
-| REQ-003 | 页面职责 | 顶部导航使用“主页、团队介绍、项目与活动、资源中心、人员招募”；专业解读属于资源中心，课程、培训和科研技能项目属于项目与活动，招募信息进入独立合集。 | 顶部导航、合集页、详情页 | `active` | [`site-architecture.md`](site-architecture.md) |
+| REQ-003 | 页面职责 | 顶部导航使用“主页、团队介绍、项目与活动、资源中心、人员招募”；专业解读属于资源中心，课程和培训属于项目与活动，招募信息进入独立合集。 | 顶部导航、合集页、详情页 | `active` | [`site-architecture.md`](site-architecture.md) |
 | REQ-004 | 团队信息 | 成员高校按“直博、国内学硕/海外研究型硕士、在校本科生成员高校”分组；负责人信息从首页跳转到负责人子页面；首页和详情页使用同一数据源。 | `team` 数据、首页、团队页、去向页、负责人页 | `active` | [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 内容联动表 |
 | REQ-005 | 团队近期动态 | 动态按日期倒序完整保存于 `team.news`；首页作为浏览区，团队近期动态子页面显示同一套内容；成员姓名、论文题目、期刊和会议按已确认口径呈现。 | 首页、`team/news.html`、成果页、宣传文案 | `active` | `content.js`、[`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 首页推送与排序 |
 | REQ-006 | 项目入口 | 项目与活动中先进入项目主页详情；材料页和项目页不得绕过详情页提供额外实践/答案快捷块。环境准备可作为必看入口，其他项目使用“项目预览”。 | `programs`、`experience`、材料卡、快捷入口 | `active` | [`site-architecture.md`](site-architecture.md) 项目层级 |
@@ -44,7 +44,7 @@
 | REQ-011 | 参考答案 | 统一名称为“实践项目参考答案”；使用真正的代码块，删除无效上一页/下一页按钮；参考代码和结果完整展示，并说明答案不是唯一写法。 | `experience/answers`、答案 Notebook、材料阅读器 | `active` | `site.js`、[`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) |
 | REQ-012 | 结果展示 | 网页结果区放真实保存的输入、输出、图像和指标；“模拟运行的注意事项”只说明网页阅读方式，不用它替代实际结果。项目 00—02 的数据模态和结果口径以当前维护文档为准。 | 教学页、实践页、答案页、Notebook、Kaggle | `active` | [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 实践材料规则 |
 | REQ-013 | 教学语言 | 面向学生使用自然、朴素的陈述；删除“闭环”“回到”“最小训练闭环”等模板化或作者内部编排表达，不出现 AI 对话泄露、制作过程和防御性回避语句。 | 所有公开 HTML、Markdown、Notebook Markdown | `active` | 根目录 `AGENTS.md`、[`site-architecture.md`](site-architecture.md) |
-| REQ-014 | 环境准备 | 网站课程和实践优先使用 Kaggle；本地环境面向长期学习者。环境页保留账户、Notebook、计算资源和常见问题，删除具体网络服务商、兑换码、节点倍率、固定 GPU 型号和固定额度。 | `resources/environment.html`、科研技能章节、宣传文案 | `active` | [`docs/environment-materials.md`](environment-materials.md) |
+| REQ-014 | 环境准备 | 网站课程和实践优先使用 Kaggle；本地环境面向长期学习者。环境页保留账户、Notebook、计算资源和常见问题，删除具体网络服务商、兑换码、节点倍率、固定 GPU 型号和固定额度。 | `resources/environment.html`、宣传文案 | `active` | [`docs/environment-materials.md`](environment-materials.md) |
 | REQ-015 | 宣传文案 | 公众号、普通群聊和项目专属群公告分开维护；日期、开放状态、入口和联系方式改变时一起检查。 | `docs/promotions/` | `active` | [`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) 宣传文案规则 |
 | REQ-016 | Notion/飞书 | 当前优先完成 GitHub，Notion 和飞书不作为本轮默认验收项；再次明确同步时，按 GitHub 内容核对并处理公开权限和原生内容。 | Notion、飞书、同步记录 | `deferred` | 本表历史合并记录、[`SITE-MAINTENANCE.md`](../SITE-MAINTENANCE.md) |
 | REQ-017 | 本地浏览器 | Tabbit 的旧自定义域名跳转属于本机缓存问题，不修改网站代码；已清理缓存并验证 GitHub Pages 地址正常。 | Tabbit 本地配置、状态文件 | `resolved` | 本地 `_codex_state/current_task_state.md` |
@@ -63,8 +63,8 @@
 | REQ-030 | 主页消息与项目预览 | 主页显示全宽“最新消息”块，Week 2 项目入口定位到主页项目卡；Week 3—5 的后续项目在目录中保持锁定预览。 | `content.js`、`site.js`、`styles.css`、主页、项目目录 | `resolved` | 2026-08-09 主页、项目与活动页和体验目录浏览器回归通过 |
 | REQ-031 | 预测结果可辨识性 | 体验项目的参考结果需要有可读、可比较的预测输出。空间表达任务固定为一个高表达基因 Snap25，使用带正则化的 XGBoost Poisson 份额模型、500 轮和 8×8 总量约束；脑膜瘤任务排除标签生成特征，使用图像形态特征随机森林。 | 体验 03/05 题目、参考答案、结果图、Kaggle 准备包、本地网站副本 | `resolved` | 03 测试准确率 1.000、宏平均 F1 1.000；05 测试 MAE 0.1773、Pearson 0.4909、8×8 聚合误差 4.25e-7；参考答案页图像可读 |
 | REQ-032 | 参考答案结构 | 参考答案复用实践 Notebook 的 Markdown/代码单元格顺序，代码只替换待填写部分；网页优先读取答案 Notebook，旧 HTML 保留兼容入口。 | 体验 00—05 答案 Notebook、答案 HTML、材料阅读器 | `active` | 2026-08-10 用户修正与本地检查点 |
-| REQ-033 | 科研技能项目 | “科研技能入门与查缺补漏”是独立长期项目，与科研入门培训并列；包含十二个章节、两条学习路径、问题索引和无需提交的自学任务。 | `researchSkills` 数据、项目主页、章节页、培训页联动 | `active` | 2026-08-11 用户确认方案 |
-| REQ-034 | 时效内容 | 删除 Gemini 推荐、会员政策、固定工具排名、固定 Kaggle 配额和旧环境服务信息；优先介绍 ChatGPT/Codex、Claude/Claude Code及已核对的国产模型，Python 本地教学默认 3.13。 | 科研技能项目、环境页、宣传和维护文档 | `active` | 2026-08-11 用户要求与官方资料核对 |
+| REQ-033 | 科研技能项目 | “科研技能入门与查缺补漏”当前版本从公开网站下架，完整保留在网站外的本地归档，等待用户个人更新。 | 本地归档、公开导航、项目卡、页面与关联链接 | `superseded` | 2026-08-11 用户下架要求 |
+| REQ-034 | 时效内容 | 环境页删除 Gemini、固定 Kaggle 配额和旧环境服务信息；本地环境默认使用 Python 3.13。已下架项目中的 AI 工具介绍不作为公开网站内容。 | 环境页、宣传和维护文档 | `active` | 2026-08-11 用户要求与官方资料核对 |
 | REQ-035 | 人员招募合集 | 顶部增加人员招募入口并使用统一字段、时间线和详情模板。 | `recruitment` 数据、合集页、详情页 | `superseded` | 招募范围与状态由 REQ-036、REQ-037 修订 |
 
 ## 四、已被后文替代的历史要求
@@ -152,3 +152,4 @@
 | 2026-08-11 | REQ-036 | 招募以论文研究项目为主体；删除当前招募、暑期体验项目、寒假培训及其他活动记录 | REQ-035 中将课程和培训纳入人员招募的错误范围 | `content.js`、`site.js`、`recruitment/`、首页、维护文档、项目 AGENTS | 记录类型与状态检查、旧记录 ID 扫描、首页无当前招募、Pages 回读 | `superseded` |
 | 2026-08-11 | REQ-037 | 招募记录状态只保留进行中、即将开始、已结束；恢复科研实习项目发布群，详情显示共享二群二维码；继续排除体验项目和科研与实践活动 | REQ-036 中删除项目发布群的范围 | `content.js`、`site.js`、`styles.css`、`recruitment/`、共享二维码资源、维护文档、项目 AGENTS | 状态枚举、排除记录、共享资源路径、详情二维码、响应式页面和 Pages 回读 | `resolved` |
 | 2026-08-11 | REQ-038 | 栏目、导航、HTML 标题和页面层级统一名为“人员招募”；论文研究项目只作为记录类型和内容描述 | 将栏目改名为“论文项目招募”的错误处理 | `content.js`、`site.js`、`recruitment/`、维护文档、项目 AGENTS | 栏目名扫描、HTML 标题、导航数据、页面标题和 Pages 回读 | `resolved` |
+| 2026-08-11 | REQ-039 | “科研技能入门与查缺补漏”当前版本从公开网站下架，不保留导航、项目卡、公开页面、路由、培训联动或环境页链接；下架前版本完整保留在网站外的本地归档 | REQ-033 中将当前版本作为公开项目的错误方案 | `content.js`、`site.js`、`programs/`、`resources/environment.html`、维护文档、本地归档、项目 AGENTS | 公开引用扫描、语法、内部链接、下架路径 404、Pages 回读、归档哈希 | `resolved` |

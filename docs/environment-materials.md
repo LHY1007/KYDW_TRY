@@ -14,7 +14,7 @@
 教学文档库的额外条目写在 `content.js` 的 `resourceCollections` / `teaching-library` 中。资源中心页面由同一条数据渲染，新增或更换页面路径时只修改这一处，并检查：
 
 1. `resources/index.html` 能进入该页面；
-2. GitHub Pages 页面和 Kaggle、科研技能项目入口均可访问；
+2. GitHub Pages 页面和 Kaggle 入口均可访问；
 3. 页面在桌面端和窄屏仍能阅读，路径卡片和常见问题在窄屏降为单列；
 4. 页面不含特定网络服务商、兑换码、固定 GPU 型号或固定使用额度；
 5. Kaggle 步骤与当前实践入口一致，说明复制个人副本、依次运行、保存版本和查看当前可用加速器；

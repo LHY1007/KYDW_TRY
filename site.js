@@ -18,7 +18,6 @@
   const findProject = (id) => data.projects.find((project) => project.id === id);
   const findModule = (id) => data.modules.find((module) => module.id === id);
   const findTrainingChapter = (id) => (data.training?.chapters || []).find((chapter) => chapter.id === id);
-  const findResearchChapter = (id) => (data.researchSkills?.chapters || []).find((chapter) => chapter.id === id || chapter.slug === id);
   const findRecruitment = (id) => (data.recruitment?.records || []).find((record) => record.id === id);
   const findWeek = (id) => data.experience.weeks.find((week) => String(week.id) === String(id));
   const LOCKED_WEEK_IDS = new Set(["3", "4", "5"]);
@@ -401,49 +400,6 @@
     return `<article class="card training-chapter-card"><div class="chapter-number">${String(index + 1).padStart(2, "0")}</div><h3>${esc(chapter.title)}</h3><p>${esc(chapter.lead)}</p><div class="card-footer"><a class="outline-btn" href="${rootHref(`programs/training/${chapter.id}.html`)}">进入章节</a></div></article>`;
   }
 
-  function researchChapterHref(chapter) {
-    return `programs/research-skills/${chapter.slug}.html`;
-  }
-
-  function researchChapterCard(chapter) {
-    return `<article class="card research-chapter-card"><div class="chapter-number">${esc(chapter.no)}</div><h3>${esc(chapter.title)}</h3><p>${esc(chapter.summary)}</p><div class="card-footer"><a class="outline-btn" href="${rootHref(researchChapterHref(chapter))}">进入章节</a></div></article>`;
-  }
-
-  function researchPathMarkup(path) {
-    const links = (path.chapterIds || []).map(findResearchChapter).filter(Boolean).map((chapter) => `<a href="${rootHref(researchChapterHref(chapter))}">${esc(chapter.no)} · ${esc(chapter.title)}</a>`).join("");
-    return `<article class="card research-path-card"><h3>${esc(path.title)}</h3><p>${esc(path.text)}</p><div class="research-path-links">${links}</div></article>`;
-  }
-
-  function researchSkillsOverview() {
-    const skills = data.researchSkills;
-    layout(`${hero({ eyebrow: "项目与活动 / 科研技能", title: skills.title, lead: skills.lead, actions: [{ label: "查看章节", href: "#research-skill-chapters", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
-      <section class="section"><div class="prose">${paragraphs(skills.paragraphs)}</div></section>
-      <section class="section">${sectionHead("学习路径", "根据当前任务选择需要的内容。", null)}<div class="research-path-grid">${skills.paths.map(researchPathMarkup).join("")}</div></section>
-      <section class="section">${sectionHead("按问题查找", "遇到具体问题时，可以直接进入对应章节。", null)}<div class="research-problem-links">${skills.problems.map((item) => { const chapter = findResearchChapter(item.chapterId); return chapter ? `<a href="${rootHref(researchChapterHref(chapter))}">${esc(item.label)}</a>` : ""; }).join("")}</div></section>
-      <section class="section" id="research-skill-chapters">${sectionHead("项目章节", "电脑、数据、代码、文献、实验和学术常识分别整理。", null)}<div class="research-chapter-grid">${skills.chapters.map(researchChapterCard).join("")}</div></section>
-      <section class="section"><div class="callout"><b>任务说明</b><p>章节中的短任务用于自学和检查理解，不需要提交。</p></div></section>`);
-  }
-
-  function researchSectionMarkup(section, index) {
-    const paragraphsHtml = (section.paragraphs || []).map((item) => `<p>${esc(item)}</p>`).join("");
-    const bullets = section.bullets?.length ? `<ul>${section.bullets.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : "";
-    const tools = section.tools?.length ? `<div class="research-tool-grid">${section.tools.map((tool) => `<article class="research-tool-card"><h3>${esc(tool.name)}</h3><p>${esc(tool.text)}</p></article>`).join("")}</div>` : "";
-    const code = section.code ? `<pre class="research-code"><code>${esc(section.code)}</code></pre>` : "";
-    const note = section.note ? `<div class="research-note"><p>${esc(section.note)}</p></div>` : "";
-    const task = section.task ? `<div class="research-task"><b>自学任务</b><p>${esc(section.task)}</p></div>` : "";
-    return `<section class="research-content-section" id="section-${index + 1}"><div class="chapter-index">知识点 ${String(index + 1).padStart(2, "0")}</div><h2>${esc(section.title)}</h2>${paragraphsHtml}${bullets}${tools}${code}${note}${task}</section>`;
-  }
-
-  function researchSkillChapterPage() {
-    const chapter = findResearchChapter(body.dataset.researchChapter);
-    if (!chapter) return layout(hero({ eyebrow: "科研技能入门与查缺补漏", title: "章节不存在", lead: "请返回项目主页选择章节。", actions: [{ label: "返回项目主页", href: "programs/research-skills.html", primary: true }] }));
-    const toc = chapter.sections.map((section, index) => `<a href="#section-${index + 1}">${esc(section.title)}</a>`).join("");
-    const previous = data.researchSkills.chapters[Number(chapter.no) - 2];
-    const next = data.researchSkills.chapters[Number(chapter.no)];
-    layout(`${hero({ eyebrow: `科研技能入门与查缺补漏 / ${chapter.no}`, title: chapter.title, lead: chapter.summary, actions: [{ label: "返回项目主页", href: "programs/research-skills.html", primary: true }, { label: "查看全部章节", href: "programs/research-skills.html#research-skill-chapters" }] })}
-      <section class="section research-reader-layout"><aside class="research-reader-toc"><b>本页目录</b>${toc}</aside><details class="research-reader-mobile-toc"><summary>本页目录</summary><nav>${toc}</nav></details><article class="research-reader-body"><div class="research-chapter-intro">${paragraphs(chapter.intro)}</div>${chapter.sections.map(researchSectionMarkup).join("")}<div class="research-self-check"><b>自学说明</b><p>这些任务用于自学和检查理解，不需要提交。</p></div><nav class="research-chapter-nav">${previous ? `<a href="${rootHref(researchChapterHref(previous))}">上一章 · ${esc(previous.title)}</a>` : `<span></span>`}${next ? `<a href="${rootHref(researchChapterHref(next))}">下一章 · ${esc(next.title)}</a>` : `<a href="${rootHref("programs/research-skills.html")}">返回项目主页</a>`}</nav></article></section>`);
-  }
-
   function recruitmentMetaGrid(record) {
     const items = [
       ["公告日期", record.published], ["项目时间", record.period], ["项目类型", record.type], ["当前状态", record.status],
@@ -594,7 +550,6 @@
     const module = findModule(body.dataset.module);
     if (!module) return layout(hero({ eyebrow: "项目与活动", title: "活动不存在", lead: "请返回项目与活动目录选择内容。", actions: [{ label: "返回项目与活动", href: "programs/index.html", primary: true }] }));
     if (module.id === "training") return trainingOverview();
-    if (module.id === "research-skills") return researchSkillsOverview();
     const quickLinks = moduleQuickLinks(module, false, "授课目录");
     layout(`${hero({ eyebrow: module.id === "sdu" ? "项目与活动 / 历史项目" : "项目与活动", title: module.title, lead: module.subtitle, actions: [{ label: "返回项目与活动", href: "programs/index.html", primary: true }, { label: "进入资源中心", href: "resources/index.html" }] })}
     <section class="section"><div class="prose"><p>${esc(module.text)}</p>${moduleMeta(module)}</div>${quickLinks}</section>
@@ -615,7 +570,6 @@
     const trainingModule = findModule("training");
     layout(`${hero({ eyebrow: "项目与活动 / 科研入门培训", title: t.title, lead: t.lead, actions: [{ label: "查看培训章节", href: "#training-chapters", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}${moduleMeta(trainingModule)}</div>${moduleQuickLinks(trainingModule, false, "项目入口")}</section>
-    <section class="section"><div class="card feature-callout"><h2>科研技能入门与查缺补漏</h2><p>电脑、数据、Kaggle、Python、人工智能、文献、科研工具、实验评价和学术常识集中在长期参考项目中。</p><div class="card-footer"><a class="solid-btn" href="${rootHref("programs/research-skills.html")}">进入科研技能项目 →</a></div></div></section>
     <section class="section" id="training-chapters">${sectionHead("培训章节", "从基础知识开始，逐步进入人工智能、科研实践与实战项目。", "programs/training/path.html", "查看培训路径")}<div class="training-chapter-grid">${t.chapters.map(trainingChapterCard).join("")}</div></section>
     <section class="section"><div class="card feature-callout"><h2>${esc(t.plan.title)}</h2><p>${esc(t.plan.lead)}</p><div class="card-footer"><a class="solid-btn" href="${rootHref("programs/training/path.html")}">查看培训路径 →</a></div></div></section>`);
   }
@@ -624,10 +578,9 @@
     const chapter = findTrainingChapter(body.dataset.trainingChapter);
     if (!chapter) return layout(hero({ eyebrow: "科研入门培训", title: "培训章节不存在", lead: "请返回科研入门培训主页选择章节。", actions: [{ label: "返回培训主页", href: "programs/training.html", primary: true }] }));
     if (chapter.locked) return layout(hero({ eyebrow: "科研入门培训", title: chapter.title, lead: "该章节尚未开放。", actions: [{ label: "返回培训主页", href: "programs/training.html", primary: true }] }));
-    const references = (chapter.researchChapterIds || []).map(findResearchChapter).filter(Boolean);
     layout(`${hero({ eyebrow: `科研入门培训 / ${chapter.title}`, title: chapter.title, lead: chapter.lead, actions: [{ label: "返回培训主页", href: "programs/training.html", primary: true }, { label: "查看培训路径", href: "programs/training/path.html" }] })}
     <section class="section">${sectionHead("本章任务", null, null)}<div class="training-topic-grid">${chapter.topics.map((topic) => `<article class="card training-topic-card"><h3>${esc(topic.title)}</h3><p>${esc(topic.text)}</p></article>`).join("")}</div></section>
-    ${references.length ? `<section class="section">${sectionHead("对应科研技能章节", "需要补充基础知识时进入对应长期参考。", null)}<div class="research-problem-links">${references.map((item) => `<a href="${rootHref(researchChapterHref(item))}">${esc(item.no)} · ${esc(item.title)}</a>`).join("")}</div></section>` : ""}`);
+    `);
   }
 
   function trainingPlanPage() {
@@ -990,7 +943,7 @@
     layout(`${hero({ eyebrow: "资源中心 / 专业解读 / 历年去向", title: overview.title, lead: overview.lead, actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}${yearCards}<section class="section"><div class="callout"><p>${esc(overview.note)}</p></div></section>`);
   }
 
-  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, "research-skill-chapter": researchSkillChapterPage, recruitment: recruitmentPage, "recruitment-detail": recruitmentDetailPage, resources, experience, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
+  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, recruitment: recruitmentPage, "recruitment-detail": recruitmentDetailPage, resources, experience, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
   if (renderers[page]) renderers[page]();
   else home();
 })();
