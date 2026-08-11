@@ -1203,10 +1203,10 @@ window.KYDW.researchSkills = {
   ]
 };
 
-// 人员招募合集。历史项目只记录当期公开信息，当前报名统一使用站点联系入口。
+// 论文项目招募合集。课程、培训和一般活动不进入本集合。
 window.KYDW.recruitment = {
-  title: "人员招募",
-  lead: "集中整理 KYDW 历史招募、专项合作、培训和项目补录信息。当前项目显示在页面顶部，已结束项目按公告日期保留。",
+  title: "论文项目招募",
+  lead: "集中整理 KYDW 历史论文研究项目招募信息。当前没有开放招募，历史项目按公告日期保留。",
   contact: {
     wechat: window.KYDW.site.wechat,
     email: "lhanyu07@foxmail.com",
@@ -1214,36 +1214,12 @@ window.KYDW.recruitment = {
   },
   records: [
     {
-      id: "2026-summer-experience",
-      title: "2026 年暑期本科生科研入门体验项目",
-      published: "2026-08-02",
-      period: "2026 年 8 月 2 日至 9 月中旬",
-      status: "开放中",
-      type: "科研入门",
-      institutions: ["KYDW"],
-      field: "医学影像、生物信息学、人工智能及交叉方向",
-      mode: "线上自学与 Notebook 实践",
-      commitment: "开放期内自行安排学习进度",
-      capacity: "开放参与",
-      audience: "没有科研经历或希望了解医学人工智能研究方向的本科生",
-      requirements: ["先完成科研基础环境准备", "能够访问网站和 Kaggle", "按照教学项目、实践项目和实践项目参考答案的顺序学习"],
-      work: ["阅读项目教学内容", "在 Kaggle 复制并修改 Notebook", "观察数据、模型和结果", "完成后核对实践项目参考答案"],
-      outcomes: ["认识常见医学人工智能数据与任务", "完成一次可以运行和解释的代码实践", "为后续课程或长期科研补齐基础"],
-      apply: "从项目主页进入当前开放内容；遇到问题可通过公众号或负责人联系。",
-      source: "KYDW 本科生科研入门体验项目公告",
-      href: "experience/index.html",
-      updates: [
-        { date: "2026-08-02", text: "Week 1 项目开放。" },
-        { date: "2026-08-09", text: "Week 2 项目在网站开放，后续周次继续保持锁定预览。" }
-      ]
-    },
-    {
       id: "2026-st-benchmark",
       title: "空间转录组学基准研究专项合作",
       published: "2026-01-17",
       period: "2026 年 1 月至 3 月",
       status: "已结束",
-      type: "专项合作",
+      type: "论文研究项目",
       institutions: ["KYDW", "合作课题组"],
       field: "空间转录组学与基准测试",
       mode: "线上项目协作",
@@ -1258,34 +1234,12 @@ window.KYDW.recruitment = {
       updates: [{ date: "2026-01-17", text: "发布项目时间、人数、工作内容和基础要求。" }]
     },
     {
-      id: "2026-winter-program",
-      title: "2026 年寒假本科生科研与实践活动",
-      published: "2026-01-17",
-      period: "2026 年寒假",
-      status: "已结束",
-      type: "培训与活动",
-      institutions: ["KYDW", "合作创新团队与课题组"],
-      field: "科研入门、专项合作、竞赛互助与课题组合作",
-      mode: "线上学习与项目协作",
-      commitment: "各子项目分别安排",
-      capacity: "按子项目确定",
-      audience: "希望补足科研基础、参加竞赛或进入合作项目的本科生",
-      requirements: ["基础培训不限高校和年级", "专项合作和课题组项目根据实际能力筛选"],
-      work: ["本科生科研入门指南学习", "科研实践任务", "医学人工智能挑战赛或竞赛训练", "专项合作和发展路径交流"],
-      outcomes: ["完成基础学习与项目考核", "根据兴趣进入科研、竞赛或课题组学习路径"],
-      apply: "历史活动已经结束，长期参考内容已整理到科研技能项目。",
-      source: "KYDW｜2026 年寒假本科生科研与实践活动预告",
-      updates: [
-        { date: "2026-01-17", text: "公布科研培训、专项合作、竞赛互助和课题组合作四项活动。" }
-      ]
-    },
-    {
       id: "2025-multi-school-2501",
       title: "KYDW 多校联合科研项目第 2501 期",
       published: "2025-10-28",
       period: "2025 年第 2501 期",
       status: "已结束",
-      type: "多校联合项目",
+      type: "论文研究项目",
       institutions: ["剑桥大学相关课题组", "邓迪大学相关课题组", "复旦大学相关课程", "东北大学医学与生物信息工程学院相关团队"],
       field: "人工智能、生物医学工程、计算科学与生命科学交叉方向",
       mode: "跨校线上协作",
@@ -1300,29 +1254,6 @@ window.KYDW.recruitment = {
       updates: [
         { date: "2025-10-28", text: "公布项目结构、研究方向、录取情况和补录方向。" },
         { date: "2025-11-04", text: "傅里叶神经算子、脑影像处理和空间转录组基础研究方向开放当期补录。" }
-      ]
-    },
-    {
-      id: "2025-internship-board",
-      title: "科研实习项目发布群",
-      published: "2025-02-11",
-      period: "不定期发布",
-      status: "进行中",
-      type: "项目发布渠道",
-      institutions: ["KYDW", "合作高校与课题组"],
-      field: "短期科研任务与实习项目",
-      mode: "线上项目发布与负责人对接",
-      commitment: "由每次项目公告单独说明",
-      capacity: "由每次项目公告单独说明",
-      audience: "希望通过短期任务认识科研流程或积累实践经验的学生",
-      requirements: ["查看每次公告的时间和能力要求", "按期完成任务并保持沟通"],
-      work: ["数据整理", "代码运行", "绘图制表", "研究辅助任务"],
-      outcomes: ["了解真实项目中的任务分工和交付方式", "经历、成果和后续机会按当期项目与实际贡献确定"],
-      apply: "关注人员招募合集、科研大王公众号或联系当前负责人。",
-      source: "【宣传】科研实习项目发布群（剑桥，东大等）",
-      updates: [
-        { date: "2025-02-11", text: "建立短期科研实习项目发布群。" },
-        { date: "2025-02-18", text: "补充项目类别、难度、参与方式和任务交付规则。" }
       ]
     },
     {
@@ -1397,7 +1328,7 @@ window.KYDW.recruitment = {
       published: "2024-09-20",
       period: "约 3—4 周",
       status: "已结束",
-      type: "短期科研任务",
+      type: "论文研究项目",
       institutions: ["剑桥大学数学院与临床医学院相关项目"],
       field: "泛癌影像与增强 CT 生成数据准备",
       mode: "线上",
@@ -1417,7 +1348,7 @@ window.KYDW.recruitment = {
       published: "2024-09-20",
       period: "约 4 个月",
       status: "已结束",
-      type: "短期科研任务",
+      type: "论文研究项目",
       institutions: ["剑桥大学相关项目", "首都医学科学创新中心", "天坛医院", "宣武医院"],
       field: "癌症影像分割与标注",
       mode: "线上",
@@ -1437,7 +1368,7 @@ window.KYDW.recruitment = {
 // 新项目与招募合集接入现有单一内容源。
 window.KYDW.collections.push({
   id: "recruitment",
-  label: "人员招募",
+  label: "论文项目招募",
   href: "recruitment/index.html",
   pages: ["recruitment", "recruitment-detail"],
   home: false
