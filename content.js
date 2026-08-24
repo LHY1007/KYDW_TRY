@@ -552,7 +552,7 @@ window.KYDW = {
     weeks: [
       { id: 1, title: "Week 1", note: "第一部分已开放。第一个项目为零基础跨专业同学和 26 级新生准备。", open: true, projects: ["project-01", "project-02", "project-03"] },
       { id: 2, title: "Week 2", note: "第二部分已开放，学生可以按项目阅读教学内容、完成题目并用参考答案核对结果。", open: true, projects: ["project-04", "project-05", "project-06"] },
-      { id: 3, title: "Week 3", note: "等待后续开放。", open: false, projects: ["project-06", "project-07", "project-08", "project-09"] },
+      { id: 3, title: "Week 3", note: "等待后续开放。", open: false, projects: ["project-07", "project-08", "project-09"] },
       { id: 4, title: "Week 4", note: "等待后续开放。", open: false, projects: ["project-10", "project-11", "project-12"] },
       { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-13", "project-14", "project-15"] }
     ]
