@@ -258,6 +258,11 @@
     return `<div class="quick-links${compact ? " is-compact" : ""}"><div class="quick-links-head">${esc(label)}</div><div class="quick-link-grid">${links}</div></div>`;
   }
 
+  function temporaryModuleCard(module) {
+    if (!module) return "";
+    return `\u003carticle class="card directory-project-card temporary-module-card"\u003e\u003cdiv class="card-kicker"\u003e临时模块\u003c/div\u003e\u003ch3\u003e${esc(module.title)}\u003c/h3\u003e\u003cp\u003e${esc(module.short)}\u003c/p\u003e\u003cdiv class="card-footer"\u003e\u003ca class="outline-btn" href="${esc(module.href)}" target="_blank" rel="noreferrer noopener"\u003e跳转\u003c/a\u003e\u003c/div\u003e\u003c/article\u003e`;
+  }
+
   function experienceQuickLinks() {
     return data.experience.weeks.map((week) => ({
       label: `Week ${week.id}`,
@@ -533,6 +538,16 @@
     <section class="section" id="project-directory">${sectionHead("项目目录", "开始阅读和练习前，请先完成项目环境准备；项目目录列出当前开放内容。", null)}<div class="directory-project-grid">${environmentProjectCard(e.environment, true)}${directoryProjects.map(projectDirectoryCard).join("")}</div></section>
     ${previewWeeks.map(({ week, projects }) => `<section class="section" id="week-${week.id}-preview">${sectionHead(`Week ${week.id} 项目预览`, week.note, null)}<div class="directory-project-grid">${projects.map((project) => projectDirectoryCard(project, { locked: !isLocalPreview, week: week.id })).join("")}</div></section>`).join("")}
     <section class="section"><div class="callout"><b>参与方式</b><p>${esc(e.participation)}</p><p>${esc(e.access)}</p></div></section>${contactMarkup(e.contact)}`);
+  }
+
+  function experienceDirectoryByWeek() {
+    const e = data.experience;
+    const sections = e.weeks.map((week) => {
+      const projects = (week.projects || []).map(findProject).filter(isListedProject);
+      if (!isWeekOpen(week)) return `\u003csection class="section week-directory-section"\u003e${sectionHead(`Week ${week.id}`, "本周内容尚未开放。开放后将显示对应项目。", null)}${weekCard(week)}\u003c/section\u003e`;
+      return `\u003csection class="section week-directory-section"\u003e${sectionHead(`Week ${week.id}`, week.note, null)}\u003cdiv class="directory-project-grid"\u003e${projects.map(projectDirectoryCard).join("")}\u003c/div\u003e\u003c/section\u003e`;
+    }).join("");
+    layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}\u003csection class="section"\u003e\u003cdiv class="prose"\u003e${paragraphs(e.paragraphs)}\u003c/div\u003e\u003c/section\u003e\u003csection class="section" id="project-directory"\u003e${sectionHead("Week 0", "项目环境准备和基础技能查阅。", null)}\u003cdiv class="directory-project-grid"\u003e${environmentProjectCard(e.environment, true)}${temporaryModuleCard(e.temporaryModule)}\u003c/div\u003e\u003c/section\u003e${sections}\u003csection class="section"\u003e\u003cdiv class="callout"\u003e\u003cb\u003e参与方式\u003c/b\u003e\u003cp\u003e${esc(e.participation)}\u003c/p\u003e\u003cp\u003e${esc(e.access)}\u003c/p\u003e\u003c/div\u003e\u003c/section\u003e${contactMarkup(e.contact)}`);
   }
 
   function weekPage() {
@@ -874,7 +889,7 @@
     layout(`${hero({ eyebrow: "资源中心 / 专业解读 / 历年去向", title: overview.title, lead: overview.lead, actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}${yearCards}<section class="section"><div class="callout"><p>${esc(overview.note)}</p></div></section>`);
   }
 
-  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
+  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience: experienceDirectoryByWeek, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
   if (renderers[page]) renderers[page]();
   else home();
 })();

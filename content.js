@@ -430,6 +430,11 @@ window.KYDW = {
       short: "完成网络访问、账户注册和 Kaggle 代码项目创建，开始实践前先完成这一步。",
       href: "resources/environment.html"
     },
+    temporaryModule: {
+      title: "科研技能查缺补漏",
+      short: "用于给无编程/科研基础的同学快速了解可能需要的知识, 可在后续项目进行中边干边学, 逐渐补齐所需技能(仅需查阅 基础知识 和 初识人工智能 两个模块)",
+      href: "https://zcntd48d25dy.feishu.cn/wiki/OHOpwPBZHiUkFxkZZBVcn9Ihnv3?from=from_copylink"
+    },
     advancedResources: [],
     lockedAdvancedResources: [
       { title: "进阶项目说明", href: "experience/advanced-resources/index.html", locked: true, studentVisible: false },
