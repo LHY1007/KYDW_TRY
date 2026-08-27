@@ -72,7 +72,7 @@ window.KYDW = {
     achievementNote: "多人合作论文或项目，无论人数多少，仅记为一次。",
     destinationNote: "已毕业成员去向包括直博、国内学硕和海外研究型硕士。",
     achievements: [
-      { title: "论文产出", text: "CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）；CCF B 类会议 2 篇（MICCAI2025、ICASSP2026）；CCF B 类研讨会论文 5 篇（CMMCA2025、CMMCA2026）；SCI 一区 Top 论文 4 篇；SCI 二区论文 3 篇。", lines: ["CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）", "CCF B 类会议 2 篇（MICCAI2025、ICASSP2026）", "CCF B 类研讨会论文 5 篇（CMMCA2025、CMMCA2026）", "SCI 一区 Top 论文 4 篇", "SCI 二区论文 3 篇"] },
+      { title: "论文产出", text: "CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）；CCF B 类会议 2 篇（MICCAI2025、ICASSP2026）；CCF B 类研讨会论文 5 篇（CMMCA2025、CMMCA2026）；期刊论文 7 篇。", lines: ["CCF A 类会议 2 篇（IJCAI 2024、ICLR 2026）", "CCF B 类会议 2 篇（MICCAI2025、ICASSP2026）", "CCF B 类研讨会论文 5 篇（CMMCA2025、CMMCA2026）", "期刊论文 7 篇"] },
       { title: "国家级项目", text: "全国大学生数学建模竞赛 Outstanding Winner 1 项；国家级大学生创新创业训练计划优秀项目 5 项。", lines: ["全国大学生数学建模竞赛 Outstanding Winner 1 项", "国家级大学生创新创业训练计划优秀项目 5 项"] },
       { title: "学科竞赛", text: "全国生物医学工程创新设计竞赛一等奖 5 项、二等奖 13 项；其他国家级学科竞赛一等奖 7 项、二等奖 10 项。", lines: ["全国生物医学工程创新设计竞赛一等奖 5 项、二等奖 13 项", "其他国家级学科竞赛一等奖 7 项、二等奖 10 项"] }
     ],
@@ -85,18 +85,19 @@ window.KYDW = {
       "复旦大学秋季学期本科生践悟课程"
     ],
     news: [
+      { date: "2026.8", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 的论文 <em>An AI-Assisted Clinical Decision Support System for Green Classification of Cystocele on Dynamic Transperineal Ultrasound</em> 发表于 <strong><em>Journal of Medical Systems</em>（影响因子 8.8）</strong>。" },
       { date: "2026.8", html: "团队本科生 <strong>万和欣（24级）</strong>、<strong>刘怡航（24级）</strong>、<strong>周煜楷（25级）</strong>、<strong>伍东辰（23级）</strong> 的论文 <em>TASP: Task-Agnostic Structural Pretraining for 2D Medical Image Segmentation</em> 发表于 <strong>CCF C 类会议 British Machine Vision Conference（BMVC 2026，英国机器视觉会议）</strong>。" },
       { date: "2026.8", html: "团队本科生 <strong>李知彤（25级）</strong>、<strong>姜逸轩（24级）</strong>、<strong>刘子铭（25级）</strong>、<strong>武晨杰（25级）</strong> 的论文 <em>OncoRelay3D: Foundation-Model-Assisted Reconstruction of 3D Tumor Cell-Expression Fields for Mechanism-Aware Directed Cell-Cell Communication</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2026）</em></strong> 研讨会 <strong><em>CMMCA 2026</em> Oral 级（排名第 5）</strong>。" },
       { date: "2026.8", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 的论文 <em>TriSCoV-Net: Cross-Scale Verified Virtual Immunomarker Proxy Generation from Diffusion Magnetic Resonance Imaging</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2026）</em></strong> 研讨会 <strong><em>CMMCA 2026</em> Oral 级（排名第 2）</strong>。" },
       { date: "2026.7", html: "团队本科生 <strong>李知彤（25级）</strong>、<strong>刘子铭（25级）</strong>、<strong>姜逸轩（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
       { date: "2026.7", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
-      { date: "2026.6", html: "团队本科生 <strong>苗正洋（23级）</strong>、<strong>万和欣（24级）</strong>、<strong>伍东辰（23级）</strong>、<strong>汤昊天（23级）</strong> 的论文 <em>Multi-Source Feature Fusion with Self-Supervised Contrastive Learning for AF Detection under Label Scarcity</em> 发表于 <strong>中科院一区期刊 <em>AI Engineering</em>（JCR 影响因子暂未公布）</strong>。" },
-      { date: "2026.5", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>崔涵禹（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 发表于 <strong>中科院一区 TOP 学术期刊 <em>Expert Systems With Applications</em>（影响因子 9.4）</strong>。" },
+      { date: "2026.6", html: "团队本科生 <strong>苗正洋（23级）</strong>、<strong>万和欣（24级）</strong>、<strong>伍东辰（23级）</strong>、<strong>汤昊天（23级）</strong> 的论文 <em>Multi-Source Feature Fusion with Self-Supervised Contrastive Learning for AF Detection under Label Scarcity</em> 发表于 <strong><em>AI Engineering</em>（影响因子暂未公布）</strong>。" },
+      { date: "2026.5", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>崔涵禹（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>A Diffusion-Enhanced Classification System for Physiological Signal-based Diagnosis</em> 发表于 <strong><em>Expert Systems With Applications</em>（影响因子 9.4）</strong>。" },
       { date: "2026.5", html: "团队本科生 <strong>苗正洋（23级）</strong>、<strong>吴熙东（22级）</strong> 的论文 <em>MDF: A Model Dispatching Framework with Noise-Estimator-Centric Experts for Robust Biosignal Classification</em> 发表于 <strong>CCF B 类国际顶级声学、语音与信号处理会议 IEEE International Conference on Acoustics, Speech, and Signal Processing（ICASSP 2026）</strong>。" },
-      { date: "2026.5", html: "团队本科生 <strong>孙宇嘉（24级）</strong> 的论文 <em>TASC-SwinMT: Task-Adaptive Synergistic Cross-Task Swin Multi-Task Framework for CT and MRI Image Interpolation and Segmentation</em> 发表于 <strong>SCI 收录、JCR Q2 期刊 <em>TOMOGRAPHY</em>（影响因子 2.5）</strong>。" },
+      { date: "2026.5", html: "团队本科生 <strong>孙宇嘉（24级）</strong> 的论文 <em>TASC-SwinMT: Task-Adaptive Synergistic Cross-Task Swin Multi-Task Framework for CT and MRI Image Interpolation and Segmentation</em> 发表于 <strong><em>TOMOGRAPHY</em>（影响因子 2.5）</strong>。" },
       { date: "2026.4", html: "团队 MPhil <strong>唐浩（东北大学生物医学工程21级本科）</strong> 的论文 <em>Generalized Spherical Neural Operators: Green's Function Formulation</em> 发表于 <strong>CCF A 类国际顶级人工智能会议 <em>International Conference on Learning Representations（ICLR 2026）</em></strong>。" },
-      { date: "2026.2", html: "团队本科生 <strong>吴熙东（22级）</strong>、<strong>汤昊天（23级）</strong>、<strong>伍东辰（23级）</strong> 的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <strong>中科院一区期刊 <em>Biomedical Signal Processing and Control</em>（影响因子 5.7）</strong>。" },
-      { date: "2026.1", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>吴熙东（22级）</strong>、<strong>崔涵禹（23级）</strong> 的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <strong>中科院一区期刊 <em>Computer Methods and Programs in Biomedicine</em>（影响因子 6.4）</strong>。" },
+      { date: "2026.2", html: "团队本科生 <strong>吴熙东（22级）</strong>、<strong>汤昊天（23级）</strong>、<strong>伍东辰（23级）</strong> 的论文 <em>MSCGN: Multiscale complementary gating network for time series classification</em> 发表于 <strong><em>Biomedical Signal Processing and Control</em>（影响因子 5.7）</strong>。" },
+      { date: "2026.1", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>吴熙东（22级）</strong>、<strong>崔涵禹（23级）</strong> 的论文 <em>Lightweight element-wise product enhanced neural network for efficient arrhythmia detection on embedded devices</em> 发表于 <strong><em>Computer Methods and Programs in Biomedicine</em>（影响因子 6.4）</strong>。" },
       { date: "2025.11", html: "团队本科生 <strong>孙宇嘉（24级）</strong> 获 <strong>第十七届全国大学生数学竞赛（非数学 A 类）一等奖</strong>。" },
       { date: "2025.9", html: "团队本科生 <strong>汤昊天（23级）</strong>、<strong>唐欣蕊（22级）</strong>、<strong>吴运嘉</strong>、<strong>苗正洋（23级）</strong> 的论文 <em>Hierarchical Brain Structure Modeling for Predicting Genotype of Glioma</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong>。" },
       { date: "2025.9", html: "团队 PhD <strong>阙宁锋（东北大学生物医学工程21级本科）</strong> 的论文 <em>Adaptive spatial transcriptomics interpolation via cross-modal cross-slice modeling</em> 以 early accepted 形式发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong>。" },
@@ -104,7 +105,7 @@ window.KYDW = {
       { date: "2025.9", html: "团队本科生 <strong>蒋政（23级）</strong>、<strong>刘雪鹏（23级）</strong>、<strong>朱品安（24级）</strong> 的论文 <em>HaDM-ST: Histology-Assisted Differential Modeling for Spatial Transcriptomics Generation</em> 发表于 <strong>CCF B 类国际顶级医学影像会议 <em>International Conference on Medical Image Computing and Computer Assisted Intervention（MICCAI 2025）</em></strong> 研讨会 <strong><em>CMMCA 2025</em></strong>。" },
       { date: "2025.7", html: "团队本科生 <strong>万和欣（24级）</strong>、<strong>朱品安（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
       { date: "2025.7", html: "团队本科生 <strong>朱鸿杰（23级）</strong>、<strong>周华苑（24级）</strong> 获 <strong>中国大学生生物医学工程创新设计竞赛国家级一等奖</strong>。" },
-      { date: "2025.4", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>Multiscale feature enhanced gating network for atrial fibrillation detection</em> 发表于 <strong>中科院一区期刊 <em>Computer Methods and Programs in Biomedicine</em>（影响因子 6.4）</strong>。" }
+      { date: "2025.4", html: "团队本科生 <strong>吴熙东（22级）</strong> 的论文 <em>Multiscale feature enhanced gating network for atrial fibrillation detection</em> 发表于 <strong><em>Computer Methods and Programs in Biomedicine</em>（影响因子 6.4）</strong>。" }
     ],
     leaders: [
       { name: "伍东辰", role: "2023 级负责人", preview: "东北大学生物医学工程专业 2023 级，现任 KYDW 2023 级负责人。曾获国际大学生数学建模竞赛特等奖 Outstanding Winner、国家奖学金。", paragraphs: [
@@ -451,9 +452,13 @@ window.KYDW = {
       "project-06": "以同一组织区域的 H&E 与表达图为例，介绍表达预测、尺度关系、空间聚合和插值基线。"
     },
     latestNews: {
-      title: "最新消息",
-      lead: "新项目开放：本科生科研入门体验项目 Week 2：",
-      projectIds: ["project-04", "project-05", "project-06"]
+      title: "近期消息（30天内）",
+      projectActivity: {
+        title: "项目活动更新",
+        lead: "本科生科研入门体验项目新模块开放: Week3",
+        projectIds: ["project-07", "project-08"]
+      },
+      achievementDates: ["2026.8"]
     },
     lead: "面向 0 基础本科生，内容涉及医学影像、计算病理、生物信息学与人工智能，阅读讲解并完成相应练习。",
     date: "计划开放时间：2026 年 8 月 2 日—9 月中旬；期间可随时加入，后加入可适当延期。",

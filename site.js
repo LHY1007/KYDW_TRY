@@ -220,9 +220,12 @@
   function latestNewsMarkup() {
     const latest = data.experience.latestNews;
     if (!latest) return "";
-    const projects = (latest.projectIds || []).map(findProject).filter(Boolean);
+    const activity = latest.projectActivity || latest;
+    const projects = (activity.projectIds || []).map(findProject).filter(Boolean);
     const projectLinks = projects.map((project) => `<a class="latest-news-project" href="#experience">${esc(project.title)}</a>`).join("");
-    return `<section class="section latest-news-section" id="latest-news"><article class="card latest-news-card"><div class="card-kicker">${esc(latest.title || "最新消息")}</div><p class="latest-news-lead">${esc(latest.lead || "")}</p><div class="latest-news-projects">${projectLinks}</div></article></section>`;
+    const achievementDates = new Set((latest.achievementDates || []).map((date) => String(date)));
+    const achievementItems = (data.team.news || []).filter((item) => achievementDates.has(String(item.date)));
+    return `<section class="section latest-news-section" id="latest-news"><h2 class="latest-news-title">${esc(latest.title || "近期消息（30天内）")}</h2><div class="card latest-news-card"><div class="latest-news-grid"><article class="latest-news-panel latest-news-activity"><h3>${esc(activity.title || "项目活动更新")}</h3><p class="latest-news-lead">${esc(activity.lead || "")}</p><div class="latest-news-projects">${projectLinks}</div></article><article class="latest-news-panel latest-news-achievements"><h3>本科生成果</h3><div class="latest-news-list">${newsItemsMarkup(achievementItems)}</div></article></div></div></section>`;
   }
 
   function moduleMeta(module) {
