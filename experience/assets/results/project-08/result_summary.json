@@ -1,0 +1,7 @@
+{
+  "simplified_baseline_macro_f1": 0.958364222135148,
+  "source_baseline_macro_f1": 0.9701816601035093,
+  "source_lstm_macro_f1": 0.9085969197256405,
+  "error_windows": 23,
+  "boundary": "source_run_id来自时间戳回退得到的采集运行，不等同于已知受试者编号。"
+}

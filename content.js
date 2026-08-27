@@ -1,5 +1,3 @@
-const KYDW_INTERNSHIP_GROUP_QR = "assets/contact/project-announcement-qr-cropped.png";
-
 window.KYDW = {
   site: {
     name: "科研大王",
@@ -165,7 +163,7 @@ window.KYDW = {
       label: "项目与活动资料",
       title: "项目与活动资料",
       subtitle: "项目说明、活动记录与实践材料",
-      text: "集中收录课程、培训和专题交流的说明页与已公开材料，按活动分别进入。",
+      text: "集中收录课程、培训和专题交流的说明页与已公开材料，按活动分别列出。",
       audience: "查找项目说明与活动资料",
       status: "按项目整理",
       href: "programs/index.html",
@@ -173,7 +171,7 @@ window.KYDW = {
       homeOrder: 2,
       items: [
         { title: "山东大学本科生暑期名校课程-神经影像学与人工智能", text: "剑桥大学 KYDW 成员所属课题组团队在山东大学授课的暑期短期课程，面向山东大学全学科 25、24 级学生，内容覆盖基础编程、MRI 分割、胸部 X 射线、计算病理、医学信息预测和空间转录组等任务。", href: "programs/sdu.html", home: true },
-        { title: "KYDW科研入门培训", text: "培训内容包括电脑操作、文献阅读、数据基础、Python、人工智能、深度学习和科研实践，并按活动安排组织学习顺序与阶段任务。", href: "programs/training.html", home: true },
+        { title: "KYDW科研入门培训", text: "老版本的 KYDW 科研入门项目目前已不适用。培训内容包括电脑操作、文献阅读、数据基础、Python、人工智能、深度学习和科研实践。", href: "programs/training.html", home: true },
         { title: "复旦大学秋季学期本科生践悟课程", text: "剑桥大学 KYDW 成员所属课题组团队在复旦大学面向高潜力学生授课的科研践悟课程，主要从领域知识、学术常识、技能培养等多方面展开。", href: "programs/fudan.html", home: true },
         { title: "生物医学人工智能专题交流", text: "生物学与人工智能交叉主题的定期讨论。", href: "programs/workshop.html", home: true }
       ]
@@ -182,8 +180,8 @@ window.KYDW = {
       id: "teaching-library",
       label: "教学文档库",
       title: "教学文档库",
-      subtitle: "已开放项目的教学页面、实践项目与实践项目参考答案",
-      text: "教学页面、实践项目与实践项目参考答案按项目配套收录，已开放的项目可以直接进入对应材料。",
+      subtitle: "已开放方向的知识讲解、代码练习与参考内容",
+      text: "按研究方向收录连续的知识讲解、可运行的代码练习和结果核对内容，已开放的方向可以直接阅读。",
       audience: "阅读某个研究方向的教学材料",
       status: "按开放项目持续收录",
       href: "resources/index.html#teaching-library",
@@ -200,8 +198,8 @@ window.KYDW = {
       id: "training",
       label: "科研入门培训",
       title: "KYDW科研入门培训",
-      subtitle: "从科研基础进入人工智能与研究实践",
-      text: "培训从电脑操作、文献阅读和数据基础开始，逐步进入 Python、人工智能、深度学习和科研实践。",
+      subtitle: "科研基础、人工智能与研究实践",
+      text: "老版本的 KYDW 科研入门项目目前已不适用。培训内容包括电脑操作、文献阅读、数据基础、Python、人工智能、深度学习和科研实践。",
       audience: "大一至大三、来自不同专业和院校的本科生",
       date: "持续整理",
       status: "持续整理",
@@ -232,12 +230,12 @@ window.KYDW = {
       period: "历史项目",
       home: true,
       lessons: [
-        { id: "sdu-lesson-00", title: "实践 0 · 基础编程与人工智能", text: "我们使用 MNIST 手写数字图像检查数据、训练分类模型，并查看混淆矩阵和噪声测试结果。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-00.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-0" },
-        { id: "sdu-lesson-01", title: "实践 1 · MRI 肿瘤图像分割", text: "我们使用配对的 MRI 切片和肿瘤 mask 按患者划分数据，完成分割并比较 Dice、IoU 和边界结果。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-01.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-1" },
-        { id: "sdu-lesson-02", title: "实践 2 · 胸部 X 射线与生成模型", text: "我们使用胸部 X 射线观察投影图像和数字质量，训练残差卷积 VAE，并比较重建、潜空间采样和图像统计。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-02.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-2" },
-        { id: "sdu-lesson-03", title: "实践 3 · 脑膜瘤数字病理分析", text: "我们使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成基础分类，并结合验证、测试、错误图块和染色变化阅读结果。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-03.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-3" },
-        { id: "sdu-lesson-04", title: "实践 4 · 脑疾病临床数据分析", text: "我们使用受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-04.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-4" },
-        { id: "sdu-lesson-05", title: "实践 5 · 空间转录组表达分析", text: "我们使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，训练轻量模型，并检查聚合一致性和基线差异。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-05.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-5" }
+        { id: "sdu-lesson-00", title: "实践 0 · 基础编程与人工智能", text: "MNIST 手写数字分类，涵盖图像与标签检查、模型训练、混淆矩阵和噪声测试。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-00.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-0" },
+        { id: "sdu-lesson-01", title: "实践 1 · MRI 肿瘤图像分割", text: "MRI 脑肿瘤分割，涵盖患者级数据划分、分割训练以及 Dice、IoU 和边界评价。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-01.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-1" },
+        { id: "sdu-lesson-02", title: "实践 2 · 胸部 X 射线与生成模型", text: "胸部 X 射线生成，涵盖投影图像、VAE 重建、潜空间采样和生成结果比较。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-02.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-2" },
+        { id: "sdu-lesson-03", title: "实践 3 · 脑膜瘤数字病理分析", text: "脑膜瘤数字病理，涵盖 H&E 图块、形态特征、分类评价和染色变化。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-03.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-3" },
+        { id: "sdu-lesson-04", title: "实践 4 · 脑疾病临床数据分析", text: "脑疾病临床数据分析，涵盖受试者级表格、数据预处理、分类比较和变量贡献。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-04.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-4" },
+        { id: "sdu-lesson-05", title: "实践 5 · 空间转录组表达分析", text: "空间转录组表达分析，涵盖 H&E 与表达图配对、表达预测、空间聚合和插值基线。", date: "2026 年暑期历史课程", href: "programs/sdu-lesson-05.html", kaggle: "https://www.kaggle.com/code/liuhanyu1007/sdu-neuro-5" }
       ]
     },
     {
@@ -260,7 +258,7 @@ window.KYDW = {
         { id: "fudan-lesson-04", title: "第四节 开发环境与系统基础", text: "认识开发环境、文件系统和代码项目运行所需的基础设置。" },
         { id: "fudan-lesson-05", title: "第五节 验证任务", text: "通过验证任务检查前面工具和方法是否能够用于实际问题。" },
         { id: "fudan-lesson-06", title: "第六节 近期人工智能更新与数据知识", text: "结合近期人工智能工具和数据知识，继续完善科研工作方式。" },
-        { id: "fudan-lesson-07", title: "第七节 学术界常识", text: "整理进入学术研究后需要了解的基本规则、交流方式和研究习惯。" }
+        { id: "fudan-lesson-07", title: "第七节 学术界常识", text: "整理学术研究中的基本规则、交流方式和研究习惯。" }
       ]
     },
     {
@@ -281,19 +279,20 @@ window.KYDW = {
 
   training: {
     title: "KYDW科研入门培训",
-    lead: "基础知识、人工智能与科研实践构成研究任务所需的知识、工具与方法。",
+    lead: "基础知识、人工智能和科研实践覆盖研究任务所需的知识、工具与方法。",
     paragraphs: [
-      "科研入门培训面向准备接触科研的本科生，内容包括电脑、文献、数据、Python、人工智能、深度学习和研究实践。每个章节都对应一组可以继续阅读或动手完成的内容。",
-      "培训内容既包括基础知识，也包括文献阅读、代码环境、挑战赛和实战项目。学习时可以按照章节顺序进入，也可以根据已有基础直接选择需要的模块。"
+      "老版本的 KYDW 科研入门项目目前已不适用。",
+      "科研入门培训面向准备接触科研的本科生，内容包括电脑、文献和数据等基本工作，以及 Python、人工智能、深度学习和研究实践。每个章节对应一组可以继续阅读或动手完成的内容。",
+      "培训内容包括基础知识、文献阅读、代码环境、挑战赛和实战项目。学习时可以按章节顺序阅读，也可以根据已有基础选择需要的模块。"
     ],
     chapters: [
       {
         id: "preface",
-        title: "学习方法与完整流程",
-        lead: "准备材料、掌握方法和完成实践构成一条可以反复使用的学习路径。",
+        title: "序言：如何制作世界上最好吃的面包",
+        lead: "准备材料、掌握方法和完成实践是研究任务中的常见环节。",
         topics: [
-          { title: "先形成完整流程", text: "从研究问题、资料、工具和实践任务开始，先完成一次完整的学习过程。" },
-          { title: "再逐步增加难度", text: "先复盘结果和过程，再进入更复杂的数据、模型和研究问题。" }
+          { title: "研究任务的基本组成", text: "研究问题、资料、工具和实践任务共同构成一次可执行的学习过程。" },
+          { title: "复杂数据与方法", text: "数据规模、模型结构和研究问题的复杂程度会影响实践方式与结果解释。" }
         ]
       },
       {
@@ -313,7 +312,7 @@ window.KYDW = {
       {
         id: "ai-basics",
         title: "初识人工智能",
-        lead: "从 Python 和基础概念进入回归、分类以及医学数据任务。",
+        lead: "Python、基础概念、回归、分类与医学数据任务。",
         topics: [
           { title: "人工智能基础知识", text: "认识数据、特征、标签、训练、预测和评价等基本概念。" },
           { title: "Python 安装与使用", text: "完成运行环境配置，掌握变量、函数、数组和基础数据处理。" },
@@ -322,7 +321,7 @@ window.KYDW = {
           { title: "人工智能与 Python 入门", text: "通过短小的 Python 练习观察人工智能任务如何运行。" },
           { title: "机器学习：回归与分类", text: "从连续数值预测和类别判断理解最基本的监督学习任务。" },
           { title: "医学数据与人工智能任务", text: "把医学问题转化为数据、模型和结果可以表达的任务。" },
-          { title: "实践：Python 与人工智能", text: "完成一次包含数据输入、模型运行和结果解释的入门实践。" }
+          { title: "实践：Python 与人工智能", text: "完成一次数据输入、处理和结果解释的入门实践。" }
         ]
       },
       {
@@ -338,18 +337,18 @@ window.KYDW = {
       {
         id: "research-basics",
         title: "基础科研",
-        lead: "从深度学习环境和代码基础进入信号、图像与模型实践。",
+        lead: "深度学习环境、代码基础、信号、图像与模型实践。",
         topics: [
           { title: "深度学习基础", text: "理解神经网络、训练过程和常见深度学习任务的基本结构。" },
           { title: "深度学习环境", text: "安装并检查深度学习项目所需的软件环境和依赖。" },
-          { title: "信号分析实践", text: "从信号的表示、处理和特征观察进入实际分析任务。" },
+          { title: "信号分析实践", text: "认识信号的表示、处理和特征，并完成实际分析任务。" },
           { title: "图像生成实践", text: "通过图像生成任务观察模型如何学习数据分布和视觉结构。" },
           { title: "PyTorch 代码复盘", text: "回顾数据集、模型、训练、验证和结果保存等代码环节。" }
         ]
       },
       {
         id: "advanced-research",
-        title: "完整研究任务",
+        title: "进阶科研",
         lead: "把基础代码、数据处理、模型训练和结果分析放进更完整的研究任务。",
         locked: true,
         topics: [
@@ -405,18 +404,18 @@ window.KYDW = {
         lead: "把前面章节的知识带入完整的医学与人工智能实践任务。",
         locked: true,
         topics: [
-          { title: "数据与结果", text: "按项目查看数据处理、模型搭建、结果分析和研究表达。" },
-          { title: "深入学习", text: "完成入门实践后，根据兴趣继续阅读更完整的教学与代码材料。" }
+          { title: "数据处理与结果分析", text: "按项目查看数据处理、模型搭建、结果分析和研究表达。" },
+          { title: "继续阅读与实践", text: "完成入门内容后，可根据兴趣阅读同一方向的教学与代码材料。" }
         ]
       }
     ],
     plan: {
       title: "培训路径",
-      lead: "基础学习、项目考核、实践进阶和合作交流共同组成培训路径。",
+      lead: "基础知识、项目实践、专题训练和合作交流共同组成培训内容。",
       parts: [
-        { title: "基础学习", text: "学习基础知识和人工智能章节，建立完成后续实践所需的知识与工具基础。" },
-        { title: "项目考核", text: "围绕基础章节完成四项实践，把文献、数据、代码和结果表达落实到具体任务。" },
-        { title: "实践进阶", text: "可选择医学人工智能挑战赛或国内竞赛专项培训，继续训练研究任务或竞赛项目的完整执行。" },
+        { title: "基础知识", text: "学习基础知识和人工智能章节，掌握后续实践需要的知识与工具。" },
+        { title: "项目实践", text: "围绕基础章节完成四项实践，把文献、数据、代码和结果表达落实到具体任务。" },
+        { title: "专题训练", text: "可选择医学人工智能挑战赛或国内竞赛专项培训，练习研究任务或竞赛项目的完整执行。" },
         { title: "合作交流", text: "完成学习与实践后，可根据兴趣和能力，继续参加纯科研项目、竞赛项目，或联系课题组跟学。" }
       ],
       note: "外校学生也可以依托 KYDW 参与关联创新团队与课题组的科研或竞赛活动。"
@@ -439,19 +438,19 @@ window.KYDW = {
     ],
     homeProjectIds: ["project-04", "project-05", "project-06"],
     homeProjectSummaries: {
-      "project-01": "我们使用 MNIST 手写数字图像检查数据、训练分类模型，并查看混淆矩阵和噪声测试结果。",
-      "project-02": "我们使用配对的 MRI 切片和肿瘤 mask 按患者划分数据，完成分割并比较 Dice、IoU 和边界结果。",
-      "project-03": "我们使用胸部 X 射线观察投影图像和数字质量，训练残差卷积 VAE，并比较重建、潜空间采样和图像统计。",
-      "project-04": "我们使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成基础分类，并结合验证、测试、错误图块和染色变化阅读结果。",
-      "project-05": "我们使用受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。",
-      "project-06": "我们使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，训练轻量模型，并检查聚合一致性和基线差异。"
+      "project-01": "以 MNIST 手写数字为例，介绍图像分类、模型训练、混淆矩阵和噪声测试。",
+      "project-02": "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。",
+      "project-03": "以真实胸部 X 射线为例，介绍 VAE 的重建、潜空间采样和生成图像比较。",
+      "project-04": "以脑膜瘤 H&E 图块为例，介绍数字病理中的图块层级、形态特征、分类评价和染色变化。",
+      "project-05": "以课程模拟的受试者级临床表格为例，介绍数据预处理、分类比较、概率评价和变量贡献。",
+      "project-06": "以同一组织区域的 H&E 与表达图为例，介绍表达预测、尺度关系、空间聚合和插值基线。"
     },
     latestNews: {
       title: "最新消息",
       lead: "新项目开放：本科生科研入门体验项目 Week 2：",
       projectIds: ["project-04", "project-05", "project-06"]
     },
-    lead: "面向0基础本科生的线上科研体验项目，按周开放，含医学影像、生物信息学与人工智能等多个方向与其交叉研究。",
+    lead: "面向 0 基础本科生，内容涉及医学影像、计算病理、生物信息学与人工智能，阅读讲解并完成相应练习。",
     date: "计划开放时间：2026 年 8 月 2 日—9 月中旬；期间可随时加入，后加入可适当延期。",
     simulationNote: "本页下方的“参考输出”用于对照实践步骤。网页代码单元格只能阅读，不能直接填写；要得到自己的结果，请在 Kaggle 中打开公开 Notebook，点击“复制并编辑”保存到自己的账户后运行和修改。",
     practiceGuidance: "实践项目优先在 Kaggle 中运行：打开对应的公开 Notebook，点击“复制并编辑”保存到自己的账户，再按单元格逐步运行、修改并观察结果。也可以下载到自己的电脑上运行；遇到不理解的代码时，结合单元格说明和公开资料逐步理解。需要对照时，可以打开实践项目参考答案核对。",
@@ -473,14 +472,14 @@ window.KYDW = {
         { task: "任务 5：测试评价与阈值比较", fill: "比较 0.3、0.5、0.7 等候选阈值，在验证集选择 Dice 最好的阈值，再在测试集评价。", basis: "阈值只能用验证集选择；测试集用于最后一次评价，不能反过来选择阈值。", check: "确认最佳阈值、测试 Dice、IoU 和预测图像来自你的运行结果，预测 mask 与真实 mask 的形状一致。" }
       ],
       "project-03": [
-        { task: "任务 1：解释归一化范围", fill: "在“你的回答”单元格说明为什么把胸片像素从显示范围映射到模型使用的范围。", basis: "结合原始像素范围、Normalize([.5],[.5])、解码器最后一层 Tanh 和显示时的反变换说明。", check: "运行后确认真实图像、重建图像和采样图像使用一致的模型数值范围，显示时能正确恢复到 [0,1]。" },
+        { task: "任务 1：解释归一化范围", fill: "在“你的回答”单元格说明胸片像素显示范围与模型使用范围的映射关系。", basis: "结合原始像素范围、Normalize([.5],[.5])、解码器最后一层 Tanh 和显示时的反变换说明。", check: "运行后确认真实图像、重建图像和采样图像使用一致的模型数值范围，显示时能正确恢复到 [0,1]。" },
         { task: "任务 2：补全编码器与潜变量", fill: "完成 Encoder 的特征提取、mu/logvar 两个输出和重参数化函数。", basis: "根据输入 [B,1,64,64]、潜变量维度 64 以及 Decoder 的输入要求确定 shape；重参数化使用 z = mu + std * eps。", check: "用一批胸片运行 shape 检查，确认 mu、logvar 和 z 都为 [B,64]，且 z 能送入 Decoder。" },
         { task: "任务 3：补全解码器与训练损失", fill: "完成 Decoder 的上采样结构，并计算重建 L1、边缘损失和 KL 损失。", basis: "根据 z 的维度和目标图像 [B,1,64,64] 确定转置卷积层；总损失由重建项、边缘项和 KL 项按代码中的权重组成。", check: "确认一次前向运行得到与输入同 shape 的重建图像，三项损失均为有限数值。" },
         { task: "任务 4：结果检查", fill: "比较输入与重建图像、潜空间采样图像、训练曲线和图像统计。", basis: "同时观察胸廓、双肺、中央纵隔、灰度变化和样本差异，不能只看单张图像或单个损失数字。", check: "确认结果文件能够保存，并能根据重建 L1、图像特征差异和样本两两距离写出具体观察。" }
       ],
       "project-04": [
         { task: "任务 1：固定图块数据核对", fill: "读取课程 NPZ，核对图块 shape、标签、原图编号、原图坐标和 train/validation/test 划分。", basis: "根据 images、labels、source_image_ids、coordinates_yx 和 split 的字段含义生成汇总。", check: "确认每个集合的图块数、原图来源、坐标范围和三类标签数量。" },
-        { task: "任务 2：图像统计与形态特征", fill: "输出训练集的五个图像测得特征名称、均值和标准差，并用 RGB 均值做一个颜色统计比较。", basis: "第一列 proxy_score 只用于说明标签来源；其余五列来自 H&E 图像测量，统计只使用训练集。", check: "确认特征统计有数值，RGB 比较能和三档教学标签对应阅读。" },
+        { task: "任务 2：图像统计与形态特征", fill: "输出训练集的五个图像测得特征名称、均值和标准差，并用 RGB 均值做一个颜色统计比较。", basis: "第一列 proxy_score 只用于说明标签来源；其余五列来自 H&E 图像测量，统计只使用训练集。", check: "确认特征统计有数值，并把 RGB 比较与标签来源放在一起阅读。" },
         { task: "任务 3：形态特征随机森林", fill: "使用五个图像测得的形态特征训练三分类随机森林，明确排除 proxy_score。", basis: "根据 train、validation、test 的原图级划分和 labels 完成模型输入与输出设置。", check: "确认模型输入不含 proxy_score，前向预测能输出三个类别。" },
         { task: "任务 4：验证集选模与独立测试", fill: "比较不同树数量的验证集宏平均 F1，固定最佳设置后只在测试集计算指标和混淆矩阵。", basis: "验证集用于选择树数量；测试集只用于最后评价，并从测试集中查看错误图块。", check: "确认验证曲线、测试宏平均 F1、混淆矩阵和错误图块都有结果。" },
         { task: "任务 5：错误图块与染色变化", fill: "查看测试错误图块，固定形态模型并改变 RGB 通道，比较染色变化前后的宏平均 F1。", basis: "把错误类型、染色扰动和代理标签来源放在一起解释，不把结果写成临床病理分级能力。", check: "确认结果图和 JSON 文件能够保存，并能说明颜色变化带来的影响。" },
@@ -498,14 +497,33 @@ window.KYDW = {
         { task: "任务 3：轻量联合输入网络", fill: "完成 4 通道输入、1 通道输出的表达预测网络。", basis: "H&E 提供形态，LR 提供粗尺度表达，输出与 HR 参考图 shape 一致。", check: "确认模型可以完成单批前向运行。" },
         { task: "任务 4：损失和聚合一致性", fill: "完成 log 空间损失与 8×8 聚合一致性计算。", basis: "预测按 8×8 区域聚合后，应与 LR 粗尺度总量接近。", check: "确认损失为有限值并能参与反向传播。" },
         { task: "任务 5：训练、基线和结果评价", fill: "完成验证选模，比较模型和插值基线的 MAE、相关性、聚合误差与空间图。", basis: "两种方法使用同一预设测试集合和同一评价标准。", check: "确认数值与图像结论一致，并说明细尺度预测不能自动等同于真实细胞表达。" }
+      ],
+      "project-07": [
+        { task: "任务 1：细胞与候选边核对", fill: "统计细胞、细胞类型、候选边和配体—受体对，并把细胞坐标叠加到 H&E 预览图。", basis: "细胞表记录位置与类型，候选边表记录发送细胞、接收细胞、配体、受体和距离。", check: "确认坐标范围与图像范围一致，数据规模与参考摘要一致。" },
+        { task: "任务 2：Vegfa–Flt1/Kdr 候选证据", fill: "筛选指定配体—受体边，计算表达和距离组成的可解释分数，并与证据分数比较。", basis: "发送细胞表达 Vegfa、接收细胞表达 Flt1 或 Kdr，距离衰减反映空间邻近。", check: "确认筛选后仍有候选边，并能输出 Spearman 相关。" },
+        { task: "任务 3：细胞类型方向汇总", fill: "按发送细胞类型和接收细胞类型汇总平均得分与边数，绘制方向热图。", basis: "行表示发送类型，列表示接收类型；交换行列会改变候选关系方向。", check: "确认热图标签完整，并能区分平均分数和边数。" },
+        { task: "任务 4：空间候选关系与结果边界", fill: "绘制高分局部候选边、训练曲线并保存遮边测试指标。", basis: "空间图用于核对组织位置，遮边测试用于评价隐藏候选关系的排序与误差。", check: "确认图像和结果 JSON 已生成，并说明候选关系仍需实验验证。" }
+      ],
+      "project-08": [
+        { task: "任务 1：窗口、通道与代表波形", fill: "统计各集合和四类活动的窗口数，并绘制每类一个代表窗口。", basis: "输入 shape 为窗口、时间点和传感器通道，所有子图使用相同时间轴。", check: "确认四类活动均有波形，通道名称与 30 个输入通道一致。" },
+        { task: "任务 2：分组检查与时域特征", fill: "检查三个集合的采集运行编号交集，并计算每个通道的五种统计特征。", basis: "重叠窗口和同一采集运行高度相关，分组后再计算均值、标准差、极值和能量。", check: "确认集合间运行编号零交集，特征表形状为窗口数乘 150。" },
+        { task: "任务 3：训练集管道与验证集选型", fill: "在训练集拟合标准化和逻辑回归，用验证集宏平均 F1 选择正则化参数。", basis: "验证集用于模型选择，标准化参数不能读取验证集或测试集。", check: "确认三个候选参数均有验证结果，并保存得分最高的管道。" },
+        { task: "任务 4：测试集评价", fill: "使用固定模型计算测试准确率、宏平均 F1 和四分类混淆矩阵。", basis: "测试集只在参数确定后评价一次，宏平均 F1 为四个类别等权平均。", check: "确认指标和混淆矩阵对应同一批测试窗口。" },
+        { task: "任务 5：错误窗口与模型比较", fill: "绘制测试错误窗口，比较简化基线、完整统计基线和 LSTM。", basis: "错误波形用于查看活动过渡与相近动作，模型复杂度需要由相同划分下的结果评价。", check: "确认错误数量、三组宏平均 F1 和结果边界写入摘要。" }
+      ],
+      "project-09": [
+        { task: "任务 1：面板配对与视觉核对", fill: "按行显示 dMRI、模型输出和目标 IHC，并核对样本顺序和尺寸。", basis: "三类图像来自论文结果面板的同一行，必须保持配对关系。", check: "确认三组输入、预测和目标均能显示，组织边界没有错位到其他样本。" },
+        { task: "任务 2：组织支持区与背景偏离", fill: "根据 dMRI 灰度建立组织支持区，计算预测图在支持区外偏离白色背景的程度。", basis: "支持区约束用于减少组织边界外的染色溢出，阈值在所有样本中保持一致。", check: "确认每组都有支持区和背景偏离数值。" },
+        { task: "任务 3：图像误差与弱配准", fill: "在组织区计算 MAE、PSNR 和简化 SSIM，并绘制绝对差异图。", basis: "逐像素误差同时包含预测差异和弱配准偏移，需要结合原图阅读。", check: "确认三个指标为有限值，差异图与边界位置对应。" },
+        { task: "任务 4：棕色信号面积代理", fill: "使用固定颜色规则比较预测与目标的棕色信号面积并保存摘要。", basis: "同一阈值应用于所有图像；当前公式只用于学习定量流程。", check: "确认预测与目标面积逐组对应，并说明结果不能替代原始数据上的 IHC 定量。" }
       ]
     },
-    goal: "通过一组完整而易上手的研究任务，接触更多专业方向，在实践中发现自己的兴趣偏好与能力优势。",
+    goal: "接触医学影像、生物信息学和人工智能等研究方向，完成数据处理、模型训练、结果评价和文字分析。",
     paragraphs: [
-      "体验项目把领域研究问题整理成一组简单、易懂、可以上手的实践。研究任务通常包含数据检查、处理、建模、结果和解释，学生可以在完整流程中了解不同方向。",
-      "项目按周分批开放，每周开放一部分，每一部分包含 3 个项目。第一周的第一个项目是基础编程与人工智能，为零基础跨专业同学和 26 级新生准备；后续项目进入医学影像、计算病理、表格预测和空间转录组等方向。项目主题和开放状态均在项目目录中持续更新。",
-      "开放期间可以自行安排学习。项目以线上自学为主，不涉及硬件和湿实验，使用计算机完成学习与实践。对某个项目感兴趣的同学可以联系负责人了解后续学习和课题组相关安排。",
-      "项目内容面向受众较为广泛，且本身培养模式属于研究生阶段自学模式，并不会全面覆盖所有知识点。遇到不理解的问题时，可以结合教材、公开资料和文献逐步补全知识网络，同时锻炼自己的理解与检索能力。"
+      "内容涵盖医学影像、计算病理、表格预测和空间转录组等方向的研究对象、数据、方法和结果，配有可运行的代码与分析任务。",
+      "项目按周开放，项目目录列出当前主题和开放状态。第一周包括基础编程与人工智能、医学影像和生成模型，后续内容包括计算病理、临床表格和空间转录组。",
+      "学习在电脑上完成，内容不涉及硬件和湿实验。对某个方向感兴趣时，可以联系负责人了解后续学习安排。",
+      "每个方向开头先介绍基本概念、数据对象和应用，再说明方法、评价和代码练习；代码可以在 Kaggle 中运行，完成后核对参考写法和结果。遇到不理解的问题时，可以结合教材、公开资料和文献补充相关知识。"
     ],
     facts: [
       { value: "1—3 年级", label: "主要面向本科生" },
@@ -515,13 +533,13 @@ window.KYDW = {
     ],
     audience: "适合大学开学后 1—3 年级、来自不同专业、课题组和院校的本科生，尤其适合医学、工程、计算机、自动化、人工智能、生物医学工程和智能医学工程等交叉方向的本科生。",
     schedule: "开放期间可以自主安排学习；秋季开学后结束访问。项目按周分批开放，具体主题和开放状态以项目目录为准。",
-    participation: "线上自学为主，不涉及硬件及湿实验，仅需计算机设备。每个项目包含约 1—2 小时理论知识讲解和一个交互式实践。",
+    participation: "阅读与实践均在网页和 Kaggle 中完成，所需设备为普通电脑；内容不涉及硬件和湿实验。",
     access: "关注“科研大王”公众号，后台留言或添加负责人微信 Liu_han-yu 获取项目入口与学习资料。",
     contact: {
       title: "答疑/反馈渠道",
       text: "参与项目的同学可以加入群聊、通过公众号后台私信、添加负责人微信或邮件联系等多种渠道进行提问和反馈，具体联系方式见页面最下方。",
       channels: [
-        { title: "科研实习项目发布二群二维码", image: KYDW_INTERNSHIP_GROUP_QR },
+        { title: "KYDW项目公告群二维码", image: "assets/contact/project-announcement-qr-cropped.png" },
         { title: "本项目专属群聊二维码", homeTitle: "本科生科研入门体验项目专属群聊", image: "assets/contact/project-group-qr-cropped.png" },
         { title: "微信公众号", image: "assets/contact/official-account-qr.jpg" },
         { title: "负责人微信二维码", image: "assets/contact/leader-wechat-qr-cropped.png" }
@@ -529,48 +547,48 @@ window.KYDW = {
       email: "lhanyu07@foxmail.com"
     },
     comparison: [
-      { title: "体验项目", text: "先阅读基础教学内容，再完成对应实践中的代码和文字任务。" },
-      { title: "后续学习", text: "根据兴趣选择希望继续学习的方向，后续材料按项目开放状态更新。" }
+      { title: "阅读与练习", text: "每个方向先介绍研究对象、数据和方法，再通过代码练习观察结果，并核对参考写法。" },
+      { title: "进阶项目", text: "部分方向另有进阶项目，补充更完整的方法体系、前沿研究和研究设计；材料开放后在对应项目页面显示。" }
     ],
     levels: [
-      { title: "基础学习", text: "先阅读基础教学内容，再在实践项目中完成指定内容，完成后使用实践项目参考答案核对代码和分析过程。" },
-      { title: "继续学习", text: "前面已经学习数个方向后，可以根据兴趣继续阅读同一领域的方法、前沿研究和研究设计；相关材料按项目开放状态更新。" }
+      { title: "阅读与练习", text: "每个方向先介绍研究对象、数据和方法，再通过代码练习观察结果，并核对参考写法。" },
+      { title: "进阶项目", text: "部分方向另有进阶项目，补充更完整的方法体系、前沿研究和研究设计；材料开放后在对应项目页面显示。" }
     ],
     structure: [
-      { no: "01", title: "教学项目", text: "教学内容建立完成实践所需的基础知识，并补充方法、前沿研究与研究设计。" },
-      { no: "02", title: "实践项目", text: "基础实践完成指定内容；继续学习时可以设计方法、运行实验并形成设计报告。" },
-      { no: "03", title: "实践项目参考答案", text: "完成实践后核对代码、分析过程和结果表达。每份实践项目参考答案展示一种可行方案。" },
-      { no: "04", title: "继续学习项目", text: "继续学习项目包含教学项目、实践项目和实践项目参考答案，内容覆盖更完整的方法体系、前沿研究与研究设计；相关材料按开放状态更新。" },
+      { no: "01", title: "教学项目", text: "讲解领域概念、数据对象、应用、方法和结果评价。" },
+      { no: "02", title: "实践项目", text: "提供可运行的代码和需要完成的分析任务。" },
+      { no: "03", title: "实践项目参考答案", text: "按实践步骤排列参考代码、说明和结果，便于核对。" },
+      { no: "04", title: "进阶项目", text: "部分方向补充更完整的方法体系、前沿研究与研究设计，材料开放后显示。" },
       { no: "05", title: "答疑/反馈渠道", text: "可通过群聊、公众号后台、负责人微信或邮件提问和反馈，具体联系方式见页面最下方。" }
     ],
     path: [
-      { title: "基础项目", text: "阅读基础教学内容，完成实践中的指定代码和文字。" },
-      { title: "深入教学", text: "继续学习同一方向的方法、验证设计和前沿研究。" },
-      { title: "深入实践", text: "自行设计或选择方法，完成实验并提交设计报告。" },
+      { title: "体验项目", text: "阅读教学内容，完成实践中的指定代码和文字。" },
+      { title: "进阶教学", text: "学习同一方向的方法、验证设计和前沿研究。" },
+      { title: "进阶实践", text: "自行设计或选择方法，完成实验并提交设计报告。" },
       { title: "联系负责人", text: "对感兴趣的方向形成清晰的学习记录后，可联系负责人了解后续学习安排。" }
     ],
     weeks: [
       { id: 1, title: "Week 1", note: "第一部分已开放。第一个项目为零基础跨专业同学和 26 级新生准备。", open: true, projects: ["project-01", "project-02", "project-03"] },
       { id: 2, title: "Week 2", note: "第二部分已开放，学生可以按项目阅读教学内容、完成题目并用参考答案核对结果。", open: true, projects: ["project-04", "project-05", "project-06"] },
-      { id: 3, title: "Week 3", note: "等待后续开放。", open: false, projects: ["project-07", "project-08", "project-09"] },
-      { id: 4, title: "Week 4", note: "等待后续开放。", open: false, projects: ["project-10", "project-11", "project-12"] },
-      { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-13", "project-14", "project-15"] }
+      { id: 3, title: "Week 3", note: "空间细胞通讯与惯性传感器活动识别。", open: true, projects: ["project-07", "project-08"] },
+      { id: 4, title: "Week 4", note: "跨模态图像分析与 ECG 信号处理。", open: false, projects: ["project-09", "project-10"] },
+      { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] }
     ]
   },
 
   projects: [
-     { id: "project-01", no: "00", week: 1, title: "基础编程与人工智能", short: "我们使用 MNIST 手写数字图像检查数据、训练分类模型，并查看混淆矩阵和噪声测试结果。", summary: "人工智能研究对象、任务类型、Python、数据表示和模型评价构成手写数字分类实践的知识基础。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00-reference", single: true, experience: "通过输入、处理和输出的关系认识人工智能。", tierText: "用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。", referenceResults: [{ stepIndex: 3, title: "训练过程", image: "experience/assets/results/project-01/task0_training_curve.png", caption: "训练损失、验证损失与验证准确率" }, { stepIndex: 4, title: "测试集分类评价", image: "experience/assets/results/project-01/task0_confusion_matrix.png", caption: "MNIST 测试集混淆矩阵" }, { stepIndex: 5, title: "输入与预测对比", image: "experience/assets/results/project-01/task0_input_prediction_comparison.png", caption: "MNIST 测试输入、真实标签与模型预测对比" }, { stepIndex: 6, title: "测试集与噪声评价数值", text: "数据集：MNIST / torchvision\\n训练样本：51000；验证样本：9000；测试样本：10000\\n最佳验证准确率：0.9891111\\n测试准确率：0.9897\\n测试集 macro-F1：0.98965\\n噪声标准差：0.25\\n加噪测试准确率：0.9771\\n准确率下降：0.0126" }] },
-     { id: "project-02", no: "01", week: 1, title: "MRI 肿瘤图像分割", short: "我们使用配对的 MRI 切片和肿瘤 mask 按患者划分数据，完成分割并比较 Dice、IoU 和边界结果。", summary: "以一张灰度 MRI 切片与对应的二值 mask 为输入，完成配对检查、患者级划分、TinyUNet 分割和 Dice/IoU 评价。", input: "配对的二维、单通道 MRI 切片与二值肿瘤 mask", output: "肿瘤区域预测、Dice/IoU 指标与测试切片结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01-reference", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/advanced-practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-02.html", advancedReferenceReport: "experience/advanced-reports/examples/project-02.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "观察一张灰度 MRI 切片怎样与同位置的二值 mask 配对，再把预测区域和真实区域放在一起评价。", tierText: "二维 MRI 切片与二值肿瘤 mask 用于患者级划分、TinyUNet 分割和 Dice/IoU 评价。", advancedTierText: "比较分割方法与边界评价，分析鲁棒性和不确定性，并在设计报告中说明方法选择与验证方案。", referenceResults: [{"stepIndex": 0, "title": "数据检查", "image": "experience/assets/results/project-02/task1_data_check.png", "caption": "MRI、阳性 mask 与叠加图"}, {"stepIndex": 4, "title": "训练过程", "image": "experience/assets/results/project-02/task1_training_curve.png", "caption": "训练与验证损失、Dice 曲线"}, {"stepIndex": 6, "title": "分割结果与指标", "image": "experience/assets/results/project-02/task1_prediction.png", "caption": "真实阳性测试样本、真实 mask、预测 mask 与 TP/FP/FN 编码", "text": "配对切片：3929；患者：110；训练/验证/测试：2604 / 547 / 778\n平衡训练样本：600（阳性 300、空 mask 300）；最佳阈值：0.75\n测试阳性 mask Dice：0.4870；阳性 mask IoU：0.3725\npixel Dice：0.5259；pixel IoU：0.3567；precision：0.5366；recall：0.5156\n展示图只从测试集中真实 mask 非空的切片中选择，绿色为 TP、红色为 FP、蓝色为 FN。"}] },
-     { id: "project-03", no: "02", week: 1, title: "胸部 X 射线与生成模型", short: "我们使用胸部 X 射线观察投影图像和数字质量，训练残差卷积 VAE，并比较重建、潜空间采样和图像统计。", summary: "X 射线穿透、投影叠加和数字胸片质量构成残差卷积块、编码器、潜变量、解码器和生成样本评价的知识基础。", input: "胸部 X 射线图像", output: "胸片重建、潜空间采样、训练曲线与图像统计比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02-reference", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/advanced-practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-03.html", advancedReferenceReport: "experience/advanced-reports/examples/project-03.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "真实胸片用于观察编码器、潜变量、解码器和生成结果之间的关系。", tierText: "胸片读取与归一化用于训练残差卷积 VAE，并比较输入、重建、潜空间采样和图像统计。", advancedTierText: "设计条件生成方案，检查患者留出、生成有效性与训练样本记忆风险，并解释评价方法。", referenceResults: [{"stepIndex": 0, "title": "真实胸片输入", "image": "experience/assets/results/project-03/task2_real_xray_grid.png", "caption": "真实胸片样本网格"}, {"stepIndex": 2, "title": "训练过程", "image": "experience/assets/results/project-03/task2_training_curve.png", "caption": "残差卷积 VAE 的总损失、重建 L1、边缘 L1 与 KL 损失曲线"}, {"stepIndex": 3, "title": "输入与生成结果", "image": "experience/assets/results/project-03/task2_input_generated_comparison.png", "caption": "上排为 INPUT / REAL CHEST X-RAY（真实输入），下排为 GENERATED OUTPUT / LATENT SAMPLE（生成结果）；两排不是同一张胸片的前后处理关系。", "text": "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\n模型：ResidualConvVAE；潜变量维度：64\n留出集重建 L1：0.0878；生成样本两两 L1：0.2334\n五项图像特征平均差：0.0114"}, {"stepIndex": 4, "title": "图像统计", "image": "experience/assets/results/project-03/task2_quality_metrics.png", "caption": "真实留出集与生成样本五项图像统计"}] },
-     { id: "project-04", no: "03", week: 2, title: "脑膜瘤数字病理分析", short: "我们使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成基础分类，并结合验证、测试、错误图块和染色变化阅读结果。", summary: "学生使用脑膜瘤 H&E 组织图块核对图像、标签、原图来源与坐标，比较颜色统计和轻量分类模型，再结合验证集、测试集、错误图块及染色变化阅读结果。", input: "脑膜瘤 H&E 组织图块、标签、原图来源、坐标和数据划分", output: "图像分类结果、混淆矩阵、错误图块和染色变化分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03-reference", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/advanced-practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-04.html", advancedReferenceReport: "experience/advanced-reports/examples/project-04.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成基础分类，并结合验证、测试、错误图块和染色变化阅读结果。", tierText: "脑膜瘤 H&E 组织图块用于观察组织形态、完成基础分类和结果评价，并查看错误图块与染色变化。", advancedTierText: "以原图级无标签形态表征为核心，完成图块特征、多实例聚合、代表区域和染色稳定性分析。", referenceResults: [{stepIndex: 1, title: "真实脑膜瘤 H&E 图块", image: "experience/assets/results/project-04/task3_real_he_overview.png", caption: "课程数据中的真实脑膜瘤 H&E 组织图块"}, {stepIndex: 1, title: "图块坐标与步长", image: "experience/assets/results/project-04/task3_patch_stride_overview.png", caption: "同一原图中的真实图块坐标、128×128 图块和 256 像素坐标步长"}, {stepIndex: 3, title: "训练与验证", image: "experience/assets/results/project-04/task3_training_curve.png", caption: "随机森林树数量与验证集宏平均 F1"}, {stepIndex: 4, title: "测试结果与错误图块", image: "experience/assets/results/project-04/task3_prediction_visualization.png", caption: "测试错误图块与染色变化后的比较结果"}, {stepIndex: 4, title: "分类结果记录", text: "颜色统计基线 macro-F1：0.6007；形态特征随机森林测试准确率：1.0000；测试 macro-F1：1.0000；验证集选中的树数量：25。三档标签来自核密度代理分数，不对应临床病理分级。"}] },
-     { id: "project-05", no: "04", week: 2, title: "脑疾病临床数据分析", short: "我们使用受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。", summary: "学生使用受试者级表格确认样本单位和临床变量，建立只用训练集拟合的预处理流程，比较逻辑回归与树模型，再结合四类结果、混淆矩阵和变量贡献阅读模型表现。", input: "受试者级临床表格、变量和 CTL、AD、PD、DEP 四类疾病分组", output: "分类概率、混淆矩阵、分类指标与变量分析", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04-reference", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/advanced-practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-05.html", advancedReferenceReport: "experience/advanced-reports/examples/project-05.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。", tierText: "受试者级临床表格用于确认样本单位和变量、完成训练集预处理与分类器比较，再查看测试评价、概率和错误样本。", advancedTierText: "使用帕金森语音记录与逻辑回归，比较受试者级和记录级验证，并完成概率校准、阈值选择和决策曲线分析。", referenceResults: [{stepIndex: 0, title: "数据摘要", image: "experience/assets/results/project-05/task4_data_summary.png", caption: "四类脑疾病表格的类别和变量摘要"}, {stepIndex: 3, title: "四分类混淆矩阵", image: "experience/assets/results/project-05/task4_confusion.png", caption: "测试集四分类混淆矩阵"}, {stepIndex: 3, title: "ROC 与 PR 曲线", image: "experience/assets/results/project-05/task4_roc_pr.png", caption: "四类分类概率的 ROC/PR 评价"}, {stepIndex: 4, title: "变量贡献", image: "experience/assets/results/project-05/task4_importance.png", caption: "置换重要性排名"}, {stepIndex: 3, title: "分类结果记录", text: "逻辑回归基线 macro-F1：0.7392；验证集 XGBoost macro-F1：0.7565；测试集准确率：0.7533；测试 macro-F1：0.7507。变量贡献用于描述模型依赖，不表示疾病因果关系。"}] },
-     { id: "project-06", no: "05", week: 2, title: "空间转录组表达分析", short: "我们使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，训练轻量模型，并检查聚合一致性和基线差异。", summary: "学生使用同一组织区域的 H&E 图像和表达数据核对字段与数据划分，观察输入与参考图，训练轻量模型，再检查聚合一致性并与插值基线比较。", input: "同一组织区域的 H&E 图像、低分辨率表达图和高分辨率参考图", output: "表达估计、区域聚合比较与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a05-public", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a05-public-reference", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/advanced-practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.ipynb", advancedReportTemplate: "experience/advanced-reports/templates/project-06.html", advancedReferenceReport: "experience/advanced-reports/examples/project-06.html", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，训练轻量模型，并检查聚合一致性和基线差异。", tierText: "同一组织区域的 H&E 图像和表达数据用于字段核对、输入与参考图观察、表达估计、聚合一致性检查和基线比较。", advancedTierText: "比较插值、图像分支与多模态融合，将当前实践中的高分辨率表达图作为教学目标，使用空间留出和聚合一致性评价，并解释不同模态的贡献。", referenceResults: [{stepIndex: 1, title: "配对输入与表达图", image: "experience/assets/results/project-06/task5_data_visualization.png", caption: "同一空间区域的 H&E、16 μm LR Snap25 和 2 μm HR Snap25"}, {stepIndex: 1, title: "大图与中心小图", image: "experience/assets/results/project-06/task5_scale_overview.png", caption: "配对大图和中心小图的空间范围"}, {stepIndex: 4, title: "训练过程", image: "experience/assets/results/project-06/task5_training_curve.png", caption: "模型训练损失与验证比较"}, {stepIndex: 4, title: "预测结果", image: "experience/assets/results/project-06/task5_prediction_visualization.png", caption: "Snap25 表达预测与参考图比较"}, {stepIndex: 4, title: "单基因结果记录", text: "当前 Notebook 固定预测 Snap25 一个基因；结果 JSON 记录模型 MAE、插值基线 MAE 与像素相关性。空间聚合一致性用于补充检查，结果不代表恢复了完整的细尺度转录组。"}] },
-    { id: "project-07", no: "06", week: 3, title: "基于空间转录组学的细胞通讯", short: "细胞位置、配体受体和表达关系构成细胞通讯分析的基础。", summary: "围绕配体、受体、空间邻近和细胞状态，认识细胞通讯分析提出的问题与结果解释边界。", input: "空间位置、细胞类型与基因表达", output: "候选细胞通讯关系及其可视化", prereq: "项目开放后进入页面学习", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "从‘哪些细胞在一起’开始，观察‘哪些信号可能连接它们’。" },
-    { id: "project-08", no: "07", week: 3, title: "基于传感器的人类活动识别", short: "用传感器信号判断人的活动状态。", summary: "认识时间序列、窗口切分和信号分类，理解连续传感器数据与活动标签之间的基本分析流程。", input: "加速度、陀螺仪等传感器时间序列", output: "活动类别预测与混淆分析", prereq: "项目开放后按页面提示学习", device: "待项目页说明", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "先把连续信号切成可观察的小片段，再看不同活动留下的模式。" },
-    { id: "project-09", no: "08", week: 3, title: "组织学图像虚拟染色", short: "让模型学习把一种组织图像转换成另一种染色外观。", summary: "理解图像翻译、染色差异和生成模型的任务边界，区分视觉相似与生物学真实。", input: "组织学图像及对应/非对应染色图像", output: "虚拟染色结果与差异分析", prereq: "项目开放后进入页面学习", device: "计算机", duration: "待开放后公布", status: "后续开放", advanced: null, experience: "观察不同染色如何改变图像外观，再讨论模型如何保留组织信息。" },
-    { id: "project-10", no: "09", week: 4, title: "人体生理信号分析", short: "人体信号变化与健康状态、研究问题相关。", summary: "研究问题、信号类型和实践材料将在项目开放时介绍。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待定", advanced: null, experience: "人体生理信号方向，内容随后公布。" },
-    { id: "project-11", no: "10", week: 4, title: "后续方向 10", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
-    { id: "project-12", no: "11", week: 4, title: "后续方向 11", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
+     { id: "project-01", no: "00", week: 1, title: "基础编程与人工智能", short: "以 MNIST 手写数字为例，介绍图像分类、模型训练、混淆矩阵和噪声测试。", summary: "MNIST 手写数字分类涵盖图像与标签、数据表示、模型训练、分类评价和噪声测试。", input: "MNIST 手写数字图像与类别标签", output: "分类结果、混淆矩阵与噪声测试", prereq: "不要求已有编程经历", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", teaching: "experience/teaching/project-01.html", practice: "experience/practice/project-01.ipynb", answer: "experience/answers/project-01.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a00-reference", single: true, experience: "内容包括 MNIST 图像与标签检查、分类训练、混淆矩阵和噪声测试。", tierText: "内容包括图像与标签、模型训练、分类评价和噪声测试。", referenceResults: [{ stepIndex: 3, title: "训练过程", image: "experience/assets/results/project-01/task0_training_curve.png", caption: "训练损失、验证损失与验证准确率" }, { stepIndex: 4, title: "测试集分类评价", image: "experience/assets/results/project-01/task0_confusion_matrix.png", caption: "MNIST 测试集混淆矩阵" }, { stepIndex: 5, title: "输入与预测对比", image: "experience/assets/results/project-01/task0_input_prediction_comparison.png", caption: "MNIST 测试输入、真实标签与模型预测对比" }, { stepIndex: 6, title: "测试集与噪声评价数值", text: "数据集：MNIST / torchvision\\n训练样本：51000；验证样本：9000；测试样本：10000\\n最佳验证准确率：0.9891111\\n测试准确率：0.9897\\n测试集 macro-F1：0.98965\\n噪声标准差：0.25\\n加噪测试准确率：0.9771\\n准确率下降：0.0126" }] },
+     { id: "project-02", no: "01", week: 1, title: "MRI 脑肿瘤图像分割", short: "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。", summary: "配对 MRI 切片和肿瘤 mask 涉及患者级数据划分、分割训练、Dice、IoU 和边界评价。", input: "配对的二维、三通道 MRI 切片与二值肿瘤 mask", output: "肿瘤区域预测、Dice/IoU 指标与测试切片结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01-reference", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/advanced-practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "内容包括 MRI 与 mask 配对、患者级划分、分割训练以及 Dice、IoU 和边界评价。", tierText: "内容包括 MRI 与 mask 配对、患者级数据划分、分割训练以及 Dice、IoU 和边界评价。", advancedTierText: "比较分割方法与边界评价，分析鲁棒性和不确定性，并在设计报告中说明方法选择与验证方案。", referenceResults: [{"stepIndex": 0, "title": "数据检查", "image": "experience/assets/results/project-02/task1_data_check.png", "caption": "MRI、阳性 mask 与叠加图"}, {"stepIndex": 4, "title": "训练过程", "image": "experience/assets/results/project-02/task1_training_curve.png", "caption": "训练与验证损失、Dice 曲线"}, {"stepIndex": 6, "title": "分割结果与指标", "image": "experience/assets/results/project-02/task1_prediction.png", "caption": "真实阳性测试样本的 FLAIR、人工 mask 与预测叠加", "text": "配对切片：3929；患者：110；训练/验证/测试：2604 / 547 / 778\\n每轮前景感知加权抽取：1200 张；训练：14 轮；最佳阈值：0.85\\n测试阳性 mask Dice：0.6890；阳性 mask IoU：0.5877\\npixel Dice：0.6973；pixel IoU：0.5353；precision：0.7028；recall：0.6919\\n展示图只从测试集中真实 mask 非空的切片中选择，依次显示 FLAIR、人工 mask 和阈值化预测叠加。"}] },
+     { id: "project-03", no: "02", week: 1, title: "胸部 X 射线与生成模型", short: "以真实胸部 X 射线为例，介绍 VAE 的重建、潜空间采样和生成图像比较。", summary: "胸部 X 射线生成任务涵盖投影图像、VAE 结构、重建、潜空间采样和生成结果比较。", input: "胸部 X 射线图像", output: "胸片重建、潜空间采样、训练曲线与图像统计比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02-reference", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/advanced-practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "内容包括胸片读取、VAE 重建、潜空间采样和生成结果比较。", tierText: "内容包括胸片读取、VAE 结构、重建、潜空间采样和图像统计。", advancedTierText: "设计条件生成方案，检查患者留出、生成有效性与训练样本记忆风险，并解释评价方法。", referenceResults: [{"stepIndex": 0, "title": "真实胸片输入", "image": "experience/assets/results/project-03/task2_real_xray_grid.png", "caption": "真实胸片样本网格"}, {"stepIndex": 2, "title": "训练过程", "image": "experience/assets/results/project-03/task2_training_curve.png", "caption": "残差卷积 VAE 的总损失、重建 L1、边缘 L1 与 KL 损失曲线"}, {"stepIndex": 3, "title": "输入与生成结果", "image": "experience/assets/results/project-03/task2_input_generated_comparison.png", "caption": "上排为 INPUT / REAL CHEST X-RAY（真实输入），下排为 GENERATED OUTPUT / LATENT SAMPLE（生成结果）；两排不是同一张胸片的前后处理关系。", "text": "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\\n模型：ResidualConvVAE；潜变量维度：64；训练 50 轮\\n输入重建 L1：0.0928；生成样本到真实图库的最近邻 L1 均值：0.1859、最小值：0.1310\\n生成结果用于观察模型分布和记忆风险，不作为临床影像。"}, {"stepIndex": 4, "title": "图像统计", "image": "experience/assets/results/project-03/task2_quality_metrics.png", "caption": "真实留出集与生成样本五项图像统计"}] },
+     { id: "project-04", no: "03", week: 2, title: "计算病理与脑膜瘤形态分析", short: "脑膜瘤 H&E 组织图块用于核对图像来源和坐标、观察组织形态、完成形态特征分类，并阅读验证、测试、错误图块和染色变化结果。", summary: "学生使用脑膜瘤 H&E 组织图块核对图像、标签、原图来源与坐标，比较颜色统计和轻量分类模型，再结合验证集、测试集、错误图块及染色变化阅读结果。", input: "脑膜瘤 H&E 组织图块、标签、原图来源、坐标和数据划分", output: "图像分类结果、混淆矩阵、错误图块和染色变化分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03-reference", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/advanced-practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成基础分类，并结合验证、测试、错误图块和染色变化阅读结果。", tierText: "脑膜瘤 H&E 组织图块用于观察组织形态、完成基础分类和结果评价，并查看错误图块与染色变化。", advancedTierText: "以原图级无标签形态表征为核心，完成图块特征、多实例聚合、代表区域和染色稳定性分析。", referenceResults: [{stepIndex: 1, title: "真实脑膜瘤 H&E 图块", image: "experience/assets/results/project-04/task3_real_he_overview.png", caption: "课程数据中的真实脑膜瘤 H&E 组织图块"}, {stepIndex: 1, title: "图块坐标与步长", image: "experience/assets/results/project-04/task3_patch_stride_overview.png", caption: "同一原图中的真实图块坐标、128×128 图块和 256 像素坐标步长"}, {stepIndex: 3, title: "训练与验证", image: "experience/assets/results/project-04/task3_training_curve.png", caption: "随机森林树数量与验证集宏平均 F1"}, {stepIndex: 4, title: "测试结果与错误图块", image: "experience/assets/results/project-04/task3_prediction_visualization.png", caption: "测试错误图块与染色变化后的比较结果"}, {stepIndex: 4, title: "分类结果记录", text: "颜色统计基线 macro-F1：0.6007。形态模型在 96 个测试图块上未出现错分，但这些图块仅来自 2 张原图，标签又由与形态特征高度相关的核密度代理生成，因此不把该数值作为独立分类性能。该任务只用于学习代理标签、来源级划分和染色稳定性，不对应临床病理分级。"}] },
+     { id: "project-05", no: "04", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "课程模拟的受试者级临床表格用于确认样本单位和变量，完成预处理、分类比较、概率评价、变量贡献和错误样本分析。", summary: "学生使用课程模拟的受试者级表格确认样本单位和临床变量，建立只用训练集拟合的预处理流程，比较逻辑回归与树模型，再结合四类结果、混淆矩阵和变量贡献阅读模型表现。", input: "课程模拟的受试者级临床表格、变量和 CTL、AD、PD、DEP 四类分组", output: "分类概率、混淆矩阵、分类指标与变量分析", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04-reference", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/advanced-practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用课程模拟的受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。", tierText: "课程模拟的受试者级临床表格用于确认样本单位和变量、完成训练集预处理与分类器比较，再查看测试评价、概率和错误样本。", advancedTierText: "使用帕金森语音记录与逻辑回归，比较受试者级和记录级验证，并完成概率校准、阈值选择和决策曲线分析。", referenceResults: [{stepIndex: 0, title: "数据摘要", image: "experience/assets/results/project-05/task4_data_summary.png", caption: "课程模拟的四类表格数据摘要"}, {stepIndex: 3, title: "四分类混淆矩阵", image: "experience/assets/results/project-05/task4_confusion.png", caption: "测试集四分类混淆矩阵"}, {stepIndex: 3, title: "ROC 与 PR 曲线", image: "experience/assets/results/project-05/task4_roc_pr.png", caption: "四类分类概率的 ROC/PR 评价"}, {stepIndex: 4, title: "变量贡献", image: "experience/assets/results/project-05/task4_importance.png", caption: "置换重要性排名"}, {stepIndex: 3, title: "分类结果记录", text: "Data.csv 是课程模拟数据，不是临床采集队列。逻辑回归基线 macro-F1：0.7392；验证集 XGBoost macro-F1：0.7565；测试集准确率：0.7533；测试 macro-F1：0.7507。指标只说明模型对这份模拟数据的拟合与留出表现；变量贡献不表示疾病因果关系或临床效能。"}] },
+     { id: "project-06", no: "05", week: 2, title: "空间转录组与表达超分辨率", short: "同一组织区域的图像与表达数据用于核对字段和数据划分、观察配对输入与参考图、训练局部特征模型，并检查聚合一致性和基线差异。", summary: "学生使用同一组织区域的 H&E 图像和表达数据核对字段与数据划分，观察输入与参考图，训练轻量模型，再检查聚合一致性并与插值基线比较。", input: "同一组织区域的 H&E 图像、低分辨率表达图和高分辨率参考图", output: "表达估计、区域聚合比较与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a05-public", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a05-public-reference", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/advanced-practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，训练轻量模型，并检查聚合一致性和基线差异。", tierText: "同一组织区域的 H&E 图像和表达数据用于字段核对、输入与参考图观察、表达估计、聚合一致性检查和基线比较。", advancedTierText: "比较插值、图像分支与多模态融合，将当前实践中的高分辨率表达图作为教学目标，使用空间留出和聚合一致性评价，并解释不同模态的贡献。", referenceResults: [{stepIndex: 1, title: "配对输入与表达图", image: "experience/assets/results/project-06/task5_data_visualization.png", caption: "同一空间区域的 H&E、16 μm LR Snap25 和 2 μm HR Snap25"}, {stepIndex: 1, title: "大图与中心小图", image: "experience/assets/results/project-06/task5_scale_overview.png", caption: "配对大图和中心小图的空间范围"}, {stepIndex: 4, title: "训练过程", image: "experience/assets/results/project-06/task5_training_curve.png", caption: "模型训练损失与验证比较"}, {stepIndex: 4, title: "预测结果", image: "experience/assets/results/project-06/task5_prediction_visualization.png", caption: "Snap25 表达预测与参考图比较"}, {stepIndex: 4, title: "单基因结果记录", text: "当前 Notebook 固定预测 Snap25 一个基因；结果 JSON 记录模型 MAE、插值基线 MAE 与像素相关性。空间聚合一致性用于补充检查，结果不代表恢复了完整的细尺度转录组。"}] },
+    { id: "project-07", no: "06", week: 3, title: "空间细胞通讯分析", short: "小鼠肾脏空间数据用于识别配体—受体候选关系、比较表达与空间距离、汇总细胞类型，并通过遮边测试阅读未见关系的排序结果。", summary: "细胞位置、基因表达、配体—受体和空间邻近共同构成候选细胞通讯分析，结果用于提出后续验证对象。", input: "小鼠肾脏 H&E 预览、细胞坐标、细胞类型、基因表达与候选边", output: "候选关系得分、细胞类型方向热图、空间连边图与遮边评价", prereq: "不要求空间组学或细胞通讯分析基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-07.html", experiencePractice: "experience/practice/project-07.ipynb", experienceAnswer: "experience/answers/project-07.ipynb", advanced: null, single: true, tierText: "使用小鼠肾脏空间数据完成细胞与候选边核对、配体—受体证据比较、方向汇总和空间结果分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "细胞与候选边概况", image: "experience/assets/results/project-07/task1_data_overview.png", caption: "小鼠肾脏 H&E 预览、细胞坐标和数据规模" }, { taskIndex: 1, stepIndex: 1, title: "Vegfa–Flt1/Kdr 证据比较", image: "experience/assets/results/project-07/task2_evidence_comparison.png", caption: "可解释分数与配套图网络证据分数的比较" }, { taskIndex: 2, stepIndex: 2, title: "细胞类型方向热图", image: "experience/assets/results/project-07/task3_celltype_heatmap.png", caption: "发送细胞类型与接收细胞类型的候选关系汇总" }, { taskIndex: 3, stepIndex: 3, title: "空间候选关系与模型评价", image: "experience/assets/results/project-07/task4_spatial_and_training.png", caption: "局部高分候选边、训练过程与遮边测试结果", text: "Vegfa–Flt1/Kdr 候选边：1077 条\n遮边测试 Spearman：0.5704\n遮边测试 MAE：0.0890\n候选关系仍需蛋白、扰动或成像实验验证。" }] },
+    { id: "project-08", no: "07", week: 3, title: "惯性传感器活动识别", short: "Opportunity 多部位惯性传感器窗口用于核对采样、标签和分组，提取统计特征完成活动分类，并结合混淆矩阵和错误波形分析模型表现。", summary: "身体不同位置的加速度和角速度经过分段、窗口化和分组后形成活动分类数据，评价同时观察宏平均 F1、混淆矩阵和错误窗口。", input: "五个身体位置的 30 通道惯性传感器窗口与四类活动标签", output: "活动类别预测、宏平均 F1、混淆矩阵与错误窗口", prereq: "不要求信号处理或机器学习基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-08.html", experiencePractice: "experience/practice/project-08.ipynb", experienceAnswer: "experience/answers/project-08.ipynb", advanced: null, single: true, tierText: "使用 Opportunity 传感器窗口完成波形观察、分组核对、统计特征提取、分类训练和错误分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "四类活动传感器窗口", image: "experience/assets/results/project-08/task1_sensor_windows.png", caption: "站立、坐、行走和躺卧的背部加速度与角速度窗口" }, { taskIndex: 3, stepIndex: 1, title: "测试集混淆矩阵", image: "experience/assets/results/project-08/task4_confusion_matrix.png", caption: "按采集运行分组后的四分类测试结果" }, { taskIndex: 4, stepIndex: 2, title: "测试错误窗口", image: "experience/assets/results/project-08/task5_error_windows.png", caption: "错误预测窗口的代表波形", text: "简化统计特征逻辑回归 macro-F1：0.9584\n配套完整基线 macro-F1：0.9702\n配套 LSTM macro-F1：0.9086\n测试错误窗口：23 个" }] },
+    { id: "project-09", no: "08", week: 4, title: "dMRI 与 IHC 图像分析", short: "论文中的 dMRI、模型输出与 IHC 结果面板用于核对组织支持区和弱配准关系，计算图像差异与棕色信号面积，并说明完整复现所需的数据和代码条件。", summary: "扩散 MRI、组织结构先验与免疫组织化学图像来自不同物理尺度，当前实践围绕论文结果面板学习跨模态图像的支持区、误差和定量边界。", input: "论文中的 dMRI 输入、模型输出与 GFAP/PLP IHC 目标面板", output: "配对图、组织支持区、绝对差异与棕色信号面积代理", prereq: "不要求 MRI、病理学或生成模型基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-09.html", experiencePractice: "experience/practice/project-09.ipynb", experienceAnswer: "experience/answers/project-09.ipynb", advanced: null, single: true, tierText: "使用论文结果面板完成图像配对、组织支持区、图像误差和棕色信号面积代理分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "dMRI、模型输出与 IHC 目标", image: "experience/assets/results/project-09/task1_paired_panels.png", caption: "论文结果面板中三组输入、预测和目标图像" }, { taskIndex: 1, stepIndex: 1, title: "组织支持区与背景", image: "experience/assets/results/project-09/task2_support_and_background.png", caption: "dMRI 支持区和预测图背景偏离" }, { taskIndex: 2, stepIndex: 2, title: "绝对差异", image: "experience/assets/results/project-09/task3_absolute_error.png", caption: "弱配准条件下预测与目标的绝对差异" }, { taskIndex: 3, stepIndex: 3, title: "棕色信号面积代理", image: "experience/assets/results/project-09/task4_brown_proxy_area.png", caption: "固定颜色规则下预测与目标的面积比较", text: "棕色信号代理平均绝对面积误差：0.5578\n结果来自论文排版图裁剪和简化颜色代理，不能替代原始数据上的 ImageJ DAB 指标或模型复现。" }] },
+    { id: "project-10", no: "09", week: 4, title: "人体生理信号分析：ECG", short: "ECG 时间序列用于核对导联、采样率和信号质量，完成带通滤波、R 峰检测、人工标注匹配与错误分析。", summary: "从人体生理信号、ECG 波形和采样时间轴开始，理解滤波、峰值检测、检测容差和评价指标，再阅读 MIT-BIH record 100 的保存结果与适用边界。", input: "MIT-BIH record 100 前 5 分钟的两个 ECG 导联与人工心搏标注", output: "滤波波形、R 峰检测、漏检/误检、灵敏度、阳性预测值与 RR 间期", prereq: "不要求心电图或信号处理基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-10.html", experiencePractice: "experience/practice/project-10.ipynb", experienceAnswer: "experience/answers/project-10.ipynb", advanced: null, single: true, tierText: "使用 MIT-BIH record 100 的 ECG 记录完成采样时间核对、5—18 Hz 带通滤波、R 峰检测、0.1 秒容差匹配和结果边界分析。", referenceResults: [{ taskIndex: 3, stepIndex: 3, title: "ECG 参考结果", image: "experience/assets/results/project-10/future09_summary.png", caption: "真实 MIT-BIH ECG 的原始/滤波波形、检测峰与人工标注，以及 RR 间期分布。", text: "记录 100 前 5 分钟；采样率 360 Hz；标注心搏 371；检测峰 371；匹配 371；灵敏度 1.0000；阳性预测值 1.0000；平均 RR 间期 0.8084 秒。单条记录结果用于学习流程，不代表临床性能。" }] },
+    { id: "project-11", no: "10", week: 5, title: "后续方向 10", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
+    { id: "project-12", no: "11", week: 5, title: "后续方向 11", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
     { id: "project-13", no: "12", week: 5, title: "后续方向 12", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
     { id: "project-14", no: "13", week: 5, title: "后续方向 13", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
     { id: "project-15", no: "14", week: 5, title: "后续方向 14", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" }
@@ -578,7 +596,7 @@ window.KYDW = {
 
   professional: {
     label: "专业解读",
-    title: "生医工专业认知与发展路径",
+    title: "生医工专业，从专业认知到发展路径",
     lead: "生物医学工程是一门连接工程、计算机、医学与生物学的交叉学科。",
      contextNote: "院校案例：东北大学生物医学工程（中外合办）采用中英联合培养，涉及邓迪大学课程、院内课程安排、较高课程负担和较高培养费用；专业发展、科研和就业部分为生物医学工程通用内容。",
     intro: [
@@ -702,21 +720,137 @@ window.KYDW = {
   }
 };
 
-// 03、05 的结果页使用与当前本地参考流程一致的模型表述。
+// 项目 03—05 的结果页与项目卡片使用同一套自然简介。
 const _kydwProject04 = window.KYDW.projects.find((item) => item.id === "project-04");
 if (_kydwProject04) {
-  _kydwProject04.summary = "使用脑膜瘤 H&E 组织图块核对图像、标签、原图来源与坐标，比较颜色统计和形态特征随机森林，再结合验证集、测试集、错误图块及染色变化阅读结果。";
-  _kydwProject04.tierText = "脑膜瘤 H&E 组织图块用于观察组织形态、完成形态特征分类和结果评价，并查看错误图块与染色变化。";
+  _kydwProject04.summary = "脑膜瘤 H&E 图块涵盖图像来源、坐标、颜色统计、形态特征、分类评价和染色变化。";
+  _kydwProject04.tierText = "内容包括 H&E 图块、形态特征、分类评价、混淆矩阵和染色变化。";
 }
 const _kydwProject06 = window.KYDW.projects.find((item) => item.id === "project-06");
 if (_kydwProject06) {
-  _kydwProject06.short = "使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，建立局部特征模型，并检查聚合一致性和基线差异。";
-  _kydwProject06.summary = "使用同一组织区域的 H&E 图像和表达数据核对字段与数据划分，观察输入与参考图，建立带正则化的表达份额模型，再检查聚合一致性并与插值基线比较。";
-  _kydwProject06.experience = "使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，建立局部特征模型，并检查聚合一致性和基线差异。";
+  _kydwProject06.short = "以同一组织区域的 H&E 与表达图为例，介绍表达预测、尺度关系、空间聚合和插值基线。";
+  _kydwProject06.summary = "同一组织区域的 H&E 与表达图涵盖多尺度配对、表达预测、空间聚合和插值基线。";
+  _kydwProject06.experience = "内容包括 H&E 与表达图配对、表达预测、空间聚合和插值基线。";
 }
-if (window.KYDW.homeProjectSummaries) {
-  window.KYDW.homeProjectSummaries["project-04"] = "使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成形态特征分类，并结合验证、测试、错误图块和染色变化阅读结果。";
-  window.KYDW.homeProjectSummaries["project-06"] = "使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，建立局部特征模型，并检查聚合一致性和基线差异。";
+// 项目卡片的最终文案由下方的主题式项目摘要统一覆盖。
+const _kydwReaderCardCopy = {
+  "project-01": { short: "以 MNIST 手写数字为例，介绍图像分类、模型训练、混淆矩阵和噪声测试。", experience: "内容包括 MNIST 图像与标签检查、分类训练、混淆矩阵和噪声测试。", tierText: "内容包括图像与标签、模型训练、分类评价和噪声测试。" },
+  "project-02": { short: "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。", experience: "内容包括 MRI 与 mask 配对、患者级划分、分割训练以及 Dice、IoU 和边界评价。", tierText: "内容包括 MRI 与 mask 配对、患者级数据划分、分割训练以及 Dice、IoU 和边界评价。" },
+  "project-03": { short: "以真实胸部 X 射线为例，介绍 VAE 的重建、潜空间采样和生成图像比较。", experience: "内容包括胸片读取、VAE 重建、潜空间采样和生成结果比较。", tierText: "内容包括胸片读取、VAE 结构、重建、潜空间采样和图像统计。" },
+  "project-04": { short: "以脑膜瘤 H&E 图块为例，介绍数字病理中的图块层级、形态特征、分类评价和染色变化。", experience: "内容包括 H&E 图块、形态特征、分类评价和染色变化。", tierText: "内容包括 H&E 图块、形态特征、分类评价、混淆矩阵和染色变化。" },
+  "project-05": { short: "以课程模拟的受试者级临床表格为例，介绍数据预处理、分类比较、概率评价和变量贡献。", experience: "内容包括课程模拟的受试者级表格、训练集预处理、分类比较和变量贡献。", tierText: "内容包括样本单位、变量、训练集预处理、分类比较、概率评价和错误样本。" },
+  "project-06": { short: "以同一组织区域的 H&E 与表达图为例，介绍表达预测、尺度关系、空间聚合和插值基线。", experience: "内容包括 H&E 与表达图配对、表达预测、空间聚合和插值基线。", tierText: "内容包括 H&E 与表达图配对、表达估计、空间聚合和插值基线。" }
+};
+for (const [id, copy] of Object.entries(_kydwReaderCardCopy)) {
+  const project = window.KYDW.projects.find((item) => item.id === id);
+  if (project) Object.assign(project, copy);
+}
+
+// 项目简介采用课程卡片常见的主题式写法，直接说明对象、知识范围和评价内容。
+const _kydwNaturalProjectCopy = {
+  "project-01": {
+    short: "以 MNIST 手写数字为例，介绍图像分类、模型训练、混淆矩阵和噪声测试。",
+    summary: "MNIST 手写数字分类涵盖图像与标签、数据表示、模型训练、分类评价和噪声测试。",
+    experience: "内容包括 MNIST 图像与标签检查、分类训练、混淆矩阵和噪声测试。",
+    tierText: "内容包括图像与标签、模型训练、分类评价和噪声测试。"
+  },
+  "project-02": {
+    short: "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。",
+    summary: "配对 MRI 切片和肿瘤 mask 涉及患者级数据划分、分割训练、Dice、IoU 和边界评价。",
+    experience: "内容包括 MRI 与 mask 配对、患者级划分、分割训练以及 Dice、IoU 和边界评价。",
+    tierText: "内容包括 MRI 与 mask 配对、患者级数据划分、分割训练以及 Dice、IoU 和边界评价。"
+  },
+  "project-03": {
+    short: "以真实胸部 X 射线为例，介绍 VAE 的重建、潜空间采样和生成图像比较。",
+    summary: "胸部 X 射线生成任务涵盖投影图像、VAE 结构、重建、潜空间采样和生成结果比较。",
+    experience: "内容包括胸片读取、VAE 重建、潜空间采样和生成结果比较。",
+    tierText: "内容包括胸片读取、VAE 结构、重建、潜空间采样和图像统计。"
+  },
+  "project-04": {
+    short: "以脑膜瘤 H&E 图块为例，介绍数字病理中的图块层级、形态特征、分类评价和染色变化。",
+    summary: "脑膜瘤 H&E 图块涵盖图像来源、坐标、颜色统计、形态特征、分类评价和染色变化。",
+    experience: "内容包括 H&E 图块、形态特征、分类评价和染色变化。",
+    tierText: "内容包括 H&E 图块、形态特征、分类评价、混淆矩阵和染色变化。"
+  },
+  "project-05": {
+    short: "以课程模拟的受试者级临床表格为例，介绍数据预处理、分类比较、概率评价和变量贡献。",
+    summary: "课程模拟的受试者级临床表格涵盖数据预处理、分类模型比较、概率评价、变量贡献和结果边界。",
+    experience: "内容包括课程模拟的受试者级表格、训练集预处理、分类比较和变量贡献。",
+    tierText: "内容包括样本单位、变量、训练集预处理、分类比较、概率评价和错误样本。"
+  },
+  "project-06": {
+    short: "以同一组织区域的 H&E 与表达图为例，介绍表达预测、尺度关系、空间聚合和插值基线。",
+    summary: "同一组织区域的 H&E 与表达图涵盖多尺度配对、表达预测、空间聚合和插值基线。",
+    experience: "内容包括 H&E 与表达图配对、表达预测、空间聚合和插值基线。",
+    tierText: "内容包括 H&E 与表达图配对、表达估计、空间聚合和插值基线。"
+  },
+  "project-07": {
+    short: "以小鼠肾脏空间数据为例，介绍配体—受体关系、空间邻近、候选通讯和遮边评价。",
+    summary: "小鼠肾脏空间数据涵盖细胞位置、基因表达、配体—受体证据、空间邻近和候选关系评价。",
+    experience: "内容包括细胞位置、配体—受体证据、空间邻近和遮边评价。",
+    tierText: "内容包括细胞位置、配体—受体关系、细胞类型方向、空间候选边和遮边评价。"
+  },
+  "project-08": {
+    short: "以多部位惯性传感器为例，介绍时间窗口、活动分类、混淆矩阵和错误波形分析。",
+    summary: "多部位惯性传感器数据涵盖时间窗口、活动标签、统计特征、分类评价和错误波形。",
+    experience: "内容包括传感器窗口、统计特征、活动分类和错误波形。",
+    tierText: "内容包括传感器窗口、活动标签、统计特征、混淆矩阵和错误波形。"
+  },
+  "project-09": {
+    short: "以 dMRI、模型输出和 IHC 面板为例，介绍跨模态图像配对、支持区比较、误差分析和定量边界。",
+    summary: "dMRI、模型输出和 IHC 面板涵盖跨模态配对、组织支持区、图像差异、颜色代理和定量边界。",
+    experience: "内容包括 dMRI、模型输出与 IHC 面板的配对、支持区比较和误差分析。",
+    tierText: "内容包括 dMRI、模型输出与 IHC 面板配对、组织支持区、图像差异和定量边界。"
+  },
+  "project-10": {
+    short: "以 MIT-BIH record 100 为例，介绍 ECG 采样时间、带通滤波、R 峰检测和标注匹配。",
+    summary: "ECG 记录涵盖采样时间、导联、带通滤波、R 峰检测、人工标注匹配和 RR 间期评价。",
+    experience: "内容包括 ECG 采样时间、滤波、R 峰检测、人工标注匹配和结果评价。",
+    tierText: "内容包括 ECG 采样时间、带通滤波、R 峰检测、人工标注匹配和 RR 间期评价。"
+  }
+};
+for (const [id, copy] of Object.entries(_kydwNaturalProjectCopy)) {
+  const project = window.KYDW.projects.find((item) => item.id === id);
+  if (project) Object.assign(project, copy);
+  if (window.KYDW.experience?.homeProjectSummaries && copy.short) {
+    window.KYDW.experience.homeProjectSummaries[id] = copy.short;
+  }
+}
+
+// 本地审阅按公开编号分组：Week 3 为 06—07，Week 4 为 08—09。
+const _kydwWeek3 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "3");
+const _kydwWeek4 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "4");
+const _kydwWeek5 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "5");
+if (_kydwWeek3) Object.assign(_kydwWeek3, { note: "空间细胞通讯与惯性传感器活动识别。", projects: ["project-07", "project-08"] });
+if (_kydwWeek4) Object.assign(_kydwWeek4, { note: "跨模态图像分析与 ECG 信号处理。", projects: ["project-09", "project-10"] });
+if (_kydwWeek5) Object.assign(_kydwWeek5, { projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] });
+for (const publicNo of [6, 7, 8, 9]) {
+  const siteNo = String(publicNo + 1).padStart(2, "0");
+  const publicId = String(publicNo).padStart(2, "0");
+  const project = window.KYDW.projects.find((item) => item.id === `project-${siteNo}`);
+  if (!project) continue;
+  project.kagglePractice = `https://www.kaggle.com/code/liuhanyu1007/kydw-try-a${publicId}`;
+  project.kaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-try-a${publicId}-reference`;
+}
+const _kydwProject10 = window.KYDW.projects.find((item) => item.id === "project-10");
+if (_kydwProject10) {
+  Object.assign(_kydwProject10, {
+    short: "以 MIT-BIH 多条记录为例，介绍 ECG 滤波、R 峰检测、参数选择和跨记录验证。",
+    summary: "ECG 记录涵盖导联、采样时间、带通滤波、短时能量、R 峰匹配以及冻结参数后的跨记录评价。",
+    input: "MIT-BIH 记录 100、101、103、105、106、108、109 各前 5 分钟的 ECG 与人工心搏标注",
+    output: "逐记录检测结果、灵敏度、阳性预测值、F1、错误记录波形和跨记录汇总",
+    experience: "内容包括 ECG 数据核对、滤波、R 峰检测、record 100 参数选择和六条独立记录评价。",
+    tierText: "内容包括 ECG 导联与采样、短时能量、R 峰检测、一对一匹配和跨记录验证。",
+    referenceResults: [{
+      taskIndex: 4,
+      stepIndex: 4,
+      title: "跨记录 R 峰检测结果",
+      image: "experience/assets/results/project-10/future09_multirecord_summary.png",
+      caption: "record 100 选择参数；其余六条记录使用冻结参数评价。",
+      text: "开发记录：100。冻结测试记录：101、103、105、106、108、109。测试集 sensitivity：0.9833；positive predictive value：0.9991；F1：0.9911；TP/FP/FN：2125/2/36。该结果评价 R 峰检测，不等于心律失常分类或临床诊断性能。"
+    }]
+  });
+  if (window.KYDW.experience?.homeProjectSummaries) window.KYDW.experience.homeProjectSummaries["project-10"] = _kydwProject10.short;
 }
 
 // 结果页使用项目对应的参考结果记录。
@@ -729,13 +863,13 @@ const _kydwProjectResults = {
   "project-02": [
     { taskIndex: 0, stepIndex: 0, title: "数据检查", image: "experience/assets/results/project-02/task1_data_check.png", caption: "MRI、阳性 mask 与叠加图" },
     { taskIndex: 3, stepIndex: 3, title: "训练过程", image: "experience/assets/results/project-02/task1_training_curve.png", caption: "训练与验证损失、Dice 曲线" },
-    { taskIndex: 4, stepIndex: 4, title: "分割结果与指标", image: "experience/assets/results/project-02/task1_prediction.png", caption: "阳性测试样本、真实 mask、预测 mask 与 TP/FP/FN 编码", text: "配对切片：3929；患者：110；训练/验证/测试：2604 / 547 / 778\n平衡训练样本：600（阳性 300、空 mask 300）；最佳阈值：0.75\n测试阳性 mask Dice：0.4870；阳性 mask IoU：0.3725\npixel Dice：0.5259；pixel IoU：0.3567；precision：0.5366；recall：0.5156\n展示图只从测试集中真实 mask 非空的切片中选择，图中绿色为 TP、红色为 FP、蓝色为 FN。" }
+    { taskIndex: 4, stepIndex: 4, title: "分割结果与指标", image: "experience/assets/results/project-02/task1_prediction.png", caption: "阳性测试样本的 FLAIR、人工 mask 与预测叠加", text: "配对切片：3929；患者：110；训练/验证/测试：2604 / 547 / 778\n每轮前景感知加权抽取：1200 张；训练：14 轮；最佳阈值：0.85\n测试阳性 mask Dice：0.6890；阳性 mask IoU：0.5877\npixel Dice：0.6973；pixel IoU：0.5353；precision：0.7028；recall：0.6919\n展示图只从测试集中真实 mask 非空的切片中选择，依次显示 FLAIR、人工 mask 和阈值化预测叠加。" }
   ],
   "project-03": [
     { taskIndex: 0, stepIndex: 0, title: "胸片输入", image: "experience/assets/results/project-03/task2_real_xray_grid.png", caption: "正常胸片样本网格" },
     { taskIndex: 2, stepIndex: 2, title: "训练过程", image: "experience/assets/results/project-03/task2_training_curve.png", caption: "残差卷积 VAE 的总损失、重建 L1、边缘 L1 与 KL 损失曲线" },
-    { taskIndex: 3, stepIndex: 3, title: "输入与生成结果", image: "experience/assets/results/project-03/task2_input_generated_comparison.png", caption: "上排为 INPUT / REAL CHEST X-RAY（真实输入），下排为 GENERATED OUTPUT / LATENT SAMPLE（生成结果）；两排不是同一张胸片的前后处理关系。", text: "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\n模型：ResidualConvVAE；潜变量维度：64\n留出集重建 L1：0.0878；生成样本两两 L1：0.2334\n五项图像特征平均差：0.0114" },
-    { taskIndex: 4, stepIndex: 4, title: "图像统计", image: "experience/assets/results/project-03/task2_quality_metrics.png", caption: "留出集与生成样本的五项图像统计" }
+    { taskIndex: 3, stepIndex: 3, title: "输入与生成结果", image: "experience/assets/results/project-03/task2_input_generated_comparison.png", caption: "上排为真实留出胸片输入，下排为潜空间采样生成结果；两排不是同一张胸片的前后处理。", text: "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\n模型：ResidualConvVAE；潜变量维度：64；训练 50 轮\n输入重建 L1：0.0928；生成样本到真实图库的最近邻 L1 均值：0.1859、最小值：0.1310\n生成结果用于观察模型分布和记忆风险，不作为临床影像。" },
+    { taskIndex: 4, stepIndex: 4, title: "最近邻检查", image: "experience/assets/results/project-03/task2_nearest_neighbors.png", caption: "生成样本与真实训练图库最近邻的并排检查" }
   ]
 };
 for (const [id, results] of Object.entries(_kydwProjectResults)) {
@@ -752,192 +886,25 @@ for (let publicNo = 1; publicNo <= 5; publicNo += 1) {
   project.advanced = `experience/advanced/project-${siteNo}.html`;
   project.advancedPractice = `experience/advanced-practice/project-${siteNo}.ipynb`;
   project.advancedAnswer = `experience/advanced-answers/project-${siteNo}.ipynb`;
-  project.advancedReportTemplate = `experience/advanced-reports/templates/project-${siteNo}.html`;
-  project.advancedReferenceReport = `experience/advanced-reports/examples/project-${siteNo}.html`;
   project.advancedKagglePractice = `https://www.kaggle.com/code/liuhanyu1007/kydw-advanced-a${publicId}`;
   project.advancedKaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-advanced-a${publicId}-reference`;
   project.advancedOpen = false;
   project.advancedStatus = "尚未开放";
   project.advancedStudentVisible = false;
-  if (publicNo >= 3) {
+  if (publicNo >= 3 && publicNo < 5) {
     project.kaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-try-a${publicId}-reference`;
   }
 }
-delete window._kydwProjectResults;
-
-// 招募合集保留论文研究项目和科研实习项目发布群。体验项目与科研实践活动不进入本集合。
-window.KYDW.recruitment = {
-  title: "人员招募",
-  lead: "集中整理 KYDW 论文研究项目招募记录与科研实习项目发布群。",
-  contact: {
-    wechat: window.KYDW.site.wechat,
-    email: "lhanyu07@foxmail.com",
-    publicAccount: "科研大王",
-    internshipGroupQr: {
-      title: "科研实习项目发布二群二维码",
-      image: KYDW_INTERNSHIP_GROUP_QR,
-      text: "群内持续发布科研实习与论文研究项目信息，具体要求以每次项目公告为准。"
-    }
-  },
-  records: [
-    {
-      id: "2025-internship-board",
-      title: "科研实习项目发布群",
-      published: "2025-02-11",
-      period: "持续更新",
-      status: "进行中",
-      type: "科研实习项目发布群",
-      institutions: ["KYDW", "合作高校与课题组"],
-      field: "论文研究项目、短期科研任务与科研实习信息",
-      mode: "群内发布与负责人对接",
-      commitment: "由每次项目公告单独说明",
-      capacity: "由每次项目公告单独说明",
-      audience: "希望获取论文研究项目或科研实习信息的学生",
-      requirements: ["阅读每次公告的研究方向、时间投入和基础要求", "报名后按项目要求保持沟通并完成任务"],
-      work: ["查看论文研究项目与科研实习公告", "按公告要求联系项目负责人", "根据项目安排参与数据、代码、实验或论文工作"],
-      outcomes: ["及时获取科研实习与论文研究项目信息", "具体训练、成果和作者安排由对应项目根据实际贡献确定"],
-      apply: "扫描本页的科研实习项目发布二群二维码入群。",
-      source: "【宣传】科研实习项目发布群（剑桥，东大等）",
-      showGroupQr: true,
-      updates: [
-        { date: "2025-02-11", text: "建立科研实习项目发布群。" },
-        { date: "2025-02-18", text: "补充项目类别、参与方式和任务交付规则。" }
-      ]
-    },
-    {
-      id: "2026-st-benchmark",
-      title: "空间转录组学基准研究专项合作",
-      published: "2026-01-17",
-      period: "2026 年 1 月至 3 月",
-      status: "已结束",
-      type: "论文研究项目",
-      institutions: ["KYDW", "合作课题组"],
-      field: "空间转录组学与基准测试",
-      mode: "线上项目协作",
-      commitment: "按研究任务持续参与",
-      capacity: "4—6 人",
-      audience: "已经完成基础训练并具备一定研究经验的本科生",
-      requirements: ["论文、项目考核或相关研究经验满足当期公告条件", "空间转录组学、病理组织学或模型实验经验优先"],
-      work: ["模型训练与测试", "实验设计", "图表绘制", "论文撰写"],
-      outcomes: ["在真实空间组学项目中训练实验和写作能力", "后续合作与作者安排依据实际贡献和项目进展确定"],
-      apply: "历史项目已经结束，后续同方向项目以新公告为准。",
-      source: "专项合作-空间转录组学基准研究（已开始）",
-      updates: [{ date: "2026-01-17", text: "发布项目时间、人数、工作内容和基础要求。" }]
-    },
-    {
-      id: "2024-human-activity",
-      title: "人类活动识别研究项目",
-      published: "2024-10-24",
-      period: "2024 年 11 月起，约半年",
-      status: "已结束",
-      type: "论文研究项目",
-      institutions: ["东北大学相关项目组"],
-      field: "传感器、人类活动识别与人工智能",
-      mode: "线上、按周推进",
-      commitment: "按周完成研究任务",
-      capacity: "首次公告 3—6 人，后续公告剩余 2 个名额",
-      audience: "低年级、希望进入科研项目并具备自主学习能力的本科生",
-      requirements: ["完成当期项目组基础培训与任务", "接受零项目经验", "能够持续参与代码和论文工作"],
-      work: ["研究问题和创新点构建", "代码实现", "实验与论文撰写"],
-      outcomes: ["参与完整论文研究流程", "作者和后续合作安排依据实际贡献与项目进展确定"],
-      apply: "历史项目已经结束。",
-      source: "【11月KYDW项目组招新公告】及【11月招新公告2】",
-      updates: [
-        { date: "2024-10-24", text: "首次公布项目内容、周期和招募条件。" },
-        { date: "2024-11-10", text: "更新为剩余 2 个名额。" }
-      ]
-    },
-    {
-      id: "2024-neuro-oncology",
-      title: "精准神经肿瘤多模态研究项目",
-      published: "2024-10-24",
-      period: "2024 年 11 月起",
-      status: "已结束",
-      type: "论文研究项目",
-      institutions: ["剑桥大学相关项目组"],
-      field: "医学影像、多模态学习与精准神经肿瘤",
-      mode: "线上、长期投入",
-      commitment: "当期公告要求较高强度投入",
-      capacity: "首次公告 1—2 人，后续公告剩余 1 人",
-      audience: "具有深度学习和论文项目经验的本科生",
-      requirements: ["具备深度学习实践经验", "能够参与创新点、代码和论文工作", "当期公告优先考虑已有论文经验者"],
-      work: ["拓展已有医学影像研究", "构建研究方法", "代码实现", "实验和论文撰写"],
-      outcomes: ["训练医学影像论文研究能力", "投稿目标和作者安排依据实际结果与贡献确定"],
-      apply: "历史项目已经结束。",
-      source: "【11月KYDW项目组招新公告】及【11月招新公告2】",
-      updates: [
-        { date: "2024-10-24", text: "首次公布研究任务和基础要求。" },
-        { date: "2024-11-10", text: "更新为剩余 1 个名额。" }
-      ]
-    },
-    {
-      id: "2024-3d-spatial",
-      title: "3D 空间转录组学研究项目",
-      published: "2024-10-24",
-      period: "2024 年起，持续半年以上",
-      status: "已结束",
-      type: "论文研究项目",
-      institutions: ["剑桥大学相关项目组"],
-      field: "三维空间转录组学",
-      mode: "线上、长期投入",
-      commitment: "当期公告要求高强度持续参与",
-      capacity: "3—4 人",
-      audience: "具备较丰富深度学习和论文经验的本科生",
-      requirements: ["不面向零基础", "具备深度学习实践和独立推进能力", "能够长期参与论文辅助工作"],
-      work: ["承担论文实验与辅助研究任务", "参与三维空间组学方法和结果整理"],
-      outcomes: ["训练高难度空间组学研究能力", "作者和后续项目安排依据实际贡献与项目进展确定"],
-      apply: "历史项目已经结束。",
-      source: "【11月KYDW项目组招新公告】",
-      updates: [{ date: "2024-10-24", text: "发布项目周期、人数、基础和工作强度要求。" }]
-    },
-    {
-      id: "2024-pan-cancer-data",
-      title: "泛癌影像数据整理项目",
-      published: "2024-09-20",
-      period: "约 3—4 周",
-      status: "已结束",
-      type: "论文研究项目",
-      institutions: ["剑桥大学数学院与临床医学院相关项目"],
-      field: "泛癌影像与增强 CT 生成数据准备",
-      mode: "线上",
-      commitment: "当期公告为每日约 2—5 小时",
-      capacity: "2—3 人",
-      audience: "希望通过数据任务认识医学影像项目的本科生",
-      requirements: ["能够持续投入并按期交付", "项目经验和年级不作硬性限制"],
-      work: ["开源癌症影像数据清洗", "配准", "标注", "使用 3D Slicer 等工具整理数据"],
-      outcomes: ["认识医学影像数据整理流程", "经历和作者安排依据实际贡献与项目进展确定"],
-      apply: "历史项目已经结束。",
-      source: "【KYDW项目组招新公告】剑桥大学数学院&临床医学院科研实习内推项目汇总（9月）",
-      updates: [{ date: "2024-09-20", text: "发布工作内容、时间、人数和基础要求。" }]
-    },
-    {
-      id: "2024-cancer-mask",
-      title: "癌症分割掩码注释项目",
-      published: "2024-09-20",
-      period: "约 4 个月",
-      status: "已结束",
-      type: "论文研究项目",
-      institutions: ["剑桥大学相关项目", "首都医学科学创新中心", "天坛医院", "宣武医院"],
-      field: "癌症影像分割与标注",
-      mode: "线上",
-      commitment: "当期公告为每日约 2—5 小时",
-      capacity: "5—7 人",
-      audience: "希望参与医学影像代码运行和标注任务的本科生",
-      requirements: ["能够持续投入并按期交付", "熟悉 Python 者优先", "当期公告优先考虑大二、大三学生"],
-      work: ["运行已有分割代码", "检查模型输出", "人工修正错误标注"],
-      outcomes: ["认识分割模型与人工标注协作流程", "经历和作者安排依据实际贡献与项目进展确定"],
-      apply: "历史项目已经结束。",
-      source: "【KYDW项目组招新公告】剑桥大学数学院&临床医学院科研实习内推项目汇总（9月）",
-      updates: [{ date: "2024-09-20", text: "发布项目周期、人数、代码和标注任务。" }]
-    }
-  ]
+const _kydwAdvancedResults = {
+  "project-02": [{ taskIndex: 5, stepIndex: 5, title: "真实患者级 MRI 分割基线", image: "experience/assets/results/advanced/project-02/advanced01_complete_summary.png", caption: "真实 LGG FLAIR、人工 mask、手工特征随机森林及形态学后处理。", text: "患者级固定划分：70/15/25 名患者。后处理基线阳性切片 Dice：0.3420；小病灶：0.2214；大病灶：0.4627。结果用于展示患者级划分、阈值选择和病灶分层；该模型不是 nnU-Net、Transformer 或临床模型。" }],
+  "project-03": [{ taskIndex: 5, stepIndex: 5, title: "真实 VAE 输出与失败对照", image: "experience/assets/results/advanced/project-03/advanced02_complete_summary.png", caption: "实际训练的 ResidualConvVAE 输出，以及明确标注的记忆复制和噪声失败对照。", text: "VAE 与真实留出样本的 two-sample AUC：0.9398，说明当前描述特征仍能较容易地区分两组；最近真实样本 L1：0.1065。记忆复制距离为 0，作为隐私失败对照。未训练 GAN 或扩散模型，也不在缺少条件标签时报告条件一致性。" }],
+  "project-04": [{ taskIndex: 5, stepIndex: 5, title: "来源级病理分析", image: "experience/assets/results/advanced/project-04/advanced03_high_score_tiles.png", caption: "测试来源中的高置信图块及原图来源标识。", text: "直接生成代理标签的 proxy_score、nuclei_fraction 和 strong_nuclei_fraction 已从模型输入排除。剩余颜色形态特征复现核密度代理类别的测试 macro-F1：0.7096；染色扰动后：0.5534。玻片级测试仅有 2 个来源，因此只记录 2/2 来源预测正确，不报告玻片级 F1。该分数不是临床病理分类性能。" }],
+  "project-05": [{ taskIndex: 5, stepIndex: 5, title: "概率、错误与决策分析", image: "experience/assets/results/advanced/project-05/advanced04_complete_summary.png", caption: "分类性能与 class 0 阈值净获益示例。", text: "逻辑回归 macro-F1：0.7451；HistGradientBoosting：0.7495；高置信错误 53 个。模拟变量漂移后逻辑回归 macro-F1 降至 0.6666。数据缺少真实时间、中心与临床行动信息，决策曲线仅用于教学。" }],
+  "project-06": [{ taskIndex: 5, stepIndex: 5, title: "单基因多模态消融", image: "experience/assets/results/advanced/project-06/advanced05_complete_summary.png", caption: "H&E、参考表达、插值、图像、表达和多模态估计的同图比较。", text: "插值 Pearson：0.4877；多模态 Pearson：0.5002，但 MAE 从 0.1990 增至 0.2043，形态分支没有带来一致收益。数据仅含一个表达通道，不能声称全基因组或完整空间转录组恢复。" }]
 };
-
-// 新项目与招募合集接入现有单一内容源。
-window.KYDW.collections.push({
-  id: "recruitment",
-  label: "人员招募",
-  href: "recruitment/index.html",
-  pages: ["recruitment", "recruitment-detail"],
-  home: false
-});
+for (const [id, results] of Object.entries(_kydwAdvancedResults)) {
+  const project = window.KYDW.projects.find((item) => item.id === id);
+  if (project) project.advancedReferenceResults = results;
+}
+delete window._kydwAdvancedResults;
+delete window._kydwProjectResults;
