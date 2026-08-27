@@ -823,6 +823,8 @@ const _kydwWeek4 = window.KYDW.experience?.weeks?.find((week) => String(week.id)
 const _kydwWeek5 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "5");
 if (_kydwWeek3) Object.assign(_kydwWeek3, { note: "空间细胞通讯与惯性传感器活动识别。", projects: ["project-07", "project-08"] });
 if (_kydwWeek4) Object.assign(_kydwWeek4, { note: "跨模态图像分析与 ECG 信号处理。", projects: ["project-09", "project-10"] });
+const _kydwWeek3OpenProjects = window.KYDW.projects.filter((item) => item.week === 3);
+_kydwWeek3OpenProjects.forEach((item) => Object.assign(item, { date: "现已开放", status: "材料已开放" }));
 if (_kydwWeek5) Object.assign(_kydwWeek5, { projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] });
 for (const publicNo of [6, 7, 8, 9]) {
   const siteNo = String(publicNo + 1).padStart(2, "0");
