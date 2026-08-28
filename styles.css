@@ -117,9 +117,9 @@ button { font: inherit; }
 .section { margin-top: 48px; }
 .section[id] { scroll-margin-top: 86px; }
 .latest-news-section { margin-top: 0; }
-.latest-news-title { margin: 0 0 17px; color: var(--text); font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -.04em; line-height: 1.2; }
+.latest-news-title { margin: 0 0 17px; color: var(--text); font-size: clamp(24px, 3vw, 35px); letter-spacing: -.03em; line-height: 1.25; }
 .latest-news-card { width: 100%; min-height: 0; padding: 0; }
-.latest-news-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.latest-news-grid { display: grid; grid-template-columns: minmax(0, 35fr) minmax(0, 65fr); }
 .latest-news-panel { min-width: 0; padding: 24px; }
 .latest-news-panel + .latest-news-panel { border-left: 1px solid var(--line); }
 .latest-news-panel h3 { margin: 0 0 10px; color: var(--primary-2); font-size: 18px; line-height: 1.35; }

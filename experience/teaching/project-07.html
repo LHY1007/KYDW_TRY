@@ -204,9 +204,9 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
   <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的图像、流程图和示意结果用于阅读概念；代码运行、训练时间和个人结果请在 Kaggle Notebook 中完成。打开题目 Notebook 后复制到自己的账户，再按单元格填写和运行。</div>
   <div class="project-list"><div><strong>任务 1</strong><br>读取细胞表、候选边表和 H&E，输出细胞数、类型数、候选边数、LR 对数和低置信度比例，并叠加坐标。</div><div><strong>任务 2</strong><br>筛选 Vegfa–Flt1/Kdr，计算 log1p 共表达与距离衰减分数，比较它与 evidence_score 的排序关系。</div><div><strong>任务 3</strong><br>按发送和接收细胞类型汇总平均 gnn_score 与边数，绘制有方向热图并说明行列含义。</div><div><strong>任务 4</strong><br>绘制高分局部候选边，查看训练曲线与遮边测试指标，写出模型结果支持的判断和仍需的验证。</div></div>
   <p>空间连线图只显示便于阅读的候选边子集；分析时先核对完整边表，再绘制局部高分关系。</p>
-  <p>每项任务都应保存输入核对、核心计算、结果图和边界说明；完成后再打开实践项目参考答案核对实现与解释。</p>
-  <p class="files">材料入口：<a href="../practice/project-07.ipynb">打开实践项目</a>　<a href="../answers/project-07.ipynb">查看实践项目参考答案</a></p>
-</section><section class="lesson" id="sources"><h2>资料来源与延伸阅读</h2><p class="lecture-open">下列资料用于核对数据对象、方法名称和研究背景。本页图像、指标与实践项目参考答案使用同一数据范围。</p><ul><li>项目源码包中的 <code>docs/01_CCC概念入门.md</code>、<code>docs/02_数据与预筛选.md</code> 和 <code>docs/03_遮边自监督图模型.md</code>。</li><li>项目源码包中的四个下游实验说明：空间候选通讯、细胞类型方向、LR 对×方向和 Vegfa–Flt1/Kdr 案例。</li><li><a href="https://squidpy.readthedocs.io/en/stable/">Squidpy 文档</a>：空间数据对象、邻域图和空间统计。</li><li><a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(19)30321-4">CellPhoneDB 相关方法说明</a>：配体—受体候选关系的统计解释。</li></ul><p class="static-note">阅读论文或官方文档时，优先关注数据单位、评价对象和结果边界，再把相同概念放回当前项目的数据表和图像中。</p></section>
+  <p>每项任务都应保存输入核对、核心计算、结果图和边界说明；完成后再打开实践参考答案核对实现与解释。</p>
+  <p class="files">材料入口：<a href="../practice/project-07.ipynb">打开实践项目</a>　<a href="../answers/project-07.ipynb">查看实践参考答案</a></p>
+</section><section class="lesson" id="sources"><h2>资料来源与延伸阅读</h2><p class="lecture-open">下列资料用于核对数据对象、方法名称和研究背景。本页图像、指标与实践参考答案使用同一数据范围。</p><ul><li>项目源码包中的 <code>docs/01_CCC概念入门.md</code>、<code>docs/02_数据与预筛选.md</code> 和 <code>docs/03_遮边自监督图模型.md</code>。</li><li>项目源码包中的四个下游实验说明：空间候选通讯、细胞类型方向、LR 对×方向和 Vegfa–Flt1/Kdr 案例。</li><li><a href="https://squidpy.readthedocs.io/en/stable/">Squidpy 文档</a>：空间数据对象、邻域图和空间统计。</li><li><a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(19)30321-4">CellPhoneDB 相关方法说明</a>：配体—受体候选关系的统计解释。</li></ul><p class="static-note">阅读论文或官方文档时，优先关注数据单位、评价对象和结果边界，再把相同概念放回当前项目的数据表和图像中。</p></section>
 </div></main></div>
 <script>
 const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];

@@ -221,7 +221,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <h3>指标例题</h3>
 <p>选择“识别手写数字”，写出输入、模型输出和一项合适的评价指标；再说明 Softmax 概率最大的类别如何成为预测结果。</p>
 <details class="reference-answer">
-<summary>实践项目参考答案</summary>
+<summary>实践参考答案</summary>
 <div class="answer-body">
 <p>输入是 28×28 的 MNIST 灰度图像，输出是 10 个 logits，经 Softmax 得到 10 个概率，最大概率对应的数字作为预测。准确率、每类 F1 和宏 F1 都可以评价十分类表现。</p>
 </div>
@@ -303,7 +303,7 @@ x_norm = (x − μ) / (σ + 1e−8)</div>
 <h3>指标例题</h3>
 <p>看到 <code>[128, 1, 28, 28]</code> 时，依次指出四个维度的含义；再说明训练集均值和标准差在三个数据集上的使用方式。</p>
 <details class="reference-answer">
-<summary>实践项目参考答案</summary>
+<summary>实践参考答案</summary>
 <div class="answer-body">
 <p>128 是批次大小，1 是灰度通道数，28 和 28 是图像的高与宽。训练子集计算出的 μ 和 σ 传给训练、验证、测试 DataLoader 的输出，保持三者的数值尺度一致。</p>
 </div>
@@ -382,7 +382,7 @@ a = ReLU(u) = max(0, u)</div>
 <h3>指标例题</h3>
 <p>对于一张 MNIST 图像，按“前向传播 → 损失 → 反向传播 → 参数更新”的顺序说出每一步产生的对象，并指出参数发生改变的位置。</p>
 <details class="reference-answer">
-<summary>实践项目参考答案</summary>
+<summary>实践参考答案</summary>
 <div class="answer-body">
 <p>前向传播产生 10 个 logits；交叉熵把真实标签与 logits 比较得到一个损失；反向传播计算卷积层、全连接层等参数的梯度；优化器按学习率更新这些参数，下一批图像会使用更新后的网络。</p>
 </div>
@@ -509,7 +509,7 @@ Macro-F1 = (1 / K) Σₖ F1ₖ</div>
 <h3>指标例题</h3>
 <p>某个数字的 TP=8、FP=2、FN=2 时，计算它的 Precision、Recall 和 F1；再说明为什么宏 F1 需要先算每一类 F1。</p>
 <details class="reference-answer">
-<summary>实践项目参考答案</summary>
+<summary>实践参考答案</summary>
 <div class="answer-body">
 <p>Precision=8/(8+2)=0.80，Recall=8/(8+2)=0.80，F1=0.80。宏 F1 先为 0–9 每个数字分别计算 F1，再把十个结果等权平均，所以某一类表现较差时会直接拉低宏 F1。</p>
 </div>

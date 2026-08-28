@@ -24,10 +24,11 @@
   const findTrainingChapter = (id) => (data.training?.chapters || []).find((chapter) => chapter.id === id);
   const findWeek = (id) => data.experience.weeks.find((week) => String(week.id) === String(id));
   const LOCKED_WEEK_IDS = new Set(["4", "5"]);
-  const ANSWER_LABEL = "实践项目参考答案";
+  const ANSWER_LABEL = "实践参考答案";
   const publicCopy = (value) => {
     const text = String(value ?? "");
-    return text.includes(ANSWER_LABEL) ? text : text.replaceAll("参考答案", ANSWER_LABEL);
+    const protectedLabel = "\u0000";
+    return text.replaceAll(ANSWER_LABEL, protectedLabel).replace(/(?:实践项目)?参考答案/g, ANSWER_LABEL).replaceAll(protectedLabel, ANSWER_LABEL);
   };
   const isAdvancedPath = (href) => /(^|\/)advanced(?:[-/]|$)/i.test(String(href || ""));
   // 进阶材料只在本机服务开放；公开站点仍保持锁定。
@@ -393,7 +394,7 @@
 
   function projectMode(project, advanced = false) {
     if (advanced && !project.single) {
-      return `<article class="project-mode advanced-mode is-locked" aria-disabled="true"><div class="mode-kicker">进阶项目</div><p>进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践项目参考答案。</p><span class="material-status">尚未开放</span></article>`;
+      return `<article class="project-mode advanced-mode is-locked" aria-disabled="true"><div class="mode-kicker">进阶项目</div><p>进阶项目当前尚未开放，开放后提供对应的教学项目、实践项目和实践参考答案。</p><span class="material-status">尚未开放</span></article>`;
     }
     const title = project.single ? "项目" : "体验项目";
     return `<article class="project-mode"><div class="mode-kicker">${title}</div><p>${esc(project.experience || project.short)}</p></article>`;
@@ -523,7 +524,7 @@
     const displayWeek = options.week ?? project.week;
     const open = !options.locked && isProjectOpen(project);
     const status = open ? "已开放" : `等待 Week ${displayWeek} 开放`;
-    return `<article class="card directory-project-card${open ? "" : " is-locked"}"><div class="card-kicker">Week ${esc(displayWeek)} · 项目 ${esc(project.no)}</div><h3>${esc(project.title)}</h3><p>${esc(project.short)}</p><div class="project-directory-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div><div class="card-footer">${open ? `<a class="outline-btn" href="${rootHref(`experience/${project.id}.html`)}">查看详情</a>` : `<span class="outline-btn is-disabled" aria-disabled="true">${esc(status)}</span>`}</div></article>`;
+    return `<article class="card directory-project-card${open ? "" : " is-locked"}"><div class="card-kicker">Week ${esc(displayWeek)} · 项目 ${esc(project.no)}</div><h3>${esc(project.title)}</h3><p>${esc(project.short)}</p><div class="card-footer">${open ? `<a class="outline-btn" href="${rootHref(`experience/${project.id}.html`)}">查看详情</a>` : `<span class="outline-btn is-disabled" aria-disabled="true">${esc(status)}</span>`}</div></article>`;
   }
 
   function experience() {
@@ -547,8 +548,8 @@
     const e = data.experience;
     const sections = e.weeks.map((week) => {
       const projects = (week.projects || []).map(findProject).filter(isListedProject);
-      if (!isWeekOpen(week)) return `\u003csection class="section week-directory-section"\u003e${sectionHead(`Week ${week.id}`, "本周内容尚未开放。开放后将显示对应项目。", null)}${weekCard(week)}\u003c/section\u003e`;
-      return `\u003csection class="section week-directory-section"\u003e${sectionHead(`Week ${week.id}`, week.note, null)}\u003cdiv class="directory-project-grid"\u003e${projects.map(projectDirectoryCard).join("")}\u003c/div\u003e\u003c/section\u003e`;
+      const locked = !week.open;
+      return `\u003csection class="section week-directory-section"\u003e${sectionHead(`Week ${week.id}`, null, null)}\u003cdiv class="directory-project-grid"\u003e${projects.map((project) => projectDirectoryCard(project, { locked, week: week.id })).join("")}\u003c/div\u003e\u003c/section\u003e`;
     }).join("");
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}\u003csection class="section"\u003e\u003cdiv class="prose"\u003e${paragraphs(e.paragraphs)}\u003c/div\u003e\u003c/section\u003e\u003csection class="section" id="project-directory"\u003e${sectionHead("Week 0", "项目环境准备和基础技能查阅。", null)}\u003cdiv class="directory-project-grid"\u003e${environmentProjectCard(e.environment, true)}${temporaryModuleCard(e.temporaryModule)}\u003c/div\u003e\u003c/section\u003e${sections}\u003csection class="section"\u003e\u003cdiv class="callout"\u003e\u003cb\u003e参与方式\u003c/b\u003e\u003cp\u003e${esc(e.participation)}\u003c/p\u003e\u003cp\u003e${esc(e.access)}\u003c/p\u003e\u003c/div\u003e\u003c/section\u003e${contactMarkup(e.contact)}`);
   }
@@ -782,7 +783,7 @@
     const kaggleHref = kind === "answer" ? project.kaggleReference : kind === "practice" ? (project.kagglePractice || project.kaggle) : kind === "advanced-answer" ? project.advancedKaggleReference : project.advancedKagglePractice;
     const viewerActions = [{ label: "返回项目详情", href: "experience/" + project.id + ".html", primary: true, arrow: false }, { label: downloadLabel, href: downloadHref, download: true, arrow: false }];
     if (kaggleHref) viewerActions.push({ label: "在 Kaggle 中打开", href: kaggleHref, external: true, arrow: false });
-    const viewer = hero({ eyebrow: "本科生科研入门体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "按任务说明补全代码并运行" : "阅读实践项目参考答案", actions: viewerActions });
+    const viewer = hero({ eyebrow: "本科生科研入门体验项目 / 项目 " + project.no + " / " + title, title: project.title + " · " + title, lead: title === "实践项目" ? "按任务说明补全代码并运行" : "阅读实践参考答案", actions: viewerActions });
     const note = kaggleHref
       ? data.experience.simulationNote || "网页中的结果用于对照；需要得到自己的结果，请先在 Kaggle 中复制 Notebook 到自己的账户，再运行和修改代码。"
       : "本页下方列出任务、代码和参考输出。下载 Notebook 后可在本地 Jupyter 环境中运行；数据文件和运行环境要求以任务开头的说明为准。";
@@ -859,8 +860,7 @@
       ? tier("项目", project.tierText || "", singleTeaching, singlePractice, singleAnswer)
       : `<div class="project-tier-grid">${tier("体验项目", project.tierText || "", experienceTeaching, experiencePractice, experienceAnswer)}${tier("进阶项目", project.advancedTierText || "", advancedTeaching, advancedPractice, advancedAnswer, { locked: !isAdvancedOpen() })}</div>`;
     layout(`${hero({ eyebrow: `本科生科研入门体验项目 / Week ${project.week} / 项目 ${project.no}`, title: project.title, lead: project.short, actions: [{ label: "返回所属 Week", href: `experience/week-${String(project.week).padStart(2, "0")}.html`, primary: true }, { label: "返回项目与活动", href: "programs/index.html" }] })}
-    <section class="section"><div class="project-page-meta"><span>时间：${esc(project.date || "项目开放期")}</span></div></section>
-    <section class="section">${sectionHead("项目材料", null, null)}${projectContent}</section>`);
+    <section class="section">${projectContent}</section>`);
   }
 
   function professional() {

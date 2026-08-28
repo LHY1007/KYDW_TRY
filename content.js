@@ -442,7 +442,7 @@ window.KYDW = {
       { title: "数据与运行说明", href: "experience/advanced-resources/data-guide.html", locked: true, studentVisible: false },
       { title: "资料与文献索引", href: "experience/advanced-resources/references.html", locked: true, studentVisible: false }
     ],
-    homeProjectIds: ["project-04", "project-05", "project-06"],
+    homeProjectIds: ["project-07", "project-08"],
     homeProjectSummaries: {
       "project-01": "以 MNIST 手写数字为例，介绍图像分类、模型训练、混淆矩阵和噪声测试。",
       "project-02": "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。",
@@ -461,9 +461,9 @@ window.KYDW = {
       achievementDates: ["2026.8"]
     },
     lead: "面向 0 基础本科生，内容涉及医学影像、计算病理、生物信息学与人工智能，阅读讲解并完成相应练习。",
-    date: "计划开放时间：2026 年 8 月 2 日—9 月中旬；期间可随时加入，后加入可适当延期。",
+    date: "计划开放时间：2026 年 8 月 2 日—十月中旬",
     simulationNote: "本页下方的“参考输出”用于对照实践步骤。网页代码单元格只能阅读，不能直接填写；要得到自己的结果，请在 Kaggle 中打开公开 Notebook，点击“复制并编辑”保存到自己的账户后运行和修改。",
-    practiceGuidance: "实践项目优先在 Kaggle 中运行：打开对应的公开 Notebook，点击“复制并编辑”保存到自己的账户，再按单元格逐步运行、修改并观察结果。也可以下载到自己的电脑上运行；遇到不理解的代码时，结合单元格说明和公开资料逐步理解。需要对照时，可以打开实践项目参考答案核对。",
+    practiceGuidance: "实践项目优先在 Kaggle 中运行：打开对应的公开 Notebook，点击“复制并编辑”保存到自己的账户，再按单元格逐步运行、修改并观察结果。也可以下载到自己的电脑上运行；遇到不理解的代码时，结合单元格说明和公开资料逐步理解。需要对照时，可以打开实践参考答案核对。",
     practiceTaskGuides: {
       "project-01": [
         { task: "任务 1：数据检查与真实样本可视化", fill: "补全数据集大小、类别分布、图像范围和样本标签的检查。", basis: "根据 train_full、sample_image、sample_label 等已有对象，以及单元格中的 print 和 assert 确定检查内容。", check: "运行后确认样本图像能显示，图像形状为 [1, 28, 28]，像素范围在 0—1，类别分布没有丢失。" },
@@ -567,7 +567,7 @@ window.KYDW = {
     structure: [
       { no: "01", title: "教学项目", text: "讲解领域概念、数据对象、应用、方法和结果评价。" },
       { no: "02", title: "实践项目", text: "提供可运行的代码和需要完成的分析任务。" },
-      { no: "03", title: "实践项目参考答案", text: "按实践步骤排列参考代码、说明和结果，便于核对。" },
+      { no: "03", title: "实践参考答案", text: "按实践步骤排列参考代码、说明和结果，便于核对。" },
       { no: "04", title: "进阶项目", text: "部分方向补充更完整的方法体系、前沿研究与研究设计，材料开放后显示。" },
       { no: "05", title: "答疑/反馈渠道", text: "可通过群聊、公众号后台、负责人微信或邮件提问和反馈，具体联系方式见页面最下方。" }
     ],
@@ -578,10 +578,10 @@ window.KYDW = {
       { title: "联系负责人", text: "对感兴趣的方向形成清晰的学习记录后，可联系负责人了解后续学习安排。" }
     ],
     weeks: [
-      { id: 1, title: "Week 1", note: "第一部分已开放。第一个项目为零基础跨专业同学和 26 级新生准备。", open: true, projects: ["project-01", "project-02", "project-03"] },
-      { id: 2, title: "Week 2", note: "第二部分已开放，学生可以按项目阅读教学内容、完成题目并用参考答案核对结果。", open: true, projects: ["project-04", "project-05", "project-06"] },
-      { id: 3, title: "Week 3", note: "空间细胞通讯与惯性传感器活动识别。", open: true, projects: ["project-07", "project-08"] },
-      { id: 4, title: "Week 4", note: "跨模态图像分析与 ECG 信号处理。", open: false, projects: ["project-09", "project-10"] },
+      { id: 1, title: "Week 1", note: "", open: true, projects: ["project-01", "project-02", "project-03"] },
+      { id: 2, title: "Week 2", note: "", open: true, projects: ["project-04", "project-05", "project-06"] },
+      { id: 3, title: "Week 3", note: "", open: true, projects: ["project-07", "project-08"] },
+      { id: 4, title: "Week 4", note: "", open: false, projects: ["project-09", "project-10"] },
       { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] }
     ]
   },
@@ -831,8 +831,8 @@ for (const [id, copy] of Object.entries(_kydwNaturalProjectCopy)) {
 const _kydwWeek3 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "3");
 const _kydwWeek4 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "4");
 const _kydwWeek5 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "5");
-if (_kydwWeek3) Object.assign(_kydwWeek3, { note: "空间细胞通讯与惯性传感器活动识别。", projects: ["project-07", "project-08"] });
-if (_kydwWeek4) Object.assign(_kydwWeek4, { note: "跨模态图像分析与 ECG 信号处理。", projects: ["project-09", "project-10"] });
+if (_kydwWeek3) Object.assign(_kydwWeek3, { note: "", projects: ["project-07", "project-08"] });
+if (_kydwWeek4) Object.assign(_kydwWeek4, { note: "", projects: ["project-09", "project-10"] });
 const _kydwWeek3OpenProjects = window.KYDW.projects.filter((item) => item.week === 3);
 _kydwWeek3OpenProjects.forEach((item) => Object.assign(item, { date: "现已开放", status: "材料已开放" }));
 if (_kydwWeek5) Object.assign(_kydwWeek5, { projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] });
