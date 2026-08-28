@@ -215,7 +215,7 @@
 
   function newsMarkup(items) {
     if (!items || !items.length) return "";
-    return `<div class="home-news"><div class="home-news-heading"><h4>团队近期动态</h4><a href="${rootHref("team/news.html")}">查看全部</a></div><div class="home-news-list">${newsItemsMarkup(items)}</div></div>`;
+    return `<div class="home-news"><div class="home-news-heading"><h4>团队本科生近期动态</h4><a href="${rootHref("team/news.html")}">查看全部</a></div><div class="home-news-list">${newsItemsMarkup(items)}</div></div>`;
   }
 
   function latestNewsMarkup() {
@@ -437,7 +437,7 @@
 
   function team() {
     const t = data.team;
-    layout(`${hero({ eyebrow: t.label, title: "团队介绍", lead: t.lead, actions: [{ label: "查看团队近期动态", href: "team/news.html", primary: true }, { label: "查看项目与活动", href: "programs/index.html" }, { label: "查看资源中心", href: "resources/index.html" }] })}
+    layout(`${hero({ eyebrow: t.label, title: "团队介绍", lead: t.lead, actions: [{ label: "查看团队本科生近期动态", href: "team/news.html", primary: true }, { label: "查看项目与活动", href: "programs/index.html" }, { label: "查看资源中心", href: "resources/index.html" }] })}
     <section class="section"><div class="prose">${paragraphs(t.paragraphs)}</div></section>
     <section class="section">${sectionHead("团队概况", null, null)}${statGrid(t.facts)}<div class="card university-card team-universities"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>
     <section class="section">${sectionHead("团队工作方式", null, null)}<div class="three-grid"><article class="card"><h3>连接不同学校与方向</h3><p>成员来自不同学校、专业和课题组，交流医学、工程、计算机、人工智能与生物信息学等方向。</p></article><article class="card"><h3>研究任务与方法</h3><p>项目、培训和专题合作涉及数据、方法、结果和研究表达。</p></article><article class="card"><h3>资源共享 · 合作共赢</h3><p>多学科线上合作交流平台，经验分享、共享信息、公开资源。</p></article></div></section>
@@ -452,7 +452,7 @@
     const t = data.team;
     const configs = {
       achievements: { eyebrow: "团队介绍 / 成果", title: "代表性成果（成员一作/项目负责人）", lead: "", back: "team/index.html" },
-      news: { eyebrow: "团队介绍 / 动态", title: "团队近期动态", lead: "团队公开成果、论文、竞赛与合作项目的最新进展。", back: "team/index.html" },
+      news: { eyebrow: "团队介绍 / 动态", title: "团队本科生近期动态", lead: "团队本科生公开成果、论文、竞赛与合作项目的最新进展。", back: "team/index.html" },
       destinations: { eyebrow: "团队介绍 / 成员发展", title: "成员升学去向", lead: "已毕业成员去向包括直博、国内学硕/海外研究型硕士。", back: "team/index.html" },
       activities: { eyebrow: "团队介绍 / 活动", title: "团队活动体系", lead: "科研入门培训、跨校项目、复旦大学秋季学期本科生践悟课程和生物医学人工智能专题交流。", back: "team/index.html" },
       people: { eyebrow: "团队介绍 / 成员", title: "负责人和历届骨干", lead: "伍东辰、姜逸轩、汤昊天、吴熙东、刘涵瑜。", back: "team/index.html" }
@@ -460,7 +460,7 @@
     const cfg = configs[section] || configs.achievements;
     let inner = hero({ eyebrow: cfg.eyebrow, title: cfg.title, lead: cfg.lead, actions: [{ label: "返回团队介绍", href: cfg.back, primary: true }, { label: "项目与活动", href: "programs/index.html" }] });
     if (section === "news") inner += `<section class="section team-news-section">${sectionHead("动态记录", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section>`;
-    if (section === "achievements") inner += `<section class="section team-news-section">${sectionHead("团队近期动态", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section><section class="section team-achievements-section">${sectionHead("代表性成果", null, null)}<div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>`;
+    if (section === "achievements") inner += `<section class="section team-news-section">${sectionHead("团队本科生近期动态", null, null)}<div class="home-news-list">${newsItemsMarkup(t.news || [])}</div></section><section class="section team-achievements-section">${sectionHead("代表性成果", null, null)}<div class="achievement-list">${t.achievements.map((item) => `<article class="achievement"><b>${esc(item.title)}</b><div>${achievementBody(item)}</div></article>`).join("")}</div></section>`;
     if (section === "destinations") inner += `<section class="section">${sectionHead("已毕业成员去向", null, null)}<div class="destination-degree-sections">${destinationDegreeCards(t)}</div><p class="small muted">${esc(t.destinationNote)}</p><div class="card university-card section-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</div></section>`;
     if (section === "activities") inner += `<section class="section">${sectionHead("活动目录", null, "programs/index.html", "查看项目与活动")}
       <div class="activity-timeline">${sortedModules().map((module) => `<article class="activity-row"><div><h3>${esc(module.title)}</h3><p>${esc(module.text)}</p></div><a class="outline-btn" href="${rootHref(module.href)}">查看详情</a></article>`).join("")}</div><div class="card section-card"><ul>${t.activities.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></div></section>`;
