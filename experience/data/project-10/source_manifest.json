@@ -1,0 +1,15 @@
+{
+  "source": "PhysioNet MIT-BIH Arrhythmia Database",
+  "records": [
+    "100",
+    "101",
+    "103",
+    "105",
+    "106",
+    "108",
+    "109"
+  ],
+  "duration_seconds_per_record": 300,
+  "sampling_rate_hz": 360,
+  "use": "课程中的跨记录 R 峰检测验证；不用于临床诊断。"
+}

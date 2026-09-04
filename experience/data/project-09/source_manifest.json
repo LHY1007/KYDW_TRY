@@ -1,0 +1,110 @@
+{
+  "dataset": {
+    "name": "Human Callosum MRI-PLI-Histology",
+    "id": "60cce6aa731f0ffe03b91b5c",
+    "api_url": "https://open.oxcin.ox.ac.uk/DigitalBrainBank/datasets?id=60cce6aa731f0ffe03b91b5c",
+    "landing_url": "https://open.oxcin.ox.ac.uk/DigitalBrainBank/datasets",
+    "downloaded_components": [
+      "MRI DW-SE data and diffusion-tensor outputs",
+      "PLI FOM_HSV, In_plane, Retardance and Transmittance",
+      "ODBB README and parameter files"
+    ],
+    "preview_subjects": 1,
+    "mri_shape": [
+      128,
+      96,
+      10,
+      248
+    ],
+    "mri_voxel_size_mm": [
+      0.4,
+      0.4,
+      0.4
+    ],
+    "pli_shape": [
+      6311,
+      10512
+    ],
+    "pli_pixel_size_um": [
+      4,
+      4
+    ]
+  },
+  "derived_package": {
+    "file": "odbb_simplified.npz",
+    "figures": [
+      "odbb_mri_pli_overview.png",
+      "odbb_simple_model_result.png",
+      "odbb_scale_comparison.png",
+      "odbb_holdout_metrics.png",
+      "gfap-ihc-reference.jpg"
+    ],
+    "grid_shape": [
+      96,
+      128
+    ],
+    "mri_slice_index_zero_based": 3,
+    "mri_orientation_operation": "transpose x/y, then flip rows for display convention",
+    "pli_operation": "resize official Retardance/In_plane/FOM_HSV to 96 x 128 for a teaching grid",
+    "paired_status": "same official preview specimen; display-level coarse correspondence, not official registration or pixel-level ground truth"
+  },
+  "simplified_model": {
+    "name": "StandardScaler + Ridge(alpha=3.0) + Gaussian smoothing(sigma=1.0)",
+    "features": [
+      "FA",
+      "MD",
+      "normalized x coordinate",
+      "normalized y coordinate"
+    ],
+    "target": "official ODBB PLI Retardance resampled to the teaching grid",
+    "holdout": "5 x 5 spatial blocks; one block pattern held out",
+    "training_pixels": 2801,
+    "holdout_pixels": 1097,
+    "metrics": {
+      "training_blocks": {
+        "pixels": 2801,
+        "mae": 0.11157278716564178,
+        "rmse": 0.14501749544609235,
+        "psnr_db": 16.77159199428782,
+        "r2": 0.608639121055603,
+        "correlation": 0.780436026506513
+      },
+      "spatial_holdout": {
+        "pixels": 1097,
+        "mae": 0.12919087707996368,
+        "rmse": 0.17185061997116452,
+        "psnr_db": 15.296977935118184,
+        "r2": 0.46342217922210693,
+        "correlation": 0.7033462904955933
+      }
+    },
+    "interpretation": "coarse structure proxy only; the coordinates preserve broad layout and are not cell-level evidence"
+  },
+  "independent_ihc_example": {
+    "file": "gfap-ihc-reference.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:NP_astrocyte_GFAP.jpg",
+    "direct_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/NP_astrocyte_GFAP.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Jensflorian",
+    "description": "human brain neuropathology specimen stained for GFAP; used only to explain IHC appearance, not as paired model target"
+  },
+  "paper_output_only": {
+    "files": [
+      "paper_result_panel.jpg",
+      "task3_absolute_error.png",
+      "task4_brown_proxy_area.png"
+    ],
+    "use": "advanced result/output review only; excluded from the official-data teaching package and simple-model fit"
+  },
+  "active_teaching_input": {
+    "experience": "ODBB official MRI/PLI preview derived package",
+    "advanced": "ODBB official MRI/PLI preview derived package plus separate output_review assets",
+    "excluded_from_active_input": [
+      "mri_ihc_figure_pairs.npz",
+      "paper_result_panel.jpg",
+      "task3_absolute_error.png",
+      "task4_brown_proxy_area.png"
+    ]
+  },
+  "current_model_spec": "current_model_spec.json"
+}

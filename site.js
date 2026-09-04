@@ -8,8 +8,9 @@
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const cleanVisibleText = (value) => String(value ?? "");
   const esc = (value) => cleanVisibleText(value).replace(/[&<>\"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
-  // 本地服务直接作为开放审阅版；公开站点仍由 hostname 条件排除。
-  const isLocalPreview = /^(?:localhost|127\.0\.0\.1)$/i.test(location.hostname);
+  // 本机带 preview=1 的入口额外开放进阶审阅；公开站点按公开周次开放，进阶材料仍锁定。
+  const isLocalPreview = /^(?:localhost|127\.0\.0\.1)$/i.test(location.hostname)
+    && new URLSearchParams(location.search).get("preview") === "1";
 
   const rootHref = (target) => {
     if (!target) return "#";
@@ -23,7 +24,7 @@
   const findModule = (id) => data.modules.find((module) => module.id === id);
   const findTrainingChapter = (id) => (data.training?.chapters || []).find((chapter) => chapter.id === id);
   const findWeek = (id) => data.experience.weeks.find((week) => String(week.id) === String(id));
-  const LOCKED_WEEK_IDS = new Set(["4", "5"]);
+  const LOCKED_WEEK_IDS = new Set(["5"]);
   const ANSWER_LABEL = "实践参考答案";
   const publicCopy = (value) => {
     const text = String(value ?? "");
@@ -548,7 +549,7 @@
     const e = data.experience;
     const sections = e.weeks.map((week) => {
       const projects = (week.projects || []).map(findProject).filter(isListedProject);
-      const locked = !week.open;
+      const locked = !isWeekOpen(week);
       return `\u003csection class="section week-directory-section"\u003e${sectionHead(`Week ${week.id}`, null, null)}\u003cdiv class="directory-project-grid"\u003e${projects.map((project) => projectDirectoryCard(project, { locked, week: week.id })).join("")}\u003c/div\u003e\u003c/section\u003e`;
     }).join("");
     layout(`${hero({ eyebrow: e.label, title: e.title, lead: e.lead, actions: [{ label: "查看项目目录", href: "#project-directory", primary: true }, { label: "返回项目与活动", href: "programs/index.html" }], note: e.date })}\u003csection class="section"\u003e\u003cdiv class="prose"\u003e${paragraphs(e.paragraphs)}\u003c/div\u003e\u003c/section\u003e\u003csection class="section" id="project-directory"\u003e${sectionHead("Week 0", "项目环境准备和基础技能查阅。", null)}\u003cdiv class="directory-project-grid"\u003e${environmentProjectCard(e.environment, true)}${temporaryModuleCard(e.temporaryModule)}\u003c/div\u003e\u003c/section\u003e${sections}\u003csection class="section"\u003e\u003cdiv class="callout"\u003e\u003cb\u003e参与方式\u003c/b\u003e\u003cp\u003e${esc(e.participation)}\u003c/p\u003e\u003cp\u003e${esc(e.access)}\u003c/p\u003e\u003c/div\u003e\u003c/section\u003e${contactMarkup(e.contact)}`);
@@ -671,13 +672,13 @@
     return /TODO|待完成/.test(source) || placeholderPass || /^(?!\s*(?:best_state|best|DATA_PATH)\s*=)\s*(?:[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*=\s*None\b/m.test(source) || /self\.[A-Za-z_]\w*\s*=\s*None\b/.test(source);
   }
 
-  function practiceTaskGuideMarkup(project, kaggleReady = true) {
-    const guides = data.experience.practiceTaskGuides?.[project.id] || [];
+  function practiceTaskGuideMarkup(project, kaggleReady = true, advanced = false) {
+    const guides = (advanced ? data.experience.advancedPracticeTaskGuides?.[project.id] : data.experience.practiceTaskGuides?.[project.id]) || [];
     if (!guides.length) return "";
     const cards = guides.map((item) => `<article class="practice-task-guide-card"><h3>${esc(item.task)}</h3><dl><div><dt>需要填写</dt><dd>${esc(item.fill)}</dd></div><div><dt>如何确定</dt><dd>${esc(item.basis)}</dd></div><div><dt>完成后检查</dt><dd>${esc(item.check)}</dd></div></dl></article>`).join("");
     const note = kaggleReady
       ? "标有“需要完成”的代码或文字单元格就是学生需要补全的位置。网页只能阅读；请在 Kaggle 中复制到自己的账户后填写和运行。"
-      : "标有“需要完成”的代码或文字单元格就是学生需要补全的位置。项目开放后可在 Kaggle 中填写和运行，当前页面用于提前阅读。";
+      : "标有“需要完成”的代码或文字单元格就是学生需要补全的位置。当前没有公开的 Kaggle 运行入口；先下载 Notebook，在本地环境中运行和修改，网页用于阅读任务和对照结果。";
     return `<section class="practice-task-guide"><div class="section-head"><div><h2>需要完成的实践任务</h2><p>${note}</p></div></div><div class="practice-task-guide-grid">${cards}</div></section>`;
   }
 
@@ -690,7 +691,7 @@
       const needsCompletion = showCompletion && notebookCellNeedsCompletion(cell, source);
       const cellHead = (type) => `<div class="notebook-cell-head"><span>${type}</span><span class="notebook-cell-head-right">${needsCompletion ? "<span class=\"notebook-cell-status\">需要完成</span>" : ""}<span>${number}</span></span></div>`;
       if (cell.cell_type === "markdown") {
-        const task = source.match(/(?:^|\n)\s*(?:#+\s*)?(?:任务|实践任务)\s*(?:[：:]?\s*)(\d+)\s*[：:]/m);
+        const task = source.match(/(?:^|\n)\s*(?:#+\s*)?(?:任务|实践任务|参考任务)\s*(?:[：:]?\s*)(\d+)\s*[：:]/m);
         if (task) {
           taskIndex = Number(task[1]) - 1;
         }
@@ -790,7 +791,7 @@
     const guide = kaggleHref
       ? data.experience.practiceGuidance || "实践项目优先在 Kaggle 中完成：复制到自己的账户后运行和修改，下载 Notebook 到电脑是补充方式。"
       : "按 Notebook 的单元格顺序完成任务，保存生成的图像、指标和结果文件，并与参考答案逐项核对。";
-    const taskGuide = kind === "practice" || kind === "advanced-practice" ? practiceTaskGuideMarkup(project, Boolean(kaggleHref)) : "";
+    const taskGuide = kind === "practice" || kind === "advanced-practice" ? practiceTaskGuideMarkup(project, Boolean(kaggleHref), advanced) : "";
     layout(viewer + "<section class=\"section\"><div class=\"notebook-viewer\" id=\"notebook-viewer\"><div class=\"callout simulation-note\"><b>阅读与运行说明</b><p>" + esc(note) + "</p></div><div class=\"callout kaggle-practice-note\"><b>实践说明</b><p>" + esc(guide) + "</p></div>" + taskGuide + "<div id=\"notebook-content\" class=\"notebook-content\"><p class=\"loading\">正在加载材料……</p></div></div></section>");
     const container = document.getElementById("notebook-content");
     try {

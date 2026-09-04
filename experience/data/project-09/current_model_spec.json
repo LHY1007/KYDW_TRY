@@ -1,0 +1,49 @@
+{
+  "name": "TriSCoV-Net",
+  "role": "advanced_method_and_output_review",
+  "source": "user-provided paper method diagram and result panels",
+  "inputs": [
+    "dMRI patch features",
+    "slice-level PLI features",
+    "GFAP/PLP marker prompt",
+    "patch coordinates"
+  ],
+  "stages": [
+    {
+      "name": "Stage 1",
+      "operation": "dMRI-to-IHC generation",
+      "output_scale_um_per_pixel": 67.2
+    },
+    {
+      "name": "Stage 2",
+      "operation": "gated multi-modal super-resolution with PLI, marker and coordinates",
+      "output_scale_um_per_pixel": 16.8
+    },
+    {
+      "name": "Stage 3",
+      "operation": "fine-scale super-resolution with a frozen verifier",
+      "output_scale_um_per_pixel": 4.2
+    }
+  ],
+  "fusion": [
+    "channel concatenation",
+    "FiLM conditioning",
+    "gated MLP",
+    "RRDB blocks"
+  ],
+  "losses_and_checks": [
+    "reconstruction loss",
+    "perceptual loss",
+    "adversarial loss",
+    "gradient loss",
+    "background/support loss",
+    "cross-scale consistency"
+  ],
+  "validation": [
+    "subject-level holdout",
+    "independent tissue sections",
+    "stain-batch sensitivity",
+    "blind histology review"
+  ],
+  "reproduction_status": "The current package does not include TriSCoV-Net training code or weights; paper panels are output-only review material."
+}

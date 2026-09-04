@@ -1,0 +1,5 @@
+{
+  "source": "ODBB official preview",
+  "model": "StandardScaler + Ridge(alpha=3.0) + Gaussian smoothing(sigma=1.0)",
+  "note": "The experience result cards show a Ridge MRI-to-PLI structural proxy; IHC is an independent visual example."
+}

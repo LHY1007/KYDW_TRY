@@ -443,7 +443,7 @@ window.KYDW = {
       { title: "数据与运行说明", href: "experience/advanced-resources/data-guide.html", locked: true, studentVisible: false },
       { title: "资料与文献索引", href: "experience/advanced-resources/references.html", locked: true, studentVisible: false }
     ],
-    homeProjectIds: ["project-07", "project-08"],
+    homeProjectIds: ["project-09", "project-10"],
     homeProjectSummaries: {
       "project-01": "以 MNIST 手写数字为例，介绍图像分类、模型训练、混淆矩阵和噪声测试。",
       "project-02": "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。",
@@ -456,8 +456,8 @@ window.KYDW = {
       title: "近期消息（30天内）",
       projectActivity: {
         title: "项目活动更新",
-        lead: "本科生科研入门体验项目新模块开放: Week3",
-        projectIds: ["project-07", "project-08"]
+        lead: "本科生科研入门体验项目新模块开放: Week4",
+        projectIds: ["project-09", "project-10"]
       },
       achievementDates: ["2026.8"]
     },
@@ -523,10 +523,80 @@ window.KYDW = {
         { task: "任务 5：错误窗口与模型比较", fill: "绘制测试错误窗口，比较简化基线、完整统计基线和 LSTM。", basis: "错误波形用于查看活动过渡与相近动作，模型复杂度需要由相同划分下的结果评价。", check: "确认错误数量、三组宏平均 F1 和结果边界写入摘要。" }
       ],
       "project-09": [
-        { task: "任务 1：面板配对与视觉核对", fill: "按行显示 dMRI、模型输出和目标 IHC，并核对样本顺序和尺寸。", basis: "三类图像来自论文结果面板的同一行，必须保持配对关系。", check: "确认三组输入、预测和目标均能显示，组织边界没有错位到其他样本。" },
-        { task: "任务 2：组织支持区与背景偏离", fill: "根据 dMRI 灰度建立组织支持区，计算预测图在支持区外偏离白色背景的程度。", basis: "支持区约束用于减少组织边界外的染色溢出，阈值在所有样本中保持一致。", check: "确认每组都有支持区和背景偏离数值。" },
-        { task: "任务 3：图像误差与弱配准", fill: "在组织区计算 MAE、PSNR 和简化 SSIM，并绘制绝对差异图。", basis: "逐像素误差同时包含预测差异和弱配准偏移，需要结合原图阅读。", check: "确认三个指标为有限值，差异图与边界位置对应。" },
-        { task: "任务 4：棕色信号面积代理", fill: "使用固定颜色规则比较预测与目标的棕色信号面积并保存摘要。", basis: "同一阈值应用于所有图像；当前公式只用于学习定量流程。", check: "确认预测与目标面积逐组对应，并说明结果不能替代原始数据上的 IHC 定量。" }
+        { task: "任务 1：官方数据对象核对", fill: "读取 ODBB 官方胼胝体预览派生包，记录 MRI FA、MD、PLI Retardance 的 shape、范围、物理尺度和有效区域，并绘制数据图。", basis: "数据层先固定来源和字段；PLI Retardance 是本次可运行的结构目标，独立 GFAP 图不作为配对监督。", check: "确认官方数据身份、数组 shape、切片和掩膜比例均已保存，三张图来自同一教学网格。" },
+        { task: "任务 2：透明的 MRI→PLI 基线", fill: "用 FA、MD 和归一化片内坐标拟合 StandardScaler + Ridge，并绘制 PLI 目标、预测和绝对误差。", basis: "标准化、岭回归和轻度平滑都可单独检查，模型只估计粗尺度 PLI 结构代理。", check: "确认训练特征、Ridge α、预测范围和输出图均已保存。" },
+        { task: "任务 3：空间留出评价", fill: "使用预先提供的空间块划分，分别计算训练块与空间留出块的 MAE、RMSE、R² 和相关系数。", basis: "空间留出比随机像素打散更能暴露片内布局带来的乐观估计，但一个预览对象仍不足以代表跨受试者泛化。", check: "确认留出区域没有参与拟合，训练与留出指标和位置图相互对应。" },
+        { task: "任务 4：证据边界摘要", fill: "汇总 ODBB 来源、派生操作、模型设置、独立 IHC 外观示例和当前结果可以支持的结论。", basis: "官方 MRI/PLI 数据、独立 GFAP 图和论文输出属于不同证据层级，不能合写成同一个 IHC 监督任务。", check: "确认 result_summary.json 写明目标是 PLI Retardance 粗尺度代理，并列出细胞级 IHC、完整模型复现和临床验证缺口。" }
+      ]
+    },
+    advancedPracticeTaskGuides: {
+      "project-02": [
+        { task: "任务 1：患者级划分核对", fill: "按患者标识核对训练、验证和测试划分，汇总患者、切片与阳性切片数量。", basis: "患者级隔离决定分割结果能否用于跨患者评价；切片数量不能代替患者数量。", check: "确认三组患者没有交集，图像、mask 和患者标识一一对应。" },
+        { task: "任务 2：像素特征基线", fill: "使用像素强度和手工图像特征建立可复核的分割基线。", basis: "基线输入只来自图像，不能把人工 mask、标签生成字段或测试结果放入特征。", check: "确认模型输入维度、预测 mask 形状和训练过程均可运行。" },
+        { task: "任务 3：验证集阈值选择", fill: "在验证集比较候选阈值，为各个基线保存最佳阈值。", basis: "阈值选择只能使用验证集；测试集用于冻结设置后的最后评价。", check: "确认每个阈值和验证 Dice 有记录，测试集没有参与选择。" },
+        { task: "任务 4：测试推理与后处理", fill: "使用冻结阈值完成测试集推理、二值化和小连通域后处理。", basis: "后处理规则要在评价前固定，并保留原始概率图与处理后 mask。", check: "确认处理前后 mask 尺寸一致，后处理不会改变患者级划分。" },
+        { task: "任务 5：多层级指标", fill: "分别报告阳性切片 Dice、像素 TP/FP/FN、precision、recall 和空 mask 假阳性。", basis: "切片级重叠指标和像素级分类指标回答不同问题，不能合并成一个分数。", check: "确认指标对应同一测试集合，并单独报告空 mask 情况。" },
+        { task: "任务 6：病灶分层、图像与结果文件", fill: "按病灶面积分层，绘制代表性结果并保存结果 JSON。", basis: "小病灶和大病灶的评价难度不同，图像应同时保留输入、人工 mask 和预测。", check: "确认分层规则、图像来源和 JSON 数值可以相互对应。" }
+      ],
+      "project-03": [
+        { task: "任务 1：生成任务与评价对象", fill: "区分重建、无条件生成、标签条件生成和文本条件生成，并标记当前数据可支持的评价对象。", basis: "输入是否包含条件标签决定评价能否讨论条件一致性；不能只根据模型名称推断任务。", check: "确认每种任务的输入、目标和当前数据缺口均有记录。" },
+        { task: "任务 2：失败对照构建", fill: "构造记忆复制和噪声两类失败对照，与模型输出放在同一评价流程中。", basis: "失败对照用于检查指标是否能识别明显问题，不作为模型性能结果。", check: "确认对照图像、随机设置和输出路径已保存。" },
+        { task: "任务 3：数据独立性审查", fill: "审查真实留出样本与生成样本的数据独立性及当前缺少的患者字段。", basis: "训练数据来源、患者或检查编号和留出规则决定最近邻与两样本评价的解释范围。", check: "确认没有把生成图像误当成独立患者样本，并写出缺失字段。" },
+        { task: "任务 4：分布差异、最近邻与多样性", fill: "计算两样本 AUC、生成样本到真实样本的最近邻距离和组内多样性。", basis: "分布可分性、单样本接近程度和组内覆盖是不同的结果维度。", check: "确认每个指标的比较对象、特征空间和样本数量一致。" },
+        { task: "任务 5：记忆风险审查", fill: "使用最近邻、重复图像和感知哈希等线索审查记忆风险。", basis: "距离过近或哈希重复只能提示风险，还需要回到数据来源和患者级字段核对。", check: "确认风险线索和对应样本索引能够追溯。" },
+        { task: "任务 6：失败对照图与结果文件", fill: "绘制失败对照图，整理评价结果并保存 JSON。", basis: "图像、数值、数据独立性和结论边界应写入同一个结果摘要。", check: "确认 JSON 能解析，图像标签能区分真实、生成和失败对照。" }
+      ],
+      "project-04": [
+        { task: "任务 1：来源级数据核对", fill: "按原图来源聚合图块，检查每个来源只属于一个数据分区。", basis: "图块来自同一张原图时高度相关，来源级隔离比单图块随机划分更重要。", check: "确认 source_image_id 在分区间没有交集，并记录每组图块数量。" },
+        { task: "任务 2：标签泄漏审查与图块基线", fill: "排除生成代理标签的字段，使用安全形态特征建立图块分类基线。", basis: "proxy_score、nuclei_fraction 等标签生成字段不能成为模型输入。", check: "确认特征列表和排除字段明确，预测能输出三个类别。" },
+        { task: "任务 3：玻片 bag 与聚合比较", fill: "比较 mean、max 和 attention-proxy 三种玻片 bag 聚合。", basis: "聚合规则改变玻片级证据的权重，attention-proxy 只作为可解释的教学聚合。", check: "确认三种规则使用相同来源级划分，并保存聚合结果。" },
+        { task: "任务 4：高分图块与坐标回映", fill: "找出测试来源中的高分图块，并把坐标回映到原图。", basis: "局部预测必须保留来源图像和原图坐标，才能检查是否由背景或边缘驱动。", check: "确认高分图块、来源编号和坐标三者对应。" },
+        { task: "任务 5：染色扰动敏感性", fill: "对颜色相关特征施加固定扰动，比较扰动前后的代理类别表现。", basis: "颜色扰动用于观察模型对染色变化的敏感性，不等于跨实验室泛化验证。", check: "确认只改变预先指定的颜色变量，其他划分和模型设置保持不变。" },
+        { task: "任务 6：结果文件与研究边界", fill: "保存结果文件，并说明代理标签、来源数量和 Attention MIL 的边界。", basis: "代理标签和少量来源限制了结论，不能把教学聚合写成临床病理能力。", check: "确认结果 JSON、图像和边界说明使用同一批测试来源。" }
+      ],
+      "project-05": [
+        { task: "任务 1：队列与预测问题定义", fill: "定义样本单位、时间零点、结局和可支持的横断面预测问题。", basis: "表格字段必须先对应到具体样本和结局，当前数据缺少真实随访时不能写成预后预测。", check: "确认 ID、标签、变量类型和支持数均已核对。" },
+        { task: "任务 2：训练集预处理与双基线", fill: "只在训练集拟合预处理，比较逻辑回归与 HistGradientBoosting 基线。", basis: "缺失值、缩放和类别编码的统计量不能读取验证集或测试集。", check: "确认两类模型使用同一划分、同一标签和可追溯的输入列。" },
+        { task: "任务 3：概率校准与决策曲线", fill: "分别计算多分类概率评价、one-vs-rest 校准和决策曲线。", basis: "区分排序能力、概率可信度和阈值下净获益，决策曲线需要明确目标类别与假设。", check: "确认概率评价与决策曲线使用冻结模型和指定集合。" },
+        { task: "任务 4：高置信错误与亚组", fill: "检查高置信错误及年龄亚组表现，保留错误样本和支持数。", basis: "总体指标可能掩盖特定年龄段或类别的错误，亚组样本量必须同时报告。", check: "确认错误样本可回到原始行，亚组支持数没有被忽略。" },
+        { task: "任务 5：模拟分布变化", fill: "施加固定的数值分布变化，比较漂移前后的分类表现和概率变化。", basis: "模拟漂移只说明当前特征变化下的敏感性，不能替代跨中心或时间外部验证。", check: "确认漂移规则、受影响变量和前后指标均已保存。" },
+        { task: "任务 6：结果图、验证计划与边界", fill: "绘制结果图，写出验证计划并区分预测解释、因果问题和临床边界。", basis: "变量重要性和决策曲线不能单独支持因果或临床决策结论。", check: "确认图像、数值和验证计划能回到同一任务定义。" }
+      ],
+      "project-06": [
+        { task: "任务 1：配对数据契约", fill: "核对 H&E、低分辨率表达和高分辨率目标的配对关系、尺度与基因范围。", basis: "同一空间区域、数组 shape、表达通道和预设 split 是后续比较的输入契约。", check: "确认样本索引、shape、范围和训练/验证/测试划分一致。" },
+        { task: "任务 2：插值、图像、表达与多模态分支", fill: "建立 interpolation、image-only、expression-only 和 multimodal 四组输出。", basis: "四组方法的输入不同，必须使用同一测试样本和相同输出空间。", check: "确认每组输出 shape 一致，分支没有读取测试目标作为输入。" },
+        { task: "任务 3：多层级评价", fill: "在像素误差、Pearson、粗糙度和重聚合误差多个层级评价输出。", basis: "像素相似、空间相关、纹理变化和粗尺度守恒回答不同问题。", check: "确认每项指标的单位、掩膜和比较对象写清楚。" },
+        { task: "任务 4：空间留出核对", fill: "检查测试样本与训练样本的索引交集，并说明更严格的空间留出方案。", basis: "当前 NPZ 的预设划分不含坐标或区域编号，不能把随机索引检查写成完整空间外推验证。", check: "确认交集为零，并记录当前数据无法检查的空间层级。" },
+        { task: "任务 5：形态信息贡献", fill: "比较形态信息加入前后的 MAE、Pearson 和粗糙度变化。", basis: "加入 H&E 后某一指标改善不代表多模态稳定获益，需要同时观察多个指标和样本。", check: "确认消融比较使用相同训练设置、测试集合和评价掩膜。" },
+        { task: "任务 6：空间对照图与结果文件", fill: "绘制六列空间对照图，保存结果 JSON 并写明单基因边界。", basis: "图像顺序要标明输入、参考、插值和各模型输出，单通道结果不能扩展成全基因组恢复。", check: "确认图像列名、JSON 指标和边界说明相互一致。" }
+      ],
+      "project-07": [
+        { task: "任务 1：空间对象与候选边核对", fill: "统计细胞、细胞类型、候选边和配体—受体对，并把细胞坐标叠加到 H&E 预览图。", basis: "细胞表记录位置与类型，候选边表记录发送细胞、接收细胞、配体、受体和距离。", check: "确认坐标范围与图像范围一致，数据规模与参考摘要一致。" },
+        { task: "任务 2：Vegfa–Flt1/Kdr 证据比较", fill: "筛选指定配体—受体边，计算表达和距离组成的可解释分数，并与证据分数比较。", basis: "发送细胞表达 Vegfa、接收细胞表达 Flt1 或 Kdr，距离衰减反映空间邻近。", check: "确认筛选后仍有候选边，并能输出 Spearman 相关。" },
+        { task: "任务 3：细胞类型方向汇总", fill: "按发送细胞类型和接收细胞类型汇总平均得分与边数，绘制方向热图。", basis: "行表示发送类型，列表示接收类型；交换行列会改变候选关系方向。", check: "确认热图标签完整，并能区分平均分数和边数。" },
+        { task: "任务 4：遮边重建基线", fill: "划分可见边和遮边，使用不含目标分数的输入特征建立回归基线。", basis: "距离、共表达和受体/配体表达可以作为输入，evidence_score 只能作为预测目标。", check: "确认遮边集合与训练集合分开，Spearman 和 MAE 均已保存。" },
+        { task: "任务 5：空间泛化与验证边界", fill: "绘制高分局部候选边、配套训练结果并保存空间验证边界。", basis: "随机遮边不等于整片组织留出；候选关系仍需蛋白、成像或扰动实验验证。", check: "确认图像、result_summary.json 和独立验证说明均已生成。" }
+      ],
+      "project-08": [
+        { task: "任务 1：窗口、通道与标签核对", fill: "统计各集合和四类活动的窗口数，并绘制每类一个代表窗口。", basis: "输入 shape 为窗口、时间点和传感器通道，所有子图使用相同时间轴。", check: "确认四类活动均有波形，通道数量与输入数组一致。" },
+        { task: "任务 2：分组与时域特征", fill: "检查三个集合的采集运行编号交集，并计算每个通道的均值、标准差、极值、能量和一阶差分。", basis: "重叠窗口和同一采集运行高度相关，特征统计要保留 source_run_id 语义。", check: "确认集合间运行编号交集已记录，特征表 shape 与窗口数对应。" },
+        { task: "任务 3：训练集管道与验证选型", fill: "在训练集拟合标准化和逻辑回归，用验证集宏平均 F1 选择正则化参数。", basis: "验证集用于模型选择，标准化参数不能读取验证集或测试集。", check: "确认三个候选参数均有验证结果，并保存得分最高的管道。" },
+        { task: "任务 4：冻结测试与混淆结构", fill: "使用固定模型计算测试准确率、宏平均 F1 和四分类混淆矩阵。", basis: "测试集只在参数确定后评价一次，宏平均 F1 为四个类别等权平均。", check: "确认指标和混淆矩阵对应同一批测试窗口。" },
+        { task: "任务 5：错误窗口与泛化边界", fill: "绘制测试错误窗口，比较简化统计基线和配套基线，记录 source run 与标签纯度边界。", basis: "错误波形用于查看活动过渡与相近动作，source_run_id 不等同于已知受试者编号。", check: "确认错误数量、模型比较和结果边界写入摘要。" }
+      ],
+      "project-09": [
+        { task: "任务 1：官方数据对象", fill: "读取 ODBB 官方胼胝体 MRI/PLI 预览派生包，绘制 FA、MD、PLI Retardance 和 FOM_HSV，并记录数据身份、物理尺度与有效区域。", basis: "官方 MRI/PLI 文件负责数据与尺度核对；它们与论文输出面板属于不同证据层级。", check: "确认官方数据身份、字段 shape、物理尺度和有效区域均已保存。" },
+        { task: "任务 2：多尺度一致性", fill: "把官方 PLI Retardance 缩小到粗网格，再插值回教学网格，计算支持区内的尺度变换误差。", basis: "缩小—放大实验用于理解跨尺度误差，不等于训练或复现当前 TriSCoV-Net。", check: "确认粗网格、恢复图和支持区误差图使用同一官方目标。" },
+        { task: "任务 3：当前模型结构", fill: "读取 TriSCoV-Net 模型规格和结构图，整理三个阶段、条件输入、冻结模块与损失方向。", basis: "结构图解释当前模型的组成和检查点，不能替代缺失的训练代码和权重。", check: "确认模型名称、阶段、条件融合、损失和复现状态均已记录。" },
+        { task: "任务 4：论文输出审查", fill: "从独立 output_review 目录读取论文结果面板、绝对差异图和面积代理，只做输出层审查。", basis: "论文排版图、差异图和颜色面积代理不能混入官方 ODBB 数据调参，也不能改写成体验版输入。", check: "确认审查文件清单和与官方活动数据的分层关系均已保存。" },
+        { task: "任务 5：复现条件与证据边界", fill: "汇总官方数据、尺度检查、模型规格和输出审查，列出完整复现所需的源码、权重、配准、独立切片和组织学验证条件。", basis: "完整模型复现需要训练资源和独立验证；当前材料只支持数据、方法和输出的分层阅读。", check: "确认结果 JSON 写明数据来源、模型复现状态、输出审查范围和证据缺口。" }
+      ],
+      "project-10": [
+        { task: "任务 1：记录、导联与标注核对", fill: "逐条列出记录、导联、采样率、时长和人工心搏标注数。", basis: "记录级元数据和人工标注决定候选峰评价的时间轴与事件范围。", check: "确认七条记录均已列出，导联回退规则和心搏符号筛选明确。" },
+        { task: "任务 2：滤波、短时能量与一对一匹配", fill: "实现 5—18 Hz 带通滤波、短时能量、候选峰和一对一匹配。", basis: "候选峰不能重复匹配同一人工标注，滤波频带和移动窗口需要记录。", check: "确认滤波信号、能量数组和 TP/FP/FN 匹配函数可运行。" },
+        { task: "任务 3：只在 record 100 选择参数", fill: "只在 record 100 上搜索能量分位数和最小峰距，并保存选择依据。", basis: "其余记录是冻结测试，不能用它们的人工标注调节阈值。", check: "确认最佳参数来自 record 100，搜索表和匹配容差已保存。" },
+        { task: "任务 4：冻结参数后的跨记录评价", fill: "冻结参数后评价六条记录，分别报告 sensitivity、PPV、F1、TP、FP 和 FN。", basis: "同一套参数应用到所有冻结记录，逐记录结果不能只用总体平均代替。", check: "确认开发记录与冻结测试记录分开，汇总与逐记录计数一致。" },
+        { task: "任务 5：错误记录与结论边界", fill: "选择最低 F1 记录绘制代表波形，说明漏检来源和 R 峰检测的临床边界。", basis: "错误波形帮助区分噪声、形态变化和匹配问题；R 峰检测不等于心律失常分类。", check: "确认最低 F1 记录、图像和结论边界写入结果摘要。" }
       ]
     },
     goal: "接触医学影像、生物信息学和人工智能等研究方向，完成数据处理、模型训练、结果评价和文字分析。",
@@ -582,7 +652,7 @@ window.KYDW = {
       { id: 1, title: "Week 1", note: "", open: true, projects: ["project-01", "project-02", "project-03"] },
       { id: 2, title: "Week 2", note: "", open: true, projects: ["project-04", "project-05", "project-06"] },
       { id: 3, title: "Week 3", note: "", open: true, projects: ["project-07", "project-08"] },
-      { id: 4, title: "Week 4", note: "", open: false, projects: ["project-09", "project-10"] },
+      { id: 4, title: "Week 4", note: "", open: true, projects: ["project-09", "project-10"] },
       { id: 5, title: "Week 5", note: "等待后续开放。", open: false, projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] }
     ]
   },
@@ -592,11 +662,11 @@ window.KYDW = {
      { id: "project-02", no: "01", week: 1, title: "MRI 脑肿瘤图像分割", short: "以配对的 MRI 切片和肿瘤 mask 为例，介绍患者级数据划分、图像分割以及 Dice、IoU 和边界评价。", summary: "配对 MRI 切片和肿瘤 mask 涉及患者级数据划分、分割训练、Dice、IoU 和边界评价。", input: "配对的二维、三通道 MRI 切片与二值肿瘤 mask", output: "肿瘤区域预测、Dice/IoU 指标与测试切片结果", prereq: "不要求医学影像基础；需要愿意观察图像与结果", device: "普通电脑", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-02.html", experiencePractice: "experience/practice/project-02.ipynb", experienceAnswer: "experience/answers/project-02.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a01-reference", advanced: "experience/advanced/project-02.html", advancedPractice: "experience/advanced-practice/project-02.ipynb", advancedAnswer: "experience/advanced-answers/project-02.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "内容包括 MRI 与 mask 配对、患者级划分、分割训练以及 Dice、IoU 和边界评价。", tierText: "内容包括 MRI 与 mask 配对、患者级数据划分、分割训练以及 Dice、IoU 和边界评价。", advancedTierText: "比较分割方法与边界评价，分析鲁棒性和不确定性，并在设计报告中说明方法选择与验证方案。", referenceResults: [{"stepIndex": 0, "title": "数据检查", "image": "experience/assets/results/project-02/task1_data_check.png", "caption": "MRI、阳性 mask 与叠加图"}, {"stepIndex": 4, "title": "训练过程", "image": "experience/assets/results/project-02/task1_training_curve.png", "caption": "训练与验证损失、Dice 曲线"}, {"stepIndex": 6, "title": "分割结果与指标", "image": "experience/assets/results/project-02/task1_prediction.png", "caption": "真实阳性测试样本的 FLAIR、人工 mask 与预测叠加", "text": "配对切片：3929；患者：110；训练/验证/测试：2604 / 547 / 778\\n每轮前景感知加权抽取：1200 张；训练：14 轮；最佳阈值：0.85\\n测试阳性 mask Dice：0.6890；阳性 mask IoU：0.5877\\npixel Dice：0.6973；pixel IoU：0.5353；precision：0.7028；recall：0.6919\\n展示图只从测试集中真实 mask 非空的切片中选择，依次显示 FLAIR、人工 mask 和阈值化预测叠加。"}] },
      { id: "project-03", no: "02", week: 1, title: "胸部 X 射线与生成模型", short: "以真实胸部 X 射线为例，介绍 VAE 的重建、潜空间采样和生成图像比较。", summary: "胸部 X 射线生成任务涵盖投影图像、VAE 结构、重建、潜空间采样和生成结果比较。", input: "胸部 X 射线图像", output: "胸片重建、潜空间采样、训练曲线与图像统计比较", prereq: "不要求先学会深度学习", device: "普通电脑；建议使用 GPU", duration: "约 1—2 小时理论 + 交互实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-03.html", experiencePractice: "experience/practice/project-03.ipynb", experienceAnswer: "experience/answers/project-03.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a02-reference", advanced: "experience/advanced/project-03.html", advancedPractice: "experience/advanced-practice/project-03.ipynb", advancedAnswer: "experience/advanced-answers/project-03.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "内容包括胸片读取、VAE 重建、潜空间采样和生成结果比较。", tierText: "内容包括胸片读取、VAE 结构、重建、潜空间采样和图像统计。", advancedTierText: "设计条件生成方案，检查患者留出、生成有效性与训练样本记忆风险，并解释评价方法。", referenceResults: [{"stepIndex": 0, "title": "真实胸片输入", "image": "experience/assets/results/project-03/task2_real_xray_grid.png", "caption": "真实胸片样本网格"}, {"stepIndex": 2, "title": "训练过程", "image": "experience/assets/results/project-03/task2_training_curve.png", "caption": "残差卷积 VAE 的总损失、重建 L1、边缘 L1 与 KL 损失曲线"}, {"stepIndex": 3, "title": "输入与生成结果", "image": "experience/assets/results/project-03/task2_input_generated_comparison.png", "caption": "上排为 INPUT / REAL CHEST X-RAY（真实输入），下排为 GENERATED OUTPUT / LATENT SAMPLE（生成结果）；两排不是同一张胸片的前后处理关系。", "text": "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\\n模型：ResidualConvVAE；潜变量维度：64；训练 50 轮\\n输入重建 L1：0.0928；生成样本到真实图库的最近邻 L1 均值：0.1859、最小值：0.1310\\n生成结果用于观察模型分布和记忆风险，不作为临床影像。"}, {"stepIndex": 4, "title": "图像统计", "image": "experience/assets/results/project-03/task2_quality_metrics.png", "caption": "真实留出集与生成样本五项图像统计"}] },
      { id: "project-04", no: "03", week: 2, title: "计算病理与脑膜瘤形态分析", short: "脑膜瘤 H&E 组织图块用于核对图像来源和坐标、观察组织形态、完成形态特征分类，并阅读验证、测试、错误图块和染色变化结果。", summary: "学生使用脑膜瘤 H&E 组织图块核对图像、标签、原图来源与坐标，比较颜色统计和轻量分类模型，再结合验证集、测试集、错误图块及染色变化阅读结果。", input: "脑膜瘤 H&E 组织图块、标签、原图来源、坐标和数据划分", output: "图像分类结果、混淆矩阵、错误图块和染色变化分析", prereq: "不要求病理学基础；需要接受逐步阅读图像", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-04.html", experiencePractice: "experience/practice/project-04.ipynb", experienceAnswer: "experience/answers/project-04.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a03-reference", advanced: "experience/advanced/project-04.html", advancedPractice: "experience/advanced-practice/project-04.ipynb", advancedAnswer: "experience/advanced-answers/project-04.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用脑膜瘤 H&E 组织图块核对图像来源和坐标，观察组织形态，完成基础分类，并结合验证、测试、错误图块和染色变化阅读结果。", tierText: "脑膜瘤 H&E 组织图块用于观察组织形态、完成基础分类和结果评价，并查看错误图块与染色变化。", advancedTierText: "以原图级无标签形态表征为核心，完成图块特征、多实例聚合、代表区域和染色稳定性分析。", referenceResults: [{stepIndex: 1, title: "真实脑膜瘤 H&E 图块", image: "experience/assets/results/project-04/task3_real_he_overview.png", caption: "课程数据中的真实脑膜瘤 H&E 组织图块"}, {stepIndex: 1, title: "图块坐标与步长", image: "experience/assets/results/project-04/task3_patch_stride_overview.png", caption: "同一原图中的真实图块坐标、128×128 图块和 256 像素坐标步长"}, {stepIndex: 3, title: "训练与验证", image: "experience/assets/results/project-04/task3_training_curve.png", caption: "随机森林树数量与验证集宏平均 F1"}, {stepIndex: 4, title: "测试结果与错误图块", image: "experience/assets/results/project-04/task3_prediction_visualization.png", caption: "测试错误图块与染色变化后的比较结果"}, {stepIndex: 4, title: "分类结果记录", text: "颜色统计基线 macro-F1：0.6007。形态模型在 96 个测试图块上未出现错分，但这些图块仅来自 2 张原图，标签又由与形态特征高度相关的核密度代理生成，因此不把该数值作为独立分类性能。该任务只用于学习代理标签、来源级划分和染色稳定性，不对应临床病理分级。"}] },
-     { id: "project-05", no: "04", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "课程模拟的受试者级临床表格用于确认样本单位和变量，完成预处理、分类比较、概率评价、变量贡献和错误样本分析。", summary: "学生使用课程模拟的受试者级表格确认样本单位和临床变量，建立只用训练集拟合的预处理流程，比较逻辑回归与树模型，再结合四类结果、混淆矩阵和变量贡献阅读模型表现。", input: "课程模拟的受试者级临床表格、变量和 CTL、AD、PD、DEP 四类分组", output: "分类概率、混淆矩阵、分类指标与变量分析", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04-reference", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/advanced-practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用课程模拟的受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。", tierText: "课程模拟的受试者级临床表格用于确认样本单位和变量、完成训练集预处理与分类器比较，再查看测试评价、概率和错误样本。", advancedTierText: "使用帕金森语音记录与逻辑回归，比较受试者级和记录级验证，并完成概率校准、阈值选择和决策曲线分析。", referenceResults: [{stepIndex: 0, title: "数据摘要", image: "experience/assets/results/project-05/task4_data_summary.png", caption: "课程模拟的四类表格数据摘要"}, {stepIndex: 3, title: "四分类混淆矩阵", image: "experience/assets/results/project-05/task4_confusion.png", caption: "测试集四分类混淆矩阵"}, {stepIndex: 3, title: "ROC 与 PR 曲线", image: "experience/assets/results/project-05/task4_roc_pr.png", caption: "四类分类概率的 ROC/PR 评价"}, {stepIndex: 4, title: "变量贡献", image: "experience/assets/results/project-05/task4_importance.png", caption: "置换重要性排名"}, {stepIndex: 3, title: "分类结果记录", text: "Data.csv 是课程模拟数据，不是临床采集队列。逻辑回归基线 macro-F1：0.7392；验证集 XGBoost macro-F1：0.7565；测试集准确率：0.7533；测试 macro-F1：0.7507。指标只说明模型对这份模拟数据的拟合与留出表现；变量贡献不表示疾病因果关系或临床效能。"}] },
+     { id: "project-05", no: "04", week: 2, title: "脑疾病表格数据与 XGBoost 预测", short: "课程模拟的受试者级临床表格用于确认样本单位和变量，完成预处理、分类比较、概率评价、变量贡献和错误样本分析。", summary: "学生使用课程模拟的受试者级表格确认样本单位和临床变量，建立只用训练集拟合的预处理流程，比较逻辑回归与树模型，再结合四类结果、混淆矩阵和变量贡献阅读模型表现。", input: "课程模拟的受试者级临床表格、变量和 CTL、AD、PD、DEP 四类分组", output: "分类概率、混淆矩阵、分类指标与变量分析", prereq: "不要求遗传学或统计学基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-05.html", experiencePractice: "experience/practice/project-05.ipynb", experienceAnswer: "experience/answers/project-05.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a04-reference", advanced: "experience/advanced/project-05.html", advancedPractice: "experience/advanced-practice/project-05.ipynb", advancedAnswer: "experience/advanced-answers/project-05.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用课程模拟的受试者级临床表格确认样本单位和变量，完成预处理、分类比较与概率评价，再通过变量贡献和错误样本查看模型表现。", tierText: "课程模拟的受试者级临床表格用于确认样本单位和变量、完成训练集预处理与分类器比较，再查看测试评价、概率和错误样本。", advancedTierText: "在同一受试者级表格基础上，深入时间轴、患者级验证、概率校准、决策曲线和分布变化审查。", referenceResults: [{stepIndex: 0, title: "数据摘要", image: "experience/assets/results/project-05/task4_data_summary.png", caption: "课程模拟的四类表格数据摘要"}, {stepIndex: 3, title: "四分类混淆矩阵", image: "experience/assets/results/project-05/task4_confusion.png", caption: "测试集四分类混淆矩阵"}, {stepIndex: 3, title: "ROC 与 PR 曲线", image: "experience/assets/results/project-05/task4_roc_pr.png", caption: "四类分类概率的 ROC/PR 评价"}, {stepIndex: 4, title: "变量贡献", image: "experience/assets/results/project-05/task4_importance.png", caption: "置换重要性排名"}, {stepIndex: 3, title: "分类结果记录", text: "Data.csv 是课程模拟数据，不是临床采集队列。逻辑回归基线 macro-F1：0.7392；验证集 XGBoost macro-F1：0.7565；测试集准确率：0.7533；测试 macro-F1：0.7507。指标只说明模型对这份模拟数据的拟合与留出表现；变量贡献不表示疾病因果关系或临床效能。"}] },
      { id: "project-06", no: "05", week: 2, title: "空间转录组与表达超分辨率", short: "同一组织区域的图像与表达数据用于核对字段和数据划分、观察配对输入与参考图、训练局部特征模型，并检查聚合一致性和基线差异。", summary: "学生使用同一组织区域的 H&E 图像和表达数据核对字段与数据划分，观察输入与参考图，训练轻量模型，再检查聚合一致性并与插值基线比较。", input: "同一组织区域的 H&E 图像、低分辨率表达图和高分辨率参考图", output: "表达估计、区域聚合比较与结果评价", prereq: "不要求先学会空间转录组分析", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "2026 年 8 月 2 日起，项目开放期内可随时加入", status: "材料已开放", experienceTeaching: "experience/teaching/project-06.html", experiencePractice: "experience/practice/project-06.ipynb", experienceAnswer: "experience/answers/project-06.ipynb", kaggle: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a05-public", kaggleReference: "https://www.kaggle.com/code/liuhanyu1007/kydw-try-a05-public-reference", advanced: "experience/advanced/project-06.html", advancedPractice: "experience/advanced-practice/project-06.ipynb", advancedAnswer: "experience/advanced-answers/project-06.ipynb", advancedOpen: false, advancedStatus: "尚未开放", advancedStudentVisible: false, experience: "我们使用同一组织区域的图像与表达数据核对字段和数据划分，观察输入与参考图，训练轻量模型，并检查聚合一致性和基线差异。", tierText: "同一组织区域的 H&E 图像和表达数据用于字段核对、输入与参考图观察、表达估计、聚合一致性检查和基线比较。", advancedTierText: "比较插值、图像分支与多模态融合，将当前实践中的高分辨率表达图作为教学目标，使用空间留出和聚合一致性评价，并解释不同模态的贡献。", referenceResults: [{stepIndex: 1, title: "配对输入与表达图", image: "experience/assets/results/project-06/task5_data_visualization.png", caption: "同一空间区域的 H&E、16 μm LR Snap25 和 2 μm HR Snap25"}, {stepIndex: 1, title: "大图与中心小图", image: "experience/assets/results/project-06/task5_scale_overview.png", caption: "配对大图和中心小图的空间范围"}, {stepIndex: 4, title: "训练过程", image: "experience/assets/results/project-06/task5_training_curve.png", caption: "模型训练损失与验证比较"}, {stepIndex: 4, title: "预测结果", image: "experience/assets/results/project-06/task5_prediction_visualization.png", caption: "Snap25 表达预测与参考图比较"}, {stepIndex: 4, title: "单基因结果记录", text: "当前 Notebook 固定预测 Snap25 一个基因；结果 JSON 记录模型 MAE、插值基线 MAE 与像素相关性。空间聚合一致性用于补充检查，结果不代表恢复了完整的细尺度转录组。"}] },
     { id: "project-07", no: "06", week: 3, title: "空间细胞通讯分析", short: "小鼠肾脏空间数据用于识别配体—受体候选关系、比较表达与空间距离、汇总细胞类型，并通过遮边测试阅读未见关系的排序结果。", summary: "细胞位置、基因表达、配体—受体和空间邻近共同构成候选细胞通讯分析，结果用于提出后续验证对象。", input: "小鼠肾脏 H&E 预览、细胞坐标、细胞类型、基因表达与候选边", output: "候选关系得分、细胞类型方向热图、空间连边图与遮边评价", prereq: "不要求空间组学或细胞通讯分析基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-07.html", experiencePractice: "experience/practice/project-07.ipynb", experienceAnswer: "experience/answers/project-07.ipynb", advanced: null, single: true, tierText: "使用小鼠肾脏空间数据完成细胞与候选边核对、配体—受体证据比较、方向汇总和空间结果分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "细胞与候选边概况", image: "experience/assets/results/project-07/task1_data_overview.png", caption: "小鼠肾脏 H&E 预览、细胞坐标和数据规模" }, { taskIndex: 1, stepIndex: 1, title: "Vegfa–Flt1/Kdr 证据比较", image: "experience/assets/results/project-07/task2_evidence_comparison.png", caption: "可解释分数与配套图网络证据分数的比较" }, { taskIndex: 2, stepIndex: 2, title: "细胞类型方向热图", image: "experience/assets/results/project-07/task3_celltype_heatmap.png", caption: "发送细胞类型与接收细胞类型的候选关系汇总" }, { taskIndex: 3, stepIndex: 3, title: "空间候选关系与模型评价", image: "experience/assets/results/project-07/task4_spatial_and_training.png", caption: "局部高分候选边、训练过程与遮边测试结果", text: "Vegfa–Flt1/Kdr 候选边：1077 条\n遮边测试 Spearman：0.5704\n遮边测试 MAE：0.0890\n候选关系仍需蛋白、扰动或成像实验验证。" }] },
     { id: "project-08", no: "07", week: 3, title: "惯性传感器活动识别", short: "Opportunity 多部位惯性传感器窗口用于核对采样、标签和分组，提取统计特征完成活动分类，并结合混淆矩阵和错误波形分析模型表现。", summary: "身体不同位置的加速度和角速度经过分段、窗口化和分组后形成活动分类数据，评价同时观察宏平均 F1、混淆矩阵和错误窗口。", input: "五个身体位置的 30 通道惯性传感器窗口与四类活动标签", output: "活动类别预测、宏平均 F1、混淆矩阵与错误窗口", prereq: "不要求信号处理或机器学习基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-08.html", experiencePractice: "experience/practice/project-08.ipynb", experienceAnswer: "experience/answers/project-08.ipynb", advanced: null, single: true, tierText: "使用 Opportunity 传感器窗口完成波形观察、分组核对、统计特征提取、分类训练和错误分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "四类活动传感器窗口", image: "experience/assets/results/project-08/task1_sensor_windows.png", caption: "站立、坐、行走和躺卧的背部加速度与角速度窗口" }, { taskIndex: 3, stepIndex: 1, title: "测试集混淆矩阵", image: "experience/assets/results/project-08/task4_confusion_matrix.png", caption: "按采集运行分组后的四分类测试结果" }, { taskIndex: 4, stepIndex: 2, title: "测试错误窗口", image: "experience/assets/results/project-08/task5_error_windows.png", caption: "错误预测窗口的代表波形", text: "简化统计特征逻辑回归 macro-F1：0.9584\n配套完整基线 macro-F1：0.9702\n配套 LSTM macro-F1：0.9086\n测试错误窗口：23 个" }] },
-    { id: "project-09", no: "08", week: 4, title: "dMRI 与 IHC 图像分析", short: "论文中的 dMRI、模型输出与 IHC 结果面板用于核对组织支持区和弱配准关系，计算图像差异与棕色信号面积，并说明完整复现所需的数据和代码条件。", summary: "扩散 MRI、组织结构先验与免疫组织化学图像来自不同物理尺度，当前实践围绕论文结果面板学习跨模态图像的支持区、误差和定量边界。", input: "论文中的 dMRI 输入、模型输出与 GFAP/PLP IHC 目标面板", output: "配对图、组织支持区、绝对差异与棕色信号面积代理", prereq: "不要求 MRI、病理学或生成模型基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-09.html", experiencePractice: "experience/practice/project-09.ipynb", experienceAnswer: "experience/answers/project-09.ipynb", advanced: null, single: true, tierText: "使用论文结果面板完成图像配对、组织支持区、图像误差和棕色信号面积代理分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "dMRI、模型输出与 IHC 目标", image: "experience/assets/results/project-09/task1_paired_panels.png", caption: "论文结果面板中三组输入、预测和目标图像" }, { taskIndex: 1, stepIndex: 1, title: "组织支持区与背景", image: "experience/assets/results/project-09/task2_support_and_background.png", caption: "dMRI 支持区和预测图背景偏离" }, { taskIndex: 2, stepIndex: 2, title: "绝对差异", image: "experience/assets/results/project-09/task3_absolute_error.png", caption: "弱配准条件下预测与目标的绝对差异" }, { taskIndex: 3, stepIndex: 3, title: "棕色信号面积代理", image: "experience/assets/results/project-09/task4_brown_proxy_area.png", caption: "固定颜色规则下预测与目标的面积比较", text: "棕色信号代理平均绝对面积误差：0.5578\n结果来自论文排版图裁剪和简化颜色代理，不能替代原始数据上的 ImageJ DAB 指标或模型复现。" }] },
+    { id: "project-09", no: "08", week: 4, title: "dMRI 与 IHC 图像分析", short: "论文中的 dMRI、模型输出与 IHC 结果面板用于核对组织支持区和弱配准关系，计算图像差异与棕色信号面积，并说明完整复现所需的数据和代码条件。", summary: "扩散 MRI、组织结构先验与免疫组织化学图像来自不同物理尺度，当前实践围绕论文结果面板学习跨模态图像的支持区、误差和定量边界。", input: "论文中的 dMRI 输入、模型输出与 GFAP/PLP IHC 目标面板", output: "配对图、组织支持区、绝对差异与棕色信号面积代理", prereq: "不要求 MRI、病理学或生成模型基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-09.html", experiencePractice: "experience/practice/project-09.ipynb?v=20260904-odbb", experienceAnswer: "experience/answers/project-09.ipynb?v=20260904-odbb", advanced: null, single: true, tierText: "使用论文结果面板完成图像配对、组织支持区、图像误差和棕色信号面积代理分析。", referenceResults: [{ taskIndex: 0, stepIndex: 0, title: "dMRI、模型输出与 IHC 目标", image: "experience/assets/results/project-09/task1_paired_panels.png", caption: "论文结果面板中三组输入、预测和目标图像" }, { taskIndex: 1, stepIndex: 1, title: "组织支持区与背景", image: "experience/assets/results/project-09/task2_support_and_background.png", caption: "dMRI 支持区和预测图背景偏离" }, { taskIndex: 2, stepIndex: 2, title: "绝对差异", image: "experience/assets/results/project-09/task3_absolute_error.png", caption: "弱配准条件下预测与目标的绝对差异" }, { taskIndex: 3, stepIndex: 3, title: "棕色信号面积代理", image: "experience/assets/results/project-09/task4_brown_proxy_area.png", caption: "固定颜色规则下预测与目标的面积比较", text: "棕色信号代理平均绝对面积误差：0.5578\n结果来自论文排版图裁剪和简化颜色代理，不能替代原始数据上的 ImageJ DAB 指标或模型复现。" }] },
     { id: "project-10", no: "09", week: 4, title: "人体生理信号分析：ECG", short: "ECG 时间序列用于核对导联、采样率和信号质量，完成带通滤波、R 峰检测、人工标注匹配与错误分析。", summary: "从人体生理信号、ECG 波形和采样时间轴开始，理解滤波、峰值检测、检测容差和评价指标，再阅读 MIT-BIH record 100 的保存结果与适用边界。", input: "MIT-BIH record 100 前 5 分钟的两个 ECG 导联与人工心搏标注", output: "滤波波形、R 峰检测、漏检/误检、灵敏度、阳性预测值与 RR 间期", prereq: "不要求心电图或信号处理基础", device: "普通电脑", duration: "约 1—2 小时理论 + 实践", date: "开放时间待公布", status: "后续开放", experienceTeaching: "experience/teaching/project-10.html", experiencePractice: "experience/practice/project-10.ipynb", experienceAnswer: "experience/answers/project-10.ipynb", advanced: null, single: true, tierText: "使用 MIT-BIH record 100 的 ECG 记录完成采样时间核对、5—18 Hz 带通滤波、R 峰检测、0.1 秒容差匹配和结果边界分析。", referenceResults: [{ taskIndex: 3, stepIndex: 3, title: "ECG 参考结果", image: "experience/assets/results/project-10/future09_summary.png", caption: "真实 MIT-BIH ECG 的原始/滤波波形、检测峰与人工标注，以及 RR 间期分布。", text: "记录 100 前 5 分钟；采样率 360 Hz；标注心搏 371；检测峰 371；匹配 371；灵敏度 1.0000；阳性预测值 1.0000；平均 RR 间期 0.8084 秒。单条记录结果用于学习流程，不代表临床性能。" }] },
     { id: "project-11", no: "10", week: 5, title: "后续方向 10", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
     { id: "project-12", no: "11", week: 5, title: "后续方向 11", short: "后续方向陆续公布。", summary: "项目名称、研究问题和实践内容随后公布。", input: "待公布", output: "待公布", prereq: "待公布", device: "待公布", duration: "待公布", status: "待公布", advanced: null, experience: "内容随后公布。" },
@@ -808,10 +878,12 @@ const _kydwNaturalProjectCopy = {
     tierText: "内容包括传感器窗口、活动标签、统计特征、混淆矩阵和错误波形。"
   },
   "project-09": {
-    short: "以 dMRI、模型输出和 IHC 面板为例，介绍跨模态图像配对、支持区比较、误差分析和定量边界。",
-    summary: "dMRI、模型输出和 IHC 面板涵盖跨模态配对、组织支持区、图像差异、颜色代理和定量边界。",
-    experience: "内容包括 dMRI、模型输出与 IHC 面板的配对、支持区比较和误差分析。",
-    tierText: "内容包括 dMRI、模型输出与 IHC 面板配对、组织支持区、图像差异和定量边界。"
+    short: "以 ODBB 官方胼胝体 MRI/PLI 预览为例，介绍 FA、MD、PLI Retardance 的数据核对、透明基线和空间留出评价。",
+    summary: "ODBB 官方胼胝体预览对象同时提供 MRI 扩散参数和 PLI 结构字段，实践把它们整理到可复查的教学网格，运行可解释的 MRI→PLI 粗尺度结构代理，并记录空间留出与证据边界。",
+    input: "ODBB 官方胼胝体预览中的 MRI FA、MD、组织掩膜与 PLI Retardance",
+    output: "官方字段可视化、Ridge 结构代理预测、空间留出指标与证据边界",
+    experience: "内容包括 ODBB 官方 MRI/PLI 数据核对、Ridge 结构代理、空间留出评价和证据边界。",
+    tierText: "使用 ODBB 官方胼胝体 MRI/PLI 数据，完成数据对象核对、MRI→PLI Ridge 基线和空间留出评价。"
   },
   "project-10": {
     short: "以 MIT-BIH record 100 为例，介绍 ECG 采样时间、带通滤波、R 峰检测和标注匹配。",
@@ -833,11 +905,11 @@ const _kydwWeek3 = window.KYDW.experience?.weeks?.find((week) => String(week.id)
 const _kydwWeek4 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "4");
 const _kydwWeek5 = window.KYDW.experience?.weeks?.find((week) => String(week.id) === "5");
 if (_kydwWeek3) Object.assign(_kydwWeek3, { note: "", projects: ["project-07", "project-08"] });
-if (_kydwWeek4) Object.assign(_kydwWeek4, { note: "", projects: ["project-09", "project-10"] });
-const _kydwWeek3OpenProjects = window.KYDW.projects.filter((item) => item.week === 3);
-_kydwWeek3OpenProjects.forEach((item) => Object.assign(item, { date: "现已开放", status: "材料已开放" }));
+if (_kydwWeek4) Object.assign(_kydwWeek4, { note: "", open: true, projects: ["project-09", "project-10"] });
+const _kydwOpenProjects = window.KYDW.projects.filter((item) => item.week === 3 || item.week === 4);
+_kydwOpenProjects.forEach((item) => Object.assign(item, { date: "现已开放", status: "材料已开放" }));
 if (_kydwWeek5) Object.assign(_kydwWeek5, { projects: ["project-11", "project-12", "project-13", "project-14", "project-15"] });
-for (const publicNo of [6, 7, 8, 9]) {
+for (const publicNo of [6, 7]) {
   const siteNo = String(publicNo + 1).padStart(2, "0");
   const publicId = String(publicNo).padStart(2, "0");
   const project = window.KYDW.projects.find((item) => item.id === `project-${siteNo}`);
@@ -883,6 +955,12 @@ const _kydwProjectResults = {
     { taskIndex: 2, stepIndex: 2, title: "训练过程", image: "experience/assets/results/project-03/task2_training_curve.png", caption: "残差卷积 VAE 的总损失、重建 L1、边缘 L1 与 KL 损失曲线" },
     { taskIndex: 3, stepIndex: 3, title: "输入与生成结果", image: "experience/assets/results/project-03/task2_input_generated_comparison.png", caption: "上排为真实留出胸片输入，下排为潜空间采样生成结果；两排不是同一张胸片的前后处理。", text: "数据集：NORMAL 胸片 1341 张；训练/留出：1073 / 268\n模型：ResidualConvVAE；潜变量维度：64；训练 50 轮\n输入重建 L1：0.0928；生成样本到真实图库的最近邻 L1 均值：0.1859、最小值：0.1310\n生成结果用于观察模型分布和记忆风险，不作为临床影像。" },
     { taskIndex: 4, stepIndex: 4, title: "最近邻检查", image: "experience/assets/results/project-03/task2_nearest_neighbors.png", caption: "生成样本与真实训练图库最近邻的并排检查" }
+  ],
+  "project-09": [
+    { taskIndex: 0, stepIndex: 0, title: "官方 ODBB 数据对象", image: "experience/assets/results/project-09/task1_official_data.png", caption: "ODBB 官方胼胝体预览对象中的 MRI FA、MD 和 PLI Retardance" },
+    { taskIndex: 1, stepIndex: 1, title: "MRI→PLI Ridge 基线", image: "experience/assets/results/project-09/task2_ridge_prediction.png", caption: "FA、MD 与片内坐标估计 PLI Retardance 的透明基线" },
+    { taskIndex: 2, stepIndex: 2, title: "空间留出评价", image: "experience/assets/results/project-09/task3_spatial_holdout.png", caption: "训练块与空间留出块的误差和关联指标" },
+    { taskIndex: 3, stepIndex: 3, title: "证据边界", text: "来源：ODBB Human Callosum MRI-PLI-Histology 官方预览对象。目标：PLI Retardance 粗尺度结构代理。空间留出 MAE：0.1292；R²：0.4634；相关系数：0.7033。独立 GFAP IHC 图仅用于认识免疫显色外观；结果不等于细胞级蛋白预测、完整 TriSCoV-Net 复现或临床验证。" }
   ]
 };
 for (const [id, results] of Object.entries(_kydwProjectResults)) {
@@ -890,7 +968,18 @@ for (const [id, results] of Object.entries(_kydwProjectResults)) {
   if (project) project.referenceResults = results;
 }
 // 项目 00 仅保留体验版；进阶项目从 01 开始，导航开放状态仍由 site.js 统一控制。
-for (let publicNo = 1; publicNo <= 5; publicNo += 1) {
+const _kydwAdvancedTierCopy = {
+  "project-02": "在二维 U-Net 分割基础上，比较多序列、三维上下文、强基线、病灶分层和外部验证，说明评价与模型边界。",
+  "project-03": "在胸部 X 射线 VAE 重建与采样基础上，比较 VAE、GAN、扩散模型、条件生成、生成有效性和记忆风险。",
+  "project-04": "在脑膜瘤 H&E 图块分类基础上，扩展到全切片层级、图块表征、多实例学习、图模型和跨中心验证。",
+  "project-05": "在脑疾病表格分类与 XGBoost 基础上，深入时间轴、患者级验证、概率校准、决策曲线和分布变化审查。",
+  "project-06": "在 H&E 与表达图配对基础上，比较插值、图像和多模态估计，检查空间留出、重聚合、过度平滑和单基因边界。",
+  "project-07": "以空间图和配体—受体证据为核心，完成候选关系排序、细胞类型方向汇总、遮边测试和生物学验证边界分析。",
+  "project-08": "比较统计特征与序列模型，按采集运行评估泛化，检查标签纯度、错误窗口和传感器漂移。",
+  "project-09": "在 ODBB 官方 MRI/PLI 数据层之上，核对 TriSCoV-Net 当前结构、多尺度损失和论文输出审查，区分可运行结构代理与完整模型复现。",
+  "project-10": "围绕 R 峰检测的参数选择、事件匹配、跨记录冻结验证和错误波形，说明事件检测与临床诊断的区别。"
+};
+for (let publicNo = 1; publicNo <= 9; publicNo += 1) {
   const siteNo = String(publicNo + 1).padStart(2, "0");
   const publicId = String(publicNo).padStart(2, "0");
   const project = window.KYDW.projects.find((item) => item.id === `project-${siteNo}`);
@@ -899,11 +988,13 @@ for (let publicNo = 1; publicNo <= 5; publicNo += 1) {
   project.advanced = `experience/advanced/project-${siteNo}.html`;
   project.advancedPractice = `experience/advanced-practice/project-${siteNo}.ipynb`;
   project.advancedAnswer = `experience/advanced-answers/project-${siteNo}.ipynb`;
-  project.advancedKagglePractice = `https://www.kaggle.com/code/liuhanyu1007/kydw-advanced-a${publicId}`;
-  project.advancedKaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-advanced-a${publicId}-reference`;
+  project.advancedTierText = _kydwAdvancedTierCopy[project.id] || project.advancedTierText || "";
   project.advancedOpen = false;
   project.advancedStatus = "尚未开放";
   project.advancedStudentVisible = false;
+  // 进阶 Notebook 当前未公开；本地预览不显示会返回 404/私有页的直链。
+  delete project.advancedKagglePractice;
+  delete project.advancedKaggleReference;
   if (publicNo >= 3 && publicNo < 5) {
     project.kaggleReference = `https://www.kaggle.com/code/liuhanyu1007/kydw-try-a${publicId}-reference`;
   }
@@ -913,7 +1004,35 @@ const _kydwAdvancedResults = {
   "project-03": [{ taskIndex: 5, stepIndex: 5, title: "真实 VAE 输出与失败对照", image: "experience/assets/results/advanced/project-03/advanced02_complete_summary.png", caption: "实际训练的 ResidualConvVAE 输出，以及明确标注的记忆复制和噪声失败对照。", text: "VAE 与真实留出样本的 two-sample AUC：0.9398，说明当前描述特征仍能较容易地区分两组；最近真实样本 L1：0.1065。记忆复制距离为 0，作为隐私失败对照。未训练 GAN 或扩散模型，也不在缺少条件标签时报告条件一致性。" }],
   "project-04": [{ taskIndex: 5, stepIndex: 5, title: "来源级病理分析", image: "experience/assets/results/advanced/project-04/advanced03_high_score_tiles.png", caption: "测试来源中的高置信图块及原图来源标识。", text: "直接生成代理标签的 proxy_score、nuclei_fraction 和 strong_nuclei_fraction 已从模型输入排除。剩余颜色形态特征复现核密度代理类别的测试 macro-F1：0.7096；染色扰动后：0.5534。玻片级测试仅有 2 个来源，因此只记录 2/2 来源预测正确，不报告玻片级 F1。该分数不是临床病理分类性能。" }],
   "project-05": [{ taskIndex: 5, stepIndex: 5, title: "概率、错误与决策分析", image: "experience/assets/results/advanced/project-05/advanced04_complete_summary.png", caption: "分类性能与 class 0 阈值净获益示例。", text: "逻辑回归 macro-F1：0.7451；HistGradientBoosting：0.7495；高置信错误 53 个。模拟变量漂移后逻辑回归 macro-F1 降至 0.6666。数据缺少真实时间、中心与临床行动信息，决策曲线仅用于教学。" }],
-  "project-06": [{ taskIndex: 5, stepIndex: 5, title: "单基因多模态消融", image: "experience/assets/results/advanced/project-06/advanced05_complete_summary.png", caption: "H&E、参考表达、插值、图像、表达和多模态估计的同图比较。", text: "插值 Pearson：0.4877；多模态 Pearson：0.5002，但 MAE 从 0.1990 增至 0.2043，形态分支没有带来一致收益。数据仅含一个表达通道，不能声称全基因组或完整空间转录组恢复。" }]
+  "project-06": [{ taskIndex: 5, stepIndex: 5, title: "单基因多模态消融", image: "experience/assets/results/advanced/project-06/advanced05_complete_summary.png", caption: "H&E、参考表达、插值、图像、表达和多模态估计的同图比较。", text: "插值 Pearson：0.4877；多模态 Pearson：0.5002，但 MAE 从 0.1990 增至 0.2043，形态分支没有带来一致收益。数据仅含一个表达通道，不能声称全基因组或完整空间转录组恢复。" }],
+  "project-07": [
+    { taskIndex: 0, stepIndex: 0, title: "空间对象与候选边核对", image: "experience/assets/results/advanced/project-07/task1_overview.png", caption: "参考代码生成的细胞坐标、细胞类型和空间范围概览。" },
+    { taskIndex: 1, stepIndex: 1, title: "Vegfa–Flt1/Kdr 证据比较", image: "experience/assets/results/advanced/project-07/task2_evidence_comparison.png", caption: "参考代码计算的可解释分数与 evidence_score 比较。", text: "目标候选边：1077 条；simple_score 与 evidence_score 的 Spearman：0.9654。" },
+    { taskIndex: 2, stepIndex: 2, title: "细胞类型方向热图", image: "experience/assets/results/advanced/project-07/task3_celltype_heatmap.png", caption: "参考代码按发送和接收细胞类型汇总的 gnn_score 热图。" },
+    { taskIndex: 3, stepIndex: 3, title: "遮边重建基线", image: "experience/assets/results/advanced/project-07/task4_masked_baseline.png", caption: "参考代码在遮边集合上比较 evidence_score 与回归基线预测。", text: "遮边测试边数：3356；Spearman：0.9999；MAE：0.0010。随机遮边结果仍可能受到边特征和数据构造影响，不能替代空间留出。" },
+    { taskIndex: 4, stepIndex: 4, title: "空间泛化与验证边界", text: "配套模型的独立遮边测试 Spearman：0.5704；MAE：0.0890。候选关系和遮边重建仍需蛋白、成像或扰动实验验证。" }
+  ],
+  "project-08": [
+    { taskIndex: 0, stepIndex: 0, title: "窗口、通道与标签核对", image: "experience/assets/results/advanced/project-08/task1_windows.png", caption: "参考代码生成的四类活动代表窗口。" },
+    { taskIndex: 1, stepIndex: 1, title: "分组与时域特征", image: "experience/assets/results/advanced/project-08/task2_feature_summary.png", caption: "参考代码按通道汇总的窗口能量特征。" },
+    { taskIndex: 2, stepIndex: 2, title: "训练集管道与验证选型", text: "验证集 Macro-F1：C=0.1 为 0.8824，C=1.0 为 0.8738，C=10.0 为 0.8925；选择 C=10.0。" },
+    { taskIndex: 3, stepIndex: 3, title: "冻结测试与混淆结构", image: "experience/assets/results/advanced/project-08/task4_confusion.png", caption: "参考代码固定验证集选出的参数后生成的测试集混淆矩阵。", text: "测试准确率：0.9633；测试 Macro-F1：0.9661。" },
+    { taskIndex: 4, stepIndex: 4, title: "错误窗口与泛化边界", image: "experience/assets/results/advanced/project-08/task5_error_windows.png", caption: "参考代码生成的测试错误窗口。", text: "测试错误窗口：18 个；source_run_id 表示采集运行，不等同于已知受试者编号。" }
+  ],
+  "project-09": [
+    { taskIndex: 0, stepIndex: 0, title: "官方 ODBB 数据对象", image: "experience/assets/results/advanced/project-09/task1_official_data.png", caption: "参考代码绘制的官方 MRI FA、MD、PLI Retardance 和 FOM_HSV。" },
+    { taskIndex: 1, stepIndex: 1, title: "多尺度一致性检查", image: "experience/assets/results/advanced/project-09/task2_multiscale_check.png", caption: "参考代码将官方 PLI Retardance 缩小再放回教学网格的尺度变换检查。" },
+    { taskIndex: 2, stepIndex: 2, title: "TriSCoV-Net 当前模型结构", image: "experience/assets/results/advanced/project-09/task3_current_model.png", caption: "参考代码读取模型规格并显示当前 TriSCoV-Net 结构图。" },
+    { taskIndex: 3, stepIndex: 3, title: "论文输出审查", image: "experience/assets/results/advanced/project-09/task4_output_review.png", caption: "参考代码单独读取论文结果面板、差异图和面积代理，未将其作为官方数据调参输入。" },
+    { taskIndex: 4, stepIndex: 4, title: "复现条件与结果边界", text: "官方 ODBB 预览支持数据与尺度检查；TriSCoV-Net 结构图和论文面板支持方法/输出审查。当前包没有完整训练源码和权重，不能据此声称完成当前模型的本地重训、细胞级 IHC 验证或临床验证。" }
+  ],
+  "project-10": [
+    { taskIndex: 0, stepIndex: 0, title: "记录、导联与标注核对", image: "experience/assets/results/advanced/project-10/task1_record_overview.png", caption: "参考代码生成的 record 100 原始 MLII 与人工心搏标注概览。" },
+    { taskIndex: 1, stepIndex: 1, title: "滤波、短时能量与一对一匹配", text: "参考实现使用 5—18 Hz 带通滤波、0.08 秒短时能量和一对一标注匹配，检测峰不能重复匹配同一人工标注。" },
+    { taskIndex: 2, stepIndex: 2, title: "只在 record 100 选择参数", text: "开发记录 record 100 选择能量分位数 0.88、最小峰距 0.20 秒和匹配容差 0.10 秒；其余记录不参与选参。" },
+    { taskIndex: 3, stepIndex: 3, title: "冻结参数后的跨记录评价", image: "experience/assets/results/advanced/project-10/task4_multirecord_metrics.png", caption: "参考代码生成的七条记录逐记录 F1；record 100 为开发记录，其余六条为冻结测试。", text: "冻结测试汇总 sensitivity：0.9833；positive predictive value：0.9991；F1：0.9911；TP/FP/FN：2125/2/36。" },
+    { taskIndex: 4, stepIndex: 4, title: "错误记录与结论边界", image: "experience/assets/results/advanced/project-10/task5_lowest_f1.png", caption: "参考代码生成的最低 F1 冻结测试记录波形。", text: "结果评价 R 峰检测，不等于心律失常分类或临床诊断性能。" }
+  ]
 };
 for (const [id, results] of Object.entries(_kydwAdvancedResults)) {
   const project = window.KYDW.projects.find((item) => item.id === id);

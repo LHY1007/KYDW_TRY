@@ -1,0 +1,104 @@
+{
+  "development_record": "100",
+  "selected_parameters": {
+    "energy_quantile": 0.88,
+    "min_distance_seconds": 0.2,
+    "matching_tolerance_seconds": 0.1
+  },
+  "frozen_test_summary": {
+    "records": 6,
+    "sensitivity": 0.983341045812124,
+    "positive_predictive_value": 0.999059708509638,
+    "f1": 0.9911380597014925,
+    "tp": 2125,
+    "fp": 2,
+    "fn": 36
+  },
+  "per_record": [
+    {
+      "record": "100",
+      "split": "development",
+      "annotated": 371,
+      "detected": 371,
+      "tp": 371,
+      "fp": 0,
+      "fn": 0,
+      "sensitivity": 1.0,
+      "ppv": 1.0,
+      "f1": 1.0
+    },
+    {
+      "record": "101",
+      "split": "frozen test",
+      "annotated": 342,
+      "detected": 343,
+      "tp": 341,
+      "fp": 2,
+      "fn": 1,
+      "sensitivity": 0.9970760233918129,
+      "ppv": 0.9941690962099126,
+      "f1": 0.9956204379562044
+    },
+    {
+      "record": "103",
+      "split": "frozen test",
+      "annotated": 355,
+      "detected": 355,
+      "tp": 355,
+      "fp": 0,
+      "fn": 0,
+      "sensitivity": 1.0,
+      "ppv": 1.0,
+      "f1": 1.0
+    },
+    {
+      "record": "105",
+      "split": "frozen test",
+      "annotated": 417,
+      "detected": 417,
+      "tp": 417,
+      "fp": 0,
+      "fn": 0,
+      "sensitivity": 1.0,
+      "ppv": 1.0,
+      "f1": 1.0
+    },
+    {
+      "record": "106",
+      "split": "frozen test",
+      "annotated": 331,
+      "detected": 322,
+      "tp": 322,
+      "fp": 0,
+      "fn": 9,
+      "sensitivity": 0.972809667673716,
+      "ppv": 1.0,
+      "f1": 0.9862174578866769
+    },
+    {
+      "record": "108",
+      "split": "frozen test",
+      "annotated": 283,
+      "detected": 283,
+      "tp": 283,
+      "fp": 0,
+      "fn": 0,
+      "sensitivity": 1.0,
+      "ppv": 1.0,
+      "f1": 1.0
+    },
+    {
+      "record": "109",
+      "split": "frozen test",
+      "annotated": 433,
+      "detected": 407,
+      "tp": 407,
+      "fp": 0,
+      "fn": 26,
+      "sensitivity": 0.9399538106235565,
+      "ppv": 1.0,
+      "f1": 0.969047619047619
+    }
+  ],
+  "boundary": "R峰检测课程评价；不等于心律失常分类或临床诊断性能。"
+}

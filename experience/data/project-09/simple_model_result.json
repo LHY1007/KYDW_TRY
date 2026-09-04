@@ -1,0 +1,60 @@
+{
+  "sample_id": "ODBB_callosum_preview",
+  "mri_slice_index_zero_based": 3,
+  "grid_shape": [
+    96,
+    128
+  ],
+  "training_pixels": 2801,
+  "spatial_holdout_pixels": 1097,
+  "metrics": {
+    "training_blocks": {
+      "pixels": 2801,
+      "mae": 0.11157278716564178,
+      "rmse": 0.14501749544609235,
+      "psnr_db": 16.77159199428782,
+      "r2": 0.608639121055603,
+      "correlation": 0.780436026506513
+    },
+    "spatial_holdout": {
+      "pixels": 1097,
+      "mae": 0.12919087707996368,
+      "rmse": 0.17185061997116452,
+      "psnr_db": 15.296977935118184,
+      "r2": 0.46342217922210693,
+      "correlation": 0.7033462904955933
+    }
+  },
+  "model": {
+    "name": "StandardScaler + Ridge(alpha=3.0) + Gaussian smoothing(sigma=1.0)",
+    "features": [
+      "FA",
+      "MD",
+      "normalized x coordinate",
+      "normalized y coordinate"
+    ],
+    "target": "official ODBB PLI Retardance resampled to the teaching grid",
+    "holdout": "5 x 5 spatial blocks; one block pattern held out",
+    "training_pixels": 2801,
+    "holdout_pixels": 1097,
+    "metrics": {
+      "training_blocks": {
+        "pixels": 2801,
+        "mae": 0.11157278716564178,
+        "rmse": 0.14501749544609235,
+        "psnr_db": 16.77159199428782,
+        "r2": 0.608639121055603,
+        "correlation": 0.780436026506513
+      },
+      "spatial_holdout": {
+        "pixels": 1097,
+        "mae": 0.12919087707996368,
+        "rmse": 0.17185061997116452,
+        "psnr_db": 15.296977935118184,
+        "r2": 0.46342217922210693,
+        "correlation": 0.7033462904955933
+      }
+    },
+    "interpretation": "coarse structure proxy only; the coordinates preserve broad layout and are not cell-level evidence"
+  }
+}
