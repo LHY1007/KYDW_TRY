@@ -7,11 +7,11 @@ main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margi
 .hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
 .notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
 </style></head><body><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 02：胸部 X 射线与生成模型</h1><p>以下内容保留实践 Notebook 的单元格顺序，原来需要补全的位置已经填入一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p class="note">参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></section>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 02：胸部 X 射线与生成模型</h1><p>下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
 <article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 02：胸部 X 射线残差卷积 VAE 图像生成</h1>
 <p>胸部 X 射线是一张单通道二维图像。残差卷积 VAE 用卷积层提取空间结构，用残差块保留局部细节，再把图像压缩到连续潜空间；解码器从潜变量重建图像或生成新的图像。</p>
 <p>本实践从 <code>NORMAL</code> 目录中选取胸片。目录名只用于选择图像，不作为分类标签。每张图像统一为单通道 <code>64×64</code>，并归一化到 <code>[-1,1]</code>。当前固定图像级划分为 1073 张训练图像和 268 张留出图像；两组文件不重叠。模型、损失和训练更新的参考实现对应输入、重建、潜空间采样、最近邻与插值结果。</p>
-<p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后点击“复制并编辑”保存到自己的账户，再按单元格逐步运行和修改；下载 Notebook 到电脑运行是补充方式。标有 参考实现、<code>None</code> 占位和“参考回答”的位置已经填入参考实现。先看 shape、变量名、注释和检查代码，再运行内容。Notebook 中的数值应以自己的输出为准，不要直接照抄页面上的参考数字。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>02</span></div><div class="notebook-markdown"><h2>数据到结果</h2>
+<p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后点击“复制并编辑”保存到自己的账户，再按单元格逐步运行和修改；下载 Notebook 到电脑运行是补充方式。标有 参考实现、<code>None</code> 占位和“参考回答”的位置已经填入参考实现。先看 shape、变量名、注释和检查代码，再运行内容。运行后结合图像、指标和输出文件阅读。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>02</span></div><div class="notebook-markdown"><h2>数据检查与结果阅读</h2>
 <p>输入图像先经过灰度化、缩放和归一化，得到 <code>[B,1,64,64]</code> 的张量。固定划分把 1073 张图像用于训练，把 268 张图像留作重建检查；留出文件不会进入训练更新。残差块在不改变 shape 的情况下细化局部结构；四次下采样把空间尺寸变为 <code>4×4</code>，线性层把特征变成 <code>mu</code> 与 <code>logvar</code>。重参数化得到潜变量 <code>z</code>，解码器再把它还原成图像。</p>
 <p>重建 L1 关注像素差异，梯度 L1 关注相邻像素的变化，KL 项约束潜变量分布。训练完成后，用输入做重建，用潜变量插值和采样观察新的输出。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>03</span></div><pre class="notebook-code"><code>from pathlib import Path  # 导入当前步骤需要的工具
 import json, random, re  # 导入当前步骤需要的工具
@@ -34,7 +34,7 @@ LATENT_DIM=64  # 保存当前步骤使用的中间结果
 random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)  # 固定随机状态以便复现实验
 if torch.cuda.is_available():  # 根据当前条件选择处理分支
     torch.cuda.manual_seed_all(SEED)  # 固定随机状态以便复现实验
-# 某些 Kaggle 会话会分配较旧架构的 GPU，但当前 PyTorch 未必包含对应的 CUDA kernel。
+# 某些 Kaggle 镜像会提供较旧的 P100 等 GPU，但当前 PyTorch 未必包含对应的 CUDA kernel。
 # 先检查计算能力；不兼容时改用 CPU，避免在第一次前向计算时出现 CUDA kernel 错误。
 cuda_usable=False  # 保存当前步骤使用的中间结果
 if torch.cuda.is_available():  # 根据当前条件选择处理分支
@@ -102,8 +102,7 @@ print(&#x27;train:&#x27;,len(train_dataset),&#x27;holdout:&#x27;,len(holdout_dat
 </code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>06</span></div><div class="notebook-markdown"><h2>任务 1：解释归一化范围</h2>
 <p><strong>参考实现说明：</strong> 说明真实胸片为何归一化到 <strong>[-1, 1]</strong>，以及 Decoder 末层为什么使用 <code>Tanh</code>。</p>
 <p><strong>依据：</strong> 预处理使用 <strong>Normalize([.5],[.5])</strong>，输入显示前通过 <strong>(image+1)/2</strong> 映射回 <code>[0,1]</code>；Decoder 输出范围应与训练输入范围匹配。</p>
-<p><strong>检查：</strong> 参考实现应同时覆盖输入范围、Decoder 输出范围和显示范围之间的对应关系。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><h2>任务 1：归一化范围与输出激活</h2>
-<p>参考实现把原始像素除以 255 得到 <code>[0,1]</code>，再用 <code>x * 2 - 1</code> 映射到 <code>[-1,1]</code>。解码器末层使用 <code>Tanh</code>，输出范围同样是 <code>[-1,1]</code>，因此重建损失比较的是同一数值范围。显示图像时再用 <code>(x + 1) / 2</code> 映射回 <code>[0,1]</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>08</span></div><div class="notebook-markdown"><h2>任务 2：残差卷积 VAE 的编码、潜变量和解码</h2>
+<p><strong>检查：</strong> 参考实现应同时覆盖输入范围、Decoder 输出范围和显示范围之间的对应关系。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><p><strong>参考说明：</strong> 原始像素除以 255 得到 <code>[0,1]</code>，再用 <code>x * 2 - 1</code> 映射到 <code>[-1,1]</code>。解码器末层使用 <code>Tanh</code>，输出范围同样是 <code>[-1,1]</code>，因此重建损失比较的是同一数值范围。显示图像时再用 <code>(x + 1) / 2</code> 映射回 <code>[0,1]</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>08</span></div><div class="notebook-markdown"><h2>任务 2：补全残差卷积 VAE 的编码、潜变量和解码</h2>
 <p>参考实现使用保持空间尺寸的残差块、stride 为 2 的下采样卷积和转置卷积。四次下采样把 <code>[B,1,64,64]</code> 变为 <code>[B,256,4,4]</code>；展平后由 <code>to_mu</code>、<code>to_logvar</code> 得到 <code>[B,64]</code>。重参数化使用 <code>mu + exp(0.5 * logvar) * epsilon</code>，解码器再把潜变量还原为 <code>[B,1,64,64]</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>09</span></div><pre class="notebook-code"><code>LATENT_DIM=64  # 保存当前步骤使用的中间结果
 
 # 参考实现：依据上方的 shape 说明，补全残差块、下采样、上采样、mu/logvar、重参数化和 forward。
@@ -191,7 +190,7 @@ assert tuple(probe_mu.shape)==(2,LATENT_DIM)  # 计算模型输出或预测概�
 assert tuple(probe_logvar.shape)==(2,LATENT_DIM)  # 计算模型输出或预测概率
 assert tuple(probe_z.shape)==(2,LATENT_DIM)  # 计算模型输出或预测概率
 assert tuple(probe_reconstruction.shape)==(2,1,64,64)  # 计算模型输出或预测概率
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>10</span></div><div class="notebook-markdown"><h2>任务 3：重建、边缘与 KL 损失</h2>
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>10</span></div><div class="notebook-markdown"><h2>任务 3：组合重建、边缘与 KL 损失并训练 50 轮</h2>
 <p>参考实现分别计算像素重建 L1、相邻像素梯度 L1 和 KL 项，并按 <code>reconstruction + 0.25 × gradient + beta × KL</code> 相加。<code>beta</code> 在前 10 轮从较小值逐步增加到 <code>0.0005</code>。每个 batch 按清空梯度、前向计算、反向传播、梯度裁剪和优化器更新的顺序执行，共训练 50 轮；<code>history</code> 保存四条损失曲线。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>11</span></div><pre class="notebook-code"><code>EDGE_WEIGHT=.25  # 保存当前步骤使用的中间结果
 KL_WEIGHT=.0005  # 保存当前步骤使用的中间结果
 KL_WARMUP_EPOCHS=10  # 在训练数据上拟合模型
@@ -316,13 +315,13 @@ print(&#x27;generated:&#x27;,tuple(generated.shape),&#x27;nearest mean L1:&#x27;
 print(&#x27;saved:&#x27;,OUT/&#x27;task2_reconstruction_grid.png&#x27;,OUT/&#x27;task2_generated_samples.png&#x27;,OUT/&#x27;task2_nearest_neighbors.png&#x27;,OUT/&#x27;task2_latent_interpolation.png&#x27;,OUT/&#x27;task2_latent_result.json&#x27;)  # 显示便于检查的关键信息
 </code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>14</span></div><div class="notebook-markdown"><h2>任务 5：观察输入、重建、生成与潜空间结果</h2>
 <p>从输入/重建对照、生成网格、最近邻图和插值图中记录可辨认结构、模糊区域、伪影、样本差异和连续变化。结合损失曲线与 JSON 数值，说明图像证据和数值证据是否一致。</p>
-<p><strong>参考实现说明：</strong> 参考观察记录如下，至少涉及输入与重建差异、生成样本质量、最近邻比较、插值变化和训练损失。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>15</span></div><div class="notebook-markdown"><h2>任务 5：观察输入、重建、生成与潜空间结果</h2>
+<p><strong>参考实现说明：</strong> 参考观察记录如下，至少涉及输入与重建差异、生成样本质量、最近邻比较、插值变化和训练损失。请结合本节给出的范围、公式和检查条件完成说明，并以运行结果核对。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>15</span></div><div class="notebook-markdown"><p><strong>参考记录：</strong></p>
 <ul>
 <li>输入与重建：重建结果应保留胸片的整体轮廓和主要亮暗区域。</li>
-<li>生成样本：潜空间随机采样的图像用于观察模型学到的图像分布，不当作新的临床影像。</li>
+<li>生成样本：潜空间随机采样的图像用于观察模型学到的图像分布，不作为临床影像。</li>
 <li>最近邻比较：生成样本与训练集最近邻一起查看，用于检查是否出现明显记忆。</li>
 <li>潜空间插值：插值序列用于观察潜变量变化是否带来连续的图像变化。</li>
-<li>损失与综合判断：L1、边缘和 KL 三项共同描述训练过程，最终结论仍需结合留出集结果和图像检查。</li>
+<li>损失与综合判断：L1、边缘和 KL 三项共同描述训练过程，结合留出集结果和图像检查。</li>
 </ul></div></article>
-<section class="reference-results"><h2>参考输出</h2><p>一次参考运行的留出集重建 L1 为 0.0878；生成样本用于观察模型学到的图像分布，不当作新的临床影像。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-03/task2_real_xray_grid.png" alt="参考结果：真实胸片样本网格"><figcaption>真实胸片样本网格</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-03/task2_training_curve.png" alt="参考结果：残差卷积 VAE 的训练曲线"><figcaption>残差卷积 VAE 的训练曲线</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-03/task2_input_generated_comparison.png" alt="参考结果：真实输入与潜空间采样生成结果"><figcaption>真实输入与潜空间采样生成结果</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-03/task2_quality_metrics.png" alt="参考结果：真实留出集与生成样本的图像统计"><figcaption>真实留出集与生成样本的图像统计</figcaption></figure></div></section>
+<section class="reference-results"><h2>参考输出</h2><p>当前 Kaggle 参考运行的输入重建 L1 为 0.0928；生成样本到真实图库的最近邻 L1 均值为 0.1859、最小值为 0.1310。生成结果用于观察模型分布和记忆风险，不当作新的临床影像。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-03/task2_real_xray_grid.png" alt="参考结果：真实胸片样本网格"><figcaption>真实胸片样本网格</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-03/task2_training_curve.png" alt="参考结果：残差卷积 VAE 的训练曲线"><figcaption>残差卷积 VAE 的训练曲线</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-03/task2_input_generated_comparison.png" alt="参考结果：真实输入与潜空间采样生成结果"><figcaption>真实输入与潜空间采样生成结果</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-03/task2_nearest_neighbors.png" alt="参考结果：生成样本与真实图库最近邻"><figcaption>生成样本与真实训练图库最近邻检查</figcaption></figure></div></section>
 </main></body></html>

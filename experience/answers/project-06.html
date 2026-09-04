@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践参考答案 05：空间转录组表达分析｜KYDW</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践参考答案 05：空间转录组与表达超分辨率｜KYDW</title>
 <style>
 body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
 main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.3rem}
@@ -7,7 +7,7 @@ main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margi
 .hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
 .notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
 </style></head><body><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 05：空间转录组表达分析</h1><p>以下内容保留实践 Notebook 的单元格顺序，原来需要补全的位置已经填入一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p class="note">参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></section>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 05：空间转录组与表达超分辨率</h1><p>下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
 <article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 05：空间转录组表达超分辨率</h1>
 <p>本 Notebook 使用课程准备的配对 H&amp;E、LR、HR 和 split 数据。LR 表示 16 μm Snap25 输入，HR 表示 2 μm 参考表达图，模型学习在细网格上估计一个高表达基因的局部表达。</p>
 <p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按单元格顺序运行。下载 Notebook 到电脑运行是补充方式。</p>
@@ -55,8 +55,8 @@ print(&#x27;he/lr/hr:&#x27;, he.shape, lr.shape, hr.shape, &#x27;splits:&#x27;, 
 assert set(np.unique(split)) &lt;= {&#x27;train&#x27;, &#x27;validation&#x27;, &#x27;test&#x27;}
 print(summary)
 </code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>05</span></div><div class="notebook-markdown"><h2>任务 2：配对大图、小图与表达图</h2>
-<p>从 train 样本中选择组织覆盖较完整、表达信号可见的一项，把 H&amp;E、LR 粗尺度密度和 HR 参考表达图放在同一行，再截取中心区域放大。三列来自同一个空间区域，色标可以分别设置。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>06</span></div><pre class="notebook-code"><code>train_ids = np.where(split == &#x27;train&#x27;)[0]
-coverage_score = (he[train_ids].mean(axis=1) &lt; .98).mean(axis=(1, 2)) + 2 * (hr[train_ids] &gt; 0).mean(axis=(1, 2))
+<p>从 train 样本中选择组织覆盖较完整、表达信号可见的一项，把 H&amp;E、LR 粗尺度密度和 HR 参考表达图放在同一行，再截取中心区域放大。三列来自同一个空间区域，色标可以分别设置。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>06</span></div><pre class="notebook-code"><code>train_ids = np.where(split == &#x27;train&#x27;)[0]  # 选择训练样本
+coverage_score = (he[train_ids].mean(axis=1) &lt; .98).mean(axis=(1, 2)) + 2 * (hr[train_ids] &gt; 0).mean(axis=(1, 2, 3))  # 优先选择组织覆盖和表达信号清晰的区域
 sample_index = int(train_ids[np.argmax(coverage_score)])
 lr_density = lr[sample_index, 0] / 64.0; hr_reference = hr[sample_index, 0]
 fig, axes = plt.subplots(1, 3, figsize=(13, 4.4))
@@ -70,45 +70,117 @@ for column, value in enumerate([np.moveaxis(he[sample_index], 0, -1), lr_density
     axes[0, column].set_title(&#x27;full 256×256&#x27;); axes[1, column].set_title(&#x27;center 160×160&#x27;); axes[0, column].axis(&#x27;off&#x27;); axes[1, column].axis(&#x27;off&#x27;)
 fig.tight_layout(); fig.savefig(OUT / &#x27;task5_scale_overview.png&#x27;, dpi=180); plt.close(fig)
 print(&#x27;sample index:&#x27;, sample_index)
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><h2>任务 3：融合网络</h2>
-<p>输入为 4 个通道（H&amp;E 三通道和 LR 密度），输出为 1 个通道的细尺度表达预测。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>08</span></div><pre class="notebook-code"><code>def aggregate8(x):
-    return torch.nn.functional.avg_pool2d(x, 8, 8) * 64
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><h2>任务 3：补全融合网络</h2>
+<p>输入为 4 个通道（H&amp;E 三通道和 LR 密度），输出为 1 个通道的细尺度表达预测。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>08</span></div><pre class="notebook-code"><code>class STDataset(Dataset):
+    def __init__(self, kind):
+        self.ids = np.where(split == kind)[0]  # 保存当前划分的样本编号
+    def __len__(self):
+        return len(self.ids)  # 返回样本数量
+    def __getitem__(self, index):
+        sample_id = int(self.ids[index])  # 读取一个样本编号
+        lr_total = lr[sample_id]  # 读取 16 μm 粗尺度表达
+        features = np.concatenate([he[sample_id], np.log1p(lr_total / 64.0)], axis=0)  # 拼接 H&amp;E 与 LR 通道
+        target = np.log1p(hr[sample_id])  # 在 log 空间表示 2 μm 参考表达
+        return torch.from_numpy(features), torch.from_numpy(target), torch.from_numpy(lr_total), sample_id  # 返回训练所需数据
+
+class SRNet(nn.Module):
+    def __init__(self):
+        super().__init__()  # 初始化网络基类
+        self.body = nn.Sequential(  # 建立轻量卷积特征提取器
+            nn.Conv2d(4, 16, 3, padding=1),  # 读取 4 个输入通道
+            nn.ReLU(),  # 保留非线性表达能力
+            nn.Conv2d(16, 16, 3, padding=1),  # 细化局部空间特征
+            nn.ReLU(),  # 继续进行非线性变换
+            nn.Conv2d(16, 1, 3, padding=1),  # 输出一个基因的表达残差
+        )
+    def forward(self, x):
+        return torch.nn.functional.softplus(x[:, 3:4] + self.body(x))  # 以 LR 表达为基础并保持非负输出
+
+model = SRNet().to(DEVICE)  # 创建模型并放到计算设备
+print(model)  # 查看模型结构
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>09</span></div><div class="notebook-markdown"><h2>任务 4：损失和 8×8 总量约束</h2>
+<p>预测值按 8×8 区域求和后，应与 LR 中的粗尺度总量接近；这项约束让输出保留观测到的总量。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code>def aggregate8(x):
+    return torch.nn.functional.avg_pool2d(x, 8, 8) * 64  # 计算每个 8×8 区域的表达总量
 
 def loss_fn(pred_log, target_log, lr_raw):
-    pred = torch.expm1(pred_log).clamp_min(0); target = torch.expm1(target_log).clamp_min(0)
-    l1 = (pred_log - target_log).abs().mean()
-    observed = torch.nn.functional.avg_pool2d(lr_raw, 8, 8) * 64
-    consistency = (aggregate8(pred) - observed).abs().mean()
-    return l1 + .1 * consistency
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>09</span></div><div class="notebook-markdown"><h2>任务 4：损失和 8×8 总量约束</h2>
-<p>预测值按 8×8 区域求和后，应与 LR 中的粗尺度总量接近；这项约束让输出保留观测到的总量。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code>train_loader = DataLoader(STDataset(&#x27;train&#x27;), batch_size=4, shuffle=True)
-optimizer = torch.optim.Adam(model.parameters(), lr=2e-3, weight_decay=1e-4)
-for _ in range(60):
-    model.train()
-    for x, target_log, lr_raw, _ in train_loader:
-        x, target_log, lr_raw = x.to(DEVICE), target_log.to(DEVICE), lr_raw.to(DEVICE)
-        optimizer.zero_grad(); prediction = model(x)
-        loss = loss_fn(torch.log1p(prediction), target_log, lr_raw); loss.backward(); optimizer.step()
-model.eval()
-test_ids = np.where(split == &#x27;test&#x27;)[0]
-with torch.no_grad():
-    x = torch.from_numpy(np.concatenate([he[test_ids], np.log1p(lr[test_ids] / 64.0)], axis=1)).to(DEVICE)
-    prediction = model(x).cpu().numpy()[:, 0]
-target = hr[test_ids, 0]; interpolation = lr[test_ids, 0] / 64.0
-result = {
-    &#x27;gene&#x27;: &#x27;Snap25&#x27;,
-    &#x27;test_mae_model&#x27;: float(np.abs(prediction - target).mean()),
-    &#x27;test_mae_interpolation&#x27;: float(np.abs(interpolation - target).mean()),
-    &#x27;test_pearson_model&#x27;: float(np.corrcoef(prediction.ravel(), target.ravel())[0, 1]),
-}
-(OUT / &#x27;task5_result.json&#x27;).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding=&#x27;utf-8&#x27;)
-print(result)
+    pred = torch.expm1(pred_log).clamp_min(0)  # 恢复预测的原始尺度
+    target = torch.expm1(target_log).clamp_min(0)  # 恢复目标的原始尺度
+    l1 = (pred_log - target_log).abs().mean()  # 计算 log 表达差异
+    observed = torch.nn.functional.avg_pool2d(lr_raw, 8, 8) * 64  # 计算 LR 在对应区域的总量
+    consistency = (aggregate8(pred) - observed).abs().mean()  # 计算空间聚合一致性
+    return l1 + .1 * consistency  # 合并像素误差与区域约束
 </code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>11</span></div><div class="notebook-markdown"><h2>任务 5：训练与结果比较</h2>
 <p>完成训练后，比较模型与插值基线的 MAE、Pearson 相关性和 8×8 聚合误差，并查看预测、参考和误差图。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>12</span></div><pre class="notebook-code"><code># ===== 项目05·任务5·参考实现（开始） =====
 # 参考实现：完成训练、验证选模、模型与插值基线比较，以及结果保存。
-# 参考答案会使用较长训练和稳定的模型设置，但运行后请以自己的输出为准。
-# ===== 项目05·任务5·参考实现（结束） =====
-print(&#x27;输出文件应写入&#x27;, OUT)  # 显示便于检查的关键信息
+train_loader = DataLoader(STDataset(&#x27;train&#x27;), batch_size=4, shuffle=True)  # 建立训练批次
+val_loader = DataLoader(STDataset(&#x27;validation&#x27;), batch_size=4, shuffle=False)  # 建立验证批次
+optimizer = torch.optim.Adam(model.parameters(), lr=2e-3, weight_decay=1e-4)  # 配置优化器
+history = []  # 保存训练和验证损失
+best_val = float(&#x27;inf&#x27;)  # 初始化验证集最佳损失
+best_state = None  # 保存最佳模型参数
+for epoch in range(60):
+    model.train()  # 切换到训练模式
+    train_losses = []  # 收集训练批次损失
+    for x, target_log, lr_raw, _ in train_loader:
+        x, target_log, lr_raw = x.to(DEVICE), target_log.to(DEVICE), lr_raw.to(DEVICE)  # 搬运当前批次
+        optimizer.zero_grad(set_to_none=True)  # 清空旧梯度
+        prediction = model(x)  # 计算模型预测
+        loss = loss_fn(torch.log1p(prediction), target_log, lr_raw)  # 计算训练目标
+        loss.backward()  # 反向传播
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # 限制梯度过大
+        optimizer.step()  # 更新模型参数
+        train_losses.append(float(loss.detach().cpu()))  # 保存当前批次损失
+    model.eval()  # 切换到评价模式
+    val_losses = []  # 收集验证批次损失
+    with torch.no_grad():
+        for x, target_log, lr_raw, _ in val_loader:
+            x, target_log, lr_raw = x.to(DEVICE), target_log.to(DEVICE), lr_raw.to(DEVICE)  # 搬运验证批次
+            val_losses.append(float(loss_fn(torch.log1p(model(x)), target_log, lr_raw).cpu()))  # 计算验证损失
+    train_loss = float(np.mean(train_losses))  # 汇总训练损失
+    val_loss = float(np.mean(val_losses))  # 汇总验证损失
+    history.append((train_loss, val_loss))  # 保存当前轮次结果
+    if val_loss &lt; best_val:
+        best_val = val_loss  # 更新最佳验证损失
+        best_state = {name: value.detach().cpu().clone() for name, value in model.state_dict().items()}  # 保存最佳参数
+if best_state is not None:
+    model.load_state_dict(best_state)  # 使用验证集最佳参数
+fig, axis = plt.subplots(figsize=(6.5, 3.8))  # 准备训练曲线
+axis.plot([item[0] for item in history], label=&#x27;train loss&#x27;)  # 绘制训练损失
+axis.plot([item[1] for item in history], label=&#x27;validation loss&#x27;)  # 绘制验证损失
+axis.set(xlabel=&#x27;epoch&#x27;, ylabel=&#x27;loss&#x27;, title=&#x27;Snap25 model training&#x27;)  # 标注坐标轴
+axis.legend()  # 显示图例
+fig.tight_layout(); fig.savefig(OUT / &#x27;task5_training_curve.png&#x27;, dpi=160); plt.close(fig)  # 保存训练曲线
+model.eval()  # 固定评价模式
+test_ids = np.where(split == &#x27;test&#x27;)[0]  # 选择测试样本
+with torch.no_grad():
+    test_features = np.concatenate([he[test_ids], np.log1p(lr[test_ids] / 64.0)], axis=1)  # 组织测试输入
+    x = torch.from_numpy(test_features).to(DEVICE)  # 转换测试张量
+    prediction = model(x).cpu().numpy()[:, 0]  # 得到一个基因的预测表达
+target = hr[test_ids, 0]  # 读取 HR 参考表达
+interpolation = lr[test_ids, 0] / 64.0  # 计算 LR 插值基线
+scores = ((he[test_ids].mean(axis=1) &lt; .98).mean(axis=(1, 2)) + 2 * (target &gt; 0).mean(axis=(1, 2)))  # 优先选择组织覆盖完整的样本
+display_rows = np.argsort(scores)[-3:]  # 选择三个便于阅读的测试区域
+fig, axes = plt.subplots(len(display_rows), 5, figsize=(14, 3.2 * len(display_rows)))  # 准备预测面板
+axes = np.atleast_2d(axes)  # 统一坐标轴形状
+for row, local_index in enumerate(display_rows):
+    values = [np.moveaxis(he[test_ids[local_index]], 0, -1), interpolation[local_index], target[local_index], prediction[local_index], np.abs(prediction[local_index] - target[local_index])]  # 准备五列图像
+    titles = [&#x27;H&amp;E&#x27;, &#x27;16 μm LR Snap25&#x27;, &#x27;2 μm HR reference&#x27;, &#x27;model prediction&#x27;, &#x27;absolute error&#x27;]  # 设置图像标题
+    for column, (value, title) in enumerate(zip(values, titles)):
+        axes[row, column].imshow(value, cmap=None if column == 0 else (&#x27;viridis&#x27; if column == 4 else &#x27;magma&#x27;))  # 显示输入、参考和误差
+        axes[row, column].set_title(title, fontsize=8); axes[row, column].axis(&#x27;off&#x27;)  # 标注当前图像
+fig.tight_layout(); fig.savefig(OUT / &#x27;task5_prediction_visualization.png&#x27;, dpi=160); plt.close(fig)  # 保存预测结果图
+aggregation_error = np.abs(torch.nn.functional.avg_pool2d(torch.from_numpy(prediction[:, None]), 8, 8).numpy() * 64 - torch.nn.functional.avg_pool2d(torch.from_numpy(lr[test_ids]), 8, 8).numpy() * 64).mean()  # 计算聚合误差
+def safe_corr(left, right):
+    return float(np.corrcoef(left.ravel(), right.ravel())[0, 1]) if np.std(left) &gt; 0 and np.std(right) &gt; 0 else 0.0  # 计算稳定的 Pearson 相关性
+result = {
+    &#x27;gene&#x27;: &#x27;Snap25&#x27;,  # 记录预测基因
+    &#x27;test_mae_model&#x27;: float(np.abs(prediction - target).mean()),  # 记录模型 MAE
+    &#x27;test_mae_interpolation&#x27;: float(np.abs(interpolation - target).mean()),  # 记录插值基线 MAE
+    &#x27;test_pearson_model&#x27;: safe_corr(prediction, target),  # 记录模型相关性
+    &#x27;test_8x8_aggregation_mae&#x27;: float(aggregation_error),  # 记录聚合一致性
+}
+(OUT / &#x27;task5_result.json&#x27;).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding=&#x27;utf-8&#x27;)  # 保存结果 JSON
+print(result)  # 查看结果
 </code></pre></article>
-<section class="reference-results"><h2>参考输出</h2><p>当前 Notebook 固定预测 Snap25 一个基因；结果 JSON 记录模型 MAE、插值基线 MAE 与像素相关性，空间聚合一致性用于补充检查。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-06/task5_data_visualization.png" alt="参考结果：同一空间区域的 H&amp;E、16 μm LR Snap25 和 2 μm HR Snap25"><figcaption>同一空间区域的 H&amp;E、16 μm LR Snap25 和 2 μm HR Snap25</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_scale_overview.png" alt="参考结果：配对大图和中心小图的空间范围"><figcaption>配对大图和中心小图的空间范围</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_training_curve.png" alt="参考结果：模型训练损失与验证比较"><figcaption>模型训练损失与验证比较</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_prediction_visualization.png" alt="参考结果：Snap25 表达预测与参考图比较"><figcaption>Snap25 表达预测与参考图比较</figcaption></figure></div></section>
+<section class="reference-results"><h2>参考输出</h2><p>当前 Notebook 固定预测 Snap25 一个基因；结果 JSON 记录模型 MAE、插值基线 MAE 与像素相关性，空间聚合一致性用于补充检查。该结果不代表恢复了多基因表达或完整的细尺度空间转录组。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-06/task5_data_visualization.png" alt="参考结果：同一空间区域的 H&amp;E、16 μm LR Snap25 和 2 μm HR Snap25"><figcaption>同一空间区域的 H&amp;E、16 μm LR Snap25 和 2 μm HR Snap25</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_scale_overview.png" alt="参考结果：配对大图和中心小图的空间范围"><figcaption>配对大图和中心小图的空间范围</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_training_curve.png" alt="参考结果：模型训练损失与验证比较"><figcaption>模型训练损失与验证比较</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_prediction_visualization.png" alt="参考结果：Snap25 表达预测与参考图比较"><figcaption>Snap25 表达预测与参考图比较</figcaption></figure></div></section>
 </main></body></html>

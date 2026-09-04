@@ -3,25 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>体验教学项目｜本科生科研入门体验项目</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <title>教学项目｜本科生科研入门体验项目</title>
   <style>
     :root{--bg:#f4f7fb;--surface:#fff;--text:#142033;--muted:#5d6b7f;--line:#dfe7f1;--primary:#245b78;--teal:#2f7f89}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif;line-height:1.8}
     .wrap{max-width:1050px;margin:auto;padding:45px 22px 70px}.hero,.card{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:0 16px 40px rgba(31,56,83,.09)}
     .hero{padding:38px 42px;margin-bottom:20px;background:linear-gradient(135deg,#e8f1f7,#fff)}h1{margin:9px 0 12px;font-size:clamp(30px,5vw,52px);line-height:1.15}
     .eyebrow{font-size:12px;letter-spacing:.12em;color:var(--teal);font-weight:800}.hero p{color:var(--muted);max-width:760px}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.card{padding:22px}.card h2{font-size:20px;margin:0 0 8px}.card p{color:var(--muted);margin:6px 0}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.card{padding:22px}.card h2{font-size:20px;margin:0 0 8px}.card p{color:var(--muted);margin:6px 0}.kicker{font-size:12px;color:var(--teal);font-weight:800;letter-spacing:.08em;margin-bottom:7px}
     .button{display:inline-block;margin-top:15px;padding:9px 13px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--teal));color:#fff;text-decoration:none}.back{display:inline-block;margin-top:18px;color:var(--primary);font-weight:700;text-decoration:none}
     @media(max-width:700px){.grid{grid-template-columns:1fr}.hero{padding:28px 23px}.wrap{padding:28px 15px 50px}}
   </style>
 </head>
 <body>
   <main class="wrap">
-    <section class="hero"><div class="eyebrow">本科生科研入门体验项目</div><h1>体验教学项目</h1><p>教学页面从概念、数据和研究任务开始，逐步进入对应的实践项目；后续项目会继续收录在同一目录中。</p><a class="back" href="../index.html">返回体验项目主页</a></section>
+    <section class="hero"><div class="eyebrow">本科生科研入门体验项目</div><h1>教学项目</h1><p>页面介绍医学影像、人工智能、计算病理、临床表格和空间转录组中的基本概念、数据对象、应用、方法与结果评价，并列出相应的代码实践。</p><a class="back" href="../index.html">返回项目主页</a></section>
     <section class="grid">
-      <article class="card"><h2>00 · 基础编程与人工智能</h2><p>用 MNIST 手写数字分类串起数据检查、模型训练、评价与扰动实验。</p><a class="button" href="project-01.html">打开教学项目</a></article>
-      <article class="card"><h2>01 · MRI 肿瘤图像分割</h2><p>从多序列 MRI 与肿瘤掩膜进入患者级划分、U-Net 和分割评价。</p><a class="button" href="project-02.html">打开教学项目</a></article>
-      <article class="card"><h2>02 · 胸部 X 射线与生成模型</h2><p>从胸片输入和数字质量进入残差卷积 VAE 的编码、重建与潜空间采样。</p><a class="button" href="project-03.html">打开教学项目</a></article>
+      <article class="card"><div class="kicker">项目 00</div><h2>基础编程与人工智能</h2><p>MNIST 手写数字图像、数据表示、分类模型、评价指标和噪声测试。</p><a class="button" href="project-01.html">打开教学项目</a></article>
+      <article class="card"><div class="kicker">项目 01</div><h2>MRI 脑肿瘤图像分割</h2><p>脑肿瘤、MRI 信号、多序列数据、分割标签、U-Net 和 Dice 评价。</p><a class="button" href="project-02.html">打开教学项目</a></article>
+      <article class="card"><div class="kicker">项目 02</div><h2>胸部 X 射线与生成模型</h2><p>胸部 X 射线、投影成像、数字质量、残差卷积 VAE、重建和潜空间采样。</p><a class="button" href="project-03.html">打开教学项目</a></article>
+      <article class="card"><div class="kicker">项目 03</div><h2>计算病理与脑膜瘤形态分析</h2><p>疾病与肿瘤、H&amp;E 染色、数字病理、脑膜瘤形态、图块分类和错误分析。</p><a class="button" href="project-04.html">打开教学项目</a></article>
+      <article class="card"><div class="kicker">项目 04</div><h2>脑疾病表格数据与 XGBoost 预测</h2><p>受试者级临床表格、变量类型、缺失值、XGBoost、概率评价和变量贡献。</p><a class="button" href="project-05.html">打开教学项目</a></article>
+      <article class="card"><div class="kicker">项目 05</div><h2>空间转录组与表达超分辨率</h2><p>基因表达、空间坐标、组织图像、质量控制、配对输入、表达预测和聚合评价。</p><a class="button" href="project-06.html">打开教学项目</a></article>
     </section>
   </main>
 </body>

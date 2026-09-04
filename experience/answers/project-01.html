@@ -7,7 +7,7 @@ main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margi
 .hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
 .notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
 </style></head><body><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 00：基础编程与人工智能</h1><p>以下内容保留实践 Notebook 的单元格顺序，原来需要补全的位置已经填入一种参考写法，并在 Markdown 单元格中说明输入、处理和输出。</p><p class="note">参考答案仅做参考；运行时请结合自己的图像、指标和结果文件阅读。</p></section>
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 00：基础编程与人工智能</h1><p>下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
 <article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 00：MNIST 手写数字分类</h1>
 <p>这份 Notebook 用手写数字图片完成一次完整的分类练习：先读取输入和标签，再检查数据，计算归一化参数，补全小型卷积神经网络，训练模型，评价测试集，最后观察输入加入噪声后结果怎样变化。</p>
 <p>Kaggle Notebook 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按顺序运行单元格；下载到电脑运行是补充方式。每个任务都会说明输入、处理、输出和参考实现。</p>
@@ -202,7 +202,7 @@ BATCH_SIZE = 128  # 保存当前步骤使用的中间结果
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)  # 整理模型需要的数据格式
 val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)  # 整理模型需要的数据格式
 test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)  # 整理模型需要的数据格式
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>13</span></div><div class="notebook-markdown"><h2>任务 3：小型卷积神经网络</h2>
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>13</span></div><div class="notebook-markdown"><h2>任务 3：补全小型卷积神经网络</h2>
 <p>卷积层从局部图像区域提取特征，池化层缩小空间尺寸，全连接层把特征转换成 10 个类别分数。</p>
 <p><strong>本单元格说明：</strong> 在两个参考代码段加入第二个卷积块和分类层，不改动 <code>forward</code> 或已有的第一块。</p>
 <p><strong>输入与输出：</strong> 模型输入是 <code>[batch, 1, 28, 28]</code>；第一块后是 <code>[batch, 16, 14, 14]</code>，第二块和池化后是 <code>[batch, 32, 7, 7]</code>，最终 logits 是 <code>[batch, 10]</code>。</p>
@@ -238,7 +238,7 @@ print(model)  # 显示便于检查的关键信息
 print(&#x27;output shape =&#x27;, tuple(output.shape))  # 显示便于检查的关键信息
 print(&#x27;parameter count =&#x27;, sum(p.numel() for p in model.parameters()))  # 显示便于检查的关键信息
 assert tuple(output.shape) == (4, 10)  # 保存当前步骤使用的中间结果
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>15</span></div><div class="notebook-markdown"><h2>任务 4：训练步骤</h2>
+</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>15</span></div><div class="notebook-markdown"><h2>任务 4：补全训练步骤</h2>
 <p>一个训练批次依次完成：清空旧梯度、前向传播、计算损失、反向传播、更新参数。每轮训练结束后，验证集只用于评价，不更新参数。</p>
 <p><strong>本单元格说明：</strong> 在参考代码段按上述顺序补全五个训练动作。</p>
 <p><strong>输入与输出：</strong> 输入是归一化后的 <code>images</code> <code>[batch, 1, 28, 28]</code> 和 <code>labels</code>；输出是标量 <code>loss</code>、批次预测和训练/验证指标。随后会保存训练曲线。</p>
@@ -443,6 +443,6 @@ with open(WORKDIR/&#x27;task0_result.json&#x27;, &#x27;w&#x27;, encoding=&#x27;u
 print(json.dumps(result, ensure_ascii=False, indent=2))  # 保存结果供后续核对
 </code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>27</span></div><div class="notebook-markdown"><h2>结果检查</h2>
 <p>依次打开四个输出文件：数据图检查输入和标签，训练曲线检查参数是否发生学习，混淆矩阵定位容易混淆的数字，JSON 保存本次实验的设置和指标。</p>
-<p>一次参考运行记录为：测试准确率约 0.9897、测试集 macro-F1 约 0.98965；加入标准差 0.25 的高斯噪声后准确率约 0.9771。单变量对照只改变学习率，其余训练设置保持不变。实际运行时以自己的输出和图像为准。</p></div></article>
+<p>一次参考运行记录为：测试准确率约 0.9897、测试集 macro-F1 约 0.98965；加入标准差 0.25 的高斯噪声后准确率约 0.9771。单变量对照只改变学习率，其余训练设置保持不变。运行后把自己的输出和图像放在一起阅读。</p></div></article>
 <section class="reference-results"><h2>参考输出</h2><p>一次参考运行记录为：测试准确率约 0.9897，测试集 macro-F1 约 0.98965；加入标准差 0.25 的高斯噪声后准确率约 0.9771。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-01/task0_training_curve.png" alt="参考结果：训练损失、验证损失与验证准确率"><figcaption>训练损失、验证损失与验证准确率</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-01/task0_confusion_matrix.png" alt="参考结果：MNIST 测试集混淆矩阵"><figcaption>MNIST 测试集混淆矩阵</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-01/task0_input_prediction_comparison.png" alt="参考结果：测试输入、真实标签与预测结果对比"><figcaption>测试输入、真实标签与预测结果对比</figcaption></figure></div></section>
 </main></body></html>

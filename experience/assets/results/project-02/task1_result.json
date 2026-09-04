@@ -1,317 +1,46 @@
 {
-  "run_name": "project01_mri_segmentation_reference_run",
-  "dataset": "mateuszbuda/lgg-mri-segmentation",
-  "data_root": "temporary Kaggle download; not published",
-  "pairing_rule": "each *_mask.tif paired with the same path after removing _mask",
-  "raw_data": {
-    "paired_slices": 3929,
-    "patients": 110,
-    "positive_masks": 1373,
-    "empty_masks": 2556,
-    "empty_ratio": 0.6505472130313057,
-    "all_image_shape": [
-      256,
-      256
-    ]
+  "paired_slices": 3929,
+  "patients": 110,
+  "train_slices": 2604,
+  "validation_slices": 547,
+  "test_slices": 778,
+  "train_patients": 70,
+  "validation_patients": 18,
+  "test_patients": 22,
+  "input": "source RGB TIFF three registered MRI channels",
+  "training_samples_per_epoch": 1200,
+  "epochs": 14,
+  "best_threshold": 0.85,
+  "validation_thresholds": {
+    "0.25": 0.5669932961463928,
+    "0.3": 0.6239100098609924,
+    "0.35": 0.6530409455299377,
+    "0.4": 0.6722827553749084,
+    "0.45": 0.6871464848518372,
+    "0.5": 0.6984095573425293,
+    "0.55": 0.7070823907852173,
+    "0.6": 0.7153955101966858,
+    "0.65": 0.7214332818984985,
+    "0.7": 0.7259964346885681,
+    "0.75": 0.7294155359268188,
+    "0.8": 0.7327895164489746,
+    "0.85": 0.7340612411499023
   },
-  "split": {
-    "patient_level": true,
-    "seed": 42,
-    "train_source_slices": 2604,
-    "validation_slices": 547,
-    "test_slices": 778,
-    "train_source_positive": 865,
-    "validation_positive": 213,
-    "test_positive": 295,
-    "train_selected_slices": 600,
-    "train_selected_positive": 300,
-    "train_selected_empty": 300
-  },
-  "preprocessing": {
-    "input_size": [
-      128,
-      128
-    ],
-    "image_normalization": "per-slice 1st-99th percentile clipping to [0,1]",
-    "mask_resize": "nearest-neighbor, binary threshold > 0",
-    "augmentation": "horizontal flip with probability 0.5 on training only"
-  },
-  "model": {
-    "architecture": "two-level Tiny U-Net with GroupNorm",
-    "parameters": 117073,
-    "device": "cpu",
-    "epochs": 20,
-    "best_epoch_by_validation_positive_dice_at_0.5": 18,
-    "batch_size": 32,
-    "optimizer": "AdamW",
-    "learning_rate": 0.001,
-    "loss": "0.5 * BCEWithLogitsLoss(pos_weight=5) + 0.5 * soft Dice loss"
-  },
-  "threshold_selection": {
-    "candidates": [
-      0.25,
-      0.35,
-      0.45,
-      0.5,
-      0.55,
-      0.65,
-      0.75
-    ],
-    "selected": 0.75,
-    "criterion": "highest validation positive-case mean Dice; empty true masks excluded from positive-case Dice",
-    "validation_metrics": {
-      "0.25": {
-        "positive_dice": 0.5737233755103917,
-        "positive_iou": 0.43600155548019925,
-        "pixel_dice": 0.5167527754920344,
-        "pixel_iou": 0.3483940673804145
-      },
-      "0.35": {
-        "positive_dice": 0.5995278059313748,
-        "positive_iou": 0.46120502032743216,
-        "pixel_dice": 0.574564791526335,
-        "pixel_iou": 0.4030815518743795
-      },
-      "0.45": {
-        "positive_dice": 0.6150102298516094,
-        "positive_iou": 0.4771806306476954,
-        "pixel_dice": 0.6151458805693132,
-        "pixel_iou": 0.44419680114679577
-      },
-      "0.5": {
-        "positive_dice": 0.6211144869916086,
-        "positive_iou": 0.48375716440345384,
-        "pixel_dice": 0.631149917953941,
-        "pixel_iou": 0.4610817737451817
-      },
-      "0.55": {
-        "positive_dice": 0.6270785079278184,
-        "positive_iou": 0.4902272107870722,
-        "pixel_dice": 0.6454585151236052,
-        "pixel_iou": 0.4765158123432175
-      },
-      "0.65": {
-        "positive_dice": 0.6341554895040987,
-        "positive_iou": 0.4984768741129789,
-        "pixel_dice": 0.6692486169532723,
-        "pixel_iou": 0.5029118037764494
-      },
-      "0.75": {
-        "positive_dice": 0.6392472424997084,
-        "positive_iou": 0.505264623207803,
-        "pixel_dice": 0.6846272372727906,
-        "pixel_iou": 0.5204831237590999
-      }
-    }
-  },
-  "test_metrics": {
-    "threshold": 0.75,
+  "test_dice": 0.5568733215332031,
+  "test_iou": 0.5184810161590576,
+  "test_mask_stats": {
     "total": 778,
-    "positive_true": 295,
     "empty_true": 483,
-    "empty_pred": 259,
-    "both_empty": 248,
-    "mean_dice_all_slices": 0.5202959357155046,
-    "mean_iou_all_slices": 0.47689987412968693,
-    "positive_dice": 0.4869827451938242,
-    "positive_iou": 0.3725348268420746,
-    "pixel_dice": 0.5258836093982993,
-    "pixel_iou": 0.3567464367732293,
-    "pixel_precision": 0.5366214752772117,
-    "pixel_recall": 0.5155639845380512
+    "empty_pred": 238,
+    "both_empty": 230,
+    "positive_true": 295,
+    "positive_dice": 0.6889742612838745,
+    "positive_iou": 0.5877225995063782,
+    "pixel_dice": 0.6973107860585053,
+    "pixel_iou": 0.5352856065724394,
+    "pixel_precision": 0.7028194922907121,
+    "pixel_recall": 0.691887762829504
   },
-  "metric_definition": {
-    "positive_case_dice": "mean per-slice Dice over test slices with non-empty true mask",
-    "positive_case_iou": "mean per-slice IoU over test slices with non-empty true mask",
-    "pixel_dice_iou": "global TP/FP/FN Dice and IoU at the selected threshold",
-    "empty_case_counts": "reported separately; not used to inflate the positive-mask Dice"
-  },
-  "history": [
-    {
-      "epoch": 1,
-      "learning_rate": 0.001,
-      "train_loss": 0.758824530400728,
-      "train_soft_dice": 0.03154304442654393,
-      "val_loss": 0.7086247376033238,
-      "val_positive_dice_at_0.5": 0.42070372386098837,
-      "val_positive_iou_at_0.5": 0.30352726482919645
-    },
-    {
-      "epoch": 2,
-      "learning_rate": 0.0009938441702975688,
-      "train_loss": 0.6887196365155672,
-      "train_soft_dice": 0.04101290276046105,
-      "val_loss": 0.6655837552888053,
-      "val_positive_dice_at_0.5": 0.4624008204684482,
-      "val_positive_iou_at_0.5": 0.34243839871342074
-    },
-    {
-      "epoch": 3,
-      "learning_rate": 0.0009755282581475768,
-      "train_loss": 0.6548430951018083,
-      "train_soft_dice": 0.05022249954243307,
-      "val_loss": 0.6344526878425053,
-      "val_positive_dice_at_0.5": 0.5394255363412809,
-      "val_positive_iou_at_0.5": 0.41359009670080155
-    },
-    {
-      "epoch": 4,
-      "learning_rate": 0.0009455032620941839,
-      "train_loss": 0.6259198126040006,
-      "train_soft_dice": 0.05959059370298443,
-      "val_loss": 0.60519597360066,
-      "val_positive_dice_at_0.5": 0.5739371421959275,
-      "val_positive_iou_at_0.5": 0.4395787997153908
-    },
-    {
-      "epoch": 5,
-      "learning_rate": 0.0009045084971874737,
-      "train_loss": 0.6027354347078424,
-      "train_soft_dice": 0.06790053760822047,
-      "val_loss": 0.5866475105285645,
-      "val_positive_dice_at_0.5": 0.565150954057226,
-      "val_positive_iou_at_0.5": 0.43622377695137554
-    },
-    {
-      "epoch": 6,
-      "learning_rate": 0.0008535533905932737,
-      "train_loss": 0.5843903610580846,
-      "train_soft_dice": 0.07516505253501236,
-      "val_loss": 0.5671182445117405,
-      "val_positive_dice_at_0.5": 0.5554972412121605,
-      "val_positive_iou_at_0.5": 0.4219117920047312
-    },
-    {
-      "epoch": 7,
-      "learning_rate": 0.0007938926261462366,
-      "train_loss": 0.5690952257106179,
-      "train_soft_dice": 0.08309689083165722,
-      "val_loss": 0.5519611452307019,
-      "val_positive_dice_at_0.5": 0.5796952969774304,
-      "val_positive_iou_at_0.5": 0.4451412018131744
-    },
-    {
-      "epoch": 8,
-      "learning_rate": 0.0007269952498697733,
-      "train_loss": 0.5566812094889189,
-      "train_soft_dice": 0.08904434254082541,
-      "val_loss": 0.5372100557599749,
-      "val_positive_dice_at_0.5": 0.5860273203659105,
-      "val_positive_iou_at_0.5": 0.44985022801363794
-    },
-    {
-      "epoch": 9,
-      "learning_rate": 0.0006545084971874737,
-      "train_loss": 0.543535125883002,
-      "train_soft_dice": 0.09829824670082113,
-      "val_loss": 0.5299000484602792,
-      "val_positive_dice_at_0.5": 0.5650487876182009,
-      "val_positive_iou_at_0.5": 0.4282238319027288
-    },
-    {
-      "epoch": 10,
-      "learning_rate": 0.0005782172325201155,
-      "train_loss": 0.532805787889581,
-      "train_soft_dice": 0.10593972289037386,
-      "val_loss": 0.515931065593447,
-      "val_positive_dice_at_0.5": 0.6064511459824546,
-      "val_positive_iou_at_0.5": 0.47147579064820344
-    },
-    {
-      "epoch": 11,
-      "learning_rate": 0.0005,
-      "train_loss": 0.5231411896253887,
-      "train_soft_dice": 0.1128606293866081,
-      "val_loss": 0.5079690260546548,
-      "val_positive_dice_at_0.5": 0.6080406293656939,
-      "val_positive_iou_at_0.5": 0.4696547533158468
-    },
-    {
-      "epoch": 12,
-      "learning_rate": 0.0004217827674798847,
-      "train_loss": 0.5168521592491552,
-      "train_soft_dice": 0.11886227301452891,
-      "val_loss": 0.5029841299567904,
-      "val_positive_dice_at_0.5": 0.6038989181768051,
-      "val_positive_iou_at_0.5": 0.46898570328949624
-    },
-    {
-      "epoch": 13,
-      "learning_rate": 0.00034549150281252633,
-      "train_loss": 0.5088968308348405,
-      "train_soft_dice": 0.12481225137700676,
-      "val_loss": 0.4968132036072867,
-      "val_positive_dice_at_0.5": 0.5990617532345921,
-      "val_positive_iou_at_0.5": 0.4615798576093819
-    },
-    {
-      "epoch": 14,
-      "learning_rate": 0.00027300475013022663,
-      "train_loss": 0.5012526684685757,
-      "train_soft_dice": 0.1316526191313945,
-      "val_loss": 0.4982331969908306,
-      "val_positive_dice_at_0.5": 0.559953886540325,
-      "val_positive_iou_at_0.5": 0.423532429776467
-    },
-    {
-      "epoch": 15,
-      "learning_rate": 0.00020610737385376348,
-      "train_loss": 0.49618934643896,
-      "train_soft_dice": 0.13682832425935582,
-      "val_loss": 0.4891663896186011,
-      "val_positive_dice_at_0.5": 0.6146191683160572,
-      "val_positive_iou_at_0.5": 0.479416862762637
-    },
-    {
-      "epoch": 16,
-      "learning_rate": 0.00014644660940672625,
-      "train_loss": 0.4914549369561045,
-      "train_soft_dice": 0.14112545864637166,
-      "val_loss": 0.4901491829327175,
-      "val_positive_dice_at_0.5": 0.5783788752257542,
-      "val_positive_iou_at_0.5": 0.4420652847362941
-    },
-    {
-      "epoch": 17,
-      "learning_rate": 9.549150281252631e-05,
-      "train_loss": 0.4889680947128095,
-      "train_soft_dice": 0.14274015924369451,
-      "val_loss": 0.4866244750363486,
-      "val_positive_dice_at_0.5": 0.5960663264485554,
-      "val_positive_iou_at_0.5": 0.45897267550011084
-    },
-    {
-      "epoch": 18,
-      "learning_rate": 5.4496737905816096e-05,
-      "train_loss": 0.48659967278179367,
-      "train_soft_dice": 0.1456012203397889,
-      "val_loss": 0.48277117950575693,
-      "val_positive_dice_at_0.5": 0.6211144869916089,
-      "val_positive_iou_at_0.5": 0.48375716440345384
-    },
-    {
-      "epoch": 19,
-      "learning_rate": 2.447174185242323e-05,
-      "train_loss": 0.48460559311665985,
-      "train_soft_dice": 0.14733069642359622,
-      "val_loss": 0.4842110808406557,
-      "val_positive_dice_at_0.5": 0.6065160680784882,
-      "val_positive_iou_at_0.5": 0.47020224986797504
-    },
-    {
-      "epoch": 20,
-      "learning_rate": 6.15582970243117e-06,
-      "train_loss": 0.4845905131415317,
-      "train_soft_dice": 0.14722598981674917,
-      "val_loss": 0.48371252843311857,
-      "val_positive_dice_at_0.5": 0.6084438402144425,
-      "val_positive_iou_at_0.5": 0.4717148480172769
-    }
-  ],
-  "output_files": [
-    "task1_data_check.png",
-    "task1_prediction.png",
-    "task1_training_curve.png",
-    "task1_result.json"
-  ]
+  "seed": 42,
+  "boundary": "patient-level held-out test; educational small U-Net, not external or clinical validation"
 }

@@ -1,18 +1,15 @@
 {
-  "task": "公开体验项目 02 / 潜空间采样、最近邻与插值",
-  "model": "ResidualConvVAE",
   "latent_dim": 64,
   "sample_count": 128,
   "nearest_neighbor_count": 128,
-  "nearest_neighbor_l1_mean": 0.10721505433320999,
-  "nearest_neighbor_l1_min": 0.06299945712089539,
+  "nearest_neighbor_l1_mean": 0.18587419390678406,
+  "nearest_neighbor_l1_min": 0.13097843527793884,
   "interpolation_steps": 8,
-  "input_reconstruction_l1": 0.08780588209629059,
+  "input_reconstruction_l1": 0.09278247505426407,
   "outputs": [
     "task2_reconstruction_grid.png",
     "task2_generated_samples.png",
     "task2_nearest_neighbors.png",
     "task2_latent_interpolation.png"
-  ],
-  "source": "项目参考结果中的潜空间记录。"
+  ]
 }
