@@ -38,7 +38,7 @@
 <p>在数据卡中同时记录原始尺寸与模型尺寸。若原始图具有物理分辨率信息，换算时还要考虑缩放比例；来源未给出时填写“未获得”。所有方法使用相同尺寸，避免把分辨率差异混入训练目标的比较。</p>
 </section><section class="lesson-unit lesson-practice" aria-labelledby="practice-03"><h2 id="practice-03">实践 03 · BCI 数据审计与配对</h2><div class="callout"><p>打开公开 Notebook，点击 <b>Copy &amp; Edit（复制并编辑）</b>，保存到自己的账户后按单元格顺序运行。需要先添加 BCI 的真实 H&amp;E / HER2-IHC 配对图像。</p>
 <div class="practice-actions"><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-03" rel="noreferrer" target="_blank">在 Kaggle 中运行</a><a class="outline-btn" download="" href="../../../programs/member-training/notebooks/03_BCI数据审计与配对.ipynb">下载 Notebook</a></div>
-<p class="member-muted">下方可阅读完整说明和代码；实验输出在 Kaggle 运行后生成。</p></div><section class="notebook-text"><p>对应第4章与第5章。先确认来源、配对、尺度与集合划分，再进入模型训练。本笔记本不会下载不明镜像，也不会用生成图替代缺失的真实IHC。</p>
+<p class="member-muted">下方可阅读完整说明和代码；实验输出在 Kaggle 运行后生成。</p></div><section class="notebook-text"><p>对应第5章的数据准备部分，病理基础见第4章。先确认来源、配对、尺度与集合划分，再进入模型训练。本笔记本不会下载不明镜像，也不会用生成图替代缺失的真实IHC。</p>
 <p>版本：KYDW 2.0。按从上到下顺序运行。代码保留完整实现；涉及外部数据时，请先按学生手册取得数据并遵守来源许可。测试输出由实际运行生成，本文件未预填模型性能。</p></section><section class="notebook-text"><h3 id="practice-03-cell-07de32ca-section-01">公共工具区</h3>
 <p>下方代码包含数据读取、网络、训练和评价函数。第一次学习时先运行这一格，再继续后面的任务；对应章节会逐步解释用到的函数。展开本格可以查看全部实现，同一份源代码也位于项目包的 <code>src/kydw_course.py</code>。不要通过删改安全检查来绕过配对或划分错误。</p></section><details class="course-tools"><summary>公共工具代码（展开查看）</summary><pre><code class="language-python">"""KYDW 2.0: 可检查的教学实现。外部数据须按原始许可取得。
 

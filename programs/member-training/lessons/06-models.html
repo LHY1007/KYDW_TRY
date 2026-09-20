@@ -46,7 +46,7 @@ optimizer.step()
 <p>所有配置都写入<code>experiment.json</code>。如果仅修改某个Notebook变量而没有重新运行生成配置的步骤，文件可能仍记录旧值。正式实验从配置格开始按顺序运行，完成后核对日志中的实际轮数、样本数与设置。</p>
 </section><section class="lesson-unit lesson-practice" aria-labelledby="practice-04"><h2 id="practice-04">实践 04 · H&amp;E 到 IHC 模型训练</h2><div class="callout"><p>打开公开 Notebook，点击 <b>Copy &amp; Edit（复制并编辑）</b>，保存到自己的账户后按单元格顺序运行。需要 BCI 图像和 Notebook 03 的数据清单。</p>
 <div class="practice-actions"><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-04" rel="noreferrer" target="_blank">在 Kaggle 中运行</a><a class="outline-btn" download="" href="../../../programs/member-training/notebooks/04_HE到IHC模型训练.ipynb">下载 Notebook</a></div>
-<p class="member-muted">下方可阅读完整说明和代码；实验输出在 Kaggle 运行后生成。</p></div><section class="notebook-text"><p>对应第5章与第6章。四个方法使用同一清单：H&amp;E原图、训练集线性颜色映射、U-Net+L1、U-Net+L1与条件对抗损失。后两者使用相同生成器初始化和配对数据增强。</p>
+<p class="member-muted">下方可阅读完整说明和代码；实验输出在 Kaggle 运行后生成。</p></div><section class="notebook-text"><p>对应第6章的模型训练部分，读取第5章 Notebook 03 的数据清单。四个方法使用同一清单：H&amp;E原图、训练集线性颜色映射、U-Net+L1、U-Net+L1与条件对抗损失。后两者使用相同生成器初始化和配对数据增强。</p>
 <p>版本：KYDW 2.0。按从上到下顺序运行。代码保留完整实现；涉及外部数据时，请先按学生手册取得数据并遵守来源许可。测试输出由实际运行生成，本文件未预填模型性能。</p></section><section class="notebook-text"><h3 id="practice-04-cell-ade4f6d7-section-01">公共工具区</h3>
 <p>下方代码包含数据读取、网络、训练和评价函数。第一次学习时先运行这一格，再继续后面的任务；对应章节会逐步解释用到的函数。展开本格可以查看全部实现，同一份源代码也位于项目包的 <code>src/kydw_course.py</code>。不要通过删改安全检查来绕过配对或划分错误。</p></section><details class="course-tools"><summary>公共工具代码（展开查看）</summary><pre><code class="language-python">"""KYDW 2.0: 可检查的教学实现。外部数据须按原始许可取得。
 
@@ -996,7 +996,7 @@ print('生成器初始化一致；两组best.pt均已保存。')</code></pre></s
 <p>散点图横轴为原始输入MAE，纵轴为模糊输入MAE，对角线表示两者相等。点在上方表示模糊后误差更大，下方表示更小。某些图块误差下降可能与模型及像素目标有关，需要联系具体图像，不能假设模糊必然使每个指标恶化。</p>
 </section><section class="lesson-unit lesson-practice" aria-labelledby="practice-05"><h2 id="practice-05">实践 05 · 虚拟染色评价与错误分析</h2><div class="callout"><p>打开公开 Notebook，点击 <b>Copy &amp; Edit（复制并编辑）</b>，保存到自己的账户后按单元格顺序运行。需要 BCI 图像和 Notebook 04 的完整训练输出。</p>
 <div class="practice-actions"><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-05" rel="noreferrer" target="_blank">在 Kaggle 中运行</a><a class="outline-btn" download="" href="../../../programs/member-training/notebooks/05_虚拟染色评价与错误分析.ipynb">下载 Notebook</a></div>
-<p class="member-muted">下方可阅读完整说明和代码；实验输出在 Kaggle 运行后生成。</p></div><section class="notebook-text"><p>对应第6章与第7章。本节生成主要结果表、逐图块指标、固定案例和输入模糊实验。DAB解混为颜色分析，临床HER2分级需要额外的专业证据。</p>
+<p class="member-muted">下方可阅读完整说明和代码；实验输出在 Kaggle 运行后生成。</p></div><section class="notebook-text"><p>对应第6章的模型评价部分，评价结果用于第7章的报告、汇报与海报。本节生成主要结果表、逐图块指标、固定案例和输入模糊实验。DAB解混为颜色分析，临床HER2分级需要额外的专业证据。</p>
 <p>版本：KYDW 2.0。按从上到下顺序运行。代码保留完整实现；涉及外部数据时，请先按学生手册取得数据并遵守来源许可。测试输出由实际运行生成，本文件未预填模型性能。</p></section><section class="notebook-text"><h3 id="practice-05-cell-4ea2bc68-section-01">公共工具区</h3>
 <p>下方代码包含数据读取、网络、训练和评价函数。第一次学习时先运行这一格，再继续后面的任务；对应章节会逐步解释用到的函数。展开本格可以查看全部实现，同一份源代码也位于项目包的 <code>src/kydw_course.py</code>。不要通过删改安全检查来绕过配对或划分错误。</p></section><details class="course-tools"><summary>公共工具代码（展开查看）</summary><pre><code class="language-python">"""KYDW 2.0: 可检查的教学实现。外部数据须按原始许可取得。
 
