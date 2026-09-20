@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="17｜术语表与参考资料"><title>17｜术语表与参考资料｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>17｜术语表与参考资料</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">数据与医学对象</a><a href="#section-02">模型与训练</a><a href="#section-03">评价与表达</a><a href="#section-04">参考资料的使用</a><a href="#section-05">进一步阅读时的任务核对</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">数据与医学对象</h2>
+<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>在本课程中的含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>像素（pixel）</td>
+<td>数字图像中的一个空间采样位置，保存灰度或颜色数值</td>
+</tr>
+<tr>
+<td>RGB通道</td>
+<td>红、绿、蓝三个颜色分量；共同形成一张彩色图像</td>
+</tr>
+<tr>
+<td>数组（array）</td>
+<td>按一个或多个维度排列的数字；图像可以存为数组</td>
+</tr>
+<tr>
+<td>张量（tensor）</td>
+<td>神经网络中使用的多维数值对象，本课程常用<code>B×C×H×W</code></td>
+</tr>
+<tr>
+<td>样本（sample）</td>
+<td>一条任务记录；可对应数字图、宠物图或一对染色图块</td>
+</tr>
+<tr>
+<td>标签/目标（label/target）</td>
+<td>训练时提供的参考信息，可能是类别、掩膜或另一张图像</td>
+</tr>
+<tr>
+<td>掩膜（mask）</td>
+<td>描述像素类别或统计范围的空间数组</td>
+</tr>
+<tr>
+<td>图块（patch）</td>
+<td>从较大图像中取得的一块区域；本课程训练的基本图像单位</td>
+</tr>
+<tr>
+<td>全切片图像（WSI）</td>
+<td>对组织切片进行数字扫描得到的大幅图像</td>
+</tr>
+<tr>
+<td>H&amp;E</td>
+<td>苏木精—伊红染色，帮助观察核、细胞质与组织形态</td>
+</tr>
+<tr>
+<td>IHC</td>
+<td>免疫组织化学，利用抗体识别目标并形成可观察信号</td>
+</tr>
+<tr>
+<td>HER2</td>
+<td>本课程目标受体蛋白；虚拟染色输出限定为HER2-IHC场景</td>
+</tr>
+<tr>
+<td>DAB</td>
+<td>常用于明场IHC的棕色显色体系，本课程分析相对颜色分量</td>
+</tr>
+<tr>
+<td>配对（pairing）</td>
+<td>建立输入H&amp;E与真实IHC目标之间的对应记录</td>
+</tr>
+<tr>
+<td>配准（registration）</td>
+<td>调整空间位置使图像结构尽可能对齐；可能仍有残余误差</td>
+</tr>
+<tr>
+<td>元数据（metadata）</td>
+<td>描述图像来源、患者/切片ID、尺度、染色等背景信息</td>
+</tr>
+<tr>
+<td>数据清单（manifest）</td>
+<td>逐条记录配对文件、划分与来源的表格，训练和评价共同读取</td>
+</tr>
+<tr>
+<td>哈希（hash）</td>
+<td>由内容计算的标识，用于检查文件/图像内容是否变化或重复</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-02">模型与训练</h2>
+<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>在本课程中的含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分类（classification）</td>
+<td>为整张数字图像选择一个类别</td>
+</tr>
+<tr>
+<td>分割（segmentation）</td>
+<td>为每个有效像素判断前景或背景</td>
+</tr>
+<tr>
+<td>回归（regression）</td>
+<td>预测连续数值；RGB图像重建可视为大量位置的连续预测</td>
+</tr>
+<tr>
+<td>图像翻译（image-to-image translation）</td>
+<td>从一种图像表示预测另一种表示，需明确输入和目标</td>
+</tr>
+<tr>
+<td>监督学习（supervised learning）</td>
+<td>利用输入与参考目标之间的关系训练模型</td>
+</tr>
+<tr>
+<td>参数（parameter）</td>
+<td>训练中由优化器更新的权重与偏置</td>
+</tr>
+<tr>
+<td>超参数（hyperparameter）</td>
+<td>实验者设定的学习率、批量、轮次等配置</td>
+</tr>
+<tr>
+<td>卷积（convolution）</td>
+<td>使用共享的局部权重在不同空间位置计算特征</td>
+</tr>
+<tr>
+<td>特征（feature）</td>
+<td>用于任务判断的数值表示；内部特征由模型计算获得</td>
+</tr>
+<tr>
+<td>编码器（encoder）</td>
+<td>逐步压缩空间表示并提取特征的网络部分</td>
+</tr>
+<tr>
+<td>解码器（decoder）</td>
+<td>逐步恢复空间输出的网络部分</td>
+</tr>
+<tr>
+<td>跳跃连接（skip connection）</td>
+<td>把较早阶段特征送至后续阶段，保留定位等信息</td>
+</tr>
+<tr>
+<td>U-Net</td>
+<td>采用编码、解码与跨尺度连接的网络结构，本课程用于分割和RGB预测</td>
+</tr>
+<tr>
+<td>生成器（generator）</td>
+<td>从H&amp;E计算生成HER2-IHC的网络</td>
+</tr>
+<tr>
+<td>判别器（discriminator）</td>
+<td>在条件对抗训练中评价输入与真实/生成目标的配对外观</td>
+</tr>
+<tr>
+<td>条件GAN</td>
+<td>把输入H&amp;E作为生成和判别的共同条件的对抗学习框架</td>
+</tr>
+<tr>
+<td>PatchGAN</td>
+<td>输出局部判别分数图的判别器形式</td>
+</tr>
+<tr>
+<td>LSGAN</td>
+<td>使用最小二乘形式构建对抗损失的方法</td>
+</tr>
+<tr>
+<td>损失（loss）</td>
+<td>把预测与训练目标之间的差异转成用于更新的数值</td>
+</tr>
+<tr>
+<td>梯度（gradient）</td>
+<td>损失对参数局部变化的响应，反向传播据此计算更新方向</td>
+</tr>
+<tr>
+<td>优化器（optimizer）</td>
+<td>根据梯度与自身更新规则调整参数，本课程使用Adam</td>
+</tr>
+<tr>
+<td>批量（batch）</td>
+<td>一次送入模型的一组样本</td>
+</tr>
+<tr>
+<td>轮次（epoch）</td>
+<td>对当前训练集合遍历一次</td>
+</tr>
+<tr>
+<td>推理（inference）</td>
+<td>使用冻结权重为输入计算预测，不进行训练更新</td>
+</tr>
+<tr>
+<td>过拟合（overfitting）</td>
+<td>对训练数据拟合较好，却未获得相应的未见数据表现</td>
+</tr>
+<tr>
+<td>数据泄漏（data leakage）</td>
+<td>本应独立的信息进入训练或模型选择，影响评价可信度</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-03">评价与表达</h2>
+<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>在本课程中的含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>准确率（accuracy）</td>
+<td>分类预测正确的样本占测试样本的比例</td>
+</tr>
+<tr>
+<td>精确率（precision）</td>
+<td>被判为目标的样本/像素中，真正属于目标的比例</td>
+</tr>
+<tr>
+<td>召回率（recall）</td>
+<td>真正目标中被模型找出的比例</td>
+</tr>
+<tr>
+<td>F1</td>
+<td>精确率与召回率的调和平均；宏平均先逐类计算再平均</td>
+</tr>
+<tr>
+<td>混淆矩阵</td>
+<td>按真实类别与预测类别交叉统计的表格</td>
+</tr>
+<tr>
+<td>Dice</td>
+<td>预测与参考前景重叠程度的指标</td>
+</tr>
+<tr>
+<td>IoU</td>
+<td>预测与参考交集除以并集</td>
+</tr>
+<tr>
+<td>MAE</td>
+<td>平均绝对误差，当前RGB范围为0—1</td>
+</tr>
+<tr>
+<td>MSE</td>
+<td>平均平方误差，较大的差异受到更高权重</td>
+</tr>
+<tr>
+<td>PSNR</td>
+<td>根据MSE和图像动态范围计算的像素重建指标，单位dB</td>
+</tr>
+<tr>
+<td>SSIM</td>
+<td>局部亮度、对比与结构相似性的数值指标</td>
+</tr>
+<tr>
+<td>标准差（standard deviation）</td>
+<td>当前样本数值的分散程度</td>
+</tr>
+<tr>
+<td>置信区间（confidence interval）</td>
+<td>特定抽样与估计规则下的不确定性描述，需要明确单位与假设</td>
+</tr>
+<tr>
+<td>基线（baseline）</td>
+<td>预先定义的参照方法，用于理解额外结构或目标带来的变化</td>
+</tr>
+<tr>
+<td>消融（ablation）</td>
+<td>在其他条件尽量相同时增减某项组成，检查其影响</td>
+</tr>
+<tr>
+<td>题注（caption）</td>
+<td>图表编号与说明，帮助独立理解对象、计算与范围</td>
+</tr>
+<tr>
+<td>交叉引用（cross-reference）</td>
+<td>在正文中引用自动管理的图表或章节编号</td>
+</tr>
+<tr>
+<td>DOI</td>
+<td>数字对象标识，用于定位论文等研究成果</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-04">参考资料的使用</h2>
+<p>正文的方括号编号对应以下资料。研究论文用于理解任务与方法，数据与软件文档用于核对实际操作。在线资料核查日期为2026年9月20日。入口或界面变化时，从同一机构或作者主页重新定位，并记录实际访问日期。</p>
+<p><strong>[1] MNIST数据接口。</strong> Torchvision documentation: MNIST。用于读取官方训练与测试数据、确认接口参数。
+https://docs.pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html</p>
+<p><strong>[2] Oxford-IIIT Pet。</strong> Parkhi OM, Vedaldi A, Zisserman A, Jawahar CV. <em>Cats and Dogs</em>. CVPR, 2012。官方数据页及像素级trimap说明：
+https://www.robots.ox.ac.uk/~vgg/data/pets/
+接口：
+https://docs.pytorch.org/vision/stable/generated/torchvision.datasets.OxfordIIITPet.html</p>
+<p><strong>[3] U-Net。</strong> Ronneberger O, Fischer P, Brox T. <em>U-Net: Convolutional Networks for Biomedical Image Segmentation</em>. MICCAI, 2015。
+https://arxiv.org/abs/1505.04597</p>
+<p><strong>[4] pix2pix。</strong> Isola P, Zhu JY, Zhou T, Efros AA. <em>Image-to-Image Translation with Conditional Adversarial Networks</em>. CVPR, 2017。配对图像翻译、条件判别和像素重建。
+https://phillipi.github.io/pix2pix/
+https://arxiv.org/abs/1611.07004</p>
+<p><strong>[5] BCI论文与项目。</strong> Liu S, Zhu C, Xu F, Jia X, Shi Z, Jin M. <em>BCI: Breast Cancer Immunohistochemical Image Generation Through Pyramid Pix2pix</em>. CVPR Workshops, 2022:1815–1824。
+https://arxiv.org/abs/2204.11425
+https://bupt-ai-cz.github.io/BCI/</p>
+<p><strong>[6] BCI数据许可。</strong> <em>Term of Use and License</em>。记录WSI对、非商业用途、引用及权利保留条款。
+https://github.com/bupt-ai-cz/BCI/blob/main/BCI_LICENSE.md</p>
+<p><strong>[7] BCI官方实现与获取说明。</strong> 配对目录、组合图、原方法训练与数据下载入口。
+https://github.com/bupt-ai-cz/BCI
+https://github.com/bupt-ai-cz/BCI/blob/main/download_dataset.md</p>
+<p><strong>[8] PyTorch基础教程。</strong> <em>Learn the Basics</em>与<em>Optimizing Model Parameters</em>。张量、数据加载、网络、反向传播和优化。
+https://docs.pytorch.org/tutorials/beginner/basics/intro.html
+https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html</p>
+<p><strong>[9] Zotero。</strong> <em>Quick Start Guide</em>与<em>Word Processor Integration</em>。
+https://www.zotero.org/support/quick_start_guide
+https://www.zotero.org/support/word_processor_integration</p>
+<p><strong>[10] Kaggle Notebook文档。</strong> 在线代码环境与Notebook使用入口。
+https://www.kaggle.com/docs/notebooks</p>
+<p><strong>[11] NCI。</strong> <em>Immunohistochemistry</em>。抗体、抗原与组织检测的概念。
+https://www.cancer.gov/publications/dictionaries/cancer-terms/def/immunohistochemistry</p>
+<p><strong>[12] NCI。</strong> <em>Human epidermal growth factor receptor 2</em>。HER2蛋白的基本含义。
+https://www.cancer.gov/publications/dictionaries/cancer-terms/def/human-epidermal-growth-factor-receptor-2</p>
+<p><strong>[13] scikit-image指标文档。</strong> <code>structural_similarity</code>与图像数值范围。
+https://scikit-image.org/docs/stable/api/skimage.metrics.html</p>
+<p><strong>[14] scikit-image颜色解卷积示例。</strong> <em>Separate colors in immunohistochemical staining</em>。<code>rgb2hed</code>及各颜色分量。
+https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_ihc_color_separation.html</p>
+<p><strong>[15] 配准相关延伸阅读。</strong> Ma J, Li W, Li J, et al. <em>Generative AI for misalignment-resistant virtual staining to accelerate histopathology workflows</em>. Nature Communications. 2026;17:4494。DOI:10.1038/s41467-026-71038-2。
+https://www.nature.com/articles/s41467-026-71038-2</p>
+<p><strong>[16] NCI。</strong> <em>Hematoxylin and eosin staining</em>。H&amp;E染色与可见细胞结构。
+https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hematoxylin-and-eosin-staining</p>
+<p><strong>[17] PubMed检索帮助。</strong> 关键词、组合检索、字段及全文获取入口说明。
+https://pubmed.ncbi.nlm.nih.gov/help/</p>
+<p><strong>[18] 最小二乘GAN。</strong> Mao X, Li Q, Xie H, Lau RYK, Wang Z, Smolley SP. <em>Least Squares Generative Adversarial Networks</em>. ICCV, 2017。
+https://arxiv.org/abs/1611.04076</p>
+<p><strong>[19] Microsoft Word标题样式。</strong> <em>Add a heading in a Word document</em>。
+https://support.microsoft.com/en-us/word/add-a-heading-in-a-word-document</p>
+<p><strong>[20] Microsoft Word题注与交叉引用。</strong>
+https://support.microsoft.com/en-us/word/add-format-or-delete-captions-in-word
+https://support.microsoft.com/en-us/word/create-a-cross-reference</p>
+<p><strong>[21] Microsoft PowerPoint对象对齐。</strong> <em>Align objects on a slide</em>。对齐、分布与参考线。
+https://support.microsoft.com/en-us/powerpoint/align-objects-on-a-slide</p>
+<p><strong>[22] Microsoft PowerPoint页面尺寸。</strong> <em>Change the size of your PowerPoint slides</em>。
+https://support.microsoft.com/en-us/powerpoint/change-the-size-of-your-powerpoint-slides</p>
+<h2 id="section-05">进一步阅读时的任务核对</h2>
+<p>阅读其他虚拟染色研究时，首先确认输入和目标。未染色图像到H&amp;E、H&amp;E到明场IHC、H&amp;E到多通道荧光图像、H&amp;E染色归一化，具有不同监督对象与评价要求。算法名称相同，也需要按具体数据和任务重新核对。将新文章的输入、输出、配对层级、代码和许可记录到阅读卡，再考虑怎样加入自己的研究。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-16.html">← 学术规范、AI 使用与结题</a></nav></main><div id="site-footer"></div></body></html>

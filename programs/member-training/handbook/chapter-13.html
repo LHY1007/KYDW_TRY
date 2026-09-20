@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="13｜PPT 科研绘图"><title>13｜PPT 科研绘图｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>13｜PPT 科研绘图</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">图示要解决什么问题</a><a href="#section-02">在空白画布上安排对象</a><a href="#section-03">用连接符表达真实关系</a><a href="#section-04">画出两种训练方式的共同部分</a><a href="#section-05">形状、文字和图像怎样保持可编辑</a><a href="#section-06">标注局部组织图</a><a href="#section-07">导出和视觉检查</a><a href="#section-08">任务G01：完成两张可编辑科研图</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">图示要解决什么问题</h2>
+<p>文字可以详细解释方法，图示适合让读者同时看见对象之间的关系。主项目需要一张整体实验流程图，以及一张能够区分L1与条件对抗训练的结构图。先写出图要回答的问题，再决定放哪些形状。</p>
+<p>整体流程图回答：“数据怎样进入各阶段，哪些部分用于学习，哪些部分用于评价？”训练结构图回答：“两种方法共享哪些计算，对抗方法增加了什么反馈？”每张图只承担清楚的一组关系。</p>
+<h2 id="section-02">在空白画布上安排对象</h2>
+<p>新建一页16:9空白幻灯片，打开标尺、网格线或参考线。把画布划为数据、训练、评价三个区域，在每个区域中放矩形或圆角矩形作为对象容器。先统一容器尺寸与字体，再填写文字。[21]</p>
+<p>数据区包含H&amp;E与真实HER2-IHC配对，以及训练、验证、测试清单。训练区包含生成器、预测图和损失。评价区包含冻结预测、真实参考、像素指标、DAB分量和案例检查。各框使用短标签，详细解释保留在图注和正文。</p>
+<p>复制已有形状建立同类对象，避免每次重新画导致尺寸漂移。使用“对齐”和“横向/纵向分布”使间距一致。先选中需要统一排列的对象，再检查对齐基准是所选对象还是整张幻灯片。</p>
+<h2 id="section-03">用连接符表达真实关系</h2>
+<p>连接符可以吸附在形状边缘，对象移动时仍保留连接。普通直线适合装饰或局部标记，数据流更适合连接符。每根箭头都有明确起点、终点与含义：读取数据、生成预测、计算损失或产生评价结果。</p>
+<p>主流程中，训练参考IHC进入损失计算，验证参考进入权重选择，测试参考进入最终评价。测试集合没有指向参数更新的箭头。对抗结构图中，H&amp;E与真实/生成IHC分别组合进入判别器，生成器同时受到L1和对抗反馈。</p>
+<p>若使用虚线表示训练反馈、实线表示前向数据流，在图例或图注中说明。不要用同一种箭头同时表示文件读取、模型预测和因果机制，而没有任何区分。箭头交叉较多时，先调整布局和对象分组，再增加弯折。</p>
+<h2 id="section-04">画出两种训练方式的共同部分</h2>
+<p>把共享U-Net放在中央，左侧H&amp;E进入生成器，右侧得到生成IHC。真实IHC与生成IHC共同连接L1计算。再在旁边增加判别器模块，标注“仅条件对抗模型使用”。这样读者可以直接看出主比较的变量。</p>
+<p>输入与输出下方写张量形状：<code>3×256×256</code>。损失处写<code>100×L1</code>与<code>1×LSGAN</code>。不需要把每一层卷积堆成长串方块；若要展示编码—解码结构，可以用第04章的简化U形图作为生成器内部小图，并保留四级尺度。</p>
+<p>图中如果使用组织图片，插入真实课程图像并注明来源。与它相邻的模型输出必须来自同一配对、同一实验。模型没有训练完成前，可使用写着“生成图位置”的矩形占位，不用想象的组织图冒充结果。</p>
+<h2 id="section-05">形状、文字和图像怎样保持可编辑</h2>
+<p>每个对象用独立形状或图片，文字放在形状内或独立文本框中。组合相关对象便于一起移动，例如把“输入图+标签+尺寸”组成一组；需要修改内部元素时取消组合或进入组内选择。</p>
+<p>打开选择窗格，给关键对象命名，如<code>input_HE</code>、<code>generator</code>、<code>reference_IHC</code>、<code>L1_loss</code>。复杂图中命名能减少误选。锁定或暂时隐藏不需要修改的背景对象，可帮助精确调整前景。</p>
+<p>颜色保持克制。同类对象使用同一视觉规则，关键新增模块通过边框、底色或标签突出。对比关系必须同时通过文字可理解，避免只靠颜色区别。主项目中的病理图像保留实际色彩，流程容器的颜色不应与染色强度混淆。</p>
+<h2 id="section-06">标注局部组织图</h2>
+<p>用矩形框标出关注区域，保持同一配对各栏位置一致。复制框选范围时检查它对应原图坐标，而不只是在页面上看起来位置相似。放大局部后保留来源ID与尺度说明。</p>
+<p>箭头指向具体结构时，图注说明观察内容，例如“参考中的局部棕色区域”。未经过专家核实的对象使用可见描述，避免直接标为某种细胞类型。图中不得覆盖原始组织细节来改善模型外观。</p>
+<h2 id="section-07">导出和视觉检查</h2>
+<p>先保存PPTX源文件。用于报告时，可复制为图片或导出为支持的矢量/高分辨率格式，检查字体与连接符是否完整。图像放入Word后，按实际尺寸查看标签是否仍然可读。</p>
+<p>视觉检查分两遍。第一遍看逻辑：数据方向、真实/生成标识、训练与测试关系是否正确。第二遍看版式：文本是否溢出，箭头是否穿过文字，对象是否遮挡，字号是否一致，边缘是否被裁切。</p>
+<h2 id="section-08">任务G01：完成两张可编辑科研图</h2>
+<p>交付整体实验流程图与L1/条件对抗训练对照图。两张图放在同一个PPTX中，每个框、箭头和文本可独立修改。导出后放入报告，配上图注。让一位没有看过代码的同学根据图解释数据流，记录他误解的位置并修正。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-12.html">← Word 科研报告</a><a href="chapter-14.html">PPT 科研汇报 →</a></nav></main><div id="site-footer"></div></body></html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="研究报告"><title>研究报告｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>研究报告</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">摘要</a><a href="#section-02">1 研究背景与问题</a><a href="#section-03">2 数据与方法</a><a href="#section-08">3 结果</a><a href="#section-13">4 讨论</a><a href="#section-14">5 结论</a><a href="#section-15">参考文献</a><a href="#section-16">附录与贡献</a></nav></details></aside>
+<article class="card course-reader"><p>作者：<strong><em>_</em></strong><em>　单位/课程：<strong><em>_</em></strong></em>　日期：<strong><em>_</em></strong>_</p>
+<blockquote>
+<p>将本模板复制到Word后，应用标题样式、插入题注与自动引用。正文约6—8页。下文的<code>【填写】</code>用于填入本次真实记录；括号中的操作提示在提交前移除。背景和方法可以根据实际实验修订，但不得保留与本次配置不一致的描述。</p>
+</blockquote>
+<h2 id="section-01">摘要</h2>
+<p>H&amp;E图像展示组织形态，针对HER2的免疫组织化学提供与特定抗原染色有关的图像信息。本项目使用BCI的配对H&amp;E与HER2-IHC图像，研究在固定训练条件下，加入条件对抗损失对虚拟染色结果的影响。我们比较直接输入参照、线性颜色映射、U-Net像素重建和U-Net条件对抗重建，并从图像误差、结构相似性、DAB颜色分量及失败案例进行评价。本次训练、验证和测试分别包含【填写】对图块，分组层级为【填写】。主要结果为【填写两项实际发现及对应数值】。这些结果表明【填写与当前数据和评价范围一致的结论】，并提示【填写一项仍需验证的问题】。</p>
+<p>关键词：H&amp;E；HER2；虚拟染色；图像到图像预测；配对评价。</p>
+<h2 id="section-02">1 研究背景与问题</h2>
+<p>组织切片中的细胞、细胞核及其排列构成了病理图像中的形态信息。H&amp;E染色使这些结构能够在明场显微图像中观察。免疫组织化学通过抗体识别特定抗原，配合显色体系形成与目标有关的信号。针对不同标志物的IHC具有不同的目标含义，因此虚拟染色研究需要明确预测的染色及参考数据来源。[在此插入背景资料引用]</p>
+<p>本项目关注从H&amp;E图块预测配对HER2-IHC图块。模型利用配对样本学习形态与目标图像之间的统计关系。配准残差、组织差异及图像处理会影响逐像素比较，因此我们同时观察整体重建、非白组织区域、DAB颜色分量和具体组织位置。</p>
+<p>相关工作中，pix2pix将配对监督与条件对抗学习结合，用于图像到图像的转换；BCI提供H&amp;E—HER2-IHC数据及金字塔监督方法。[插入相应论文引用] 本实验采用明确标注的轻量教学实现，比较同一U-Net在像素损失和像素损失加对抗损失下的表现。</p>
+<p>本次研究问题是：在相同数据清单、生成器结构、初始化和训练轮数下，加入条件对抗约束会怎样影响图像重建与染色颜色分量？【接一两句话说明你的运行前预期与文献依据。】</p>
+<h2 id="section-03">2 数据与方法</h2>
+<h3 id="section-04">2.1 数据来源和审计</h3>
+<p>数据来自BCI，输入为H&amp;E明场RGB图像，目标为配对的HER2-IHC明场RGB图像。[插入BCI引用] 我们按【实际布局】确认配对方向，以完整路径对应检查缺图、尺寸和解码后的图像哈希。完整审计包含【填写】对图块，最终使用【填写】对。人工检查了【编号】等配对，其观察记录保存在数据卡中。</p>
+<p>本实验保留官方测试来源，并从训练来源划出验证集。实际划分依据为【填写经核实的患者标识/切片标识，或明确说明标识不可得、使用图块验证】。训练、验证、测试数量见表1。图像文件名中的HER2类别用于来源描述，未用作逐细胞或临床预测的参考标准。</p>
+<p>表1 数据使用与划分（通过Word题注功能生成编号）。</p>
+<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>集合</th>
+<th style="text-align: right;">图块对数</th>
+<th style="text-align: right;">已知独立组数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>训练</td>
+<td style="text-align: right;">【填写】</td>
+<td style="text-align: right;">【填写或未知】</td>
+<td>学习参数及颜色映射</td>
+</tr>
+<tr>
+<td>验证</td>
+<td style="text-align: right;">【填写】</td>
+<td style="text-align: right;">【填写或未知】</td>
+<td>权重选择与DAB阈值校准</td>
+</tr>
+<tr>
+<td>测试</td>
+<td style="text-align: right;">【填写】</td>
+<td style="text-align: right;">【填写或未知】</td>
+<td>冻结后的比较</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="section-05">2.2 预处理与模型</h3>
+<p>每对图像整体缩放为【填写】×【填写】像素，并将RGB数值缩放至0—1。训练期间采用配对同步翻转，验证及测试使用固定图像。U-Net包含编码器、解码器和对应层级的跳跃连接，输出三个连续通道，经Sigmoid约束到0—1。基础通道数为【填写】。</p>
+<p>基线包括直接输出H&amp;E输入和训练集拟合的线性RGB映射。两个学习式方法分别采用L1重建损失，以及L1与条件最小二乘对抗损失。生成器目标为<code>λL1×L1+λGAN×LGAN</code>；本次权重为【填写】。判别器接收H&amp;E与参考/生成IHC拼接的图像对。图1展示整个研究流程。</p>
+<p>图1 研究流程。【插入可编辑流程图或其高清导出。标出训练、验证、测试各自作用。】</p>
+<h3 id="section-06">2.3 训练与模型选择</h3>
+<p>两个生成器使用相同初始权重，记录的初始哈希分别为【填写】。训练轮数为【填写】，批大小为【填写】，学习率为【填写】，随机种子为【填写】。在每轮结束后计算验证集全图RGB MAE，并独立选择该指标最低的检查点。所有测试均使用冻结权重。硬件及软件版本保存在环境记录中，主要配置见附录。</p>
+<h3 id="section-07">2.4 评价</h3>
+<p>逐图块计算RGB MAE、参考非白区域MAE、PSNR与SSIM。非白区域依据真实IHC参考的颜色阈值生成。固定HED颜色分解产生DAB相对分量；DAB阈值由验证参考估计，随后冻结应用于测试集。DAB分量MAE与面积比例差异用于描述颜色信号重建。[插入颜色分解资料引用]</p>
+<p>在输入变化实验中，对H&amp;E施加模型像素尺度下σ=1的高斯模糊，真实IHC参考保持不变。统计方法使用【填写实际组级/图块级策略】。组标识未知时报告描述性差异；具备足够独立组时补充组级探索性区间。所有指标保留有效值数量，完美重建对应的无限PSNR单独计数。</p>
+<h2 id="section-08">3 结果</h2>
+<h3 id="section-09">3.1 训练过程</h3>
+<p>【插入两种模型的训练/验证曲线，给出实际选中轮次。解释训练误差与验证误差是否共同变化，记录出现的波动或中断。】</p>
+<h3 id="section-10">3.2 未扰动测试图像上的比较</h3>
+<p>表2列出四种方法在同一测试清单上的结果。表内数字从<code>summary.csv</code>和必要的组级输出提取，并注明统计单位。方法标签依次为Identity、Linear RGB、U-Net L1和U-Net L1+GAN。</p>
+<p>【插入结果表，至少包含RGB MAE、非白区域MAE、SSIM、DAB MAE。结合有效值数说明缺失项。】</p>
+<p>本次比较中，【填写具体方法】在【填写指标】上的数值为【填写】，相对于【填写对照】的变化为【填写】。【再写一个不同维度的实际发现，或说明指标结果一致。】</p>
+<h3 id="section-11">3.3 配对案例与错误位置</h3>
+<p>图2展示预先固定编号的H&amp;E、真实IHC与各方法输出。案例【编号】中，【填写位置和可见差异】。误差排序复查的案例【编号】出现【填写】，相关配对错位/结构变化的观察为【填写】。</p>
+<p>图2 固定案例及预测比较。【不同来源图像使用相同尺寸和标注；参考、生成必须区分。】</p>
+<h3 id="section-12">3.4 输入模糊后的表现</h3>
+<p>冻结模型后，模糊条件的【指标】相对原图发生【实际变化】。该变化在【编号或组】中较明显。图3展示同一图块的配对变化；横纵坐标及差值方向与正文保持一致。</p>
+<h2 id="section-13">4 讨论</h2>
+<p>先回答研究问题：本次新增对抗目标带来了哪些观察到的变化，哪些指标仍然相近或变差？再联系方法解释可能原因，并把解释与已证实的事实分开。参考文献用于帮助解释，不能替代本次结果。</p>
+<p>随后讨论配准质量、256像素整体缩放、训练预算、单随机种子、来源标志物与分组信息对结果的影响。选取与你实际观察最相关的两至三项深入说明。DAB相对颜色分量与临床HER2判定之间还需要专门的生物学与临床验证；本项目结果按图像研究描述。</p>
+<p>最后提出一项能够执行的下一步实验，写清准备改变什么、保留什么、用什么结果回答问题。例如，在相同划分上增加两种模型的训练预算，或在已核实的切片组上重复评价。</p>
+<h2 id="section-14">5 结论</h2>
+<p>【用三至五句话回答研究问题，给出最重要的证据、适用范围和一项后续工作。不要引入结果部分从未报告的发现。】</p>
+<h2 id="section-15">参考文献</h2>
+<p>通过文献管理软件插入本次实际阅读和引用的文献。建议采用顺序编码制，检查标题、作者、年份、发表版本和链接。</p>
+<h2 id="section-16">附录与贡献</h2>
+<p>附录列出运行目录、清单与权重哈希、软件环境、补充图表、数据卡和AI辅助记录。共同完成时写明各自贡献。上传前核查患者隐私、数据许可及图片展示范围。</p></article></div><nav class="course-page-nav" aria-label="章节导航"></nav></main><div id="site-footer"></div></body></html>

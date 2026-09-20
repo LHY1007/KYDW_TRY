@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="10｜虚拟染色评价与错误分析"><title>10｜虚拟染色评价与错误分析｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>10｜虚拟染色评价与错误分析</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">同一模型需要多种观察</a><a href="#section-02">RGB MAE与PSNR</a><a href="#section-03">SSIM在看什么</a><a href="#section-04">组织区域与白背景</a><a href="#section-05">DAB颜色分离能够提供什么</a><a href="#section-06">每一行结果代表什么</a><a href="#section-07">固定样例与失败案例</a><a href="#section-08">输入模糊实验</a><a href="#section-09">任务P05：形成三条证据充分的结果</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">同一模型需要多种观察</h2>
+<p>一张预测图整体偏白，可能因为大量背景位置与参考接近而获得尚可的全图误差；另一张图棕色总量相近，却出现在不相应的细胞区域。评价需要把整体颜色、空间结构和染色相关颜色分量放在一起解释。</p>
+<p>本项目固定主要指标为RGB平均绝对误差，并报告补充指标。评价开始前已经确定模型权重、图像尺寸、DAB阈值建立规则与样例选择规则。测试结果出现以后，再去调节这些规则，会让最终评价受到测试反馈影响。</p>
+<h2 id="section-02">RGB MAE与PSNR</h2>
+<p>平均绝对误差（MAE）对预测与参考的RGB差取绝对值再平均。输入都在0—1范围内，MAE越低表示平均颜色差越小。若报告MAE为0.05，它是当前范围下各位置各通道误差的平均，不能解释成“95%的细胞正确”。</p>
+<p>均方误差（MSE）先把差平方再平均，会更强调较大的差异。PSNR使用MSE与规定的动态范围计算：</p>
+<p>[
+\mathrm{PSNR}=10\log_{10}\frac{1}{\mathrm{MSE}},
+]</p>
+<p>本式对应最大数值范围为1的图像，单位为dB，通常越高表示像素误差越小。若预测与参考完全相同，MSE为0，PSNR为正无穷；程序单独记录无穷值数量，在有限值均值中排除它，保留分母说明。不能把未定义或无穷值随意替换为0。</p>
+<h2 id="section-03">SSIM在看什么</h2>
+<p>结构相似性（SSIM）在局部邻域比较亮度、对比度和结构相关信息。[13] 它提供比单纯逐像素差另一种观察，但仍依赖图像范围、窗口与空间对应。课程使用<code>data_range=1</code>、RGB三通道与默认7像素窗口；测试软件小图时窗口按允许的奇数边长调整，正式256像素实验使用同一设置。</p>
+<p>高SSIM不自动说明HER2信号的生物学位置正确。某些共同的组织背景可能对分数贡献较大，而局部棕色错误未必明显改变整体指标。解释SSIM时，结合具体图像与DAB分量结果。</p>
+<h2 id="section-04">组织区域与白背景</h2>
+<p>为观察非白背景区域，本课程从真实IHC参考中建立简单掩膜：RGB三个通道的最小值低于0.90时，纳入统计。这个规则称为非白背景掩膜，它可能包含组织、染色和伪影，不能直接称为肿瘤区域或细胞分割。</p>
+<p>在相同参考掩膜中计算不同方法的MAE，避免每个方法自己挑选评价范围。该掩膜只用于评价，不参与模型训练或权重选择。全白图块没有有效区域时，相关指标留空并报告有效数量；全图RGB指标仍然可以计算。</p>
+<h2 id="section-05">DAB颜色分离能够提供什么</h2>
+<p>IHC的RGB外观混合了复染、DAB以及扫描等因素。颜色解卷积根据预设染色向量，把RGB变换为相对染色分量。课程使用scikit-image的<code>rgb2hed</code>，取第三个分量作为DAB相关的相对颜色量，负值截为0。[14]</p>
+<p>计算过程包含固定的数学假设和颜色向量。得到的数值随图像处理与采集条件变化，其意义限定为相对颜色分量。它无法直接给出蛋白分子浓度，也不能单独决定HER2临床评分。</p>
+<p>本项目报告两类DAB结果。第一类是在同一参考非白背景掩膜中，比较预测与参考DAB分量的平均绝对差。第二类统计高于固定阈值的区域比例，并计算预测与参考比例的绝对差。</p>
+<p>阈值通过验证集真实IHC建立。程序从至多64个验证配对采样DAB值，使用Otsu规则划分两个颜色强度区域，保存阈值、样本ID和掩膜定义。测试时读取冻结规则，不从测试参考重新寻找更有利阈值。这项阈值描述颜色分布分界，不使用“临床阳性阈值”名称。</p>
+<p>如果两张图的棕色面积相同但位置不同，面积差可以很小，逐位置DAB误差仍可能较大。把这两类结果一起看，可以发现“总量接近但位置不一致”的情况。配准残余误差同样会影响逐位置指标，需要在观察记录中说明。</p>
+<h2 id="section-06">每一行结果代表什么</h2>
+<p><code>per_pair_metrics.csv</code>每一行对应一个配对图块、一个方法和一个输入条件。<code>summary.csv</code>按方法与条件汇总，并记录各指标有效数量。<code>source_label_descriptive.csv</code>按文件中可识别的HER2来源标签分组，帮助观察当前来源分布，不给出自动临床分级结果。</p>
+<p>主比较采用同一图块上的方法差值：<code>pix2pix误差 - l1误差</code>。负值表示对抗方法在该误差指标上较低。先配对再比较，可以避免不同图块难度被误当作方法变化。</p>
+<p>如果提供了完整患者或切片ID，程序还计算每组的平均差；当独立组至少5个时，按组进行2,000次重采样，给出描述性95%区间。组均值等权，避免图块多的某个患者主导结果。若组标识未核实或组数不足，程序只保留描述性差值，不生成假定图块独立的置信区间。</p>
+<p>区间反映当前数据和重采样规则下的变化范围，不能覆盖训练随机性、标注误差和新的来源差异。默认单种子实验不使用“普遍优于”或“临床验证成功”等超出范围的结论。</p>
+<h2 id="section-07">固定样例与失败案例</h2>
+<p>固定展示样例按测试配对ID排序，在查看指标之前取前三例。它们用于稳定展示同一组对象。失败候选则按L1基线RGB MAE由高到低排列，帮助主动寻找问题。两类图像的选择目的不同，图注写明各自规则。</p>
+<p>逐案例观察时，从全图到局部：组织轮廓是否保持，细胞核背景是否变化，棕色区域是否位于参考中的相应区域，空白处是否出现颜色，图像是否存在重复纹理或过度平滑。记录具体方位与编号，如“样例X右上角腔隙附近”，让别人能找到同一位置。</p>
+<p>对可能由配准造成的差异，保留“参考与输入边界存在可见位移”的观察。对没有参考的新HE推理，只记录生成外观与来源差异，不能补算有监督准确性。将不确定的原因写成待验证解释，有助于设计下一步实验。</p>
+<h2 id="section-08">输入模糊实验</h2>
+<p><code>blur_sigma1</code>在已经缩放到256×256的H&amp;E上施加标准差1像素的高斯模糊，三个颜色通道分别处理，目标IHC保持原样。模型和权重完全冻结。每个图块同时具有clean与blur条件，结果以配对方式比较。</p>
+<p>散点图横轴为原始输入MAE，纵轴为模糊输入MAE，对角线表示两者相等。点在上方表示模糊后误差更大，下方表示更小。某些图块误差下降可能与模型及像素目标有关，需要联系具体图像，不能假设模糊必然使每个指标恶化。</p>
+<h2 id="section-09">任务P05：形成三条证据充分的结果</h2>
+<p>第一条说明主要方法比较，给出两种方法的MAE、差值、样本范围与组标识层级。第二条结合SSIM、DAB指标和至少两个案例，解释不同评价是否一致。第三条说明固定模糊条件下的变化。每条都指向对应CSV、图像编号或图表，随后整理成报告结果部分。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-09.html">← 主项目模型训练与代码阅读</a><a href="chapter-11.html">科研图表与证据整理 →</a></nav></main><div id="site-footer"></div></body></html>

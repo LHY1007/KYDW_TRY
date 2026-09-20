@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表与证据索引"><title>图表与证据索引｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>图表与证据索引</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">每张图的图注草稿</a><a href="#section-02">结论核对</a></nav></details></aside>
+<article class="card course-reader"><p>运行目录：<strong><em>_</em></strong><em>　清单哈希：<strong><em>_</em></strong></em>　评价记录：<strong><em>_</em></strong>_</p>
+<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>准备表达的事实</th>
+<th>数据文件/行筛选</th>
+<th>图块/组编号</th>
+<th>图表文件</th>
+<th>选择规则</th>
+<th>报告/PPT/海报位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td>数据数量与划分</td>
+<td><code>bci_manifest.csv</code>按split计数</td>
+<td>全部</td>
+<td>数据表</td>
+<td>完整清单</td>
+<td></td>
+</tr>
+<tr>
+<td>E02</td>
+<td>未扰动输入的方法比较</td>
+<td><code>summary.csv</code>，condition=clean</td>
+<td>全部测试</td>
+<td>主比较图</td>
+<td>预先规定</td>
+<td></td>
+</tr>
+<tr>
+<td>E03</td>
+<td>同图块两方法差值</td>
+<td><code>per_pair_metrics.csv</code>配对</td>
+<td>全部测试</td>
+<td>差值图</td>
+<td>共同pair_id</td>
+<td></td>
+</tr>
+<tr>
+<td>E04</td>
+<td>固定案例的局部表现</td>
+<td><code>examples/</code>与清单</td>
+<td></td>
+<td>并排图</td>
+<td>编号排序前三</td>
+<td></td>
+</tr>
+<tr>
+<td>E05</td>
+<td>失败案例</td>
+<td><code>failure_candidates.csv</code></td>
+<td></td>
+<td>局部放大图</td>
+<td>L1误差排序</td>
+<td></td>
+</tr>
+<tr>
+<td>E06</td>
+<td>输入模糊的变化</td>
+<td>condition=clean/blur_sigma1</td>
+<td>共同pair_id</td>
+<td>配对散点图</td>
+<td>冻结条件</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-01">每张图的图注草稿</h2>
+<p>图号与标题：<strong><em>_</em></strong><em>。研究对象和样本数：<strong><em>_</em></strong></em>。输入/参考/预测分别是什么：<strong><em>_</em></strong><em>。横纵坐标、单位或数值范围：<strong><em>_</em></strong></em>。图块选择规则：<strong><em>_</em></strong><em>。统计单位与缺失值处理：<strong><em>_</em></strong></em>。数据来源：<strong><em>_</em></strong>_。</p>
+<h2 id="section-02">结论核对</h2>
+<p>主要结论原句：<strong><em>_</em></strong><em>。直接证据：<strong><em>_</em></strong></em>。涉及的解释或推断：<strong><em>_</em></strong><em>。证据适用范围：<strong><em>_</em></strong></em>。需要删去或限定的词语：<strong><em>_</em></strong>_。</p>
+<p>图表最后修改后，再检查报告、PPT与海报中的同一数值，避免三个文件保留不同实验版本。</p></article></div><nav class="course-page-nav" aria-label="章节导航"></nav></main><div id="site-footer"></div></body></html>

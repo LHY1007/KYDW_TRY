@@ -1044,3 +1044,267 @@ for (const [id, results] of Object.entries(_kydwAdvancedResults)) {
 }
 delete window._kydwAdvancedResults;
 delete window._kydwProjectResults;
+
+// KYDW member training
+window.KYDW.memberTraining = {
+  "title": "KYDW新成员培训与考核",
+  "lead": "学习 Python 与图像数据，完成手写数字识别、自然图像分割和 H&E 到 HER2-IHC 虚拟染色，整理文献、实验结果、研究报告、汇报 PPT 与科研海报。",
+  "chapters": [
+    {
+      "no": "00",
+      "title": "项目总览",
+      "href": "programs/member-training/handbook/chapter-00.html"
+    },
+    {
+      "no": "01",
+      "title": "电脑与 Notebook 工作区",
+      "href": "programs/member-training/handbook/chapter-01.html"
+    },
+    {
+      "no": "02",
+      "title": "图像、Python 与人工智能基础",
+      "href": "programs/member-training/handbook/chapter-02.html"
+    },
+    {
+      "no": "03",
+      "title": "小项目一：手写数字识别",
+      "href": "programs/member-training/handbook/chapter-03.html"
+    },
+    {
+      "no": "04",
+      "title": "小项目二：自然图像分割",
+      "href": "programs/member-training/handbook/chapter-04.html"
+    },
+    {
+      "no": "05",
+      "title": "医学 AI、病理与虚拟染色",
+      "href": "programs/member-training/handbook/chapter-05.html"
+    },
+    {
+      "no": "06",
+      "title": "文献检索、管理与阅读",
+      "href": "programs/member-training/handbook/chapter-06.html"
+    },
+    {
+      "no": "07",
+      "title": "BCI 获取、配对与数据划分",
+      "href": "programs/member-training/handbook/chapter-07.html"
+    },
+    {
+      "no": "08",
+      "title": "研究问题与实验设计",
+      "href": "programs/member-training/handbook/chapter-08.html"
+    },
+    {
+      "no": "09",
+      "title": "主项目模型训练与代码阅读",
+      "href": "programs/member-training/handbook/chapter-09.html"
+    },
+    {
+      "no": "10",
+      "title": "虚拟染色评价与错误分析",
+      "href": "programs/member-training/handbook/chapter-10.html"
+    },
+    {
+      "no": "11",
+      "title": "科研图表与证据整理",
+      "href": "programs/member-training/handbook/chapter-11.html"
+    },
+    {
+      "no": "12",
+      "title": "Word 科研报告",
+      "href": "programs/member-training/handbook/chapter-12.html"
+    },
+    {
+      "no": "13",
+      "title": "PPT 科研绘图",
+      "href": "programs/member-training/handbook/chapter-13.html"
+    },
+    {
+      "no": "14",
+      "title": "PPT 科研汇报",
+      "href": "programs/member-training/handbook/chapter-14.html"
+    },
+    {
+      "no": "15",
+      "title": "PPT 科研海报",
+      "href": "programs/member-training/handbook/chapter-15.html"
+    },
+    {
+      "no": "16",
+      "title": "学术规范、AI 使用与结题",
+      "href": "programs/member-training/handbook/chapter-16.html"
+    },
+    {
+      "no": "17",
+      "title": "术语表与参考资料",
+      "href": "programs/member-training/handbook/chapter-17.html"
+    }
+  ],
+  "notebooks": [
+    {
+      "no": "00",
+      "title": "环境与 Python",
+      "href": "programs/member-training/notebook-00.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-00",
+      "download": "programs/member-training/notebooks/00_环境与Python.ipynb",
+      "input": "无需外部数据。",
+      "optional": false
+    },
+    {
+      "no": "01",
+      "title": "MNIST 手写数字识别",
+      "href": "programs/member-training/notebook-01.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-01",
+      "download": "programs/member-training/notebooks/01_MNIST手写数字识别.ipynb",
+      "input": "开启 Internet，自动下载官方 MNIST。",
+      "optional": false
+    },
+    {
+      "no": "02",
+      "title": "自然图像分割",
+      "href": "programs/member-training/notebook-02.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-02",
+      "download": "programs/member-training/notebooks/02_自然图像分割.ipynb",
+      "input": "开启 Internet，自动下载官方 Oxford-IIIT Pet 照片与掩膜。",
+      "optional": false
+    },
+    {
+      "no": "03",
+      "title": "BCI 数据审计与配对",
+      "href": "programs/member-training/notebook-03.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-03",
+      "download": "programs/member-training/notebooks/03_BCI数据审计与配对.ipynb",
+      "input": "需要先添加 BCI 的真实 H&E / HER2-IHC 配对图像。",
+      "optional": false
+    },
+    {
+      "no": "04",
+      "title": "H&E 到 IHC 模型训练",
+      "href": "programs/member-training/notebook-04.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-04",
+      "download": "programs/member-training/notebooks/04_HE到IHC模型训练.ipynb",
+      "input": "需要 BCI 图像和 Notebook 03 的数据清单。",
+      "optional": false
+    },
+    {
+      "no": "05",
+      "title": "虚拟染色评价与错误分析",
+      "href": "programs/member-training/notebook-05.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-05",
+      "download": "programs/member-training/notebooks/05_虚拟染色评价与错误分析.ipynb",
+      "input": "需要 BCI 图像和 Notebook 04 的完整训练输出。",
+      "optional": false
+    },
+    {
+      "no": "06",
+      "title": "新的 H&E 图像推理（选修）",
+      "href": "programs/member-training/notebook-06.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-06",
+      "download": "programs/member-training/notebooks/06_新的HE图像推理_选修.ipynb",
+      "input": "需要 Notebook 04 的模型权重，以及新的 H&E 图块。",
+      "optional": true
+    },
+    {
+      "no": "07",
+      "title": "结果整理与成果材料",
+      "href": "programs/member-training/notebook-07.html",
+      "kaggle": "https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-07",
+      "download": "programs/member-training/notebooks/07_结果整理与成果材料.ipynb",
+      "input": "需要 Notebook 04 和 05 的输出。",
+      "optional": false
+    }
+  ],
+  "templates": [
+    {
+      "title": "AI使用与贡献记录",
+      "href": "programs/member-training/materials/template-01.html"
+    },
+    {
+      "title": "图表与证据索引",
+      "href": "programs/member-training/materials/template-02.html"
+    },
+    {
+      "title": "学习与实验记录",
+      "href": "programs/member-training/materials/template-03.html"
+    },
+    {
+      "title": "实验设计",
+      "href": "programs/member-training/materials/template-04.html"
+    },
+    {
+      "title": "提交自查",
+      "href": "programs/member-training/materials/template-05.html"
+    },
+    {
+      "title": "数据卡",
+      "href": "programs/member-training/materials/template-06.html"
+    },
+    {
+      "title": "文献检索与阅读卡",
+      "href": "programs/member-training/materials/template-07.html"
+    },
+    {
+      "title": "汇报PPT逐页内容",
+      "href": "programs/member-training/materials/template-08.html"
+    },
+    {
+      "title": "海报文稿",
+      "href": "programs/member-training/materials/template-09.html"
+    },
+    {
+      "title": "研究报告",
+      "href": "programs/member-training/materials/template-10.html"
+    }
+  ],
+  "exercises": [
+    {
+      "title": "代码阅读与短练习",
+      "href": "programs/member-training/materials/exercise-01.html"
+    },
+    {
+      "title": "实践项目参考答案",
+      "href": "programs/member-training/materials/exercise-02.html"
+    }
+  ],
+  "development": {
+    "title": "KYDW 培养方案与待遇说明",
+    "href": "resources/member-development.html",
+    "text": "了解 KYDW 内部培养方案、成员待遇与相关安排。"
+  },
+  "download": "programs/member-training/downloads/KYDW_member_training_student_materials.zip",
+  "highlights": [
+    {
+      "title": "基础学习",
+      "text": "电脑与 Notebook、图像与 Python、文献检索与阅读。"
+    },
+    {
+      "title": "代码实践",
+      "text": "手写数字分类、宠物图像分割、H&E 到 HER2-IHC 虚拟染色。"
+    },
+    {
+      "title": "考核材料",
+      "text": "学习记录、实验记录、研究报告、汇报 PPT 和科研海报。"
+    }
+  ]
+};
+window.KYDW.modules.unshift({
+  "id": "member-training",
+  "label": "新成员培训与考核",
+  "title": "KYDW新成员培训与考核",
+  "subtitle": "科研基础、图像实践与成果表达",
+  "text": "学习 Python 与图像数据，完成手写数字识别、自然图像分割和 H&E 到 HER2-IHC 虚拟染色，整理文献、实验结果、研究报告、汇报 PPT 与科研海报。",
+  "audience": "参加 KYDW 新成员培训与考核的同学",
+  "date": "2026 年 9 月 20 日更新",
+  "status": "新活动",
+  "href": "programs/member-training/index.html",
+  "order": -1,
+  "period": "新活动",
+  "home": true
+});
+window.KYDW.homepage = { featuredActivityId: "member-training" };
+window.KYDW.experience.latestNews.projectActivity = { title: "新活动更新", lead: "KYDW新成员培训与考核已上线", links: [{title: "查看新活动", href: "programs/member-training/index.html"}] };
+window.KYDW.resourceCollections.find(c => c.id === "project-materials").items.unshift({title: "KYDW新成员培训与考核", text: "课程手册、Notebook 实践和考核材料。", href: "programs/member-training/index.html", home: true});
+window.KYDW.resourceCollections.find(c => c.id === "teaching-library").items.unshift({title: "KYDW 培养方案与待遇说明", text: "内部培养方案、成员待遇与相关安排；正文待补充。", href: "resources/member-development.html", kind: "book"});
+window.KYDW.collections.find(c => c.id === "programs").pages.push("member-training", "course-document");
+window.KYDW.collections.find(c => c.id === "resources").pages.push("resource-document");

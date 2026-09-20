@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="06｜文献检索、管理与阅读"><title>06｜文献检索、管理与阅读｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>06｜文献检索、管理与阅读</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">一篇论文在交流什么</a><a href="#section-02">把研究问题变成检索词</a><a href="#section-03">本项目的阅读顺序</a><a href="#section-04">第一遍：建立文章地图</a><a href="#section-05">第二遍：沿一个关键实验读进去</a><a href="#section-06">第三遍：把论文变成可用的证据</a><a href="#section-07">用Zotero组织资料</a><a href="#section-08">AI辅助阅读的具体做法</a><a href="#section-09">任务L01：完成一次有记录的文献检索与阅读</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">一篇论文在交流什么</h2>
+<p>研究论文把一个问题、回答问题的过程和获得的证据组织成可供他人检查的文本。标题概括主题，摘要快速交代问题、做法和主要发现，引言说明研究背景与切入点，方法描述数据与步骤，结果展示观察，讨论解释意义与适用范围，参考文献连接已经发表的工作。</p>
+<p>不同论文的章节名称可以变化。机器学习会议文章常把相关工作单列，某些期刊把方法放在正文末尾，补充材料可能包含重要参数和额外实验。第一次阅读时，先确定“问题—数据—方法—证据”分别在哪里，再决定需要深入哪一部分。</p>
+<p>综述汇集一个领域的研究，适合建立方向地图；原创研究提出并验证具体问题；数据集论文说明数据来源、组织方式和使用场景；软件文档说明某个实现怎样使用。预印本便于研究早期交流，其审稿状态需要核实。知道资料类型，可以调整对它的期待。</p>
+<p>本项目的文献任务以BCI数据与虚拟染色方法为中心。读懂一篇核心文章后，再把它与通用图像翻译方法以及更新的配准相关工作联系起来。</p>
+<h2 id="section-02">把研究问题变成检索词</h2>
+<p>中文问题“如何从H&amp;E预测HER2免疫染色”包含输入、目标和方法三个部分。相应英文词包括<code>H&amp;E</code>、<code>hematoxylin eosin</code>、<code>HER2</code>、<code>immunohistochemistry</code>、<code>virtual staining</code>、<code>image-to-image translation</code>。英文术语通常能帮助定位原始论文与代码。</p>
+<p>先在PubMed、学术搜索工具或期刊/会议页面中检索较宽的主题，再逐步加入目标标志物或方法。可以尝试以下检索式，记录使用的平台、日期和修改过程。[17]</p>
+<pre><code class="language-text">"virtual staining" AND HER2
+"hematoxylin" AND "immunohistochemistry" AND "deep learning"
+"BCI" "Pyramid Pix2pix"
+"virtual staining" AND misalignment
+</code></pre>
+<p>不同平台对引号、AND和字段限制的支持不同。结果太少时，减少限制或换用同义词；结果太宽时，加入HER2、paired、histopathology等与任务有关的词。检索到BCI后，用完整标题再次查找，核对论文、作者主页与代码仓库是否对应同一项工作。</p>
+<p>标题和摘要决定文章是否相关，全文决定它能否支持某个具体结论。文章涉及“虚拟染色”，也可能实际研究未染色图像到H&amp;E、H&amp;E到特殊染色或多重荧光通道。记录输入、输出和目标标志物，避免把不同任务直接混在一起比较。</p>
+<h2 id="section-03">本项目的阅读顺序</h2>
+<p>首先阅读BCI：<em>Breast Cancer Immunohistochemical Image Generation through Pyramid Pix2pix</em>。它同时提供本项目所用数据的背景和针对配对图像翻译的方法设计。[5] 初读时找出研究对象、配对方式、输入输出、金字塔监督的大意和评价指标。暂时遇到复杂公式，可以先写出公式连接了哪些对象，再随实验学习补充。</p>
+<p>其次阅读pix2pix：<em>Image-to-Image Translation with Conditional Adversarial Networks</em>。关注条件生成、像素重建项、判别器与生成器怎样配合。[4] 用本项目变量替换通用符号：输入是H&amp;E，目标是真实IHC，生成器输出预测IHC，判别器查看条件配对。</p>
+<p>U-Net文章作为结构参考，重点阅读编码—解码与跳跃连接为什么帮助位置恢复。[3] 完成自己的结果后，再阅读2026年的<em>Generative AI for misalignment-resistant virtual staining to accelerate histopathology workflows</em>，关注它怎样处理生成与空间对齐的关系，并比较其验证设计与本课程的差异。[15]</p>
+<p>最后一篇用于理解配准问题仍在发展，课程的核心实验仍按已经固定的两种训练设置执行。你可以在讨论中提出有依据的后续实验，不需要在初次学习中同时重现全部方法。</p>
+<h2 id="section-04">第一遍：建立文章地图</h2>
+<p>先看标题、摘要和主要图表，写出三句话：“作者处理什么数据”“希望得到什么输出”“用什么证据说明方法有用”。这三句话能够帮助你确定全文中的主线。若暂时写不出来，回到摘要和第一张概览图，逐一确认对象。</p>
+<p>看图时读图注。图注通常说明图像来源、各组代表什么、数字怎样计算，以及颜色或符号的含义。不要仅凭图像外观猜测哪一栏是真实IHC、哪一栏是模型生成。把疑问记录下来，后续到方法部分寻找答案。</p>
+<h2 id="section-05">第二遍：沿一个关键实验读进去</h2>
+<p>从最接近本项目的实验开始。找到数据怎样划分、图像怎样预处理、比较了哪些模型、指标在什么范围计算、是否报告独立样本或切片层级。再读对应结果，确认结论是否真的由这项实验支持。</p>
+<p>例如，看到“多尺度监督提高图像生成表现”，你需要找：新增了哪一个训练项？比较时其余设置是否一致？评价使用什么尺寸？展示的是平均指标还是部分图像？这些问题把一个方法名称还原为可检查的研究过程。</p>
+<p>读公式时先写变量表。把<code>x</code>标成H&amp;E、<code>y</code>标成真实IHC、<code>G(x)</code>标成生成图，再看损失比较哪些对象。公式中的求和表示对多个位置或样本重复同一计算，权重表示不同项在总目标中的比例。能把计算对象说清楚，就已经获得了理解实现的重要入口。</p>
+<h2 id="section-06">第三遍：把论文变成可用的证据</h2>
+<p>一份阅读记录至少包含文献信息、研究问题、输入输出、关键方法、一个具体证据位置和对自己项目的作用。“文章很有创新性”无法帮助你设计实验；“该文把生成图与参考图在多个尺度上比较，因此我需要关注图像缩放是否改变评价”则能转化为具体行动。</p>
+<p>区分作者报告的观察、作者给出的解释和自己的推测。记录时可以分别写：“文中表X报告……”“作者据此认为……”“在本项目中还需要验证……”。具体位置能让你在写报告时快速回查，避免引用一个从未出现过的结论。</p>
+<p>核心阅读卡默认完成三份：BCI、pix2pix，以及一篇与配准或染色评价有关的原始研究。U-Net建立一份结构简记即可。每份核心卡约一页，优先写清证据与用途。</p>
+<h2 id="section-07">用Zotero组织资料</h2>
+<p>建立一个<code>KYDW_HE_to_HER2</code>文献集合。通过浏览器连接器、DOI或题录信息导入文章，核对标题、作者、年份和发表载体。能够获得全文时附加PDF；代码、数据和论文页面作为相关链接记录。[9]</p>
+<p>为文章增加简短标签，例如<code>dataset</code>、<code>paired-translation</code>、<code>registration</code>、<code>evaluation</code>。读过的段落可以标注并记页码或图表编号。题录与附件承担不同作用：题录用于引用，附件保存正文；只导入PDF后还需要检查文献信息是否完整。</p>
+<p>写Word报告时通过文献管理插件插入引文，让编号随正文顺序更新。软件能处理格式，引用是否支持句子仍由你检查。最后核对每一项引文的原文位置，以及参考文献表是否存在重复条目。[9]</p>
+<h2 id="section-08">AI辅助阅读的具体做法</h2>
+<p>向AI提供允许分享的段落，并提出有范围的问题，例如：“解释这一段中的输入、输出和训练目标，用本文变量名称对应；将原文没有给出的信息标为未说明。”得到解释后，回到原文核对。</p>
+<p>翻译时保留原始英文术语，检查increase/decrease、significant、may、associated等表达是否被改变。代码解释可以要求逐行标注张量形状。检索建议只能作为候选，题名、作者和结论都需要通过原始来源确认。没有核对的AI输出不进入参考文献或结果段落。</p>
+<h2 id="section-09">任务L01：完成一次有记录的文献检索与阅读</h2>
+<p>保存一条初始检索式和至少一次修改，说明修改理由。完成三份核心阅读卡，并用300—500字写出主项目背景：H&amp;E与HER2-IHC的关系、虚拟染色任务、两类训练目标，以及本次准备比较的问题。每个依赖文献的具体事实都有对应来源。这个段落随后进入Word报告的引言。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-05.html">← 医学 AI、病理与虚拟染色</a><a href="chapter-07.html">BCI 获取、配对与数据划分 →</a></nav></main><div id="site-footer"></div></body></html>

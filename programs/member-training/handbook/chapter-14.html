@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="14｜PPT 科研汇报"><title>14｜PPT 科研汇报｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>14｜PPT 科研汇报</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">汇报先建立共同理解</a><a href="#section-02">八页内容怎样衔接</a><a href="#section-03">一页只保留听众此刻需要的信息</a><a href="#section-04">展示结果时怎样说清比较</a><a href="#section-05">母版与排版</a><a href="#section-06">排练与回答问题</a><a href="#section-07">任务T01：完成一次正式短汇报</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">汇报先建立共同理解</h2>
+<p>听众未必知道H&amp;E、IHC、HER2或对抗训练。开场先展示同一区域的两种真实图像，用简短语言说明它们的来源与作用，再提出研究问题。听众先知道图中是什么，才能理解模型要完成什么。</p>
+<p>本项目汇报控制在约6分钟、8页左右。重点是问题、比较设计和核心发现。软件安装、长代码、完整参数表与所有补充结果可以放到备份页，需要时再展示。PPT中的事实与报告一致，表达顺序适合口头讲解。</p>
+<h2 id="section-02">八页内容怎样衔接</h2>
+<p>第一页给出题目、作者与所属课程，配一组标识清楚的H&amp;E/参考IHC。开场可以说：“我们研究能否从H&amp;E形态图像预测HER2-IHC外观，并比较训练目标变化带来的影响。”随后用一句话说明为什么需要同时检查图像与染色相关信号。</p>
+<p>第二页介绍研究对象与问题。解释输入、真实目标和生成输出，明确主比较是L1与加入条件对抗项。第三页展示数据与划分：来源、实际样本数、尺度、组标识层级和清单流程。这一页不只列数据量，要让听众知道样本单位是什么。</p>
+<p>第四页展示方法对照图。说明两种模型共享生成器和训练条件，对抗模型额外使用判别器；简单颜色映射作为参照。第五页展示主要指标结果，用实际数值支持一句主要发现，图中同时标明高低方向。</p>
+<p>第六页展示同位置案例，突出一到两个具体观察，联系DAB或结构指标。第七页展示输入模糊分析与主要解释条件，让听众看到模型在规定输入变化下的反应。第八页用三句话收束：本次比较发现什么，证据覆盖什么范围，下一步最需要补什么验证。</p>
+<p><code>模板/汇报PPT逐页内容.md</code>提供每页的完整内容框架与讲述提示。实验数字使用Notebook输出，结论按实际方向填写。</p>
+<h2 id="section-03">一页只保留听众此刻需要的信息</h2>
+<p>标题可以表达页面主题，如“同一数据划分下比较两种训练目标”；获得结果后也可以表达有证据的发现，如“纹理变化与像素误差并未同步”。标题中的判断必须能够由本页图表支持。</p>
+<p>正文使用短句，避免大段照搬报告。主图尽量占页面主要空间，图注只保留理解图所必需的信息。口头讲解补充过程，幻灯片保留听众需要同时看到的对象、数值和位置。</p>
+<p>课程建议标题约28—36磅，正文约20—24磅，关键图表标签在投影下能够识别。同一份PPT的字号体系稳定。若内容放不下，先判断能否删去次要信息或拆成两页，不通过持续缩小文字解决全部问题。</p>
+<h2 id="section-04">展示结果时怎样说清比较</h2>
+<p>先说明坐标与对象，再指出实际差异，最后解释它与问题的关系。例如：“横轴是四种方法，纵轴是固定测试图块的平均RGB MAE，数值越低越好。两种U-Net的差值为……。接下来用同位置图像检查这项变化体现在哪里。”</p>
+<p>同位置案例先说清每一列，再指向一个具体区域。不要在多张图之间来回跳转而没有共同参照。使用一致的栏顺序：H&amp;E、真实IHC、颜色映射、L1生成、对抗生成。放大局部时先让听众看到它来自哪里。</p>
+<p>如果指标分歧，直接展示分歧。说明MAE、SSIM和DAB分量关注的对象不同，再用实际案例解释可能原因。把“观察到”与“推测原因”分开说，给听众一个清楚的证据层级。</p>
+<h2 id="section-05">母版与排版</h2>
+<p>为标题、页码和正文建立一致位置，可以通过幻灯片母版或统一版式管理。保留足够页边距，避免图例、页码和文本贴边。对齐到共同参考线，使用规则间距，少用与内容无关的装饰。[21]</p>
+<p>图片保持比例，结果图避免覆盖坐标和图例。复杂动画只在确有解释价值时使用，例如按数据流依次出现训练阶段。汇报即使以静态PDF打开，也应能看懂主要逻辑。</p>
+<h2 id="section-06">排练与回答问题</h2>
+<p>第一次排练按正常速度完整讲一遍，记录总时长和每页大致耗时。超过范围时，优先减少背景细节与重复解释，保留研究问题、关键设计和主要结果。第二次排练请同学复述你的主问题和发现，检查开场是否足够清楚。</p>
+<p>常见问题包括：为什么选HER2，参考图怎样获得，两种方法是否公平，DAB数值代表什么，是否验证到患者层级，模型能否处理新的组织来源。回答先给已有证据，再说明尚未执行的部分。具体数量和配置记在备份页，便于准确回答。</p>
+<p>遇到没有做过的验证，可以说：“本次使用的是……范围，当前记录尚未包含……证据；要回答这个问题，需要增加……比较。”保持事实准确，也让后续工作有明确方向。</p>
+<h2 id="section-07">任务T01：完成一次正式短汇报</h2>
+<p>交付可编辑PPTX和展示PDF，保存一份6分钟以内的讲述提纲。至少完成一次同伴排练，并记录一处因为解释不清而修改的页面。汇报中的每个主要数字都能回到CSV，每张病理图都能找到配对编号。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-13.html">← PPT 科研绘图</a><a href="chapter-15.html">PPT 科研海报 →</a></nav></main><div id="site-footer"></div></body></html>

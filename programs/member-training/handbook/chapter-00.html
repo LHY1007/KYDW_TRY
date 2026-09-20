@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="00｜项目总览"><title>00｜项目总览｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>00｜项目总览</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">你将在这门课程中完成什么</a><a href="#section-02">学习的起点</a><a href="#section-03">三个项目的关系</a><a href="#section-04">学习顺序与文件入口</a><a href="#section-05">最终交付与学习记录</a><a href="#section-06">先认识最终成果的样子</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">你将在这门课程中完成什么</h2>
+<p>在纸上写下一个“8”，人通常能够直接认出它。计算机读取的却是一组数字：某个位置很亮，另一个位置很暗。第一项学习任务是让计算机从这些像素中学会识别数字。随后，你会给它一张宠物照片，让它标出宠物所在的位置。最后，研究对象将换成显微镜下的组织：输入一张经过苏木精—伊红染色的图像，预测同一区域针对HER2蛋白进行免疫组织化学染色后可能呈现的图像。</p>
+<p>这三项任务分别对应<strong>分类、分割和图像到图像的预测</strong>。前两个项目帮助你理解数据、模型、训练和评价。第三个项目贯穿文献检索、实验设计、代码运行、结果解释、Word报告、PPT汇报和科研海报。</p>
+<p>主项目的题目是：</p>
+<blockquote>
+<p><strong>从H&amp;E到HER2-IHC：不同训练目标如何影响虚拟染色的图像重建与染色信号表现？</strong></p>
+</blockquote>
+<p>你将使用真实配对的公开病理图像，比较简单颜色转换、像素误差驱动的U-Net，以及加入条件对抗损失的U-Net。完成后，你需要回答：模型生成了什么？它与真实参考有哪些相似和差异？某种训练方法的变化体现在哪些指标与组织位置上？现有证据能够支持怎样的结论？</p>
+<h2 id="section-02">学习的起点</h2>
+<p>你可以从没有写过程序、没有读过论文的状态开始。第一次出现的重要概念会结合正在处理的对象解释。遇到英文缩写时，先理解它在当前任务中的作用，再逐渐熟悉名称。课程中的小练习通常要求先预测、再运行、再解释；三步都保留在学习记录里。</p>
+<p>学习需要一台能使用浏览器的电脑。代码以Jupyter Notebook形式提供，优先在Kaggle运行。Word用于报告，PowerPoint用于图示、口头汇报和海报。学校提供的软件许可可以用于安装相应桌面应用。软件界面可能随版本改变，操作说明同时给出功能名称与使用目的，便于你在功能搜索框中定位。</p>
+<p>本课程的病理学习通过公开图像开展。你不需要接触患者、采集组织或开展湿实验。图像的来源、使用许可和生成结果的标识，始终属于项目记录的一部分。</p>
+<h2 id="section-03">三个项目的关系</h2>
+<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>输入</th>
+<th>目标输出</th>
+<th>你会掌握的关键能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小项目一：手写数字识别</td>
+<td>28×28灰度图像</td>
+<td>0—9中的一个类别</td>
+<td>像素、标签、分类、训练、验证、错误分析</td>
+</tr>
+<tr>
+<td>小项目二：自然图像分割</td>
+<td>RGB宠物照片</td>
+<td>每个有效像素的前景/背景判断</td>
+<td>掩膜、空间位置、U-Net、概率图、Dice与IoU</td>
+</tr>
+<tr>
+<td>主项目：虚拟HER2-IHC染色</td>
+<td>RGB H&amp;E组织图像</td>
+<td>同一区域的RGB HER2-IHC预测图像</td>
+<td>配对数据、连续输出、图像生成、对照实验、科研表达</td>
+</tr>
+</tbody>
+</table></div>
+<p>三个项目都需要“输入—目标—模型—评价”四个要素。分类把整张图像概括成一个类别；分割保留位置，为每个像素作判断；虚拟染色保留位置并预测连续的颜色值。这个变化会影响输出通道、损失函数和评价方式。</p>
+<p>前两个项目各完成一份简短学习记录。主项目形成完整成果包，后面的文献、图表、报告和海报始终围绕同一次虚拟染色实验展开。</p>
+<h2 id="section-04">学习顺序与文件入口</h2>
+<p>先阅读第01—02章，运行<code>00_环境与Python.ipynb</code>。第03章对应手写数字Notebook 01，第04章对应自然图像分割Notebook 02。第05—08章完成医学背景、文献、数据审计和实验计划，其中第07章使用Notebook 03。第09章使用Notebook 04训练模型，第10章使用Notebook 05评价结果。第11—15章把这些结果转换成科研图表、Word报告、PPT汇报和海报。Notebook 07负责整理真实结果材料；Notebook 06是处理新H&amp;E图像的选修任务。</p>
+<p>所有Notebook均包含完整代码。你可以先完成默认实验，再在规定的扩展任务中修改一个设置。工具代码可折叠显示，对应的独立源文件是<code>src/kydw_course.py</code>。查看函数定义时，把输入、处理、输出分别找出来，不必一次记住全部代码。</p>
+<h2 id="section-05">最终交付与学习记录</h2>
+<p>主项目最终提交一份研究报告、一套汇报PPT、一张科研海报，以及支撑它们的文献记录、实验配置、图表和代码。默认报告正文约6—8页，汇报约8页、6分钟，海报采用一页A1横向版式。篇幅帮助你练习取舍；完整的实验日志与补充图表放入附件。</p>
+<p>你会持续维护三类记录。<strong>学习记录</strong>写下概念、疑问和练习解释；<strong>实验记录</strong>保存数据版本、设置、运行过程和异常；<strong>证据记录</strong>把每一句主要结论连接到文献位置、结果表或具体图像。模板位于<code>模板/</code>。</p>
+<p>课程不预设哪一种模型获胜。比较中出现相近结果、指标分歧或对抗模型变差，都需要按实际情况写出。完成标准在于你能够解释任务、执行合理的比较、追溯证据，并清楚表达发现。</p>
+<h2 id="section-06">先认识最终成果的样子</h2>
+<p>报告回答“为什么研究、怎样完成、发现了什么、证据支持到哪里”。PPT用适合听众跟随的顺序讲述同一项研究。海报让读者在没有连续讲解的情况下，迅速找到问题、方法与核心结果。三种成果共享同一批事实，各自安排不同的信息密度。</p>
+<p>在第一次运行之前，新建学习记录，用你目前的理解写下：“计算机怎样从图像中得到答案？”项目结束时再回答一次，并比较两次解释之间发生的变化。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-01.html">电脑与 Notebook 工作区 →</a></nav></main><div id="site-footer"></div></body></html>

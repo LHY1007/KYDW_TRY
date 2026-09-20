@@ -225,7 +225,7 @@
     if (!latest) return "";
     const activity = latest.projectActivity || latest;
     const projects = (activity.projectIds || []).map(findProject).filter(Boolean);
-    const projectLinks = projects.map((project) => `<a class="latest-news-project" href="#experience">${esc(project.title)}</a>`).join("");
+    const projectLinks = (activity.links || projects.map(project => ({ title: project.title, href: "#experience" }))).map(item => `<a class="latest-news-project" href="${rootHref(item.href)}">${esc(item.title)}</a>`).join("");
     const achievementDates = new Set((latest.achievementDates || []).map((date) => String(date)));
     const achievementItems = (data.team.news || []).filter((item) => achievementDates.has(String(item.date)));
     return `<section class="section latest-news-section" id="latest-news"><h2 class="latest-news-title">${esc(latest.title || "近期消息（30天内）")}</h2><div class="card latest-news-card"><div class="latest-news-grid"><article class="latest-news-panel latest-news-activity"><h3>${esc(activity.title || "项目活动更新")}</h3><p class="latest-news-lead">${esc(activity.lead || "")}</p><div class="latest-news-projects">${projectLinks}</div></article><article class="latest-news-panel latest-news-achievements"><h3>本科生成果</h3><div class="latest-news-list">${newsItemsMarkup(achievementItems)}</div></article></div></div></section>`;
@@ -419,7 +419,8 @@
     const t = data.team;
     const e = data.experience;
     const homeProjects = (e.homeProjectIds || []).map(findProject).filter(Boolean);
-    const otherModules = sortedModules();
+    const featured = findModule(data.homepage?.featuredActivityId);
+    const otherModules = sortedModules().filter(module => module.id !== featured?.id);
     const resourceCards = sortedResources().filter((collection) => collection.home !== false);
     layout(`${hero({
       eyebrow: "KYDW / 科研大王",
@@ -433,7 +434,7 @@
       <div class="home-intro-grid"><div class="home-overview-left"><article class="card university-card home-universities-card"><div class="card-kicker">成员高校</div>${memberNetwork(t)}</article><article class="card home-leaders-card"><div class="home-card-heading"><div class="card-kicker">负责人</div><a class="home-card-action" href="${rootHref("team/people.html")}">查看详细介绍</a></div><div class="leader-list home-leader-scroll" role="region" aria-label="负责人列表" tabindex="0">${t.leaders.map((leader) => leaderPreview(leader, true)).join("")}</div></article></div><div class="home-overview-side"><article class="card home-results-card"><div class="card-kicker">代表性成果（成员一作/项目负责人）</div>${metricGrid(t.achievementMetrics)}${t.achievementNote ? `<p class="achievement-note">${esc(t.achievementNote)}</p>` : ""}${newsMarkup(t.news || [])}</article></div></div>
     </section>
     <section class="section" id="featured-projects">${sectionHead("项目与活动", "本科生科研入门体验项目、科研培训、合作项目和专题交流。", "programs/index.html", "查看全部项目与活动")}
-      <div class="showcase-grid"><article class="card featured-showcase" id="experience"><div class="card-kicker">当前项目</div><h3>${esc(e.title)}</h3><p><b>${esc(e.lead)}</b></p><p>${esc(e.date)}</p><div class="home-project-list">${environmentProjectCard(e.environment)}<div class="home-project-preview-label">项目预览</div>${homeProjects.map(homeProjectCard).join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref("experience/index.html")}">查看详情</a></div></article><aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>科研入门培训、课程项目、合作课程和生物医学人工智能专题交流。</p></div><div class="showcase-scroll">${otherModules.map(showcaseItem).join("")}</div></aside></div>
+      <div class="showcase-grid">${featured ? memberTrainingShowcase(featured) : experienceActivityCard()}<aside class="showcase-side" aria-label="其他活动与项目"><div class="showcase-side-head"><h3>其他项目与活动</h3><p>本科生科研入门体验项目、课程与专题交流。</p></div><div class="showcase-scroll">${showcaseItem({ title: e.title, subtitle: "本科生科研入门体验项目", text: e.lead, date: e.date, href: "experience/index.html" })}${otherModules.map(showcaseItem).join("")}</div></aside></div>
     </section>
     <section class="section">${sectionHead("资源中心", "专业解读、项目与活动资料、教学文档库。", "resources/index.html", "查看资源中心")}
       <div class="resource-grid">${resourceCards.map((collection) => resourceCollectionCard(collection, true)).join("")}</div>
@@ -477,7 +478,7 @@
 
   function programs() {
     layout(`${hero({ eyebrow: "项目与活动", title: "项目与活动", lead: "KYDW 的培训、合作项目、科研体验和专题交流。", actions: [{ label: "查看科研体验项目", href: "experience/index.html", primary: true }, { label: "查看资源中心", href: "resources/index.html" }] })}
-    <section class="section">${sectionHead("项目与活动", "科研体验、科研培训、课程项目与专题交流分别列出在对应页面。", null)}<div class="activity-timeline">${experienceActivityCard()}${sortedModules().map(moduleCard).join("")}</div></section>`);
+    <section class="section">${sectionHead("项目与活动", "科研体验、科研培训、课程项目与专题交流分别列出在对应页面。", null)}<div class="activity-timeline">${sortedModules().filter(m => m.id === data.homepage?.featuredActivityId).map(moduleCard).join("")}${experienceActivityCard()}${sortedModules().filter(m => m.id !== data.homepage?.featuredActivityId).map(moduleCard).join("")}</div></section>`);
   }
 
   function modulePage() {
@@ -899,7 +900,30 @@
     layout(`${hero({ eyebrow: "资源中心 / 专业解读 / 历年去向", title: overview.title, lead: overview.lead, actions: [{ label: "返回专业解读", href: "professional/index.html", primary: true }, { label: "返回资源中心", href: "resources/index.html" }] })}${yearCards}<section class="section"><div class="callout"><p>${esc(overview.note)}</p></div></section>`);
   }
 
-  const renderers = { home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience: experienceDirectoryByWeek, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
+
+  function memberTrainingShowcase(module) {
+    const training = data.memberTraining;
+    return `<article class="card featured-showcase" id="member-training"><div class="card-kicker">最新活动 · 新成员培训与考核</div><h3>${esc(module.title)}</h3><p><b>${esc(module.subtitle)}</b></p><p>${esc(module.text)}</p><div class="home-project-list">${training.highlights.map(item => `<div class="home-project-card"><h4>${esc(item.title)}</h4><p>${esc(item.text)}</p></div>`).join("")}</div><div class="card-footer"><a class="solid-btn" href="${rootHref(module.href)}">查看活动详情</a></div></article>`;
+  }
+
+  function memberTraining() {
+    const t = data.memberTraining;
+    const materialLinks = items => items.map(item => `<a class="member-material-link" href="${rootHref(item.href)}">${esc(item.title)}<span aria-hidden="true"> →</span></a>`).join("");
+    layout(`${hero({ eyebrow: "项目与活动 / 新成员培训与考核", title: t.title, lead: t.lead, actions: [{ label: "阅读课程手册", href: "#course-handbook", primary: true }, { label: "Notebook 实践", href: "#course-notebooks" }, { label: "考核与提交", href: "#course-assessment" }] })}
+      <section class="section"><article class="card member-development-card"><div><div class="card-kicker">培养方案与待遇</div><h2>${esc(t.development.title)}</h2><p>${esc(t.development.text)}</p><p class="member-muted">正文待补充</p></div><a class="outline-btn" href="${rootHref(t.development.href)}">查看说明</a></article></section>
+      <section class="section"><div class="member-overview-grid">${t.highlights.map(item => `<article class="card"><h2>${esc(item.title)}</h2><p>${esc(item.text)}</p></article>`).join("")}</div><div class="callout"><p>先完成环境与 Python、手写数字识别和自然图像分割，再进行 BCI 数据审计、模型训练与评价，最后整理研究报告、汇报 PPT 和科研海报。新的 H&E 图像推理为选修。</p></div></section>
+      <section class="section" id="course-handbook">${sectionHead("课程手册", "按章节阅读基础概念、操作说明与对应任务。", null)}<div class="member-chapter-grid">${t.chapters.map(ch => `<a class="card member-chapter" href="${rootHref(ch.href)}"><span class="chapter-number">${esc(ch.no)}</span><h3>${esc(ch.title)}</h3><span class="member-read">阅读章节 →</span></a>`).join("")}</div></section>
+      <section class="section" id="course-notebooks">${sectionHead("Notebook 实践", "打开对应实践页，再进入 Kaggle，点击 Copy & Edit（复制并编辑）后运行。", null)}<div class="member-notebook-grid">${t.notebooks.map(nb => `<article class="card"><div class="card-kicker">Notebook ${esc(nb.no)}${nb.optional ? " · 选修" : ""}</div><h3>${esc(nb.title)}</h3><p>${esc(nb.input)}</p><div class="card-footer"><a class="outline-btn" href="${rootHref(nb.href)}">打开</a></div></article>`).join("")}</div><div class="callout"><p>主项目的运行顺序为 03 → 04 → 05 → 07。每一步保存含输出的 Notebook 版本，下一步通过 Add Input 添加前一步的输出。BCI 图像需按第 07 章的来源说明取得并挂载；多份数据或多个实验同时存在时，请在配置格填写明确路径。</p></div></section>
+      <section class="section" id="course-assessment">${sectionHead("考核与提交", "按课程中的任务要求保存学习过程、实际结果与成果文件。", null)}<div class="card course-reader"><p>两个小项目分别提交学习记录。主项目提交研究报告、汇报 PPT、科研海报，以及支撑它们的文献记录、数据卡、实验配置、代码、结果和图表。</p><p>研究报告正文约 6—8 页；汇报约 8 页、6 分钟；海报采用一页 A1 横向版式。</p><div class="course-table-wrap" tabindex="0" role="region" aria-label="评分表"><table><thead><tr><th>考核内容</th><th>分值</th></tr></thead><tbody><tr><td>概念与两个小项目</td><td>15</td></tr><tr><td>文献与问题</td><td>15</td></tr><tr><td>数据与实验设计</td><td>20</td></tr><tr><td>代码、结果与复查</td><td>25</td></tr><tr><td>报告、汇报与海报</td><td>20</td></tr><tr><td>规范与协作记录</td><td>5</td></tr></tbody></table></div><p><a href="${rootHref(t.chapters[16].href)}">查看评价标准与提交文件结构 →</a></p></div></section>
+      <section class="section" id="course-materials">${sectionHead("成果模板与练习", "模板用于填写自己的学习记录、实验结果与成果文稿。", null)}<div class="member-material-grid">${materialLinks(t.templates)}</div><div class="member-material-grid">${materialLinks(t.exercises)}</div><div class="card-footer"><a class="outline-btn" href="${rootHref(t.download)}" download>下载课程材料包</a></div></section>`);
+  }
+
+  function courseDocument() {
+    const content = $("#page-content").innerHTML;
+    layout(content);
+  }
+
+  const renderers = { "member-training": memberTraining, "course-document": courseDocument, "resource-document": courseDocument, home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience: experienceDirectoryByWeek, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
   if (renderers[page]) renderers[page]();
   else home();
 })();

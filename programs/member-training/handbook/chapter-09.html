@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="09｜主项目模型训练与代码阅读"><title>09｜主项目模型训练与代码阅读｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>09｜主项目模型训练与代码阅读</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">进入训练之前</a><a href="#section-02">读懂一条样本的路径</a><a href="#section-03">先运行简单颜色映射</a><a href="#section-04">L1生成器的训练循环</a><a href="#section-05">条件对抗训练中多了哪一步</a><a href="#section-06">保存的权重分别是什么</a><a href="#section-07">在训练结束前观察验证结果</a><a href="#section-08">运行预算与扩展</a><a href="#section-09">任务P04：解释并交付训练结果</a></nav></details></aside>
+<article class="card course-reader"><h2 id="section-01">进入训练之前</h2>
+<p>打开Notebook 04，同时挂载原始BCI数据与Notebook 03输出。原始数据提供图像，<code>bci_manifest.csv</code>提供本次使用的样本与划分。填写确切路径时，指向已有文件；留空自动查找仅适用于Input中存在唯一匹配的情况。</p>
+<p>程序先逐文件核对图像哈希，确认训练时读到的内容与审计时一致。随后把清单复制到新实验目录，保存<code>experiment.json</code>。配置文件记录尺寸、批量、轮次、种子和损失系数，清单哈希关联数据版本。实验目录已经有结果时，程序要求更换RUN_NAME，防止覆盖。</p>
+<p>第一次运行保留默认设置。检查能够读到一批图像后再开始训练。正式对照使用同一配置训练两种方法；显存不足需要调整批量时，两种方法一起调整，并重新建立实验。</p>
+<h2 id="section-02">读懂一条样本的路径</h2>
+<p><code>BCIPairs</code>根据清单找到H&amp;E与IHC。<code>read_pair</code>读取分离文件或按明确方向拆开组合图，检查尺寸。随后两张图整体缩放为相同大小，训练时进行同步翻转，最后转为通道在前的浮点张量。</p>
+<pre><code class="language-python">training = BCIPairs(manifest, root, 'train', size=256, augment=True, seed=42)
+image, reference, pair_id = training[0]
+</code></pre>
+<p><code>training[0]</code>取得训练集合中的第一条记录。<code>image</code>与<code>reference</code>的形状均为<code>[3,256,256]</code>，<code>pair_id</code>保留来源身份。把多个样本组成批量后，形状变为<code>[B,3,256,256]</code>。输出数字范围应为0—1，图像应保持预期的组织方向。</p>
+<p><code>DataLoader</code>负责依次取样、组成批量和按需要打乱顺序。它组织数据，不改变研究任务。读取器、预处理和模型分开定义，有助于定位错误来自文件、图像还是网络。</p>
+<h2 id="section-03">先运行简单颜色映射</h2>
+<p><code>fit_color_baseline</code>只读取训练数据，从至多64个训练配对中采样像素，拟合输入RGB到参考RGB的线性关系。每个输入位置的三个颜色分量与常数1组成四维向量，乘以4×3系数矩阵产生输出RGB。</p>
+<p>它没有观察邻域或组织结构。同样的输入RGB在任何位置都会得到相同的映射结果。这使它成为一个容易解释的参照：若复杂模型的部分优势仅来自整体色调改变，颜色映射可能已经获得部分相似的像素指标。</p>
+<p>系数保存到<code>color_weights.npy</code>。评价时读取同一份系数，绝不重新用测试目标拟合。</p>
+<h2 id="section-04">L1生成器的训练循环</h2>
+<p>U-Net先计算三个通道的logits，再经过sigmoid得到RGB预测。<code>F.l1_loss</code>计算预测与真实参考的平均绝对误差。乘以100后反向传播，Adam更新生成器参数。每一轮结束，模型在验证集合上计算未加权RGB MAE，作为保存最佳权重的依据。</p>
+<pre><code class="language-python">prediction = model(images).sigmoid()
+l1 = F.l1_loss(prediction, references)
+generator_loss = 100.0 * l1
+optimizer.zero_grad()
+generator_loss.backward()
+optimizer.step()
+</code></pre>
+<p>这里的100调整训练目标的尺度，不把最终报告中的MAE乘以100。日志中<code>train_l1</code>保存原始L1，<code>train_g</code>保存加权后的生成器总损失，<code>val_mae</code>保存验证集原始MAE。看曲线时确认列名，避免把不同尺度的数值误当作同一种误差。</p>
+<h2 id="section-05">条件对抗训练中多了哪一步</h2>
+<p>首先更新判别器。真实配对是<code>(H&amp;E,真实IHC)</code>，生成配对是<code>(H&amp;E,生成IHC)</code>。调用<code>prediction.detach()</code>让这一步的梯度只更新判别器，避免在判别器目标下意外修改生成器。</p>
+<p>接着更新生成器。暂时把判别器参数设置为不求梯度，重新计算生成配对的判别分数；梯度仍然可以沿判别器对输入的计算回到生成图，从而影响生成器。生成器同时优化像素重建与对抗项。</p>
+<p>这种交替更新意味着两个网络在训练过程中共同变化。判别器损失下降、生成器对抗损失下降或上升，都需要结合彼此状态解释，不能把某一条GAN损失曲线当成直接质量分数。主项目仍以冻结的验证选择规则和测试评价检查结果。</p>
+<h2 id="section-06">保存的权重分别是什么</h2>
+<p><code>best.pt</code>是按最低验证RGB MAE选出的生成器。<code>last.pt</code>保存最后一轮生成器、优化器，以及对抗模式中的判别器相关状态。它们可能对应不同轮次。最终评价默认读取<code>best.pt</code>。</p>
+<p>本版主流程不提供精确中断续训入口。训练中断时保留日志和已有权重，先查明原因；需要重新完成比较时使用新实验编号。仅加载最后一轮模型还不能保证恢复相同数据顺序、随机状态与优化轨迹，不能把它写成完全等价续训。</p>
+<p>模型权重由代码中的网络结构解释。别人的Pyramid Pix2pix、ResNet生成器或不同通道U-Net权重，不能直接加载进本课程网络。外部权重用于扩展实验时，需要同时核对模型定义、训练数据、归一化、输入尺寸和许可。</p>
+<h2 id="section-07">在训练结束前观察验证结果</h2>
+<p>验证损失突然大幅变化时，查看是否有非有限数值、图像范围异常或文件读取问题。程序遇到NaN/Inf损失会停止。若训练曲线平缓但结果几乎为单一颜色，检查目标范围、生成器输出激活、学习率以及训练预算。不要只增加轮数来掩盖数据问题。</p>
+<p>配对错误通常会让学习目标互相冲突。对比中输入与目标尺寸虽然相同，组织位置仍可能不一致；因此数据审计的人工检查仍然重要。对问题样例做记录，任何剔除规则都需要明确，且不根据测试结果临时筛除困难图像。</p>
+<h2 id="section-08">运行预算与扩展</h2>
+<p>默认10轮、256像素、基础通道16用于建立完整实验。它不承诺达到BCI论文报告的性能。扩大训练数据或训练轮数可以作为扩展，但要让两种方法共享相同预算，并继续使用验证集选择。</p>
+<p>所有配置都写入<code>experiment.json</code>。如果仅修改某个Notebook变量而没有重新运行生成配置的步骤，文件可能仍记录旧值。正式实验从配置格开始按顺序运行，完成后核对日志中的实际轮数、样本数与设置。</p>
+<h2 id="section-09">任务P04：解释并交付训练结果</h2>
+<p>保存两个方法的训练记录与最佳权重，确认生成器初始权重哈希一致。填写一段方法说明：数据如何进入网络，L1怎样计算，判别器增加了什么反馈，最佳模型怎样选择。绘制两条原始MAE曲线，说明观察到的趋势与尚不能确定的原因。</p>
+<p>把训练Notebook保存为带输出的版本。下一份Notebook读取它的<code>experiment.json</code>、冻结清单、颜色映射和两个<code>best.pt</code>。保留完整实验目录，别只下载某一张结果截图。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-08.html">← 研究问题与实验设计</a><a href="chapter-10.html">虚拟染色评价与错误分析 →</a></nav></main><div id="site-footer"></div></body></html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="汇报PPT逐页内容"><title>汇报PPT逐页内容｜科研大王 KYDW</title>
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
+<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
+<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>汇报PPT逐页内容</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">第1页｜标题与研究问题</a><a href="#section-02">第2页｜图像中的信息</a><a href="#section-03">第3页｜数据与公平比较</a><a href="#section-04">第4页｜我们改变了什么</a><a href="#section-05">第5页｜总体结果</a><a href="#section-06">第6页｜一个具体案例与一个失败位置</a><a href="#section-07">第7页｜输入变化与结果边界</a><a href="#section-08">第8页｜结论与下一步</a><a href="#section-09">排练检查</a></nav></details></aside>
+<article class="card course-reader"><p>汇报约6分钟。页面文字只保留要点，解释放在讲解中。<code>【填写】</code>全部来自本次记录；下述讲解稿可以按自己的结果修改。用Microsoft PowerPoint原生形状绘制流程，用实际CSV生成定量图。</p>
+<h2 id="section-01">第1页｜标题与研究问题</h2>
+<p>标题：从H&amp;E到HER2-IHC：不同训练目标会带来什么变化？
+署名：姓名、课程、日期。页面中央放一张真实H&amp;E与配对真实IHC的小幅图，图下分别标注来源和染色。</p>
+<p>讲解：“我们研究的是同一组织区域的两类图像。输入是显示组织形态的H&amp;E，目标是针对HER2染色的IHC。本次实验关心，在其他设置相同的情况下，加入对抗训练后，生成图像会发生怎样的变化。”</p>
+<h2 id="section-02">第2页｜图像中的信息</h2>
+<p>页面保留H&amp;E、真实HER2-IHC、生成HER2-IHC三个名称，配上对应图像。用细线标出一个经过核查的组织位置。生成图用清晰文字标识。</p>
+<p>讲解：“H&amp;E提供形态信息，IHC信号来自针对目标抗原的染色过程。模型通过配对样本学习两类图像的关系。我们会检查颜色、结构和具体位置，并关注配准残差的影响。”</p>
+<h2 id="section-03">第3页｜数据与公平比较</h2>
+<p>页面内容：来源BCI；训练/验证/测试【数量】；分组层级【实际层级】；整体缩放【尺寸】。用三条短箭头分别连接训练到参数学习、验证到选择与校准、测试到最终评价。</p>
+<p>讲解：“本次沿用来源测试集，从训练来源划分验证集。我们使用【实际分组方式】，因此结论的独立性范围是【实际范围】。两种U-Net共用清单、初始权重和训练预算，验证集决定使用哪一版权重。”</p>
+<h2 id="section-04">第4页｜我们改变了什么</h2>
+<p>左右展示同一U-Net，两侧输入输出一致。左侧L1，右侧L1加条件判别器；相同设置用共享框列在底部。另以小字列出Identity和Linear RGB参照。</p>
+<p>讲解：“L1直接约束对应像素的误差。条件判别器同时查看H&amp;E与IHC图像对，提供另一种训练信号。两个模型的生成器结构保持相同，这使我们能够集中观察训练目标的变化。”</p>
+<h2 id="section-05">第5页｜总体结果</h2>
+<p>页面标题在看完结果后写成带范围的实际发现，例如“当前测试集上，……”。插入一张主要比较图和一张紧凑数据表，注明低值/高值方向、图块数或组数。</p>
+<p>讲解：“在【范围】中，【指标】的结果为【数值与差值】。另一个维度【指标】表现为【实际结果】。这些指标使用同一测试清单计算，接下来用具体图块观察差异出现在哪里。”</p>
+<h2 id="section-06">第6页｜一个具体案例与一个失败位置</h2>
+<p>放预先固定案例或明确注明误差排序选择的案例。四幅关键图建议为H&amp;E、真实IHC、L1预测、L1+GAN预测；需要放大时四图使用相同裁剪坐标。</p>
+<p>讲解：“请看编号【编号】的【位置】。参考中呈现【观察】，模型分别表现为【观察】。这里还看到【可能配准差异】。因此我们能确认的是【直接证据】，进一步解释仍需【验证方式】。”</p>
+<h2 id="section-07">第7页｜输入变化与结果边界</h2>
+<p>放原图/模糊的配对变化图。页面下方只保留两项与本次结果最相关的限制。</p>
+<p>讲解：“我们只对输入施加固定模糊，权重与参考保持不变。【描述变化】。这一实验对应规定的图像处理条件。当前【划分/分辨率/训练预算】还限制了结果的外推范围。”</p>
+<h2 id="section-08">第8页｜结论与下一步</h2>
+<p>用三句话收束：观察到什么；证据适用于什么；下一步怎样验证。附三至五条实际使用的参考文献和数据来源。</p>
+<p>讲解：“本次研究显示【发现】。这个结论由【指标与案例】共同支持，适用于【范围】。下一步准备【一项明确实验】，继续检查【尚未解决的问题】。”</p>
+<h2 id="section-09">排练检查</h2>
+<p>合上讲稿后，能否用自己的话解释每张图？每个数值是否都能找到原始文件？时间不足时先删次要细节，保留研究问题、比较方法、主要证据和结论。答疑遇到未检查的内容时，说明尚未核实及可行的验证方式。</p></article></div><nav class="course-page-nav" aria-label="章节导航"></nav></main><div id="site-footer"></div></body></html>
