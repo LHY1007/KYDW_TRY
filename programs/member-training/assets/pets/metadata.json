@@ -1,0 +1,221 @@
+{
+  "dataset": "Oxford-IIIT Pet Dataset",
+  "dataset_homepage": "https://www.robots.ox.ac.uk/~vgg/data/pets/",
+  "official_download_urls": {
+    "images": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz",
+    "annotations": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz"
+  },
+  "official_species_mapping": {
+    "1": {
+      "name": "cat",
+      "zh": "猫"
+    },
+    "2": {
+      "name": "dog",
+      "zh": "狗"
+    }
+  },
+  "official_annotation_source": "annotations/list.txt and annotations/README in the official annotations.tar.gz archive",
+  "official_trimap_semantics": {
+    "1": "Foreground",
+    "2": "Background",
+    "3": "Not classified"
+  },
+  "official_license_statements": [
+    {
+      "source": "https://www.robots.ox.ac.uk/~vgg/data/pets/",
+      "text": "The dataset is available to download for commercial/research purposes under a Creative Commons Attribution-ShareAlike 4.0 International License."
+    },
+    {
+      "source": "https://www.robots.ox.ac.uk/~vgg/data/pets/",
+      "text": "The copyright remains with the original owners of the images."
+    },
+    {
+      "source": "annotations/README inside annotations.tar.gz",
+      "text": "Dataset is made available for research purposes only. Use of these images must respect the corresponding terms of use of original websites from which they are taken."
+    }
+  ],
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "citation": {
+    "authors": "O. M. Parkhi, A. Vedaldi, A. Zisserman, C. V. Jawahar",
+    "title": "Cats and Dogs",
+    "venue": "IEEE Conference on Computer Vision and Pattern Recognition, 2012"
+  },
+  "selection": {
+    "purpose": "少量照片与标注用于知识练习；独立项目使用完整数据或有明确规则的子集",
+    "counts": {
+      "cat": 2,
+      "dog": 2,
+      "trimap": 4
+    },
+    "manual_visual_check": true,
+    "check_scope": "四张原图均与同 stem trimap 叠加目视核对；原图和 trimap 尺寸一致。"
+  },
+  "samples": [
+    {
+      "species": 1,
+      "species_name": "cat",
+      "species_zh": "猫",
+      "image": "Abyssinian_1.jpg",
+      "mask": "Abyssinian_1.png",
+      "image_archive_member": "images/Abyssinian_1.jpg",
+      "trimap_archive_member": "annotations/trimaps/Abyssinian_1.png",
+      "image_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz",
+      "trimap_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz",
+      "annotation_list_entry": "Abyssinian_1 1 1 1",
+      "image_info": {
+        "sha256": "2533197401eebe9410ea4d063f86c43fbd2666f3e8165a38aca155c0d09c21be",
+        "format": "JPEG",
+        "size_px": [
+          600,
+          400
+        ],
+        "mode": "RGB"
+      },
+      "mask_info": {
+        "sha256": "a39ce8ec0363178918cb257844125e3aa7773a3acd4ca8b84780d62c1fa6f220",
+        "format": "PNG",
+        "size_px": [
+          600,
+          400
+        ],
+        "mode": "L",
+        "values_present": [
+          1,
+          2,
+          3
+        ],
+        "value_semantics": {
+          "1": "Foreground",
+          "2": "Background",
+          "3": "Not classified"
+        }
+      },
+      "manual_pair_check": "原图与同 stem trimap 逐组叠加目视核对，主体轮廓对应。"
+    },
+    {
+      "species": 1,
+      "species_name": "cat",
+      "species_zh": "猫",
+      "image": "Abyssinian_2.jpg",
+      "mask": "Abyssinian_2.png",
+      "image_archive_member": "images/Abyssinian_2.jpg",
+      "trimap_archive_member": "annotations/trimaps/Abyssinian_2.png",
+      "image_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz",
+      "trimap_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz",
+      "annotation_list_entry": "Abyssinian_2 1 1 1",
+      "image_info": {
+        "sha256": "f85800d6ae357882e6f69e2f9acc1d88367a63454ec63896593fa9007ff40b43",
+        "format": "JPEG",
+        "size_px": [
+          600,
+          473
+        ],
+        "mode": "RGB"
+      },
+      "mask_info": {
+        "sha256": "2ac59a022914ec768429f3aa3f3b4884f4842710391d1ddbeb87d1610848e766",
+        "format": "PNG",
+        "size_px": [
+          600,
+          473
+        ],
+        "mode": "L",
+        "values_present": [
+          1,
+          2,
+          3
+        ],
+        "value_semantics": {
+          "1": "Foreground",
+          "2": "Background",
+          "3": "Not classified"
+        }
+      },
+      "manual_pair_check": "原图与同 stem trimap 逐组叠加目视核对，主体轮廓对应。"
+    },
+    {
+      "species": 2,
+      "species_name": "dog",
+      "species_zh": "狗",
+      "image": "american_bulldog_2.jpg",
+      "mask": "american_bulldog_2.png",
+      "image_archive_member": "images/american_bulldog_2.jpg",
+      "trimap_archive_member": "annotations/trimaps/american_bulldog_2.png",
+      "image_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz",
+      "trimap_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz",
+      "annotation_list_entry": "american_bulldog_2 2 2 1",
+      "image_info": {
+        "sha256": "d4d9908e8b3d8603139536841b05155ac139aaec58f0ea3070f0ef6874aa36af",
+        "format": "JPEG",
+        "size_px": [
+          500,
+          333
+        ],
+        "mode": "RGB"
+      },
+      "mask_info": {
+        "sha256": "8cab3136d0e3486dff8b24f27b2b223667ead4d61f1bcb175e6b8b175f7ba629",
+        "format": "PNG",
+        "size_px": [
+          500,
+          333
+        ],
+        "mode": "L",
+        "values_present": [
+          1,
+          2,
+          3
+        ],
+        "value_semantics": {
+          "1": "Foreground",
+          "2": "Background",
+          "3": "Not classified"
+        }
+      },
+      "manual_pair_check": "原图与同 stem trimap 逐组叠加目视核对，主体轮廓对应。"
+    },
+    {
+      "species": 2,
+      "species_name": "dog",
+      "species_zh": "狗",
+      "image": "american_bulldog_3.jpg",
+      "mask": "american_bulldog_3.png",
+      "image_archive_member": "images/american_bulldog_3.jpg",
+      "trimap_archive_member": "annotations/trimaps/american_bulldog_3.png",
+      "image_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz",
+      "trimap_source_url": "https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz",
+      "annotation_list_entry": "american_bulldog_3 2 2 1",
+      "image_info": {
+        "sha256": "0e71d68f01a08be9080d75447b9348adc26c1c61a436ff81a8d0b39c498495cb",
+        "format": "JPEG",
+        "size_px": [
+          500,
+          287
+        ],
+        "mode": "RGB"
+      },
+      "mask_info": {
+        "sha256": "0ac095cdc9f964f74b256e5ad1de442d8ff6bf6adee2e8eede901825a73e29d6",
+        "format": "PNG",
+        "size_px": [
+          500,
+          287
+        ],
+        "mode": "L",
+        "values_present": [
+          1,
+          2,
+          3
+        ],
+        "value_semantics": {
+          "1": "Foreground",
+          "2": "Background",
+          "3": "Not classified"
+        }
+      },
+      "manual_pair_check": "原图与同 stem trimap 逐组叠加目视核对，主体轮廓对应。"
+    }
+  ],
+  "retrieved_at_utc": "2026-09-20T08:09:45.077442+00:00"
+}

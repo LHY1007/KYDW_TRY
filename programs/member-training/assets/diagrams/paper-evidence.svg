@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="530" viewBox="0 0 1000 530" role="img" aria-labelledby="title desc" style="font-family:Microsoft YaHei, Segoe UI, sans-serif;">
+<title id="title">论文原文与引用证据</title><desc id="desc">展示阅读论文时如何从图表和方法说明提取可复查证据，并区分原文结果与自己的解释。</desc>
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 z" fill="#245B78"/></marker>
+<marker id="arrow-teal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 z" fill="#2F7F89"/></marker>
+<pattern id="gridline" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#E8F1F7"/><path d="M18 0H0V18" fill="none" stroke="#DFE7F1" stroke-width="1"/></pattern>
+</defs>
+<rect width="1000" height="530" fill="#F4F7FB"/>
+<text x="40" y="42" text-anchor="start" font-size="30px" font-weight="750" fill="#245B78" style="">论文原文与引用证据</text>
+<rect x="45" y="95" width="250" height="270" rx="16" fill="#FFFFFF" stroke="#245B78" stroke-width="3"/>
+<text x="170" y="132" text-anchor="middle" font-size="26px" font-weight="750" fill="#245B78" style="">论文原文</text>
+<rect x="78" y="160" width="184" height="90" rx="8" fill="#E8F1F7" stroke="#2F7F89" stroke-width="2"/>
+<text x="170" y="198" text-anchor="middle" font-size="25px" font-weight="750" fill="#142033" style="">图 2 / 表 1</text>
+<text x="170" y="232" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">作者报告的结果</text>
+<rect x="78" y="278" width="184" height="48" rx="24.0" fill="#D9EEF0" stroke="#2F7F89" stroke-width="2"/>
+<text x="170.0" y="309.7" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">页码 / 小节</text>
+<line x1="298" y1="230" x2="355" y2="230" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+<rect x="365" y="88" width="320" height="315" rx="16" fill="#FFFFFF" stroke="#2F7F89" stroke-width="3"/>
+<text x="525" y="124" text-anchor="middle" font-size="26px" font-weight="750" fill="#2F7F89" style="">阅读证据表</text>
+<rect x="390" y="145" width="270" height="31" rx="6" fill="#E8F1F7" stroke="none" stroke-width="0"/>
+<text x="405" y="167" text-anchor="start" font-size="22px" font-weight="700" fill="#245B78" style="">研究问题</text>
+<text x="545" y="167" text-anchor="start" font-size="22px" font-weight="500" fill="#142033" style="">作者问题</text>
+<rect x="390" y="184" width="270" height="31" rx="6" fill="#D9EEF0" stroke="none" stroke-width="0"/>
+<text x="405" y="206" text-anchor="start" font-size="22px" font-weight="700" fill="#245B78" style="">输入 → 输出</text>
+<text x="545" y="206" text-anchor="start" font-size="22px" font-weight="500" fill="#142033" style="">数据来源</text>
+<rect x="390" y="223" width="270" height="31" rx="6" fill="#E8F1F7" stroke="none" stroke-width="0"/>
+<text x="405" y="245" text-anchor="start" font-size="22px" font-weight="700" fill="#245B78" style="">数据与划分</text>
+<text x="545" y="245" text-anchor="start" font-size="22px" font-weight="500" fill="#142033" style="">样本关系</text>
+<rect x="390" y="262" width="270" height="31" rx="6" fill="#D9EEF0" stroke="none" stroke-width="0"/>
+<text x="405" y="284" text-anchor="start" font-size="22px" font-weight="700" fill="#245B78" style="">关键方法</text>
+<text x="545" y="284" text-anchor="start" font-size="22px" font-weight="500" fill="#142033" style="">参照差异</text>
+<rect x="390" y="301" width="270" height="31" rx="6" fill="#E8F1F7" stroke="none" stroke-width="0"/>
+<text x="405" y="323" text-anchor="start" font-size="22px" font-weight="700" fill="#245B78" style="">证据位置</text>
+<text x="545" y="323" text-anchor="start" font-size="22px" font-weight="500" fill="#142033" style="">图表位置</text>
+<rect x="390" y="340" width="270" height="31" rx="6" fill="#D9EEF0" stroke="none" stroke-width="0"/>
+<text x="405" y="362" text-anchor="start" font-size="22px" font-weight="700" fill="#245B78" style="">对自己的作用</text>
+<text x="545" y="362" text-anchor="start" font-size="22px" font-weight="500" fill="#142033" style="">实验线索</text>
+<line x1="687" y1="230" x2="740" y2="230" stroke="#2F7F89" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+<rect x="748" y="105" width="205" height="260" rx="16" fill="#FFFFFF" stroke="#245B78" stroke-width="3"/>
+<text x="850" y="144" text-anchor="middle" font-size="25px" font-weight="750" fill="#245B78" style="">可引用结论</text>
+<rect x="775" y="173" width="150" height="44" rx="22.0" fill="#E9F6EF" stroke="#2F7F89" stroke-width="2"/>
+<text x="850.0" y="202.7" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">原文结果</text>
+<text x="850" y="250" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">对象 + 条件</text>
+<text x="850" y="284" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">实际数字</text>
+<text x="850" y="318" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">原文位置</text>
+<rect x="775" y="300" width="150" height="44" rx="22.0" fill="#FFF5DA" stroke="#C9912C" stroke-width="2"/>
+<text x="850.0" y="329.7" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">待验证解释</text>
+<text x="500" y="455" text-anchor="middle" font-size="26px" font-weight="750" fill="#245B78" style="">原文结果 ≠ 自己的解释</text>
+<text x="500" y="494" text-anchor="middle" font-size="23px" font-weight="500" fill="#5D6B7F" style="">先记录证据，再提出需要实验检验的原因</text>
+</svg>

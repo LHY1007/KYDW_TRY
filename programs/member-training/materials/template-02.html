@@ -1,84 +1,109 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="图表与证据索引" name="description"/><title>图表与证据索引｜科研大王 KYDW</title>
-<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
-<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
-<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
-<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>图表与证据索引</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">每张图的图注草稿</a><a href="#section-02">结论核对</a></nav></details></aside>
-<article class="card course-reader"><p>运行目录：<strong><em>_</em></strong><em>　清单哈希：<strong><em>_</em></strong></em>　评价记录：<strong><em>_</em></strong>_</p>
-<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>图表与证据索引｜KYDW新成员培训与考核</title><meta name="description" content="图表与证据索引：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>图表与证据索引</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>报告、PPT 和海报中的图表需要能找到来源。制作图表时填写一行，以后修改数字或更换样例时更新对应行。</p>
+<h2 id="section-01">图表清单</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
 <thead>
 <tr>
-<th>编号</th>
-<th>准备表达的事实</th>
-<th>数据文件/行筛选</th>
-<th>图块/组编号</th>
-<th>图表文件</th>
-<th>选择规则</th>
-<th>报告/PPT/海报位置</th>
+<th>图表编号</th>
+<th>标题与用途</th>
+<th>项目及实验编号</th>
+<th>原始结果表、图像或文献</th>
+<th>样本编号与范围</th>
+<th>最终文件</th>
+<th>使用位置</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>E01</td>
-<td>数据数量与划分</td>
-<td><code>bci_manifest.csv</code>按split计数</td>
-<td>全部</td>
-<td>数据表</td>
-<td>完整清单</td>
+<td>图1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>E02</td>
-<td>未扰动输入的方法比较</td>
-<td><code>summary.csv</code>，condition=clean</td>
-<td>全部测试</td>
-<td>主比较图</td>
-<td>预先规定</td>
+<td>图2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>E03</td>
-<td>同图块两方法差值</td>
-<td><code>per_pair_metrics.csv</code>配对</td>
-<td>全部测试</td>
-<td>差值图</td>
-<td>共同pair_id</td>
+<td>表1</td>
 <td></td>
-</tr>
-<tr>
-<td>E04</td>
-<td>固定案例的局部表现</td>
-<td><code>examples/</code>与清单</td>
 <td></td>
-<td>并排图</td>
-<td>编号排序前三</td>
 <td></td>
-</tr>
-<tr>
-<td>E05</td>
-<td>失败案例</td>
-<td><code>failure_candidates.csv</code></td>
 <td></td>
-<td>局部放大图</td>
-<td>L1误差排序</td>
 <td></td>
-</tr>
-<tr>
-<td>E06</td>
-<td>输入模糊的变化</td>
-<td>condition=clean/blur_sigma1</td>
-<td>共同pair_id</td>
-<td>配对散点图</td>
-<td>冻结条件</td>
 <td></td>
 </tr>
 </tbody>
 </table></div>
-<h2 id="section-01">每张图的图注草稿</h2>
-<p>图号与标题：<strong><em>_</em></strong><em>。研究对象和样本数：<strong><em>_</em></strong></em>。输入/参考/预测分别是什么：<strong><em>_</em></strong><em>。横纵坐标、单位或数值范围：<strong><em>_</em></strong></em>。图块选择规则：<strong><em>_</em></strong><em>。统计单位与缺失值处理：<strong><em>_</em></strong></em>。数据来源：<strong><em>_</em></strong>_。</p>
-<h2 id="section-02">结论核对</h2>
-<p>主要结论原句：<strong><em>_</em></strong><em>。直接证据：<strong><em>_</em></strong></em>。涉及的解释或推断：<strong><em>_</em></strong><em>。证据适用范围：<strong><em>_</em></strong></em>。需要删去或限定的词语：<strong><em>_</em></strong>_。</p>
-<p>图表最后修改后，再检查报告、PPT与海报中的同一数值，避免三个文件保留不同实验版本。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>
+<p>自己的实验图填写配置和原始结果表；文献图填写作者、年份、图号及原图或改编关系。流程图填写可编辑 PPTX 的页码，图中对象和箭头应对应实际方法。</p>
+<h2 id="section-02">结论与依据</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>准备写入正文的观察</th>
+<th>支撑它的表格行或图像位置</th>
+<th>数据范围</th>
+<th>需要补充的检查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>“方案 B 的平均 Dice 较高”需要对应同一测试集的指标表；“耳朵区域少漏了一块”需要对应样本编号和局部位置。先写观察，再填写依据，避免把未经核对的解释写成结果。</p>
+<h2 id="section-03">图注填写</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>要素</th>
+<th>填写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>展示对象与数据来源</td>
+<td></td>
+</tr>
+<tr>
+<td>栏顺序、颜色及符号含义</td>
+<td></td>
+</tr>
+<tr>
+<td>样例选取规则</td>
+<td></td>
+</tr>
+<tr>
+<td>指标方向与计算范围</td>
+<td></td>
+</tr>
+<tr>
+<td>特别处理，如分割忽略区或局部放大</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>对照图使用相同样本、缩放和排列顺序。H&amp;E–IHC 图写清输入、真实参考与生成结果；放大区域保留在原图中的位置。</p></article></main><div id="site-footer"></div></body></html>

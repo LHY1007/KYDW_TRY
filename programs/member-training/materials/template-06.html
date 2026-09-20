@@ -1,99 +1,147 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="数据卡" name="description"/><title>数据卡｜科研大王 KYDW</title>
-<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
-<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
-<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
-<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>数据卡</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">来源与许可</a><a href="#section-02">图像代表什么</a><a href="#section-03">本次清单</a><a href="#section-04">配对和划分核查</a><a href="#section-05">进入模型前的变化</a><a href="#section-06">可支持的研究范围</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">来源与许可</h2>
-<p>数据名称：BCI。原始论文为Liu等在CVPR Workshops 2022发表的《BCI: Breast Cancer Immunohistochemical Image Generation Through Pyramid Pix2pix》。官方项目与下载入口见学生手册附录参考资料[5—7]。</p>
-<p>本次获取日期：<strong><em>_</em></strong><em>。实际下载入口：<strong><em>_</em></strong></em>。源压缩包名称及校验值：<strong><em>_</em></strong><em>。保存的许可文件：<strong><em>_</em></strong></em>。使用场景：<strong><em>_</em></strong><em>。数据公开、转存及成果图展示所需授权的核查记录：<strong><em>_</em></strong></em>。</p>
-<h2 id="section-02">图像代表什么</h2>
-<p>输入为H&amp;E明场RGB组织图像；目标为配对的HER2-IHC明场RGB图像。写明来源所说明的组织、制片与配准方式，并记录对应论文位置。未在来源中确认的信息填写“未核实”。</p>
-<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数据卡｜KYDW新成员培训与考核</title><meta name="description" content="数据卡：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>数据卡</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>每个项目填写一份。前两个项目使用 Oxford-IIIT Pet 的不同目标，H&amp;E–IHC 使用 BCI 配对数据。数据卡记录实际取得并使用的内容。</p>
+<h2 id="section-01">来源与对象</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
 <thead>
 <tr>
-<th>信息</th>
-<th>来源说明/本次核查</th>
+<th>字段</th>
+<th>填写</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>组织与疾病来源</td>
+<td>项目与数据集名称</td>
 <td></td>
 </tr>
 <tr>
-<td>配对方式与配准说明</td>
+<td>作者公布的来源、取得日期及版本</td>
 <td></td>
 </tr>
 <tr>
-<td>图块原始像素尺寸</td>
+<td>使用说明与引用</td>
 <td></td>
 </tr>
 <tr>
-<td>原始物理尺度/mpp</td>
+<td>输入对象</td>
 <td></td>
 </tr>
 <tr>
-<td>是否为同一张物理切片</td>
+<td>目标对象与含义</td>
 <td></td>
 </tr>
 <tr>
-<td>来源WSI标识是否可得</td>
+<td>原始尺寸及模型输入尺寸</td>
 <td></td>
 </tr>
 <tr>
-<td>来源患者标识是否可得</td>
-<td></td>
-</tr>
-<tr>
-<td>文件名类别字段的含义与依据</td>
-<td></td>
-</tr>
-<tr>
-<td>视觉检查所发现的残余错位</td>
+<td>数值范围、类型及预处理</td>
 <td></td>
 </tr>
 </tbody>
 </table></div>
-<h2 id="section-03">本次清单</h2>
-<p>完整审计文件：<code>bci_full_audit.csv</code>。课程选择文件：<code>bci_manifest.csv</code>。数据卡配置文件：<code>data_card.json</code>。</p>
-<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<p>猫狗分类使用 species：原始 1 为猫、2 为狗，模型标签对应为 0 和 1。37 个品种标签属于另一种分类目标。分割 trimap 的 1 为前景、2 为背景、3 为边界待定区，训练和评价都应排除边界待定区。</p>
+<h2 id="section-02">标签或配对约定</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>原始表示</th>
+<th>我的处理方式</th>
+<th>实际检查的样本编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>猫狗类别或分割像素标签</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H&amp;E 输入与 HER2-IHC 参考</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>忽略区、空白区或缺失数据</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>只填写与本项目有关的行。BCI 需要核对输入和目标方向、配对编号及空间对应，不凭 A/B 目录名推断染色。记录完整图块缩放和局部裁剪的区别。</p>
+<h2 id="section-03">集合与数量</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
 <thead>
 <tr>
 <th>集合</th>
-<th style="text-align: right;">完整来源图块数</th>
-<th style="text-align: right;">实际使用图块数</th>
-<th style="text-align: right;">已核实独立组数</th>
+<th>来源与划分规则</th>
+<th>实际图像或配对数量</th>
+<th>猫狗分布 / 已核实组标识</th>
+<th>清单位置</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>训练</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>验证</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>测试</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table></div>
-<p>实际分组层级：<strong><em>_</em></strong><em>。元数据来源文件：<strong><em>_</em></strong></em>。没有组标识时，独立组数填写“未知”，并写明本次沿用官方测试来源、从训练来源留出图块验证的做法。</p>
-<h2 id="section-04">配对和划分核查</h2>
-<p>记录左右方向或文件夹方向的确认依据；列出人工检查的配对编号；说明完整来源的跨集合重复图像审计结果；记录有无缺图、无法解码、尺寸不一致和路径错误。程序检查通过后，仍需打开图像确认组织内容与染色方向。</p>
-<h2 id="section-05">进入模型前的变化</h2>
-<p>本次输入尺寸：<strong><em>_</em></strong>_。本课程默认整体缩放至256×256；RGB值除以255。训练时对配对图像同步进行水平/垂直翻转，验证和测试保持固定方向。记录任何额外处理及其适用集合。</p>
-<h2 id="section-06">可支持的研究范围</h2>
-<p>本次研究讨论：<strong><em>_</em></strong><em>。来源人群、组织、标志物、配准质量、物理尺度和分组信息带来的限制分别是：<strong><em>_</em></strong></em>。新来源H&amp;E推理另建数据卡，不与有参考目标的测试集混在一起统计。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>
+<p>Oxford-IIIT Pet 保留官方测试部分，从 trainval 划出训练和验证。BCI 保留官方来源信息，使用可靠患者或切片标识检查集合关系；没有这些标识时，写明尚未取得，不把图块编号当成患者编号。使用子集时记录固定选取规则。</p>
+<h2 id="section-04">图像检查</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>样本编号</th>
+<th>检查内容</th>
+<th>可见现象</th>
+<th>处理或保留方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>图像与类别 / 掩膜 / 配对</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>尺寸、重复或空间关系</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>局部质量问题</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>先显示处理后的真实图像。分割检查同步变换后的叠加图；病理配对检查组织边缘和局部位置。保留数据清单，后续比较使用同一份清单。</p></article></main><div id="site-footer"></div></body></html>

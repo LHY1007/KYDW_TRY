@@ -1,76 +1,139 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="代码阅读与短练习" name="description"/><title>代码阅读与短练习｜科研大王 KYDW</title>
-<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
-<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
-<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
-<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 练习与参考</div><h1>代码阅读与短练习</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">1. 为一张图添加批次维度</a><a href="#section-02">2. 计算一次分类决策</a><a href="#section-03">3. 忽略边界再计算重叠</a><a href="#section-04">4. 验证detach的作用</a><a href="#section-05">5. 对齐图块后比较模型</a><a href="#section-06">6. 避免把缺失误差填成零</a><a href="#section-07">7. 源代码定位</a></nav></details></aside>
-<article class="card course-reader"><p>这些练习可以在对应Notebook末尾新建单元格完成。先写预期，再运行。下方参考代码可直接执行；不需要额外数据。示例数值只用于理解程序。</p>
-<h2 id="section-01">1. 为一张图添加批次维度</h2>
-<p>题目：构造<code>[3,8,8]</code>的浮点RGB张量，添加批次维度并恢复原形状。解释为什么不能随意把通道维度当成批次。</p>
-<pre><code class="language-python">import torch
-x = torch.zeros(3, 8, 8)
-batch = x.unsqueeze(0)
-restored = batch.squeeze(0)
-assert batch.shape == (1, 3, 8, 8)
-assert torch.equal(x, restored)
-</code></pre>
-<p><code>unsqueeze(0)</code>只增加一个长度为1的轴，没有新增图像信息。批次代表多个样本，通道代表同一图像不同颜色分量。</p>
-<h2 id="section-02">2. 计算一次分类决策</h2>
-<p>题目：两个样本对三个类别的分数分别为<code>[1,3,0]</code>与<code>[4,2,1]</code>。预测类别是什么？若标签为1和2，准确率是多少？</p>
-<pre><code class="language-python">scores = torch.tensor([[1., 3., 0.], [4., 2., 1.]])
-labels = torch.tensor([1, 2])
-prediction = scores.argmax(dim=1)
-accuracy = (prediction == labels).float().mean()
-assert prediction.tolist() == [1, 0]
-assert accuracy.item() == 0.5
-</code></pre>
-<p>类别从0编号。<code>dim=1</code>表示在每一行的类别维上找最大值。第二个样本虽然有最高分，也可能预测错误。</p>
-<h2 id="section-03">3. 忽略边界再计算重叠</h2>
-<p>题目：参考为<code>[[1,0],[255,1]]</code>，预测为<code>[[1,1],[1,0]]</code>。忽略左下角后，TP、FP、FN分别是多少？</p>
-<pre><code class="language-python">import numpy as np
-reference = np.array([[1, 0], [255, 1]])
-prediction = np.array([[1, 1], [1, 0]])
-valid = reference != 255
-p = prediction[valid] == 1
-y = reference[valid] == 1
-tp = np.logical_and(p, y).sum()
-fp = np.logical_and(p, ~y).sum()
-fn = np.logical_and(~p, y).sum()
-dice = 2 * tp / (2 * tp + fp + fn)
-assert (tp, fp, fn) == (1, 1, 1)
-assert dice == 0.5
-</code></pre>
-<p>忽略规则在统计前执行。未确定边界不会因为预测为前景而自动计为假阳性。</p>
-<h2 id="section-04">4. 验证detach的作用</h2>
-<p>题目：<code>x=2</code>时，<code>y=x*x</code>对x的梯度是多少？换成<code>x.detach()</code>后，新的结果是否保留梯度路径？</p>
-<pre><code class="language-python">x = torch.tensor(2., requires_grad=True)
-y = x * x
-y.backward()
-assert x.grad.item() == 4.
-z = x.detach() * x.detach()
-assert not z.requires_grad
-</code></pre>
-<p>这个数值例子帮助理解判别器步骤为何把生成图detach。生成器更新步骤需要保留通向生成图的梯度路径。</p>
-<h2 id="section-05">5. 对齐图块后比较模型</h2>
-<p>题目：两张表的行顺序不同，能否直接相减？先按ID连接，再计算同图块差值。</p>
-<pre><code class="language-python">import pandas as pd
-l1 = pd.DataFrame({'pair_id':['A','B'], 'mae':[0.12,0.20]})
-gan = pd.DataFrame({'pair_id':['B','A'], 'mae':[0.18,0.14]})
-paired = l1.merge(gan, on='pair_id', suffixes=('_l1','_gan'), validate='one_to_one')
-paired['delta'] = paired.mae_gan - paired.mae_l1
-assert np.allclose(paired.delta, [0.02,-0.02])
-</code></pre>
-<p>平均差为0并不表示每个图块都没有变化。A变差，B改善；需要保留配对差值及样例。</p>
-<h2 id="section-06">6. 避免把缺失误差填成零</h2>
-<pre><code class="language-python">errors = np.array([0.10, np.nan, 0.20])
-valid = np.isfinite(errors)
-mean = errors[valid].mean()
-assert valid.sum() == 2
-assert np.isclose(mean, 0.15)
-</code></pre>
-<p>结果同时报告均值与有效数量。把NaN填成0后均值会变成0.10，含义错误。</p>
-<h2 id="section-07">7. 源代码定位</h2>
-<p>在<code>src/kydw_course.py</code>中找到<code>read_pair</code>、<code>masked_bce</code>、<code>train_stain</code>、<code>reconstruction_metrics</code>四个函数。每个函数写出：需要哪些输入；返回什么；其中一个检查阻止了什么错误。对照正文第6章完成，不要求从头复制整份源代码。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分类知识提示｜KYDW新成员培训与考核</title><meta name="description" content="分类知识提示：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>分类知识提示</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>配合第 1、2 章和 Kaggle 知识练习 00、01、02 使用。先完成局部观察和计算，再在自己的项目中组合这些知识。这里保留问题与检查提示，目标项目的训练程序由你独立实现。</p>
+<h2 id="section-01">图像与类别</h2>
+<p>从 Oxford-IIIT Pet 选一张猫和一张狗，核对 species 标注。记录原始 1/2 与模型 0/1 的对应，确认使用的是猫狗类别而非 37 个品种。</p>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>检查对象</th>
+<th>我的观察</th>
+<th>我据此怎样确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一张猫照片与标签</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>一张狗照片与标签</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缩放前后是否保持对象比例</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>显示处理后的照片，检查颜色、裁剪和目标完整程度。标签数值正确还不够，图片与标签也必须对应。</p>
+<h2 id="section-02">张量与分数</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>对象</th>
+<th>我的实际形状</th>
+<th>类型与范围</th>
+<th>每个维度的含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单张 RGB 图像</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>一批图像</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>类别标签</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>模型 logits</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>PyTorch 卷积使用批量、通道、高、宽的顺序；分类模型为每张图产生两个 logits。交叉熵接收原始 logits 与整数标签，先检查维度、类型及设备，再考虑调整模型。</p>
+<h2 id="section-03">一次参数更新</h2>
+<p>在知识练习中观察一次更新，不开展完整目标训练。挑一个参数，记录更新前后数值；再观察梯度是否存在。</p>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>我的解释或观察位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本次损失比较了哪些对象？</td>
+<td></td>
+</tr>
+<tr>
+<td>旧梯度在什么位置被清空？</td>
+<td></td>
+</tr>
+<tr>
+<td>反向传播与参数更新分别做了什么？</td>
+<td></td>
+</tr>
+<tr>
+<td>学习率改变后，能观察到什么？</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>若参数没有变化，依次检查是否计算梯度、参数是否交给优化器、是否执行更新。一次更新的现象用于理解计算，不代表模型已经学会分类。</p>
+<h2 id="section-04">混淆矩阵小练习</h2>
+<p>设猫为 0、狗为 1。六张照片的真实标签为 <code>0、1、1、0、1、0</code>，预测为 <code>0、0、1、0、1、1</code>。先手工计数，再用自己的 PyTorch 张量运算核对。</p>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>数量或指标</th>
+<th>我的计算</th>
+<th>核对结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正确预测数与准确率</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>真实猫、预测狗的数量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>真实狗、预测猫的数量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>以狗为正类的精确率与召回率</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>混淆矩阵先写清行和列分别代表什么。找不到分母时，先用文字说明“在什么照片里统计了什么”，再列算式。</p>
+<h2 id="section-05">独立实现前</h2>
+<p>写下自己准备保存的数据划分、配置、权重、逐图预测和图表。另画一张草图，区分预测路径与标签、损失的训练支路。实际猫狗项目完成后，全员制作可编辑流程图和一页结果展示。</p></article></main><div id="site-footer"></div></body></html>

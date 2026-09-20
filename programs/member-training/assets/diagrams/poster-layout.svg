@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="570" viewBox="0 0 1000 570" role="img" aria-labelledby="title desc" style="font-family:Microsoft YaHei, Segoe UI, sans-serif;">
+<title id="title">A1 学习海报版式：阅读区域与证据位置</title><desc id="desc">展示 A1 横向海报的标题、三块主体内容、底部来源和阅读顺序；不填入虚构实验结果。</desc>
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 z" fill="#245B78"/></marker>
+<marker id="arrow-teal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 z" fill="#2F7F89"/></marker>
+<pattern id="gridline" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#E8F1F7"/><path d="M18 0H0V18" fill="none" stroke="#DFE7F1" stroke-width="1"/></pattern>
+</defs>
+<rect width="1000" height="570" fill="#F4F7FB"/>
+<text x="40" y="42" text-anchor="start" font-size="30px" font-weight="750" fill="#245B78" style="">A1 学习海报版式：阅读区域与证据位置</text>
+<rect x="45" y="78" width="910" height="420" rx="8" fill="#FFFFFF" stroke="#245B78" stroke-width="4"/>
+<line x1="63" y1="78" x2="63" y2="498" stroke="#2F7F89" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6"/>
+<line x1="937" y1="78" x2="937" y2="498" stroke="#2F7F89" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6"/>
+<text x="500" y="104" text-anchor="middle" font-size="30px" font-weight="750" fill="#245B78" style="">中心问题 / 海报标题</text>
+<text x="500" y="133" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">作者与来源信息（示意）</text>
+<rect x="75" y="163" width="245" height="250" rx="12" fill="#E8F1F7" stroke="#2F7F89" stroke-width="2"/>
+<text x="197" y="203" text-anchor="middle" font-size="25px" font-weight="750" fill="#245B78" style="">1  对象与背景</text>
+<rect x="105" y="225" width="80" height="58" rx="12" fill="#FFFFFF" stroke="#2F7F89" stroke-width="2"/>
+<rect x="117.0" y="237.0" width="18.7" height="11.3" fill="#F6C7B6"/>
+<rect x="135.7" y="237.0" width="18.7" height="11.3" fill="#ECA39B"/>
+<rect x="154.3" y="237.0" width="18.7" height="11.3" fill="#F4D5A7"/>
+<rect x="117.0" y="248.3" width="18.7" height="11.3" fill="#A9D8C9"/>
+<rect x="135.7" y="248.3" width="18.7" height="11.3" fill="#80BBC0"/>
+<rect x="154.3" y="248.3" width="18.7" height="11.3" fill="#D9EAAE"/>
+<rect x="117.0" y="259.7" width="18.7" height="11.3" fill="#A8C7E8"/>
+<rect x="135.7" y="259.7" width="18.7" height="11.3" fill="#C6B7E8"/>
+<rect x="154.3" y="259.7" width="18.7" height="11.3" fill="#E3C8A9"/>
+<text x="194" y="260" text-anchor="start" font-size="22px" font-weight="700" fill="#142033" style="">H&amp;E / IHC</text>
+<text x="197" y="315" text-anchor="middle" font-size="24px" font-weight="700" fill="#142033" style="">研究问题</text>
+<text x="197" y="350" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">数据来源与对象</text>
+<text x="197" y="380" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">保留可核对的事实</text>
+<rect x="350" y="163" width="245" height="250" rx="12" fill="#D9EEF0" stroke="#2F7F89" stroke-width="2"/>
+<text x="472" y="203" text-anchor="middle" font-size="25px" font-weight="750" fill="#245B78" style="">2  关键方法</text>
+<rect x="385" y="245" width="78" height="48" rx="8" fill="#FFFFFF" stroke="#245B78" stroke-width="2"/>
+<text x="424" y="276" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">输入</text>
+<line x1="465" y1="269" x2="480" y2="269" stroke="#2F7F89" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+<rect x="487" y="245" width="78" height="48" rx="8" fill="#FFFFFF" stroke="#245B78" stroke-width="2"/>
+<text x="526" y="276" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">模型</text>
+<line x1="567" y1="269" x2="582" y2="269" stroke="#2F7F89" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+<text x="472" y="330" text-anchor="middle" font-size="24px" font-weight="700" fill="#142033" style="">评价对象</text>
+<text x="472" y="365" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">图示关系与设置</text>
+<text x="472" y="395" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">方法名称保持一致</text>
+<rect x="625" y="163" width="245" height="250" rx="12" fill="#E9F6EF" stroke="#2F7F89" stroke-width="2"/>
+<text x="747" y="203" text-anchor="middle" font-size="24px" font-weight="750" fill="#245B78" style="">3  文献或实验观察</text>
+<rect x="660" y="235" width="175" height="88" rx="8" fill="#FFFFFF" stroke="#2F7F89" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="747" y="273" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">实际观察 / 证据</text>
+<text x="747" y="305" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">（按来源填入）</text>
+<text x="747" y="355" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">文献图注：作者、年份</text>
+<text x="747" y="389" text-anchor="middle" font-size="22px" font-weight="500" fill="#5D6B7F" style="">图号；结果保留编号</text>
+<line x1="323" y1="286" x2="345" y2="286" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+<line x1="603" y1="286" x2="620" y2="286" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+<rect x="75" y="430" width="795" height="45" rx="10" fill="#FFF5DA" stroke="#C9912C" stroke-width="2"/>
+<text x="472" y="460" text-anchor="middle" font-size="23px" font-weight="750" fill="#142033" style="">总结与来源：中心问题、学习所得、可核对材料</text>
+<text x="55" y="535" text-anchor="start" font-size="23px" font-weight="700" fill="#245B78" style="">A1 横向：84.1 × 59.4 cm    四周约 2 cm 边距</text>
+<text x="945" y="535" text-anchor="end" font-size="22px" font-weight="650" fill="#5D6B7F" style="">仅示范版式，不填虚构结果</text>
+</svg>

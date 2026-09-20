@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>实验与短报告｜KYDW新成员培训与考核</title><meta name="description" content="实验与短报告：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与 PyTorch</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-experiments.html" aria-current="page"><span>04</span>实验与短报告</a><div class="lesson-local-toc"><details class="lesson-topic"><summary><a href="#section-01">实验问题与比较条件</a></summary></details><details class="lesson-topic"><summary><a href="#section-02">种子、划分与实验编号</a></summary></details><details class="lesson-topic"><summary><a href="#section-03">训练曲线与检查点</a></summary></details><details class="lesson-topic"><summary><a href="#section-04">均值、差异与样例</a></summary></details><details class="lesson-topic"><summary><a href="#section-05">图表与结果说明</a></summary></details><details class="lesson-topic"><summary><a href="#section-06">Word 简短报告</a></summary></details><details class="lesson-topic"><summary><a href="#section-07">独立项目：宠物分割</a></summary></details></div></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>4. 实验与短报告</h1><p>分割项目既需要产生预测，也需要回答一个清楚的问题：改变某个设置后，结果发生了什么变化？一次有记录的比较可以很小，例如固定模型与划分，只比较是否使用水平翻转增强。你需要保存实际结果，并用简短报告说明条件、证据和结论。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-pathology.html"><span>下一节 →</span><b>文献与病理图像</b></a></nav><article class="card course-reader lesson-reader">
+
+<h2 id="section-01">实验问题与比较条件</h2>
+<figure class="knowledge-figure"><a aria-label="放大图解：一次受控比较只改变所研究的因素，其余条件保持一致。" href="../assets/diagrams/experiment-control.svg" target="_blank"><img alt="一次受控比较只改变所研究的因素，其余条件保持一致。" loading="lazy" src="../assets/diagrams/experiment-control.svg"/></a><figcaption>一次受控比较只改变所研究的因素，其余条件保持一致。 <a href="../assets/diagrams/experiment-control.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<p>先写出准备改变的因素，再列出需要保持一致的条件。比较学习率时，模型、初始参数、数据划分、批量大小和训练预算应尽可能一致。比较不同模型时，至少保持数据、评价方法和训练预算的说明一致，并报告参数量或计算差异。</p>
+<p>不要根据最终结果再改写最初的问题。结果没有明显提升也有价值：它说明在当前数据与训练条件下，这项变化尚未显示清楚优势。记录失败或不稳定的实验，可以避免以后重复投入同样的时间。</p>
+<h2 id="section-02">种子、划分与实验编号</h2>
+<p>随机种子影响参数初始化、样本顺序等操作。固定种子可以减少比较中的随机差异，但不会使所有硬件和算子都完全一致。保存数据文件名和配置，比仅记录一个种子更便于复查。</p>
+<p>每次实验使用独立编号，例如 <code>seg_base_s1</code> 和 <code>seg_flip_s1</code>。记录输入尺寸、训练预算、增强、损失、优化器、学习率与种子。下一次改变设置时使用新目录，不覆盖前一次的权重和曲线。具备计算条件时，可使用几个种子重复比较；暂时只有单次结果时，直接说明运行次数。</p>
+<h2 id="section-03">训练曲线与检查点</h2>
+<p>训练损失下降说明模型更适合当前训练目标。验证指标反映对未参与更新的图像的表现。若训练继续改善而验证逐渐变差，可能存在过拟合，需要结合数据量、增强和模型复杂度分析。</p>
+<p>选择最佳检查点所依据的验证指标应事先确定。例如使用验证 Dice 最高的权重，并在比较中统一这一规则。不要用测试集挑选训练轮次。展示曲线时注明横轴是训练轮次还是更新步数，并保留各次记录的原始数值。</p>
+<aside class="knowledge-practice" id="practice-04"><div><span class="card-kicker">Kaggle 知识练习 04</span><strong>分割网络与对照实验</strong><p>打开后复制到自己的账户，运行小例子，再修改其中一个条件。</p></div><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-04" rel="noreferrer" target="_blank">打开 Kaggle ↗</a></aside>
+<h2 id="section-04">均值、差异与样例</h2>
+<p>在固定测试集上比较两种方案，可以逐图计算 Dice，再查看同一张图上的差值。均值反映总体水平，分布和具体图像说明变化是否集中在少数困难样例。只看一个平均数容易忽略某种方案改善大目标却伤害细小结构的情况。</p>
+<p>若运行多个随机种子，可以分别报告各次指标与均值、标准差。图像级样本数量和独立实验次数是两种不同数量，不能把许多相关像素当成大量独立重复实验。小型课程实验通常先做清楚的描述比较，不强行加入缺少前提的显著性结论。</p>
+<h2 id="section-05">图表与结果说明</h2>
+<p>结果表至少写出方案、唯一改变项、训练预算、测试图像数和指标。图像对照采用相同样例与顺序；颜色表示应保持一致。若图中有忽略区，图注说明颜色含义与评价时的处理方式。</p>
+<p>图注应让读者知道数据是什么、比较了什么、颜色或符号是什么意思。正文指出图中的具体证据，例如“方案 B 在这个耳朵区域少漏了一块”，再说明它是否在更多样例中重复出现。不要让“效果更好”成为结果部分的全部内容。</p>
+<h2 id="section-06">Word 简短报告</h2>
+<p>报告可以安排为约 2—3 页，包含任务与数据、比较方案、结果、讨论和引用。篇幅用于集中说明一项比较；数据路径、完整配置和代码可以作为随附文件。开头交代为什么选择这个因素，并准确说明训练和测试使用的图片范围。</p>
+<p>在 Word 的“开始 → 样式”使用标题 1、标题 2 与正文样式，不通过反复加空格控制布局。插入图片后在“引用 → 插入题注”添加图号，正文通过交叉引用引用它。表格首行标明列名与单位，避免合并过多单元格。</p>
+<p>粘贴图表后检查清晰度和纵横比，正文图片优先采用嵌入型版式，减少文字绕排引起的位置变化。导出 PDF 后重新查看分页、图注是否紧邻图片、表格是否跨页断裂以及引用是否完整。保留可编辑 Word 和导出 PDF 两份文件。</p>
+<figure class="knowledge-figure"><a aria-label="放大图解：短报告的内容和版式示意。每张图与表都需要对应实际数据。" href="../assets/diagrams/report-layout.svg" target="_blank"><img alt="短报告的内容和版式示意。每张图与表都需要对应实际数据。" loading="lazy" src="../assets/diagrams/report-layout.svg"/></a><figcaption>短报告的内容和版式示意。每张图与表都需要对应实际数据。 <a href="../assets/diagrams/report-layout.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<h2 id="section-07">独立项目：宠物分割</h2>
+<p>自行建立 PyTorch 分割程序，使用 Oxford-IIIT Pet 的图像和 trimap。保留官方测试部分，从 trainval 中固定训练与验证划分；正确映射前景、背景与忽略区，图像和掩膜执行同步空间变换。选择一个可以生成像素预测的网络，自行组织训练、验证、检查点保存与测试。</p>
+<p>完成一次受控比较，明确一个改变因素，并使用同一测试集合比较逐图 Dice、IoU 与固定样例。保留原图、标注和预测的并排图，至少讨论一个漏分或误分区域。数据子集、训练次数和计算限制写入报告的实验条件。</p>
+<p>提交可重新运行的代码或 Notebook、配置与划分、权重、逐图指标、固定对照图，以及 Word/PDF 简短报告。报告必须使用实际结果；图像、表格和正文中的方案名称保持一致。你在猫狗阶段学到的尺寸、对齐和导出操作，可以继续用于制作清楚的结果图。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-04.html">对照实验设计 →</a><a class="outline-btn" href="../materials/template-10.html">分割短报告 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-pathology.html"><span>下一节 →</span><b>文献与病理图像</b></a></nav></div></div></main><div id="site-footer"></div></body></html>

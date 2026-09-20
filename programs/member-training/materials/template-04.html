@@ -1,128 +1,137 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="实验设计" name="description"/><title>实验设计｜科研大王 KYDW</title>
-<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
-<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
-<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
-<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>实验设计</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">研究问题与预期</a><a href="#section-02">实验对象</a><a href="#section-03">方法与唯一主动变化</a><a href="#section-04">固定设置</a><a href="#section-05">评价计划</a><a href="#section-06">图像复查计划</a><a href="#section-07">结果将怎样进入成果</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">研究问题与预期</h2>
-<p>研究问题：在相同的配对图像、U-Net初始权重、训练预算与检查点选择规则下，加入条件对抗损失，会怎样改变虚拟HER2-IHC的图像重建与DAB颜色分量表现？</p>
-<p>运行前的预期：<strong><em>_</em></strong><em>。预期的依据来自：<strong><em>_</em></strong></em>。同时写出一种与你的预期不同、但可以通过数据观察到的结果。</p>
-<h2 id="section-02">实验对象</h2>
-<p>数据清单：<strong><em>_</em></strong><em>。清单哈希：<strong><em>_</em></strong></em>。组标识层级：<strong><em>_</em></strong>_。各集合图块数及分组方法见附带数据卡。使用官方测试来源；模型选择和DAB阈值校准在验证集完成。</p>
-<h2 id="section-03">方法与唯一主动变化</h2>
-<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>对照实验设计｜KYDW新成员培训与考核</title><meta name="description" content="对照实验设计：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>对照实验设计</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>训练前填写这份表。猫狗识别、宠物分割和 H&amp;E–IHC 都至少安排一次单变量比较。先确定问题和评价方式，再运行实验。</p>
+<h2 id="section-01">问题与方案</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
 <thead>
 <tr>
-<th>方法</th>
-<th>接收什么</th>
-<th>学习内容</th>
-<th>主要作用</th>
+<th>字段</th>
+<th>填写</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Identity</td>
-<td>H&amp;E RGB</td>
-<td>无训练，直接输出输入</td>
-<td>显示完全不做转换时的参照</td>
+<td>项目名称</td>
+<td></td>
 </tr>
 <tr>
-<td>Linear RGB</td>
-<td>H&amp;E RGB</td>
-<td>训练配对像素上的带截距线性颜色映射</td>
-<td>检查简单颜色变化能解释多少差异</td>
+<td>准备回答的问题</td>
+<td></td>
 </tr>
 <tr>
-<td>U-Net L1</td>
-<td>H&amp;E RGB</td>
-<td>100×像素L1损失</td>
-<td>配对重建基线</td>
+<td>方案 A 的实验编号与设置</td>
+<td></td>
 </tr>
 <tr>
-<td>U-Net L1+GAN</td>
-<td>H&amp;E RGB</td>
-<td>100×L1加条件最小二乘对抗损失</td>
-<td>比较新增局部条件判别约束的影响</td>
+<td>方案 B 的实验编号与设置</td>
+<td></td>
+</tr>
+<tr>
+<td>唯一改变因素</td>
+<td></td>
+</tr>
+<tr>
+<td>预期可能出现的变化</td>
+<td></td>
 </tr>
 </tbody>
 </table></div>
-<p>两个U-Net保持相同网络宽度、初始权重、配对增强、训练顺序、学习率和轮数。对抗训练新增一个判别器及其优化过程，因此训练成本需要独立记录。课程比较的是固定训练轮数下的训练目标变化。</p>
-<h2 id="section-04">固定设置</h2>
-<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<p>可以比较学习率、是否使用增强或一个结构设置。预期是实验前的想法，结果根据实际输出另写。H&amp;E–IHC 还应设置一个能解释的参照方法，例如恒等参照。</p>
+<h2 id="section-02">共同条件</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
 <thead>
 <tr>
-<th>设置</th>
-<th>默认值</th>
-<th>本次采用值及修改理由</th>
+<th>条件</th>
+<th>方案 A</th>
+<th>方案 B</th>
+<th>是否相同及原因</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>图块输入尺寸</td>
-<td>256×256，全图缩放</td>
+<td>数据清单与划分</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>U-Net基础通道</td>
-<td>16</td>
+<td>输入尺寸与处理</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>训练轮数</td>
-<td>10</td>
+<td>模型结构及初始化</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>批大小</td>
-<td>8</td>
+<td>损失、优化器与学习率</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>Adam学习率</td>
-<td>0.0002</td>
+<td>批量大小及训练预算</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>Adam betas</td>
-<td>0.5、0.999</td>
+<td>随机种子与重复次数</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>随机种子</td>
-<td>42</td>
+<td>验证权重选择规则</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>L1权重</td>
-<td>100</td>
+<td>测试集合、指标与样例</td>
 <td></td>
-</tr>
-<tr>
-<td>GAN权重</td>
-<td>1</td>
 <td></td>
-</tr>
-<tr>
-<td>权重选择</td>
-<td>验证集全图RGB MAE最低</td>
-<td></td>
-</tr>
-<tr>
-<td>训练增强</td>
-<td>H&amp;E/IHC同步水平与垂直翻转</td>
 <td></td>
 </tr>
 </tbody>
 </table></div>
-<p>这些值构成课程的首轮配置。确认代码和数据正确后，可以扩展训练预算；扩展实验要对两个模型共同执行，并完整保留首轮结果。</p>
-<h2 id="section-05">评价计划</h2>
-<p>首先在固定测试图块上计算全图RGB MAE、参考非白区域MAE、PSNR、SSIM。随后用固定HED颜色分解计算DAB分量误差，并使用验证集真实参考校准的单一阈值比较DAB面积比例差异。每一个量保留其分母和无效值数量。</p>
-<p>第二个条件仅对H&amp;E输入加入模型像素尺度下σ=1的高斯模糊，IHC参考保持不变。模型权重和评价规则保持不变。该条件用于观察确定的输入处理变化。</p>
-<p>同一图块的方法差值按“对抗模型−L1模型”计算；误差类指标的负值表示对抗模型数值较低。有经过核实的患者/切片组时，先计算组均值，再在至少五个组时给出探索性组级bootstrap区间。组未知时只报告描述性图块结果。</p>
-<h2 id="section-06">图像复查计划</h2>
-<p>预先固定按编号排序的前三个测试图块作并排展示。模型评价结束后，再从L1误差排序中选择失败案例，注明“误差排序选取”。记录每个案例的具体位置、可见差异和可能配准误差。</p>
-<h2 id="section-07">结果将怎样进入成果</h2>
-<p>总体指标进入报告结果表；固定案例进入报告主图；一张方法比较图和一个说明性案例进入PPT与海报。结论根据真实结果编写，不预先指定获胜模型。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>
+<p>某一行就是研究因素时，在最后一列写明。比较不同容量的模型时，记录参数量和实际训练耗时。相同轮数不能直接解释为相同计算量。</p>
+<h2 id="section-03">评价约定</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>填写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要指标及高低方向</td>
+<td></td>
+</tr>
+<tr>
+<td>汇总方式和有效样本范围</td>
+<td></td>
+</tr>
+<tr>
+<td>分类正类 / 分割阈值与忽略区 / 回归图像范围</td>
+<td></td>
+</tr>
+<tr>
+<td>固定展示样例及选取规则</td>
+<td></td>
+</tr>
+<tr>
+<td>失败样例怎样查找</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>用验证集选择设置和权重，方案确定后再评价测试集。实验中必须修改计划时，保留修改日期、理由和受影响的实验编号。</p></article></main><div id="site-footer"></div></body></html>

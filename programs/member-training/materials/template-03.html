@@ -1,104 +1,121 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="学习与实验记录" name="description"/><title>学习与实验记录｜科研大王 KYDW</title>
-<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
-<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
-<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
-<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>学习与实验记录</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">一次学习记录</a><a href="#section-07">一次实验记录</a><a href="#section-08">小项目结尾</a></nav></details></aside>
-<article class="card course-reader"><p>姓名：<strong><em>_</em></strong><em>　项目：<strong><em>_</em></strong></em>　开始日期：<strong><em>_</em></strong>_</p>
-<p>本记录贯穿三个项目。每次运行后补充新条目，保留早期判断及其修改过程。记录文件名中的日期采用<code>YYYY-MM-DD</code>，运行编号与Notebook中的输出目录一致。</p>
-<h2 id="section-01">一次学习记录</h2>
-<h3 id="section-02">我正在回答的问题</h3>
-<p>用一两句话写清当前对象、输入与目标。例如：“我想知道分割网络为什么需要为每个位置保留一个输出。”</p>
-<h3 id="section-03">运行前的判断</h3>
-<p>写下你预期会看到的结果及理由。没有把握时，记录两个可能的解释，以及什么现象能帮助区分它们。</p>
-<h3 id="section-04">本次实际操作</h3>
-<p>记录Notebook名称、单元格标题、修改的变量和修改前后的值。复制关键代码片段即可，完整代码保留在Notebook中。</p>
-<h3 id="section-05">观察与解释</h3>
-<p>分别写下看到的现象和你的解释。现象要有具体位置或数值，解释要指出依据。示例：“目标形状为<code>[8,128,128]</code>，其中8表示批内图像数；分割标签没有RGB颜色通道。”</p>
-<h3 id="section-06">尚未解决的问题</h3>
-<p>写下相关报错、现象或术语，以及你已经尝试的查证。求助时附最小可复现代码、完整错误末尾及必要形状。</p>
-<h2 id="section-07">一次实验记录</h2>
-<div aria-label="表格，可横向滚动" class="course-table-wrap" role="region" tabindex="0"><table>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习与实验记录｜KYDW新成员培训与考核</title><meta name="description" content="学习与实验记录：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>学习与实验记录</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>每次完成一个知识练习或独立实验后，记下观察和问题。知识练习用于理解局部计算，独立实验用于检查自己实现的项目，两类记录分别注明。</p>
+<h2 id="section-01">本次内容</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
 <thead>
 <tr>
 <th>字段</th>
-<th>本次内容</th>
+<th>填写</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>运行编号/输出目录</td>
+<td>日期、姓名</td>
 <td></td>
 </tr>
 <tr>
-<td>日期与运行设备</td>
+<td>章节与知识练习编号</td>
 <td></td>
 </tr>
 <tr>
-<td>数据来源与清单路径</td>
+<td>类型：知识练习 / 独立实验</td>
 <td></td>
 </tr>
 <tr>
-<td>数据清单SHA256</td>
+<td>本次要理解或检验的问题</td>
 <td></td>
 </tr>
 <tr>
-<td>Notebook与课程代码版本</td>
-<td></td>
-</tr>
-<tr>
-<td>环境记录文件</td>
-<td></td>
-</tr>
-<tr>
-<td>研究问题/对照条件</td>
-<td></td>
-</tr>
-<tr>
-<td>相对上次唯一主动变化</td>
-<td></td>
-</tr>
-<tr>
-<td>训练/验证/测试样本数</td>
-<td></td>
-</tr>
-<tr>
-<td>分组层级</td>
-<td><code>patient_id</code> / <code>slide_id</code> / <code>unknown</code></td>
-</tr>
-<tr>
-<td>输入尺寸、轮数、批大小、学习率、随机种子</td>
-<td></td>
-</tr>
-<tr>
-<td>检查点选择规则</td>
-<td></td>
-</tr>
-<tr>
-<td>最佳权重文件与SHA256</td>
-<td></td>
-</tr>
-<tr>
-<td>运行异常及处理</td>
-<td></td>
-</tr>
-<tr>
-<td>结果表与图像位置</td>
-<td></td>
-</tr>
-<tr>
-<td>主要观察</td>
-<td></td>
-</tr>
-<tr>
-<td>后续决定及依据</td>
+<td>项目文件、Notebook 版本或实验编号</td>
 <td></td>
 </tr>
 </tbody>
 </table></div>
-<p>将<code>experiment.json</code>、<code>data_card.json</code>、<code>history.csv</code>作为附件，记录正文只解释重要设置和变化。运行中断时也保留记录，不把失败实验从过程里删掉。</p>
-<h2 id="section-08">小项目结尾</h2>
-<p>小项目一说明线性模型和CNN各自如何处理数字图像，列出实际结果及一个错误案例。小项目二说明概率图、二值掩膜、边界忽略规则和一个分割错误。各用约一页文字及必要图像完成即可。最后写出一项能够带入虚拟染色项目的知识。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>
+<h2 id="section-02">运行与观察</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>操作或修改</th>
+<th>输入与设置</th>
+<th>观察到的形状、图像或数字</th>
+<th>保存文件</th>
+<th>我的解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>张量练习记录形状、类型、设备和数值范围；分类记录类别对应；分割记录掩膜编码与有效区域；H&amp;E–IHC 记录配对编号和参考图来源。解释应对应本次实际输出。</p>
+<h2 id="section-03">错误与处理</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>出错位置及现象</th>
+<th>当时的输入</th>
+<th>检查结果</th>
+<th>修改内容</th>
+<th>修改后的实际结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>先检查出错这一行的输入。若修改前面的单元格影响了后续变量，重新运行依赖它的部分；不要只保留错误消失后的截图。实验失败、训练没有改善或结果不稳定也可以正常记录。</p>
+<h2 id="section-04">下一次要做的事</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>准备继续的问题</th>
+<th>需要查看的资料或文件</th>
+<th>判断是否解决的依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>用具体动作描述下一步，例如“显示变换后的图像与掩膜叠加图，检查耳朵位置是否对齐”。</p></article></main><div id="site-footer"></div></body></html>

@@ -1,0 +1,16 @@
+{
+  "bci-official-preview.png": {
+    "title": "BCI official dataset preview",
+    "source": "https://raw.githubusercontent.com/bupt-ai-cz/BCI/main/imgs/datasetpreview6.png",
+    "repository": "https://github.com/bupt-ai-cz/BCI",
+    "paper": "Liu et al. BCI: Breast Cancer Immunohistochemical Image Generation Through Pyramid Pix2pix. CVPR Workshops 2022, pp. 1815-1824.",
+    "license": "https://github.com/bupt-ai-cz/BCI/blob/main/BCI_LICENSE.md",
+    "use": "Unmodified public preview for non-commercial teaching. The montage is not used as a raw pair for training or evaluation."
+  },
+  "pets": {
+    "source": "https://www.robots.ox.ac.uk/~vgg/data/pets/",
+    "details": "pets/metadata.json",
+    "mask-explanation.png": "Visualization of original Abyssinian_1 image and trimap. No prediction is displayed. The mask is color-coded and overlaid for teaching."
+  },
+  "diagrams": "Original educational schematics. Numerical examples are illustrative and are not reported project results."
+}

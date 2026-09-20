@@ -1,35 +1,134 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="海报文稿" name="description"/><title>海报文稿｜科研大王 KYDW</title>
-<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
-<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
-<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
-<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 成果模板</div><h1>海报文稿</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">标题区</a><a href="#section-02">研究问题</a><a href="#section-03">数据与实验</a><a href="#section-04">比较方法</a><a href="#section-05">核心结果</a><a href="#section-06">输入变化</a><a href="#section-07">结论与范围</a><a href="#section-08">来源与致谢</a><a href="#section-09">阅读测试</a></nav></details></aside>
-<article class="card course-reader"><p>画布：A1横向，84.1cm×59.4cm。建立单张PowerPoint页面，标题横跨顶部，主体采用三栏。左栏介绍问题和数据，中栏放方法与主结果，右栏放案例、结论及范围。图表面积优先分配给真实结果。</p>
-<h2 id="section-01">标题区</h2>
-<p><strong>从H&amp;E到HER2-IHC：训练目标对虚拟染色结果的影响</strong></p>
-<p>作者：<strong><em>_</em></strong><em>　单位/课程：<strong><em>_</em></strong></em>　日期：<strong><em>_</em></strong>_</p>
-<p>一句话摘要：我们在同一配对数据和训练设置下，比较像素重建与条件对抗重建，观察图像误差、DAB颜色分量和局部组织表现。</p>
-<h2 id="section-02">研究问题</h2>
-<p>H&amp;E图像显示组织形态，HER2-IHC提供针对特定抗原的染色图像。本研究利用配对图像训练预测模型，检查加入条件对抗损失后，重建结果在哪些维度发生变化。</p>
-<p><strong>问题：相同U-Net加入对抗训练后，像素重建与染色颜色分量会怎样变化？</strong></p>
-<h2 id="section-03">数据与实验</h2>
-<p>数据来自BCI。实际使用训练【】对、验证【】对、测试【】对图块。分组层级为【】，输入整体缩放为【】×【】像素。两个生成器使用相同结构、初始权重和训练预算，按验证集RGB MAE选择检查点。</p>
-<p>【插入研究流程图。训练、验证、测试各标明用途。】</p>
-<h2 id="section-04">比较方法</h2>
-<p>Identity直接使用H&amp;E输入作为参照；Linear RGB从训练图像拟合颜色映射；U-Net L1学习配对像素重建；U-Net L1+GAN增加条件判别器。主比较的主动变化是对抗目标及相应判别器训练。</p>
-<h2 id="section-05">核心结果</h2>
-<p>【插入一张主要定量图，数据来自本次评价CSV。图题写清比较范围、指标方向和统计单位。】</p>
-<p>在当前测试集上，【方法】的【指标】为【】，与【方法】相比变化【】。在DAB分量或组织区域评价中，【另一项实际结果】。</p>
-<p>【插入一组真实H&amp;E、真实IHC、两种预测的并排图。标明图块编号及选择规则。】</p>
-<p>编号【】的【位置】呈现【具体观察】。这一案例支持【局部解释】，并显示【待复查现象】。</p>
-<h2 id="section-06">输入变化</h2>
-<p>输入高斯模糊σ=1（模型像素尺度）后，【实际变化】。权重、目标图像和指标规则保持固定。</p>
-<h2 id="section-07">结论与范围</h2>
-<p>本次实验发现【直接回答问题】。结果对应【数据划分、训练预算和标志物范围】。DAB颜色分量用于描述图像信号；当前实验保留【最重要限制】。下一步将【一项明确验证】。</p>
-<h2 id="section-08">来源与致谢</h2>
-<p>数据：BCI；方法依据：pix2pix、U-Net及相关论文。列出三至五条实际引用文献的简短信息。生成图像标识保持可见。仅在存在经授权的公开成果入口时加入二维码，并确认扫码落地页不暴露受限数据。</p>
-<h2 id="section-09">阅读测试</h2>
-<p>请一位未参加项目的同学阅读后复述研究问题与主要发现。记录他最先看到的内容、没读懂的位置和无法找到的证据，再修改标题、图题或布局。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习海报｜KYDW新成员培训与考核</title><meta name="description" content="学习海报：知识讲解、Kaggle 练习与独立实践。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>学习海报</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>配合第 6 章制作一张可以独立阅读的学习海报。选择自己已经理解的病理图像、文献、方法与实验内容，围绕一个清楚问题组织。</p>
+<h2 id="section-01">内容草稿</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>区域</th>
+<th>准备表达的内容</th>
+<th>采用的图像或图表</th>
+<th>来源与证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>题目与中心问题</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>对象与背景</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>关键知识与方法</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>文献或实际实验观察</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>学习所得与下一步问题</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>参考文献</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>真实 H&amp;E/IHC 对照、配对重建结构图和同位置结果都可以成为中心图。保留看图所需的解释，把代码、长参数表和操作日志放在项目材料中。文献图注明出处及改编关系，个人实验只填写实际取得的结果。</p>
+<h2 id="section-02">PPT 画布与字号</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>设置</th>
+<th>起始建议</th>
+<th>我的设置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>画布</td>
+<td>A1 横向，84.1×59.4 厘米</td>
+<td></td>
+</tr>
+<tr>
+<td>四周边距</td>
+<td>约 2 厘米</td>
+<td></td>
+</tr>
+<tr>
+<td>标题</td>
+<td>58—72 磅</td>
+<td></td>
+</tr>
+<tr>
+<td>作者</td>
+<td>26—32 磅</td>
+<td></td>
+</tr>
+<tr>
+<td>区域标题</td>
+<td>30—36 磅</td>
+<td></td>
+</tr>
+<tr>
+<td>正文与图注</td>
+<td>22—26 磅</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>在“设计—幻灯片大小—自定义幻灯片大小”输入尺寸。打开参考线，划出共同边界；用对齐与分布统一间距。图片保持纵横比，文字、图形和照片分别保留为可编辑对象。字号根据实际阅读距离调整。</p>
+<h2 id="section-03">结果与来源检查</h2>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>检查内容</th>
+<th>记录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>真实参考与生成图的标签清楚</td>
+<td></td>
+</tr>
+<tr>
+<td>每个个人结果能找到实验与样本编号</td>
+<td></td>
+</tr>
+<tr>
+<td>文献事实和引用图有具体来源</td>
+<td></td>
+</tr>
+<tr>
+<td>计划与已完成观察分别标明</td>
+<td></td>
+</tr>
+<tr>
+<td>缩小后阅读顺序清楚，放大后图注可读</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>保存 PPTX，再仅导出最终海报页为 PDF。重新打开检查 A1 尺寸、中文字体、图片与边缘裁切。请同学看三十秒复述主题，再找一项主要观察及其来源，据此修改。</p>
+<h2 id="section-04">剑桥组汇报</h2>
+<p><strong>加入剑桥组的同学需要完成汇报 PPT。</strong> 可将学习内容与实际项目整理为约六分钟、六至八页，交付 PPTX、展示 PDF 和简短讲述提纲。其他同学提交学习海报及项目材料即可。汇报内容和海报使用同一套数据名称、图像标识及实际结果。</p></article></main><div id="site-footer"></div></body></html>
