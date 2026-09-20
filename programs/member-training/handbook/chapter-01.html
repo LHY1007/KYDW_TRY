@@ -1,43 +1,5 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="01｜电脑与 Notebook 工作区"><title>01｜电脑与 Notebook 工作区｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>01｜电脑与 Notebook 工作区</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">文件、软件与数据分别在哪里</a><a href="#section-02">认识Notebook</a><a href="#section-03">在Kaggle中打开课程</a><a href="#section-04">理解三种常见状态</a><a href="#section-05">怎样提出能被回答的问题</a><a href="#section-06">任务P00-A：建立并验证工作区</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">文件、软件与数据分别在哪里</h2>
-<p>打开一张照片时，你正在用软件读取文件。照片文件存储像素，查看器负责把像素显示在屏幕上。同一个文件可以由不同软件打开；修改查看器的窗口大小不会改变原始图像。只有执行保存、另存为或导出，修改才会写入某个文件。</p>
-<p>文件名末尾的<code>.png</code>、<code>.csv</code>、<code>.ipynb</code>叫扩展名。PNG通常保存图像，CSV保存表格，IPYNB保存Notebook，PT保存本课程的模型权重与相关记录，MD保存Markdown文本，PPTX和DOCX分别保存PowerPoint与Word的可编辑内容。扩展名说明文件的常见组织方式，直接修改扩展名通常不会完成格式转换。</p>
-<p>文件夹把相关文件放在一起。路径说明文件位于哪个位置。例如<code>project/results/summary.csv</code>表示project文件夹里的results子文件夹中有一份summary.csv。文件路径中的每一级都必须存在；大小写、空格和后缀也可能影响程序能否找到它。</p>
-<p>建立下面的工作区。原始数据尽量保持原样，清单记录从中选了哪些图像，结果按实验编号分开保存。</p>
-<pre><code class="language-text">KYDW_learning/
-  notes/          学习与实验记录
-  literature/     文献和阅读笔记
-  data/           按来源取得的原始数据
-  notebooks/      课程及个人修改后的Notebook
-  results/        每次实验单独一个文件夹
-  report/         Word报告
-  presentation/   PPT汇报与海报
-</code></pre>
-<p>课程代码会自动生成结果目录。你负责保留下载后的文件结构，避免把不同实验的<code>best.pt</code>、<code>summary.csv</code>混放到同一层。文件名<code>bci_run_001</code>表达第一次实验；改变设置时使用<code>bci_run_002</code>，并说明两次的差异。</p>
-<h2 id="section-02">认识Notebook</h2>
-<p>Notebook是一份由单元格组成的可执行文档。文本单元格解释问题、展示公式和记录观察；代码单元格交给Python执行，输出显示在下方。文本中的<code>print(x)</code>只是一段文字，代码单元格中的同一句才会运行。</p>
-<p>运行代码时，变量保存在当前内核中。内核可以理解为正在工作的Python进程。某一格创建了<code>model</code>，后面的格子才能使用它；重启内核会清空这些变量，磁盘上已经保存的文件仍然保留。Notebook界面还可能显示上一次运行留下的输出，判断当前状态要结合执行编号和文件时间。</p>
-<p>按顺序从上到下运行。看到忙碌标记时，上一格仍在执行。重复运行训练格可能再次训练模型或产生文件冲突，先读报错与输出，再决定是否继续。完成一轮实验后，保存Notebook版本，并确认结果文件已经进入该版本输出。</p>
-<p>在需要正式复查时，重启内核后完整运行一次。这能发现“某个变量只在早先运行过的隐藏步骤中存在”的问题。代码能够独立运行，研究过程才容易被别人重复。</p>
-<h2 id="section-03">在Kaggle中打开课程</h2>
-<p>进入Kaggle，登录个人账号，在代码区域创建Notebook，使用导入/上传Notebook功能选择课程提供的<code>.ipynb</code>。界面中的功能名称可能略有变化，可以寻找“Notebook”“Import/Upload”“Add Input”“Settings”“Save Version”等对应入口。[10]</p>
-<p>先运行环境Notebook，查看打印的Python、PyTorch和设备信息。后续模型训练可在设置中选择当前账号能够使用的GPU。GPU是一类适合并行数值运算的处理器；可用型号、权限、时长和网络设置以账号当时界面为准。环境Notebook和概念练习可以使用CPU。</p>
-<p>Kaggle中的<code>/kaggle/input</code>通常用于读取已添加的数据或上游Notebook输出，<code>/kaggle/working</code>用于写本次结果。本课程在Working下建立<code>kydw_v2</code>目录。第一次下载MNIST和宠物数据时需要可用网络；已有原格式数据时，可以添加为Input、修改数据根路径并关闭下载。</p>
-<p>BCI按官方入口获取。添加数据前核查许可与所用账号的分享设置，避免无意公开转存受约束的图像。主项目按“数据审计输出—训练输出—评价输出—成果材料”传递文件。每完成一份Notebook，保存版本，再把该版本的输出添加为下一份Notebook的Input。下一节继续使用的数据根目录仍需挂载，清单文件本身不包含原始图像。</p>
-<h2 id="section-04">理解三种常见状态</h2>
-<p>“找不到文件”通常意味着路径或Input没有正确对应。先打开侧边文件列表，逐级核对目录，再检查配置中的<code>BCI_ROOT</code>、<code>MANIFEST</code>等值。修改代码去跳过配对检查，会让错误继续进入训练，不能解决文件来源问题。</p>
-<p>“内存不足”可能来自一次处理太多图像。显存不足时，先降低<code>batch_size</code>，并让比较的两种模型都使用同样的批量设置。输入图像变小也会减小计算量，但会改变任务尺度，需要作为新的实验配置记录。关闭未使用模型变量、重启会话后重跑，也是清理占用的方式。</p>
-<p>“网络下载失败”与模型算法无关。检查网络开关与来源地址，按官方方式在本地取得数据，再挂载到Notebook。已下载的文件应完成解压；把压缩包路径填写成图像文件夹路径，程序仍然无法配对。</p>
-<h2 id="section-05">怎样提出能被回答的问题</h2>
-<p>一次有效求助包含正在完成的任务、运行到哪一格、原始错误信息、相关路径或张量形状，以及已经尝试的处理。复制报错末尾信息时，保留异常类型和相关行；公开截图中删除账号、访问令牌和敏感目录。</p>
-<p>例如：“在宠物数据读取步骤出现<code>FileNotFoundError</code>。Input中可以看到<code>oxford-iiit-pet/images</code>，当前DATA_ROOT写为……，DOWNLOAD=False。我怀疑根目录层级不一致。”这段话可以直接引导定位。仅说“代码跑不了”无法区分网络、文件、语法和模型问题。</p>
-<h2 id="section-06">任务P00-A：建立并验证工作区</h2>
-<p>运行Notebook 00，找到它生成的<code>environment.json</code>、<code>pixel_example.png</code>和<code>first_record.json</code>。下载这三个文件，放入工作区。用文本编辑器查看JSON，用图片查看器查看PNG，记录它们分别保存了什么。随后重启内核并重新运行，确认你能够从头获得同样类型的输出。</p>
-<p>这一节留下的环境记录会在后面的实验配置中再次出现。电脑环境属于研究过程的一部分，版本信息能够帮助解释同一段代码在不同电脑上的差异。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-00.html">← 项目总览</a><a href="chapter-02.html">图像、Python 与人工智能基础 →</a></nav></main><div id="site-footer"></div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KYDW新成员培训与考核</title><link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/01-python.html"></head><body><p><a href="../lessons/01-python.html#topic-01">打开对应课程章节</a></p><script>
+const anchors = {"section-01": "topic-01-section-01", "section-02": "topic-01-section-02", "section-03": "topic-01-section-03", "section-04": "topic-01-section-04", "section-05": "topic-01-section-05", "section-06": "topic-01-section-06"};
+const currentAnchor = decodeURIComponent(location.hash.slice(1));
+location.replace("../lessons/01-python.html" + location.search + '#' + (anchors[currentAnchor] || "topic-01"));
+</script></body></html>

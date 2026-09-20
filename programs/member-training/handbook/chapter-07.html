@@ -1,44 +1,5 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="07｜BCI 获取、配对与数据划分"><title>07｜BCI 获取、配对与数据划分｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>07｜BCI 获取、配对与数据划分</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">从官方来源取得BCI</a><a href="#section-02">识别三种文件布局</a><a href="#section-03">人工检查和程序检查分别做什么</a><a href="#section-04">保留来源划分与独立性信息</a><a href="#section-05">为什么完整审计放在选子集之前</a><a href="#section-06">图像缩放的实际含义</a><a href="#section-07">数据卡怎样进入最终报告</a><a href="#section-08">任务P03-B：交付可用于训练的数据清单</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">从官方来源取得BCI</h2>
-<p>从文末参考资料中的BCI项目主页进入数据获取页面，阅读使用条款，并按页面要求完成必要信息。作者仓库的<code>download_dataset.md</code>同时列出官方云盘入口。以项目主页和作者仓库为准，保存访问日期、下载来源和原始文件名。[5—7]</p>
-<p>BCI许可允许非商业研究与教学，并要求引用数据来源；商业使用受限制，其余未明确授予的权利由作者保留。[6] 在Kaggle使用数据时检查可见性和使用范围。公开重新发布原始图像或衍生数据前，需要另外核实是否获得相应授权。个人下载用于课程实践与公开分发整套数据是不同的操作。</p>
-<p>本课程包不包含BCI原始图像。取得数据后在本地解压，查看真实目录，再按你有权使用的方式添加为Kaggle Input。不要把未知来源的“虚拟IHC结果图”当作真实参考目标。清单中的参考必须来自所选数据版本的实验IHC。</p>
-<h2 id="section-02">识别三种文件布局</h2>
-<p>Notebook 03支持有明确染色名称的分离目录，例如：</p>
-<pre><code class="language-text">BCI/
-  HE/train/00000_train_1+.png
-  HE/test/00000_test_1+.png
-  IHC/train/00000_train_1+.png
-  IHC/test/00000_test_1+.png
-</code></pre>
-<p>对应文件的相对名称一致，HE作为输入，IHC作为参考。<code>BCI_ROOT</code>指向包含HE和IHC的父目录，<code>LAYOUT='auto_separate'</code>。程序也支持<code>train/HE</code>和<code>train/IHC</code>等有明确语义的布局。</p>
-<p>若数据使用<code>A/train</code>与<code>B/train</code>，或者<code>trainA</code>与<code>trainB</code>，先依据来源和实际图像确认A/B含义，再选择<code>a_to_b</code>或<code>b_to_a</code>。A、B只是目录名称，不能单凭字母判断染色类型。</p>
-<p>第三种是左右拼接的组合图，官方代码支持这种组织方式。[7] 每个文件同时包含输入与目标。设置<code>LAYOUT='combined'</code>，并显式填写<code>HE_SIDE='left'</code>或<code>'right'</code>。程序在显示配对后继续审计。方向一旦颠倒，训练任务会变成IHC到H&amp;E；尺寸与文件数正常也无法自动纠正这种语义错误。</p>
-<p>Notebook不要求你把原始数据全部重命名。配对依据来自相对路径与文件键，重复键、缺失目标或尺寸不一致都会停止并显示问题。先修复数据组织，再重新审计。</p>
-<h2 id="section-03">人工检查和程序检查分别做什么</h2>
-<p>程序能够统计数量、读取图片、检查尺寸、寻找对应文件，并比较图像哈希。哈希把文件内容或解码后的像素编码成一段固定长度标识，有助于判断数据是否变化或重复。图像哈希一致说明像素完全相同，哈希不同仍可能存在高度相似或同源图块。</p>
-<p>人工检查负责识别任务含义与明显空间问题。并排查看H&amp;E和IHC，检查较大的组织边缘、空隙和核密集区域是否对应。记录图块编号与观察位置。颜色不同是任务本身的组成，空间形状大幅不对应则需要进一步核查配对。</p>
-<p>课程默认先抽查最前面的三个配对，另在完整浏览时追加你发现的可疑样本。抽查通过不能保证所有配对都完美，记录实际检查范围。对图像质量的判断应尽量保留可见依据，例如“右下角组织缺失”“腔隙位置整体偏移”，避免只写“质量差”。</p>
-<h2 id="section-04">保留来源划分与独立性信息</h2>
-<p>BCI原始文件按训练和测试来源组织。课程保留官方测试部分，验证集只从训练来源中划出。如果有经过来源核实的患者或切片对应表，填写<code>METADATA_CSV</code>。表中至少包含唯一<code>pair_id</code>与完整<code>patient_id</code>或<code>slide_id</code>，配对编号应与程序清单一致。</p>
-<p>程序优先使用完整患者ID，其次使用完整切片ID。同一组不能跨训练、验证和测试。如果原始训练/测试中出现组重叠，程序停止，要求重新制定并记录组级划分方案。课程默认清单不通过悄悄丢弃冲突记录来掩盖这个问题。</p>
-<p>缺少可靠组标识时，程序从官方训练图块中固定留出20%作为验证，再应用课程子集上限，并把<code>group_level</code>写为<code>unknown</code>。此时结果描述为“在当前图块划分与官方测试来源上的表现”，患者或切片层面的独立性尚未核实。文件名前几个数字可能是图块编号，只有来源说明能确认它是否具有患者或切片含义。</p>
-<h2 id="section-05">为什么完整审计放在选子集之前</h2>
-<p>为降低初次训练负担，课程默认上限为训练1,024对、验证256对、测试512对。每个集合按种子和配对ID的确定性顺序选取，实际数量不足上限时使用全部可用样本。所有数量以<code>data_card.json</code>为准。</p>
-<p>若只检查选中的小部分数据，重复或跨集合冲突可能被临时避开。完整审计先针对取得的全量来源进行配对与重复检查，再形成课程清单。这样，选择子集的规则独立于模型结果，也便于以后扩展到全量数据。</p>
-<p>课程生成<code>bci_full_audit.csv</code>保存全量审计，<code>bci_manifest.csv</code>保存本次实验选中的样本。清单包括配对ID、输入与目标相对路径、来源集合、最终集合、组标识、原始尺寸和图像哈希。训练和评价都读取同一份冻结清单。</p>
-<h2 id="section-06">图像缩放的实际含义</h2>
-<p>默认把每对原始图块整体缩放为256×256，输入与参考采用相同的几何缩放规则。它保留图块的大体覆盖范围，同时减少像素数；这与从原图中裁出一个256×256小窗口不同。前者改变像素对应的物理范围，后者改变所观察区域。</p>
-<p>在数据卡中同时记录原始尺寸与模型尺寸。若原始图具有物理分辨率信息，换算时还要考虑缩放比例；来源未给出时填写“未获得”。所有方法使用相同尺寸，避免把分辨率差异混入训练目标的比较。</p>
-<h2 id="section-07">数据卡怎样进入最终报告</h2>
-<p>数据卡写明来源、目标标志物、下载日期、实际配对数量、原始与训练尺寸、组标识层级、集合构建方式、子集规则和质量观察。它会成为报告方法部分的数据段落，也是PPT流程图中“数据与划分”的依据。</p>
-<p>文件名中如果明确记录0、1+、2+、3+等来源标签，程序按该模式提取为<code>her2_label</code>；没有识别到则写<code>unknown</code>。这类标签用于描述来源分布，不能推断每个图块中的每个细胞或像素都有相同表达。后面的颜色分析也不把它当作像素真值。</p>
-<h2 id="section-08">任务P03-B：交付可用于训练的数据清单</h2>
-<p>完成Notebook 03，保存数据卡、全量审计表和本次清单。填写至少三个配对的人工检查记录，确认输入与目标方向。把<code>group_level</code>、实际数量和尺寸写入实验计划。只有能解释这些字段的含义，并且程序检查通过，才继续运行训练Notebook。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-06.html">← 文献检索、管理与阅读</a><a href="chapter-08.html">研究问题与实验设计 →</a></nav></main><div id="site-footer"></div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KYDW新成员培训与考核</title><link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/05-data.html"></head><body><p><a href="../lessons/05-data.html#topic-07">打开对应课程章节</a></p><script>
+const anchors = {"section-01": "topic-07-section-01", "section-02": "topic-07-section-02", "section-03": "topic-07-section-03", "section-04": "topic-07-section-04", "section-05": "topic-07-section-05", "section-06": "topic-07-section-06", "section-07": "topic-07-section-07", "section-08": "topic-07-section-08"};
+const currentAnchor = decodeURIComponent(location.hash.slice(1));
+location.replace("../lessons/05-data.html" + location.search + '#' + (anchors[currentAnchor] || "topic-07"));
+</script></body></html>

@@ -1,47 +1,5 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="02｜图像、Python 与人工智能基础"><title>02｜图像、Python 与人工智能基础｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>02｜图像、Python 与人工智能基础</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">从一个像素开始</a><a href="#section-02">几个马上用到的Python概念</a><a href="#section-03">人工智能、机器学习与深度学习</a><a href="#section-04">损失、梯度和优化器</a><a href="#section-05">批量、轮次与随机种子</a><a href="#section-06">训练、验证和测试</a><a href="#section-07">任务P00-B：用自己的数据语言解释模型</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">从一个像素开始</h2>
-<p>放大数字图像，可以看到规则排列的小方格，每个方格叫像素。灰度图中，一个像素用一个亮度值表示。常见8位图像用0—255表示亮度，0接近黑色，255接近白色。RGB彩色图在每个位置保存红、绿、蓝三个分量，通过组合形成屏幕上的颜色。</p>
-<p>一张高度28、宽度28的灰度图有784个位置。高度128、宽度128的RGB图有128×128×3个数字。图像数组的<code>shape</code>就是这些维度的长度。NumPy通常把RGB图组织为<code>[高度,宽度,通道]</code>，本课程的PyTorch网络使用<code>[批量,通道,高度,宽度]</code>。把两种写法对应起来，可以避免“把宽度当通道”的错误。</p>
-<p>像素值除以255，把数字缩放到0—1范围，是本课程的预处理步骤。0.5表示当前范围中的中间数值；它的具体颜色还取决于其余通道。归一化改变数字表示方式，图像中的空间位置保持不变。</p>
-<p>物理尺度需要额外的信息。一张256×256像素图像可能覆盖很小或很大的实际区域，取决于扫描分辨率、裁切与缩放。看到像素数量时，不能自动推算细胞的真实大小。后面的病理数据卡会单独记录已知的物理尺度。</p>
-<h2 id="section-02">几个马上用到的Python概念</h2>
-<p>变量给数据一个名字。<code>image_size = 128</code>把整数128保存为<code>image_size</code>，后面可以用这个名字参与计算。字符串由引号包围，例如<code>"train"</code>；列表保存一组有顺序的元素；字典用键对应值，例如<code>{"epochs": 5, "seed": 42}</code>。这些结构分别适合保存数量、文字、样本列表和实验设置。</p>
-<pre><code class="language-python">labels = [2, 8, 1]
-for label in labels:
-    print(label)
-</code></pre>
-<p>这段代码会依次打印三个标签。缩进说明<code>print</code>属于循环内部。<code>if</code>根据条件执行操作，例如<code>if len(images) == 0:</code>检查列表是否为空。<code>=</code>是赋值，<code>==</code>是比较两个值是否相等。</p>
-<p>函数把一项操作写成可以反复调用的步骤。<code>def</code>定义函数，括号里的名称是输入，<code>return</code>给出结果。调用<code>beginner_mae(prediction, reference)</code>时，程序把两个数组传入函数，计算平均误差并返回一个数。先理解函数的输入输出，再读内部每一行，通常更容易掌握代码。[8]</p>
-<p>数组运算可以一次作用于很多数字。<code>image / 255.0</code>对整张图像的数值做相同处理，<code>np.abs(prediction-reference).mean()</code>先逐位置计算差、取绝对值，再求平均。<code>assert</code>检查某个条件是否成立，用来尽早发现不一致；它失败时，需要检查条件所保护的假设。</p>
-<h2 id="section-03">人工智能、机器学习与深度学习</h2>
-<p>人工智能研究让计算系统完成感知、预测、生成等任务的方法。机器学习通过数据调整模型，使模型在某项任务上形成可用的规律。深度学习使用多层神经网络，把较简单的计算组合成复杂的映射。本课程以监督学习为主：训练数据同时提供输入与期望目标，模型根据两者的差异更新参数。[8]</p>
-<p>在手写数字任务中，输入是图像，目标是数字类别；在宠物分割中，目标是像素标签；在虚拟染色中，目标是一张真实IHC参考图。<strong>样本</strong>是本次学习中的一条数据单位，<strong>标签或目标</strong>是它对应的学习依据，<strong>数据集</strong>是这些样本的集合。目标的形态决定了怎样组织输出和计算误差。</p>
-<p>用<code>fθ(x)</code>表示模型：<code>x</code>是输入，<code>θ</code>表示需要学习的参数，<code>fθ(x)</code>是预测。开始时，参数通常由随机数初始化，模型还没有学会任务。训练把预测与目标<code>y</code>比较，计算一个损失值，再沿着减小损失的方向调整参数。许多次更新以后，模型可能获得更有用的预测规则。</p>
-<p>这里的“学习”体现在参数变化中。训练结束后保存参数，下一次加载它们，可以直接给新输入计算预测，这叫推理。训练时有参考答案帮助更新，推理时模型只接收规定的输入。</p>
-<h2 id="section-04">损失、梯度和优化器</h2>
-<p>损失函数把预测错误写成一个数字。对于一个简单的数值预测，真实值为0.8，预测为0.3，绝对误差为0.5；预测变成0.7时，绝对误差变为0.1。更复杂的图像任务会把许多位置的误差组合起来。</p>
-<p>梯度描述损失对参数变化的局部响应。可以把它理解为：在当前参数附近，改变某个参数，会使损失朝哪个方向变化、变化多快。反向传播按计算链条求出这些梯度，优化器据此更新参数。学习率控制每一步更新的尺度。过大的更新可能使训练来回震荡，过小的更新可能使学习缓慢；具体情况要看训练与验证记录。</p>
-<p>PyTorch的典型训练步骤如下。每一句都对应研究过程中的一个动作。</p>
-<pre><code class="language-python">optimizer.zero_grad()          # 清除上一批的梯度
-prediction = model(images)     # 根据输入计算预测
-loss = loss_function(prediction, targets)
-loss.backward()               # 计算梯度
-optimizer.step()              # 更新模型参数
-</code></pre>
-<p>验证阶段保留前向预测和误差计算，停止反向传播与参数更新。<code>model.train()</code>与<code>model.eval()</code>还会切换某些层的工作方式。即使当前网络中的某些层在两种模式下表现相同，也应保留规范的阶段切换。[8]</p>
-<h2 id="section-05">批量、轮次与随机种子</h2>
-<p>一次把若干图像送入模型叫一个批量（batch）。批量大小64意味着一次处理64张图。模型遍历一轮训练数据叫一个轮次（epoch）。同一批量设置下，增加训练轮数通常会增加参数更新次数；修改样本数量也会改变每轮更新次数。因此，“都训练10轮”之外，还要记录数据量与批量大小。</p>
-<p>随机种子固定部分随机过程的起点，包括样本打乱和参数初始化。相同种子有助于复查，也方便让主项目两种方法使用相同初始生成器。不同设备或计算库仍可能产生细微数值差异，环境记录与种子要一起保存。</p>
-<p>参数与超参数承担不同角色。卷积核权重等参数由训练更新；学习率、轮次、输入尺寸等超参数由实验者设定。本课程的默认超参数已经给出，修改它们时建立新实验，不要覆盖原始比较。</p>
-<h2 id="section-06">训练、验证和测试</h2>
-<p>训练集用于更新模型；验证集帮助选择设置和权重；测试集用于在方案确定后评价表现。假设你根据测试图像反复调节模型，再把同一测试结果作为最终能力证据，测试集就参与了选择，结果会偏向这些图像。</p>
-<p>图像看似不同，也可能来自同一个对象。同一患者的相邻病理图块共享染色、组织和扫描特征，若分到训练与测试中，模型可能利用这些共同特征。这叫数据泄漏风险。划分应该尽量对应研究希望推广的单位，并记录哪些独立性已经核实。小项目先理解三集合，主项目再处理患者、切片和图块的层级。</p>
-<h2 id="section-07">任务P00-B：用自己的数据语言解释模型</h2>
-<p>运行Notebook 00中的数组与函数练习。随后用一个简短段落说明：输入图像怎样变成张量，模型怎样产生预测，损失怎样参与训练，保存的权重用于什么。对<code>[8,3,256,256]</code>逐个解释数字的含义。后面看到网络结构时，先检查这些输入输出约定是否仍然成立。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-01.html">← 电脑与 Notebook 工作区</a><a href="chapter-03.html">小项目一：手写数字识别 →</a></nav></main><div id="site-footer"></div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KYDW新成员培训与考核</title><link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/01-python.html"></head><body><p><a href="../lessons/01-python.html#topic-02">打开对应课程章节</a></p><script>
+const anchors = {"section-01": "topic-02-section-01", "section-02": "topic-02-section-02", "section-03": "topic-02-section-03", "section-04": "topic-02-section-04", "section-05": "topic-02-section-05", "section-06": "topic-02-section-06", "section-07": "topic-02-section-07"};
+const currentAnchor = decodeURIComponent(location.hash.slice(1));
+location.replace("../lessons/01-python.html" + location.search + '#' + (anchors[currentAnchor] || "topic-02"));
+</script></body></html>

@@ -1,11 +1,12 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="代码阅读与短练习"><title>代码阅读与短练习｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 练习与参考</div><h1>代码阅读与短练习</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">1. 为一张图添加批次维度</a><a href="#section-02">2. 计算一次分类决策</a><a href="#section-03">3. 忽略边界再计算重叠</a><a href="#section-04">4. 验证detach的作用</a><a href="#section-05">5. 对齐图块后比较模型</a><a href="#section-06">6. 避免把缺失误差填成零</a><a href="#section-07">7. 源代码定位</a></nav></details></aside>
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="代码阅读与短练习" name="description"/><title>代码阅读与短练习｜科研大王 KYDW</title>
+<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
+<link href="../../../programs/member-training/course.css?v=20260920-sequence" rel="stylesheet"/>
+<script defer="" src="../../../content.js?v=20260920-sequence"></script><script defer="" src="../../../site.js?v=20260920-sequence"></script></head>
+<body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 练习与参考</div><h1>代码阅读与短练习</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
+<div class="course-reading-layout"><aside class="course-toc"><details open=""><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">1. 为一张图添加批次维度</a><a href="#section-02">2. 计算一次分类决策</a><a href="#section-03">3. 忽略边界再计算重叠</a><a href="#section-04">4. 验证detach的作用</a><a href="#section-05">5. 对齐图块后比较模型</a><a href="#section-06">6. 避免把缺失误差填成零</a><a href="#section-07">7. 源代码定位</a></nav></details></aside>
 <article class="card course-reader"><p>这些练习可以在对应Notebook末尾新建单元格完成。先写预期，再运行。下方参考代码可直接执行；不需要额外数据。示例数值只用于理解程序。</p>
 <h2 id="section-01">1. 为一张图添加批次维度</h2>
 <p>题目：构造<code>[3,8,8]</code>的浮点RGB张量，添加批次维度并恢复原形状。解释为什么不能随意把通道维度当成批次。</p>
@@ -72,4 +73,4 @@ assert np.isclose(mean, 0.15)
 </code></pre>
 <p>结果同时报告均值与有效数量。把NaN填成0后均值会变成0.10，含义错误。</p>
 <h2 id="section-07">7. 源代码定位</h2>
-<p>在<code>src/kydw_course.py</code>中找到<code>read_pair</code>、<code>masked_bce</code>、<code>train_stain</code>、<code>reconstruction_metrics</code>四个函数。每个函数写出：需要哪些输入；返回什么；其中一个检查阻止了什么错误。对照正文第09—10章完成，不要求从头复制整份源代码。</p></article></div><nav class="course-page-nav" aria-label="章节导航"></nav></main><div id="site-footer"></div></body></html>
+<p>在<code>src/kydw_course.py</code>中找到<code>read_pair</code>、<code>masked_bce</code>、<code>train_stain</code>、<code>reconstruction_metrics</code>四个函数。每个函数写出：需要哪些输入；返回什么；其中一个检查阻止了什么错误。对照正文第6章完成，不要求从头复制整份源代码。</p></article></div><nav aria-label="章节导航" class="course-page-nav"></nav></main><div id="site-footer"></div></body></html>

@@ -1,40 +1,5 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="04｜小项目二：自然图像分割"><title>04｜小项目二：自然图像分割｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>04｜小项目二：自然图像分割</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">从一个类别到一张位置图</a><a href="#section-02">为什么先检查标签编码</a><a href="#section-03">分割网络需要同时看见什么</a><a href="#section-04">概率图怎样变成分割掩膜</a><a href="#section-05">Dice和IoU在比较什么</a><a href="#section-06">运行与检查</a><a href="#section-07">任务P02与通向主项目的问题</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">从一个类别到一张位置图</h2>
-<p>一张猫的照片可能同时包含沙发、地毯、植物和窗户。回答“这是一张猫的照片”没有告诉我们猫的边界。图像分割进一步为每个位置作判断，在本项目中，判断该像素属于宠物前景还是背景。</p>
-<p>本节使用Oxford-IIIT Pet。数据包含真实宠物照片以及像素级trimap标注，照片在姿态、光照和大小上存在变化。课程使用其中的前景/背景信息，不训练品种分类。[2]</p>
-<p>输入是一张RGB照片，目标是一张与照片空间对应的标签图。标签图常称为掩膜（mask）。同一位置的标签说明原照片该位置属于哪一类。将掩膜叠加到照片上，可以直观看到标注范围。</p>
-<h2 id="section-02">为什么先检查标签编码</h2>
-<p>这套trimap中，1表示宠物前景，2表示背景，3表示未确定的边界区域。本课程把1转换为训练标签1，把2转换为0，把3转换为忽略标记255。忽略区域不参加损失和最终分割指标，处理方式在实验配置中明确记录。</p>
-<p>自然图像的毛发边缘可能包含混合像素。某个像素既受到背景颜色影响，也受到细毛影响，将不确定边界单独标出有助于区分“标注本身不确定”和“模型预测错误”。展示掩膜时用灰色表示忽略区域，别把显示用的灰度值误认为训练标签。</p>
-<p>照片缩放可以通过相邻像素插值形成新的颜色。类别掩膜只有规定的标签，若使用双线性插值，可能得到0.4或1.7这样的非类别值。因此照片使用双线性插值，掩膜使用最近邻插值，保证类别含义在缩放后仍然明确。</p>
-<h2 id="section-03">分割网络需要同时看见什么</h2>
-<p>仅观察一个棕色像素，很难判断它是动物毛发还是木地板。周围的位置、轮廓和纹理提供了上下文。与此同时，确定耳朵边缘又需要较细的位置细节。分割网络需要在较大范围的语义信息与较精细的定位信息之间传递信息。</p>
-<p>U-Net使用编码器、解码器和跳跃连接组织这一过程。编码器通过卷积和下采样，逐步缩小空间尺寸，形成更紧凑的特征；解码器逐步上采样，恢复输出的空间尺寸；跳跃连接把编码器相应尺度的特征送到解码器，帮助保留定位信息。[3]</p>
-<p>在本课程的紧凑U-Net中，输入128×128经过四次减半，形成8×8的低分辨率特征，再逐步恢复到128×128。通道数随编码深度增加，用来表示更多特征类型。特征通道与原图的RGB通道含义不同：RGB来自图像采集，内部特征通道由模型计算得到。</p>
-<p>每个卷积块后使用GroupNorm与ReLU。GroupNorm在每个样本内按通道分组处理激活，避免依赖当前批量的统计量。这是本课程实现的具体选择；汇报中把它记录为紧凑教学实现的组成。</p>
-<h2 id="section-04">概率图怎样变成分割掩膜</h2>
-<p>模型输出形状为<code>[B,1,128,128]</code>。每个位置先得到一个logit，通过sigmoid转成0—1数值，表示模型对前景的预测。默认阈值为0.5，大于等于阈值的像素归为前景，其他归为背景。</p>
-<p>阈值决定如何把连续输出变成离散判断。提高阈值通常会让模型更谨慎地把像素判为前景，可能减少误检，也可能增加漏检。任何依据数据选择阈值的过程都应放在验证阶段。本节固定0.5，便于把注意力放在任务和网络本身。</p>
-<p>二元交叉熵逐像素比较预测和0/1标签。程序先选择有效位置，再计算损失。一个批次若完全没有有效像素，会停止并提示检查数据，这能避免无意义的训练更新。</p>
-<h2 id="section-05">Dice和IoU在比较什么</h2>
-<p>把预测前景记为P，参考前景记为Y。二者重叠的位置越多，分割越一致。</p>
-<p>[
-\mathrm{Dice}=\frac{2|P\cap Y|}{|P|+|Y|},\qquad
-\mathrm{IoU}=\frac{|P\cap Y|}{|P\cup Y|}.
-]</p>
-<p>假设参考前景有100个有效像素，模型预测了120个，其中80个与参考重叠。Dice为160/220，约0.727；IoU为80/140，约0.571。多圈出的40个像素和漏掉的20个像素都会影响指标。两种指标的数值尺度不同，比较时应使用同一种指标。</p>
-<p>本节同时输出逐图像Dice均值与汇总像素Dice。前者先对每张图计算，再取平均，每张图权重相同；后者先合并所有图中的重叠与错误像素，较大的前景区域对结果影响更大。报告中写清楚自己使用哪一种，避免把两者混作同一个结果。</p>
-<h2 id="section-06">运行与检查</h2>
-<p>打开Notebook 02，先检查照片、掩膜和标签取值。默认整体缩放为128×128，训练5轮，使用课程子集。记录真实样本数。两个几何对象必须同步变换：照片中的宠物移到右侧时，掩膜中的宠物也应移到右侧。</p>
-<p>训练后观察原图、参考掩膜和预测掩膜。先看大体位置，再检查耳朵、尾巴、毛发与身体边缘。打开低Dice样例的编号，核对模型是否把背景中的相似纹理纳入前景，或者漏掉狭长区域。可见现象可以记录，原因仍需进一步实验支持。</p>
-<p>本节没有核实每张照片对应的动物个体身份，结果按公开来源划分与当前图像子集描述。保持这种记录习惯，后面面对病理切片中的患者层级时，就能自然区分图像数量与独立对象数量。</p>
-<h2 id="section-07">任务P02与通向主项目的问题</h2>
-<p>完成一份300—500字学习记录，解释照片、标签掩膜和预测概率图的区别，写出实际Dice/IoU与一个低分案例。用手算示例核对指标，并说明忽略边界的规则。</p>
-<p>随后把三个形状写到同一行：RGB输入<code>[B,3,H,W]</code>，分割输出<code>[B,1,H,W]</code>，RGB染色图预测<code>[B,3,H,W]</code>。你已经掌握了空间输入输出的基本结构。接下来的重点是理解病理图像中的颜色和组织信息，并为连续颜色预测选择合适的目标与证据。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-03.html">← 小项目一：手写数字识别</a><a href="chapter-05.html">医学 AI、病理与虚拟染色 →</a></nav></main><div id="site-footer"></div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KYDW新成员培训与考核</title><link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/03-segmentation.html"></head><body><p><a href="../lessons/03-segmentation.html#topic-04">打开对应课程章节</a></p><script>
+const anchors = {"section-01": "topic-04-section-01", "section-02": "topic-04-section-02", "section-03": "topic-04-section-03", "section-04": "topic-04-section-04", "section-05": "topic-04-section-05", "section-06": "topic-04-section-06", "section-07": "topic-04-section-07"};
+const currentAnchor = decodeURIComponent(location.hash.slice(1));
+location.replace("../lessons/03-segmentation.html" + location.search + '#' + (anchors[currentAnchor] || "topic-04"));
+</script></body></html>

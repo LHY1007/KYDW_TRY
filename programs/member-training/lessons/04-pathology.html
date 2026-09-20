@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. 病理图像与文献｜KYDW新成员培训与考核</title><meta name="description" content="4. 病理图像与文献：课程讲解、Jupyter 实践与学习记录。">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../course.css?v=20260920-sequence"><script defer src="../../../content.js?v=20260920-sequence"></script><script defer src="../../../site.js?v=20260920-sequence"></script>
+</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-python.html"><span>01</span>Python 与图像基础</a></li><li><a class="lesson-course-link" href="02-digits.html"><span>02</span>手写数字识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-pathology.html" aria-current="page"><span>04</span>病理图像与文献</a><div class="lesson-local-toc"><details class="lesson-topic" open><summary><a href="#topic-05">病理与虚拟染色</a></summary><nav aria-label="病理与虚拟染色"><a href="#topic-05-section-01">医学人工智能</a><a href="#topic-05-section-02">数字病理图像</a><a href="#topic-05-section-03">H&amp;E 染色</a><a href="#topic-05-section-04">蛋白、表达与标志物</a><a href="#topic-05-section-05">IHC 染色</a><a href="#topic-05-section-06">虚拟染色</a><a href="#topic-05-section-07">配对、配准与误差</a><a href="#topic-05-section-08">主项目任务</a><a href="#topic-05-section-09">研究介绍 P03-A</a></nav></details><details class="lesson-topic"><summary><a href="#topic-06">文献检索与阅读</a></summary><nav aria-label="文献检索与阅读"><a href="#topic-06-section-01">论文结构</a><a href="#topic-06-section-02">检索词</a><a href="#topic-06-section-03">阅读顺序</a><a href="#topic-06-section-04">初读与文章结构</a><a href="#topic-06-section-05">关键实验</a><a href="#topic-06-section-06">证据记录</a><a href="#topic-06-section-07">Zotero 文献管理</a><a href="#topic-06-section-08">AI 辅助阅读</a><a href="#topic-06-section-09">文献记录 L01</a></nav></details></div></li><li><a class="lesson-course-link" href="05-data.html"><span>05</span>数据准备与实验设计</a></li><li><a class="lesson-course-link" href="06-models.html"><span>06</span>模型训练与评价</a></li><li><a class="lesson-course-link" href="07-report.html"><span>07</span>报告、汇报与海报</a></li><li><a class="lesson-course-link" href="glossary.html"><span>附录</span>术语与参考资料</a></li></ol></nav></details></aside><div class="lesson-main">
+<header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>4. 病理图像与文献</h1><p>认识 H&amp;E、HER2-IHC 与虚拟染色，检索论文并完成文献阅读记录。</p></header>
+<nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-data.html"><span>下一节 →</span><b>数据准备与实验设计</b></a></nav><article class="card course-reader lesson-reader"><section class="lesson-unit" aria-labelledby="topic-05"><h2 id="topic-05">病理与虚拟染色</h2><h3 id="topic-05-section-01">医学人工智能</h3>
+<p>医学数据包含不同层次的信息。医学影像展示器官或组织的结构；心电等生理信号记录随时间变化的活动；临床表格汇集症状、检查与结局；病理图像观察组织与细胞；分子检测记录某些基因、转录本或蛋白相关信号。不同任务可以产生类别、区域、连续数值或新的图像。</p>
+<p>理解一个医学AI任务，可以依次回答四个问题：原始对象是什么，怎样被测量并变成数据，模型输出代表什么，使用什么证据检查输出。本课程的主项目聚焦<strong>病理染色图像之间的预测</strong>。H&amp;E是输入，真实HER2-IHC是监督目标，生成图是模型的预测结果。</p>
+<h3 id="topic-05-section-02">数字病理图像</h3>
+<p>组织由细胞及其周围成分组成。细胞具有细胞膜、细胞质和细胞核等结构，不同组织在排列方式、核形态和间质成分上存在差异。病理处理把组织制成薄切片，经过染色后在显微镜或数字扫描设备下观察。</p>
+<p>数字全切片图像（whole-slide image，WSI）把较大范围的组织扫描为高分辨率图像。整张WSI可能远大于模型一次能够处理的范围，因此常切成小图块（patch）。一个患者可以有多个组织块和切片，一张切片可以产生许多图块。<strong>患者数、切片数、图块数分别描述不同层级的数量。</strong></p>
+<p>切出更多图块可以增加观察位置，但不能自动增加独立患者。若研究希望说明模型适用于新患者，就需要按照患者层级核查训练与测试关系。没有对应标识时，报告保留图块级描述并说明尚未核实的部分。</p>
+<h3 id="topic-05-section-03">H&amp;E 染色</h3>
+<p>H&amp;E是苏木精—伊红染色（hematoxylin and eosin staining）的缩写。苏木精相关染色使细胞核等结构常呈蓝紫色，伊红使多种细胞质和间质成分常呈不同深浅的粉红色。具体外观还受到组织、制片、染色和扫描条件影响。[16]</p>
+<p>在一张H&amp;E图上，可以先找蓝紫色较集中的核，再观察周围粉红色区域，以及组织中的空隙、腔面和排列。初学阶段的目标是认识图像中的主要对象，不要求仅凭本课程图像完成病理诊断。</p>
+<p>H&amp;E的价值之一是提供形态背景。颜色、核密度、排列和组织边界共同帮助我们描述一个区域。把图像缩放得很小以后，细胞级细节可能消失；这种变化会直接影响后面的模型能够利用什么信息。</p>
+<h3 id="topic-05-section-04">蛋白、表达与标志物</h3>
+<p>蛋白是细胞中承担结构、反应和信号传递等功能的一类分子。不同细胞或不同状态下，某些蛋白的数量与位置可以不同。研究中提到一种蛋白的“表达”，通常是在讨论该蛋白相关的存在、数量或分布，需要结合所用检测方式解释。</p>
+<p>基因携带产生相关分子的信息，组织形态和某种蛋白的检测是不同层面的观察。H&amp;E提供可见形态背景，针对HER2的IHC提供与特定抗体检测有关的信号。预测模型试图从已有输入中学习两者的关联，训练参考决定了它实际学习哪个目标。</p>
+<p>标志物是用于观察某种生物状态的指标。HER2在本项目中是目标蛋白名称；DAB是显色体系名称；图像RGB是记录颜色的数字表示。把这三个层面区分开，后面就能理解为什么RGB误差、DAB颜色误差与HER2临床判断需要分别说明。[11,12]</p>
+<h3 id="topic-05-section-05">IHC 染色</h3>
+<p>免疫组织化学（immunohistochemistry，IHC）利用抗体识别组织中的特定抗原，通过检测系统使相关位置出现可观察信号。抗原常是研究关注的某种蛋白，抗体具有识别目标的能力，显色系统把这种检测转化为图像中的颜色。[11]</p>
+<p>本项目关注HER2，即人表皮生长因子受体2。它是一种与细胞生长信号有关的受体蛋白，临床病理中可通过相应检测评价其表达状态。主项目的图像目标明确限定为BCI中的HER2-IHC。[12]</p>
+<p>常见明场IHC图像中，DAB显色呈棕色，苏木精复染提供蓝色或蓝紫色的核背景。IHC观察同时涉及信号强度、位置、分布和组织对象。针对不同蛋白，核、膜或细胞质等位置可能承担不同意义。HER2图像中特别需要关注与细胞膜相关的染色形态；把所有棕色像素相加，不能完整替代这些判断。[11,12]</p>
+<h3 id="topic-05-section-06">虚拟染色</h3>
+<p>给定H&amp;E图像x，模型输出预测IHC图像<code>G(x)</code>。训练时，模型同时看到与x配对的真实IHC参考y，逐渐学习两种图像之间可以由数据支持的对应关系。推理时只输入H&amp;E，输出由已经训练好的参数计算得到。</p>
+<p>这里存在一个值得研究的难点：相近的形态可能对应不同分子状态，H&amp;E输入未必包含确定目标染色所需的全部信息。因此，生成模型可能在常见形态上得到相似颜色，也可能把训练分布中的常见模式放到不相符的位置。研究需要具体检查哪些位置被正确预测，哪些位置出现遗漏、错误显色或结构变化。</p>
+<p>“看起来像IHC”与“对应这个组织位置的目标信号”承担不同证据要求。前者可以从整体外观观察，后者需要配对参考和相关评价。模型输出始终标为“生成HER2-IHC”，原始实验染色标为“真实参考HER2-IHC”。报告、PPT和海报沿用相同标识。</p>
+<h3 id="topic-05-section-07">配对、配准与误差</h3>
+<p>配对意味着两张图被组织为对应的输入与目标。配准是通过空间变换，使两张图中的组织结构尽可能对齐。旋转、尺度变化、局部拉伸、折叠或缺失，都可能影响对应关系。完成配准后仍可能存在残余差异。</p>
+<p>例如，真实IHC中的一条组织边界比H&amp;E向右偏了几个像素。模型按照H&amp;E位置重建该边界，即使形态合理，也会在逐像素评价中受到惩罚。反过来，整体颜色接近也可能掩盖某个局部信号的位置错误。因此主项目需要同时查看数值与配对图像，并记录可见配准问题。</p>
+<p>同一切片的重复处理与相邻切片之间的对应具有不同约束。读取某套数据时，以来源说明为准，不根据“配对”二字推断采集方式。BCI提供用于图像翻译的配准配对数据；当前课程程序记录原始来源，不进一步假定每个图块具有细胞级完全一致的真值。[5,6]</p>
+<h3 id="topic-05-section-08">主项目任务</h3>
+<p>主项目使用BCI中的真实H&amp;E与HER2-IHC图块。BCI来源说明提到51对WSI以及多个HER2来源类别；这项数量表述指向WSI对，不直接等同于独立患者数。[6] 课程先检查所有取得的文件，再按照固定规则生成训练、验证与测试清单。</p>
+<p>生成器输入与输出均为RGB图像。输入图块整体缩放到256×256后训练，比较简单颜色映射、L1重建和条件对抗训练。我们关心图像误差、组织区域表现、DAB相对颜色分量，以及具体错误位置。临床HER2分级、治疗决策、跨癌种有效性都需要另外设计证据链；本课程的结果按照已执行的图像实验范围表达。</p>
+<h3 id="topic-05-section-09">研究介绍 P03-A</h3>
+<p>用200—300字解释H&amp;E、IHC和虚拟染色。段落应让读者知道每一种图像怎样产生、HER2在本项目中的角色，以及模型输出如何被检查。再画出“组织—两种染色图像—训练—生成图”的简图，标注真实测量和模型预测。此段文字与简图将成为最终报告背景和PPT开场的初稿。</p></section><section class="lesson-unit" aria-labelledby="topic-06"><h2 id="topic-06">文献检索与阅读</h2><h3 id="topic-06-section-01">论文结构</h3>
+<p>研究论文把一个问题、回答问题的过程和获得的证据组织成可供他人检查的文本。标题概括主题，摘要快速交代问题、做法和主要发现，引言说明研究背景与切入点，方法描述数据与步骤，结果展示观察，讨论解释意义与适用范围，参考文献连接已经发表的工作。</p>
+<p>不同论文的章节名称可以变化。机器学习会议文章常把相关工作单列，某些期刊把方法放在正文末尾，补充材料可能包含重要参数和额外实验。第一次阅读时，先确定“问题—数据—方法—证据”分别在哪里，再决定需要深入哪一部分。</p>
+<p>综述汇集一个领域的研究，适合建立方向地图；原创研究提出并验证具体问题；数据集论文说明数据来源、组织方式和使用场景；软件文档说明某个实现怎样使用。预印本便于研究早期交流，其审稿状态需要核实。知道资料类型，可以调整对它的期待。</p>
+<p>本项目的文献任务以BCI数据与虚拟染色方法为中心。读懂一篇核心文章后，再把它与通用图像翻译方法以及更新的配准相关工作联系起来。</p>
+<h3 id="topic-06-section-02">检索词</h3>
+<p>中文问题“如何从H&amp;E预测HER2免疫染色”包含输入、目标和方法三个部分。相应英文词包括<code>H&amp;E</code>、<code>hematoxylin eosin</code>、<code>HER2</code>、<code>immunohistochemistry</code>、<code>virtual staining</code>、<code>image-to-image translation</code>。英文术语通常能帮助定位原始论文与代码。</p>
+<p>先在PubMed、学术搜索工具或期刊/会议页面中检索较宽的主题，再逐步加入目标标志物或方法。可以尝试以下检索式，记录使用的平台、日期和修改过程。[17]</p>
+<pre><code class="language-text">"virtual staining" AND HER2
+"hematoxylin" AND "immunohistochemistry" AND "deep learning"
+"BCI" "Pyramid Pix2pix"
+"virtual staining" AND misalignment
+</code></pre>
+<p>不同平台对引号、AND和字段限制的支持不同。结果太少时，减少限制或换用同义词；结果太宽时，加入HER2、paired、histopathology等与任务有关的词。检索到BCI后，用完整标题再次查找，核对论文、作者主页与代码仓库是否对应同一项工作。</p>
+<p>标题和摘要决定文章是否相关，全文决定它能否支持某个具体结论。文章涉及“虚拟染色”，也可能实际研究未染色图像到H&amp;E、H&amp;E到特殊染色或多重荧光通道。记录输入、输出和目标标志物，避免把不同任务直接混在一起比较。</p>
+<h3 id="topic-06-section-03">阅读顺序</h3>
+<p>首先阅读BCI：<em>Breast Cancer Immunohistochemical Image Generation through Pyramid Pix2pix</em>。它同时提供本项目所用数据的背景和针对配对图像翻译的方法设计。[5] 初读时找出研究对象、配对方式、输入输出、金字塔监督的大意和评价指标。暂时遇到复杂公式，可以先写出公式连接了哪些对象，再随实验学习补充。</p>
+<p>其次阅读pix2pix：<em>Image-to-Image Translation with Conditional Adversarial Networks</em>。关注条件生成、像素重建项、判别器与生成器怎样配合。[4] 用本项目变量替换通用符号：输入是H&amp;E，目标是真实IHC，生成器输出预测IHC，判别器查看条件配对。</p>
+<p>U-Net文章作为结构参考，重点阅读编码—解码与跳跃连接为什么帮助位置恢复。[3] 完成自己的结果后，再阅读2026年的<em>Generative AI for misalignment-resistant virtual staining to accelerate histopathology workflows</em>，关注它怎样处理生成与空间对齐的关系，并比较其验证设计与本课程的差异。[15]</p>
+<p>最后一篇用于理解配准问题仍在发展，课程的核心实验仍按已经固定的两种训练设置执行。你可以在讨论中提出有依据的后续实验，不需要在初次学习中同时重现全部方法。</p>
+<h3 id="topic-06-section-04">初读与文章结构</h3>
+<p>先看标题、摘要和主要图表，写出三句话：“作者处理什么数据”“希望得到什么输出”“用什么证据说明方法有用”。这三句话能够帮助你确定全文中的主线。若暂时写不出来，回到摘要和第一张概览图，逐一确认对象。</p>
+<p>看图时读图注。图注通常说明图像来源、各组代表什么、数字怎样计算，以及颜色或符号的含义。不要仅凭图像外观猜测哪一栏是真实IHC、哪一栏是模型生成。把疑问记录下来，后续到方法部分寻找答案。</p>
+<h3 id="topic-06-section-05">关键实验</h3>
+<p>从最接近本项目的实验开始。找到数据怎样划分、图像怎样预处理、比较了哪些模型、指标在什么范围计算、是否报告独立样本或切片层级。再读对应结果，确认结论是否真的由这项实验支持。</p>
+<p>例如，看到“多尺度监督提高图像生成表现”，你需要找：新增了哪一个训练项？比较时其余设置是否一致？评价使用什么尺寸？展示的是平均指标还是部分图像？这些问题把一个方法名称还原为可检查的研究过程。</p>
+<p>读公式时先写变量表。把<code>x</code>标成H&amp;E、<code>y</code>标成真实IHC、<code>G(x)</code>标成生成图，再看损失比较哪些对象。公式中的求和表示对多个位置或样本重复同一计算，权重表示不同项在总目标中的比例。能把计算对象说清楚，就已经获得了理解实现的重要入口。</p>
+<h3 id="topic-06-section-06">证据记录</h3>
+<p>一份阅读记录至少包含文献信息、研究问题、输入输出、关键方法、一个具体证据位置和对自己项目的作用。“文章很有创新性”无法帮助你设计实验；“该文把生成图与参考图在多个尺度上比较，因此我需要关注图像缩放是否改变评价”则能转化为具体行动。</p>
+<p>区分作者报告的观察、作者给出的解释和自己的推测。记录时可以分别写：“文中表X报告……”“作者据此认为……”“在本项目中还需要验证……”。具体位置能让你在写报告时快速回查，避免引用一个从未出现过的结论。</p>
+<p>核心阅读卡默认完成三份：BCI、pix2pix，以及一篇与配准或染色评价有关的原始研究。U-Net建立一份结构简记即可。每份核心卡约一页，优先写清证据与用途。</p>
+<h3 id="topic-06-section-07">Zotero 文献管理</h3>
+<p>建立一个<code>KYDW_HE_to_HER2</code>文献集合。通过浏览器连接器、DOI或题录信息导入文章，核对标题、作者、年份和发表载体。能够获得全文时附加PDF；代码、数据和论文页面作为相关链接记录。[9]</p>
+<p>为文章增加简短标签，例如<code>dataset</code>、<code>paired-translation</code>、<code>registration</code>、<code>evaluation</code>。读过的段落可以标注并记页码或图表编号。题录与附件承担不同作用：题录用于引用，附件保存正文；只导入PDF后还需要检查文献信息是否完整。</p>
+<p>写Word报告时通过文献管理插件插入引文，让编号随正文顺序更新。软件能处理格式，引用是否支持句子仍由你检查。最后核对每一项引文的原文位置，以及参考文献表是否存在重复条目。[9]</p>
+<h3 id="topic-06-section-08">AI 辅助阅读</h3>
+<p>向AI提供允许分享的段落，并提出有范围的问题，例如：“解释这一段中的输入、输出和训练目标，用本文变量名称对应；将原文没有给出的信息标为未说明。”得到解释后，回到原文核对。</p>
+<p>翻译时保留原始英文术语，检查increase/decrease、significant、may、associated等表达是否被改变。代码解释可以要求逐行标注张量形状。检索建议只能作为候选，题名、作者和结论都需要通过原始来源确认。没有核对的AI输出不进入参考文献或结果段落。</p>
+<h3 id="topic-06-section-09">文献记录 L01</h3>
+<p>保存一条初始检索式和至少一次修改，说明修改理由。完成三份核心阅读卡，并用300—500字写出主项目背景：H&amp;E与HER2-IHC的关系、虚拟染色任务、两类训练目标，以及本次准备比较的问题。每个依赖文献的具体事实都有对应来源。这个段落随后进入Word报告的引言。</p></section></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-data.html"><span>下一节 →</span><b>数据准备与实验设计</b></a></nav></div></div></main><div id="site-footer"></div></body></html>

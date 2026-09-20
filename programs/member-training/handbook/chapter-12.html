@@ -1,44 +1,5 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="12｜Word 科研报告"><title>12｜Word 科研报告｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>12｜Word 科研报告</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">报告围绕一个问题组织</a><a href="#section-02">先写研究骨架，再补充段落</a><a href="#section-03">标题和摘要</a><a href="#section-04">引言怎样形成递进</a><a href="#section-05">方法怎样达到可复查</a><a href="#section-06">结果段落怎样与图表配合</a><a href="#section-07">讨论与结论</a><a href="#section-08">用样式管理格式</a><a href="#section-09">插入图片、题注与交叉引用</a><a href="#section-10">导出与最终检查</a><a href="#section-11">任务W01：完成主项目报告</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">报告围绕一个问题组织</h2>
-<p>主项目报告回答“不同训练目标怎样影响H&amp;E到HER2-IHC预测”。读者需要先知道问题为何值得研究，再看到数据和方法，随后检查结果，最后理解结论范围。每个部分承担不同作用，同一事实在不同位置出现时保持一致。</p>
-<p>推荐正文约6—8页，不含参考文献与补充附件。使用A4页面，正文中文11—12磅、1.5倍行距，左右页边距约2.5厘米。标题、图注和表注可以适当调整，但同类内容保持一致。这些是本课程的排版约定，不作为所有期刊的通用要求。</p>
-<h2 id="section-02">先写研究骨架，再补充段落</h2>
-<p>新建Word文档，保存为<code>姓名_HE到HER2研究报告_v01.docx</code>。按顺序建立标题、摘要、引言、材料与方法、结果、讨论、结论、参考文献与附录。对主要章节应用“标题1”，子节使用“标题2”。在导航窗格中检查层级，确认它表达了文章结构。[19]</p>
-<p>先把已有背景、数据卡、实验计划和结果材料放到相应位置。复制内容后检查格式和引用。段落以一个中心意思展开：先提出本段要说明的事实，再给具体证据，最后解释它对当前问题的作用。避免把多个互不相干的定义塞进同一段。</p>
-<h2 id="section-03">标题和摘要</h2>
-<p>标题同时交代对象与比较，例如《不同训练目标下的H&amp;E到HER2-IHC虚拟染色：基于BCI配对图像的教学研究》。它让读者知道数据场景和问题，避免在没有证据时使用“高精度”“临床级”等评语。</p>
-<p>摘要最后完成。用约250—350字说明背景、目的、方法、主要结果与结论。结果部分必须写本次真实数字；模型比较没有提升时，如实写出差异方向。摘要中的样本数、方法名和指标与正文一致。</p>
-<h2 id="section-04">引言怎样形成递进</h2>
-<p>第一段介绍H&amp;E和HER2-IHC在任务中的角色，说明为什么研究从形态图像预测目标染色。第二段简要介绍配对图像翻译与条件对抗训练，并指出像素外观、组织位置和目标信号之间需要分别检查。第三段明确本次问题和比较范围。</p>
-<p>每个引用对应一个具体事实。说明BCI数据来源时引用BCI；介绍pix2pix思想时引用原论文；讨论残余配准问题时引用相应研究。你自己的实验设置属于本次方法，使用明确陈述，不需要借用别人的引用来代替说明。</p>
-<h2 id="section-05">方法怎样达到可复查</h2>
-<p>数据段落写来源、标志物、实际配对数量、划分、原始及模型尺寸和组标识层级。预处理段落说明整体缩放、RGB范围与同步翻转。方法比较段落介绍四种方法，明确L1和条件对抗实现的区别。</p>
-<p>训练设置包括生成器结构、损失系数、优化器、学习率、批量、轮次、种子和权重选择。评价段落交代主指标、补充指标、非白背景规则、DAB阈值建立方式、样本汇总及输入模糊条件。这些信息已经由Notebook保存，写作时逐项核对，减少凭记忆填数字。</p>
-<p>“采用默认参数”只在默认值被清楚定义并能够追溯时才足够。本课程报告直接列出关键设置，完整配置文件作为附件。不同方法的共同条件可以集中说明，避免重复。</p>
-<h2 id="section-06">结果段落怎样与图表配合</h2>
-<p>第一段报告主要方法比较，引用结果表，给出L1与对抗模型的主要指标和差值。第二段联系SSIM与DAB分量，说明各项结果是否一致，并引出同位置案例。第三段报告输入模糊实验，说明配对变化的方向。</p>
-<p>结果段落可以解释图中直接可见的差异，例如“该区域参考棕色分布较集中，生成图在相邻区域出现更广的棕色”。关于产生原因的解释放到讨论，并注明需要哪些进一步证据。不能用一张挑选样例代替全体测试结果。</p>
-<p>Notebook 07生成的文字提供数据与结果数字。请结合自己的观察完成段落，删除与本次实验无关的字段；若数值缺失，先解决评价问题，再形成定量结论。</p>
-<h2 id="section-07">讨论与结论</h2>
-<p>讨论先回答主问题，再解释与预期一致或不一致的结果。可考虑训练预算、像素目标与对抗目标的差异、验证选择规则、残余配准和数据来源独立性。每个解释都连接本次观察或文献，避免罗列与实验无关的通用局限。</p>
-<p>后续工作应能从问题推导出来。例如，发现位置误差明显，可以提出在获得可靠配准或区域标注后重新评价；发现结果对训练种子敏感，可以设计固定数据划分下的重复训练。写清新增证据解决什么疑问。</p>
-<p>结论用一个简短段落概括当前数据、设置和观察到的比较结果。保留主要发现，避免把研究计划、推测或临床愿景写成已经实现的成果。</p>
-<h2 id="section-08">用样式管理格式</h2>
-<p>在“样式”中修改正文与标题的字体、字号、段前段后间距。使用样式后，同类段落可以统一调整。不要用连续空格对齐标题，也不要用多个空段落控制分页。新章节必须另起页时使用分页符；图与图注尽量保持相邻。[19]</p>
-<p>在需要目录时，通过标题样式生成自动目录。修改标题后更新目录，检查页码。页眉可以放简短项目名称，页脚插入自动页码。首页是否单独设置根据课程提交格式决定，不需要复杂装饰。</p>
-<h2 id="section-09">插入图片、题注与交叉引用</h2>
-<p>通过插入图片选择原始结果图文件，保持长宽比。初学阶段可以使用嵌入型布局，便于图片随段落移动。图下插入题注，例如“图1 实验流程”，表格上方插入表题。后续在正文中通过交叉引用引用编号，使调整顺序后能够更新。[20]</p>
-<p>表格使用真正的表格对象。方法名放在首列，指标放在后续列，数字按小数点或统一对齐方式组织。跨页表格重复表头，避免只留下数字让读者猜测列含义。图表附近的正文解释其关键意义，不逐个重复全部数值。</p>
-<p>通过Zotero插件插入引文与参考文献表，选择统一的数字顺序制样式。修改文献顺序后刷新引用，核对作者、题名、年份、期刊或会议。参考文献不能仅列出网页链接而没有基本题录信息。[9]</p>
-<h2 id="section-10">导出与最终检查</h2>
-<p>保留DOCX可编辑文件，再导出PDF用于固定版式提交。打开导出的PDF逐页检查：标题层级、分页、图片清晰度、公式、表格断页、引文编号和中文字体。Word里显示正常的对象，导出后仍需检查。</p>
-<p>最后做一次事实核对：摘要与正文样本数一致；方法与配置文件一致；结果与CSV一致；图注与图像来源一致；结论与实际证据一致。检查“真实”“参考”“生成”三个标签是否在全文统一。</p>
-<h2 id="section-11">任务W01：完成主项目报告</h2>
-<p>使用<code>模板/研究报告.md</code>组织正文，插入已经完成的核心图表。提交DOCX与PDF，并保留与Notebook输出的对应关系。请同学指出一处无法根据报告复查的步骤，根据反馈修改后记录版本变化。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-11.html">← 科研图表与证据整理</a><a href="chapter-13.html">PPT 科研绘图 →</a></nav></main><div id="site-footer"></div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KYDW新成员培训与考核</title><link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/07-report.html"></head><body><p><a href="../lessons/07-report.html#topic-12">打开对应课程章节</a></p><script>
+const anchors = {"section-01": "topic-12-section-01", "section-02": "topic-12-section-02", "section-03": "topic-12-section-03", "section-04": "topic-12-section-04", "section-05": "topic-12-section-05", "section-06": "topic-12-section-06", "section-07": "topic-12-section-07", "section-08": "topic-12-section-08", "section-09": "topic-12-section-09", "section-10": "topic-12-section-10", "section-11": "topic-12-section-11"};
+const currentAnchor = decodeURIComponent(location.hash.slice(1));
+location.replace("../lessons/07-report.html" + location.search + '#' + (anchors[currentAnchor] || "topic-12"));
+</script></body></html>

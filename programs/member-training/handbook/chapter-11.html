@@ -1,38 +1,5 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="11｜科研图表与证据整理"><title>11｜科研图表与证据整理｜科研大王 KYDW</title>
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../../../programs/member-training/course.css?v=20260920-members">
-<script src="../../../content.js?v=20260920-members" defer></script><script src="../../../site.js?v=20260920-members" defer></script></head>
-<body data-page="course-document" data-root="../../../" ><div id="site-header"></div><main id="page-content" class="page"><section class="hero"><div class="eyebrow">KYDW新成员培训与考核 / 课程手册</div><h1>11｜科研图表与证据整理</h1><div class="hero-actions"><a class="outline-btn" href="../../../programs/member-training/index.html">返回活动主页</a></div></section>
-<div class="course-reading-layout"><aside class="course-toc"><details open><summary>本页目录</summary><nav aria-label="本页目录"><a href="#section-01">从结果文件开始</a><a href="#section-02">选择图表，先确定读者要比较什么</a><a href="#section-03">整理第一张核心图：任务与实验流程</a><a href="#section-04">整理第二张核心图：同位置图像对比</a><a href="#section-05">整理第三张核心图：指标与案例的联系</a><a href="#section-06">表格需要哪些信息</a><a href="#section-07">图片清晰度和导出</a><a href="#section-08">图注可以独立回答什么</a><a href="#section-09">任务F01：建立核心图表与证据索引</a></nav></details></aside>
-<article class="card course-reader"><h2 id="section-01">从结果文件开始</h2>
-<p>训练结束后，你已经拥有图像、指标和日志。先把它们按同一次实验归档，再进入排版。<code>experiment.json</code>说明实验怎样做，<code>bci_manifest.csv</code>说明使用哪些数据，<code>per_pair_metrics.csv</code>保存逐图块结果，<code>summary.csv</code>保存汇总，<code>evaluation_record.json</code>连接权重、清单和评价设置。</p>
-<p>Notebook 07核对训练与评价的清单哈希，生成包含真实数量和实际数字的文本，并复制图表和来源文件。自动汇总帮助减少抄错数字，图像观察与研究解释仍需要你完成。检查自动文字中选中的指标、样本范围和方向是否与CSV一致。</p>
-<p>为主要结论建立一张证据索引。例如“对抗模型的平均MAE较高”指向summary.csv中clean条件的两行；“部分区域出现参考中没有的棕色”指向某个配对ID和图像方位；“配准误差可能影响像素比较”可以同时引用文献和本次可见位移记录。</p>
-<h2 id="section-02">选择图表，先确定读者要比较什么</h2>
-<p>训练曲线展示随轮次变化的损失。横轴写epoch，纵轴写对应的原始损失或MAE；不同量纲的加权总损失不要与未加权MAE放在同一轴上直接比较。图例区分训练与验证，图注说明最佳权重选择规则。</p>
-<p>方法比较图展示固定测试集合上的差别。柱形图适合表示平均值，但容易隐藏分布；课程同时保留逐图块数据。需要补充分布时，可以根据同一CSV画箱线图、散点图或配对差值图。图注说明每个点对应图块、切片还是患者，不能让图块数量看起来像独立患者数量。</p>
-<p>散点图适合比较同一图块在两个条件下的数值。主项目模糊实验的点越靠近对角线，两个条件越接近；图中每个点应能追溯到pair_id。相关趋势与绝对误差是不同概念，即使两种方法排序相近，也可能存在系统偏高或偏低。</p>
-<h2 id="section-03">整理第一张核心图：任务与实验流程</h2>
-<p>这张图需要表达真实数据如何产生、如何划分、哪些部分参与训练与验证、测试阶段如何生成与评价。建议分成数据来源、方法比较、统一评价三个区域。使用明确的对象名称：H&amp;E、真实HER2-IHC、生成HER2-IHC、冻结测试集合。</p>
-<p>箭头表示真实的数据或计算关系。训练目标可以连接到损失计算，测试目标连接到评价，不进入模型更新。阅读者通过这张图应能判断你如何避免测试信息参与训练。模型结构细节放在必要位置，主图不需要画出每个卷积层。</p>
-<p>这张流程图在PPT中使用可编辑形状绘制。后面改变某个标签或实验数量时，可以直接修改对应对象。图作为方法说明进入Word报告，再在汇报与海报中调整大小。</p>
-<h2 id="section-04">整理第二张核心图：同位置图像对比</h2>
-<p>将同一配对的H&amp;E、真实IHC、简单颜色映射、L1生成图和对抗生成图按固定顺序排列。所有图使用相同方向、裁剪窗口和显示范围。若放大局部，每栏使用同一个原图位置，并用一致的框标出。</p>
-<p>真实IHC与生成IHC在标题中清楚区分。不能只用“Original”和“Result”而让读者猜测哪张是测量、哪张是预测。图像中的颜色参与任务含义，展示时避免单独增强某一种方法的亮度或饱和度。为显示而作的统一变换要在图注说明，评价仍以固定数值流程为准。</p>
-<p>已有物理尺度才能画微米标尺。来源没有尺度时，可以说明图块整体缩放到256×256，保留像素尺寸，不添加猜测的μm标尺。裁剪局部可用原始像素坐标标识，便于复查。</p>
-<h2 id="section-05">整理第三张核心图：指标与案例的联系</h2>
-<p>报告主指标差值，同时展示补充指标。若RGB MAE、SSIM与DAB分量给出不同方向，用同一案例图帮助读者理解：整体颜色接近是否伴随局部信号错误，纹理是否更明显但位置偏离，组织缺失是否影响比较。</p>
-<p>不把所有指标压成一个没有解释的总分。每个指标对应不同问题，先说明它关注的对象，再讨论一致或分歧。图表标题可以写“固定测试图块上的重建与DAB分量比较”，结论句放在正文，使用实际方向和数值。</p>
-<h2 id="section-06">表格需要哪些信息</h2>
-<p>核心结果表每行是一个方法，每列是一个有定义的指标。表头写清方向，例如MAE↓、SSIM↑；箭头第一次出现时解释其含义。小数位数在同一列保持一致，采用足以辨认差异的精度，避免把无意义的长小数当成精确证据。</p>
-<p>表注说明测试样本数、输入尺寸、汇总方式、有效样本处理和组标识层级。若每个指标有效数量不同，保留相应分母。标准差表示样本分散程度，置信区间描述指定估计与重采样规则下的不确定性，两者名称明确区分。</p>
-<h2 id="section-07">图片清晰度和导出</h2>
-<p>图表优先从代码或绘图软件导出，避免直接截取低分辨率屏幕。线条、坐标和文字应在最终展示大小下可读。若需要更大尺寸，重新运行原始绘图代码增加画布或导出分辨率，保留同一数据来源；放大低像素图片不会增加真实细节。</p>
-<p>统计图的字号、轴名和方法名保持一致。颜色仅承担明确的区分作用；能够通过文字或形状同时区分时，阅读对色觉的依赖更小。组织图保留原始RGB含义，图像之间使用一致处理。</p>
-<h2 id="section-08">图注可以独立回答什么</h2>
-<p>一段完整图注说明图中对象、各栏含义、数据范围、计算方式和需要注意的解释条件。读者在暂时离开正文时，仍应知道图展示了哪个实验。</p>
-<p>示例写法：“图2 同一测试图块的虚拟HER2-IHC预测。各列依次为H&amp;E、真实HER2-IHC、线性颜色映射、U-Net+L1与加入条件对抗损失的U-Net。各图均由相同配对图块整体缩放至256×256，局部框选位置一致。展示样例按测试ID排序预先选取，生成图与参考图分别标注。”这段内容可以直接用于你的图注，再补上实际ID与观察重点。</p>
-<h2 id="section-09">任务F01：建立核心图表与证据索引</h2>
-<p>准备一张可编辑实验流程图、一组固定同位置图像对比、一张主要指标图、一张输入模糊配对散点图，以及一张完整结果表。每张图或表配150字以内的图注/表注，并填写证据索引中的来源文件。完成后请另一位同学仅根据图注说明图的含义，检查哪些必要信息仍然缺失。</p></article></div><nav class="course-page-nav" aria-label="章节导航"><a href="chapter-10.html">← 虚拟染色评价与错误分析</a><a href="chapter-12.html">Word 科研报告 →</a></nav></main><div id="site-footer"></div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KYDW新成员培训与考核</title><link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/07-report.html"></head><body><p><a href="../lessons/07-report.html#topic-11">打开对应课程章节</a></p><script>
+const anchors = {"section-01": "topic-11-section-01", "section-02": "topic-11-section-02", "section-03": "topic-11-section-03", "section-04": "topic-11-section-04", "section-05": "topic-11-section-05", "section-06": "topic-11-section-06", "section-07": "topic-11-section-07", "section-08": "topic-11-section-08", "section-09": "topic-11-section-09"};
+const currentAnchor = decodeURIComponent(location.hash.slice(1));
+location.replace("../lessons/07-report.html" + location.search + '#' + (anchors[currentAnchor] || "topic-11"));
+</script></body></html>

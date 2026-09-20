@@ -909,18 +909,58 @@
   function memberTraining() {
     const t = data.memberTraining;
     const materialLinks = items => items.map(item => `<a class="member-material-link" href="${rootHref(item.href)}">${esc(item.title)}<span aria-hidden="true"> →</span></a>`).join("");
-    layout(`${hero({ eyebrow: "项目与活动 / 新成员培训与考核", title: t.title, lead: t.lead, actions: [{ label: "阅读课程手册", href: "#course-handbook", primary: true }, { label: "Notebook 实践", href: "#course-notebooks" }, { label: "考核与提交", href: "#course-assessment" }] })}
+    layout(`${hero({ eyebrow: "项目与活动 / 新成员培训与考核", title: t.title, lead: t.lead, actions: [{ label: "开始学习", href: t.chapters[0].href, primary: true }, { label: "课程目录", href: "#course-sequence" }, { label: "考核与提交", href: "#course-assessment" }] })}
       <section class="section"><article class="card member-development-card"><div><div class="card-kicker">培养方案与待遇</div><h2>${esc(t.development.title)}</h2><p>${esc(t.development.text)}</p></div><div class="member-development-actions"><a class="outline-btn" href="${rootHref(t.development.href)}">阅读培养指南</a><a class="outline-btn" href="${rootHref(t.development.achievementsHref)}">本科生成果</a></div></article></section>
-      <section class="section"><div class="member-overview-grid">${t.highlights.map(item => `<article class="card"><h2>${esc(item.title)}</h2><p>${esc(item.text)}</p></article>`).join("")}</div><div class="callout"><p>先完成环境与 Python、手写数字识别和自然图像分割，再进行 BCI 数据审计、模型训练与评价，最后整理研究报告、汇报 PPT 和科研海报。新的 H&E 图像推理为选修。</p></div></section>
-      <section class="section" id="course-handbook">${sectionHead("课程手册", "按章节阅读基础概念、操作说明与对应任务。", null)}<div class="member-chapter-grid">${t.chapters.map(ch => `<a class="card member-chapter" href="${rootHref(ch.href)}"><span class="chapter-number">${esc(ch.no)}</span><h3>${esc(ch.title)}</h3><span class="member-read">阅读章节 →</span></a>`).join("")}</div></section>
-      <section class="section" id="course-notebooks">${sectionHead("Notebook 实践", "打开对应实践页，再进入 Kaggle，点击 Copy & Edit（复制并编辑）后运行。", null)}<div class="member-notebook-grid">${t.notebooks.map(nb => `<article class="card"><div class="card-kicker">Notebook ${esc(nb.no)}${nb.optional ? " · 选修" : ""}</div><h3>${esc(nb.title)}</h3><p>${esc(nb.input)}</p><div class="card-footer"><a class="outline-btn" href="${rootHref(nb.href)}">打开</a></div></article>`).join("")}</div><div class="callout"><p>主项目的运行顺序为 03 → 04 → 05 → 07。每一步保存含输出的 Notebook 版本，下一步通过 Add Input 添加前一步的输出。BCI 图像需按第 07 章的来源说明取得并挂载；多份数据或多个实验同时存在时，请在配置格填写明确路径。</p></div></section>
-      <section class="section" id="course-assessment">${sectionHead("考核与提交", "按课程中的任务要求保存学习过程、实际结果与成果文件。", null)}<div class="card course-reader"><p>两个小项目分别提交学习记录。主项目提交研究报告、汇报 PPT、科研海报，以及支撑它们的文献记录、数据卡、实验配置、代码、结果和图表。</p><p>研究报告正文约 6—8 页；汇报约 8 页、6 分钟；海报采用一页 A1 横向版式。</p><div class="course-table-wrap" tabindex="0" role="region" aria-label="评分表"><table><thead><tr><th>考核内容</th><th>分值</th></tr></thead><tbody><tr><td>概念与两个小项目</td><td>15</td></tr><tr><td>文献与问题</td><td>15</td></tr><tr><td>数据与实验设计</td><td>20</td></tr><tr><td>代码、结果与复查</td><td>25</td></tr><tr><td>报告、汇报与海报</td><td>20</td></tr><tr><td>规范与协作记录</td><td>5</td></tr></tbody></table></div><p><a href="${rootHref(t.chapters[16].href)}">查看评价标准与提交文件结构 →</a></p></div></section>
+      <section class="section" id="course-sequence"><span id="course-handbook"></span><span id="course-notebooks"></span>${sectionHead("课程目录", "按顺序阅读各章，在讲解中的实践入口打开 Jupyter Notebook。各章左侧可跳转课程和小节。", null)}<ol class="member-learning-sequence">${t.chapters.map(ch => `<li class="card member-lesson-card"><span class="lesson-number">${esc(ch.no)}</span><div class="member-lesson-content"><h3><a href="${rootHref(ch.href)}">${esc(ch.title)} <span aria-hidden="true">→</span></a></h3><p>${esc(ch.description)}</p>${ch.notebooks.length ? `<div class="member-practice-links" aria-label="本章 Jupyter 实践">${ch.notebooks.map(no => { const nb = t.notebooks.find(item => item.no === no); return `<a href="${rootHref(nb.href)}">Notebook ${esc(no)} · ${esc(nb.title)}</a>`; }).join("")}</div>` : '<p class="member-muted">本章任务：研究介绍与文献记录</p>'}</div></li>`).join("")}</ol><a class="member-material-link" href="${rootHref(t.appendix.href)}">附录 · ${esc(t.appendix.title)}<span aria-hidden="true">→</span></a><div class="callout"><p>Notebook 直接在对应章节中阅读和运行。打开 Kaggle 后，点击 Copy &amp; Edit（复制并编辑），保存到自己的账户，再按单元格顺序操作。</p><p>主项目的实践顺序为 03 → 04 → 05 → 07。每一步保存含输出的 Notebook 版本，下一步通过 Add Input 添加前一步的输出。第 06 号“新的 H&E 图像推理”为选修，可跳过后继续第7章。</p></div></section>
+      <section class="section" id="course-assessment">${sectionHead("考核与提交", "按课程中的任务要求保存学习过程、实际结果与成果文件。", null)}<div class="card course-reader"><p>两个小项目分别提交学习记录。主项目提交研究报告、汇报 PPT、科研海报，以及支撑它们的文献记录、数据卡、实验配置、代码、结果和图表。</p><p>研究报告正文约 6—8 页；汇报约 8 页、6 分钟；海报采用一页 A1 横向版式。</p><div class="course-table-wrap" tabindex="0" role="region" aria-label="评分表"><table><thead><tr><th>考核内容</th><th>分值</th></tr></thead><tbody><tr><td>概念与两个小项目</td><td>15</td></tr><tr><td>文献与问题</td><td>15</td></tr><tr><td>数据与实验设计</td><td>20</td></tr><tr><td>代码、结果与复查</td><td>25</td></tr><tr><td>报告、汇报与海报</td><td>20</td></tr><tr><td>规范与协作记录</td><td>5</td></tr></tbody></table></div><p><a href="${rootHref(t.assessmentHref)}">查看评价标准与提交文件结构 →</a></p></div></section>
       <section class="section" id="course-materials">${sectionHead("成果模板与练习", "模板用于填写自己的学习记录、实验结果与成果文稿。", null)}<div class="member-material-grid">${materialLinks(t.templates)}</div><div class="member-material-grid">${materialLinks(t.exercises)}</div><div class="card-footer"><a class="outline-btn" href="${rootHref(t.download)}" download>下载课程材料包</a></div></section>`);
   }
 
   function courseDocument() {
     const content = $("#page-content").innerHTML;
     layout(content);
+    if (!body.dataset.courseLesson) return;
+    const menu = $(".lesson-menu");
+    const mobile = window.matchMedia("(max-width: 900px)");
+    const resizeMenu = () => { menu.open = !mobile.matches; };
+    resizeMenu();
+    mobile.addEventListener("change", resizeMenu);
+    const links = [...document.querySelectorAll('.lesson-local-toc a[href^="#"]')];
+    const headings = [...document.querySelectorAll(".lesson-reader h2[id], .lesson-reader h3[id]")];
+    let activeId = "";
+    const markCurrent = id => {
+      if (id === activeId) return;
+      activeId = id;
+      links.forEach(link => {
+        const active = link.hash === "#" + id;
+        if (active) {
+          link.setAttribute("aria-current", "location");
+          document.querySelectorAll(".lesson-topic").forEach(topic => { topic.open = topic === link.closest(".lesson-topic"); });
+        } else link.removeAttribute("aria-current");
+      });
+    };
+    menu.addEventListener("click", event => {
+      const link = event.target.closest('a[href^="#"]');
+      if (!link) return;
+      link.closest(".lesson-topic").open = true;
+      if (mobile.matches) menu.open = false;
+      markCurrent(link.hash.slice(1));
+    });
+    let scheduled = false;
+    const updateCurrent = () => {
+      const top = parseFloat(getComputedStyle(headings[0]).scrollMarginTop) + 10;
+      let current = headings[0];
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top > top) break;
+        current = heading;
+      }
+      if (current) markCurrent(current.id);
+      scheduled = false;
+    };
+    window.addEventListener("scroll", () => {
+      if (!scheduled) { scheduled = true; requestAnimationFrame(updateCurrent); }
+    }, { passive: true });
+    updateCurrent();
   }
 
   const renderers = { "member-training": memberTraining, "course-document": courseDocument, "resource-document": courseDocument, home, team, "team-section": teamSection, programs, module: modulePage, "sdu-lesson": sduLessonPage, "training-module": trainingModulePage, "training-plan": trainingPlanPage, resources, experience: experienceDirectoryByWeek, "experience-week": weekPage, project: projectPage, material, professional, "professional-faq": professionalFaq, "professional-destinations": professionalDestinations };
