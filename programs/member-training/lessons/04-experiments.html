@@ -2,32 +2,121 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>实验与短报告｜KYDW新成员培训与考核</title><meta name="description" content="实验与短报告：知识讲解、Kaggle 练习与独立实践。">
 <link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
-</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与 PyTorch</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-experiments.html" aria-current="page"><span>04</span>实验与短报告</a><div class="lesson-local-toc"><details class="lesson-topic"><summary><a href="#section-01">实验问题与比较条件</a></summary></details><details class="lesson-topic"><summary><a href="#section-02">种子、划分与实验编号</a></summary></details><details class="lesson-topic"><summary><a href="#section-03">训练曲线与检查点</a></summary></details><details class="lesson-topic"><summary><a href="#section-04">均值、差异与样例</a></summary></details><details class="lesson-topic"><summary><a href="#section-05">图表与结果说明</a></summary></details><details class="lesson-topic"><summary><a href="#section-06">Word 简短报告</a></summary></details><details class="lesson-topic"><summary><a href="#section-07">独立项目：宠物分割</a></summary></details></div></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>4. 实验与短报告</h1><p>分割项目既需要产生预测，也需要回答一个清楚的问题：改变某个设置后，结果发生了什么变化？一次有记录的比较可以很小，例如固定模型与划分，只比较是否使用水平翻转增强。你需要保存实际结果，并用简短报告说明条件、证据和结论。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-pathology.html"><span>下一节 →</span><b>文献与病理图像</b></a></nav><article class="card course-reader lesson-reader">
+<link rel="stylesheet" href="../course.css?v=20260920-depth"><script defer src="../../../content.js?v=20260920-depth"></script><script defer src="../../../site.js?v=20260920-depth"></script>
+</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与 PyTorch</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-experiments.html" aria-current="page"><span>04</span>实验与短报告</a><div class="lesson-local-toc"><details class="lesson-topic has-subtopics"><summary><a href="#section-01">实验设计与记录</a></summary><nav aria-label="实验设计与记录"><a href="#section-01-01">实验问题与比较条件</a><a href="#section-01-02">种子、划分与实验编号</a><a href="#section-01-03">训练曲线与检查点</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-02">结果比较与图表</a></summary><nav aria-label="结果比较与图表"><a href="#section-02-01">均值、差异与样例</a><a href="#section-02-02">同一样本的配对比较</a><a href="#section-02-03">波动与重复实验</a><a href="#section-02-04">图表与结果说明</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#tools-word">Word 图文排版实践</a></summary><nav aria-label="Word 图文排版实践"><a href="#section-03-01">标题样式与导航窗格</a><a href="#section-03-02">图片、题注与正文引用</a><a href="#section-03-03">表格、单位与有效数字</a><a href="#section-03-04">段落分页与分节</a><a href="#section-03-05">自动目录与 PDF 导出</a></nav></details><details class="lesson-topic"><summary><a href="#section-04">独立项目：宠物分割</a></summary></details></div></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>4. 实验与短报告</h1><p>分割项目既需要产生预测，也需要回答一个清楚的问题：改变某个设置后，结果发生了什么变化？一次有记录的比较可以很小，例如固定模型与划分，只比较是否使用水平翻转增强。你需要保存实际结果，并用简短报告说明条件、证据和结论。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-pathology.html"><span>下一节 →</span><b>文献与病理图像</b></a></nav><article class="card course-reader lesson-reader">
 
-<h2 id="section-01">实验问题与比较条件</h2>
-<figure class="knowledge-figure"><a aria-label="放大图解：一次受控比较只改变所研究的因素，其余条件保持一致。" href="../assets/diagrams/experiment-control.svg" target="_blank"><img alt="一次受控比较只改变所研究的因素，其余条件保持一致。" loading="lazy" src="../assets/diagrams/experiment-control.svg"/></a><figcaption>一次受控比较只改变所研究的因素，其余条件保持一致。 <a href="../assets/diagrams/experiment-control.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<h2 id="section-01">实验设计与记录</h2>
+<h3 id="section-01-01">实验问题与比较条件</h3>
+<figure class="knowledge-figure" id="figure-experiment-control"><a aria-label="放大图解：一次受控比较只改变所研究的因素，其余条件保持一致。" href="../assets/diagrams/experiment-control.svg" target="_blank"><img alt="一次受控比较只改变所研究的因素，其余条件保持一致。" loading="lazy" src="../assets/diagrams/experiment-control.svg"/></a><figcaption>一次受控比较只改变所研究的因素，其余条件保持一致。 <a href="../assets/diagrams/experiment-control.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
 <p>先写出准备改变的因素，再列出需要保持一致的条件。比较学习率时，模型、初始参数、数据划分、批量大小和训练预算应尽可能一致。比较不同模型时，至少保持数据、评价方法和训练预算的说明一致，并报告参数量或计算差异。</p>
 <p>不要根据最终结果再改写最初的问题。结果没有明显提升也有价值：它说明在当前数据与训练条件下，这项变化尚未显示清楚优势。记录失败或不稳定的实验，可以避免以后重复投入同样的时间。</p>
-<h2 id="section-02">种子、划分与实验编号</h2>
+<h3 id="section-01-02">种子、划分与实验编号</h3>
 <p>随机种子影响参数初始化、样本顺序等操作。固定种子可以减少比较中的随机差异，但不会使所有硬件和算子都完全一致。保存数据文件名和配置，比仅记录一个种子更便于复查。</p>
 <p>每次实验使用独立编号，例如 <code>seg_base_s1</code> 和 <code>seg_flip_s1</code>。记录输入尺寸、训练预算、增强、损失、优化器、学习率与种子。下一次改变设置时使用新目录，不覆盖前一次的权重和曲线。具备计算条件时，可使用几个种子重复比较；暂时只有单次结果时，直接说明运行次数。</p>
-<h2 id="section-03">训练曲线与检查点</h2>
+<h3 id="section-01-03">训练曲线与检查点</h3>
 <p>训练损失下降说明模型更适合当前训练目标。验证指标反映对未参与更新的图像的表现。若训练继续改善而验证逐渐变差，可能存在过拟合，需要结合数据量、增强和模型复杂度分析。</p>
 <p>选择最佳检查点所依据的验证指标应事先确定。例如使用验证 Dice 最高的权重，并在比较中统一这一规则。不要用测试集挑选训练轮次。展示曲线时注明横轴是训练轮次还是更新步数，并保留各次记录的原始数值。</p>
 <aside class="knowledge-practice" id="practice-04"><div><span class="card-kicker">Kaggle 知识练习 04</span><strong>分割网络与对照实验</strong><p>打开后复制到自己的账户，运行小例子，再修改其中一个条件。</p></div><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-04" rel="noreferrer" target="_blank">打开 Kaggle ↗</a></aside>
-<h2 id="section-04">均值、差异与样例</h2>
+<h2 id="section-02">结果比较与图表</h2>
+<h3 id="section-02-01">均值、差异与样例</h3>
 <p>在固定测试集上比较两种方案，可以逐图计算 Dice，再查看同一张图上的差值。均值反映总体水平，分布和具体图像说明变化是否集中在少数困难样例。只看一个平均数容易忽略某种方案改善大目标却伤害细小结构的情况。</p>
 <p>若运行多个随机种子，可以分别报告各次指标与均值、标准差。图像级样本数量和独立实验次数是两种不同数量，不能把许多相关像素当成大量独立重复实验。小型课程实验通常先做清楚的描述比较，不强行加入缺少前提的显著性结论。</p>
-<h2 id="section-05">图表与结果说明</h2>
+<h3 id="section-02-02">同一样本的配对比较</h3>
+<p>下面四张图的 Dice 是<strong>人工算例</strong>，用于说明汇总方式。A、B 的每一行必须对应同一张图，才能计算配对差值。实际报告中的数值需要由自己的测试结果产生。</p>
+<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>图像编号</th>
+<th style="text-align: right;">方案 A</th>
+<th style="text-align: right;">方案 B</th>
+<th style="text-align: right;">B − A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sample_01</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">+0.05</td>
+</tr>
+<tr>
+<td>sample_02</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">−0.02</td>
+</tr>
+<tr>
+<td>sample_03</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">+0.07</td>
+</tr>
+<tr>
+<td>sample_04</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">−0.01</td>
+</tr>
+<tr>
+<td>均值</td>
+<td style="text-align: right;">0.6850</td>
+<td style="text-align: right;">0.7075</td>
+<td style="text-align: right;">+0.0225</td>
+</tr>
+</tbody>
+</table></div>
+<p>B 的平均 Dice 增加 0.0225，即按百分数表示时增加 2.25 个百分点，但有两张图的分数下降。相对 A 均值的增幅约为 3.28%，它与“增加 2.25 个百分点”是不同表达。报告先写原始指标与差值，再结合具体图像说明哪些位置有变化，不将平均提升写成每张图都改善。</p>
+<p>把逐图差值画成点图时，以 0 为参考线；点在上方表示 B 较高，下方表示 A 较高。对照图应包含改善、接近和退步的例子，并保留固定展示样本。这样读者既能看到总体分布，也能查看具体耳朵、毛发或背景区域。</p>
+<h3 id="section-02-03">波动与重复实验</h3>
+<p>标准差描述一组结果围绕均值的分散程度。逐图 Dice 的标准差主要体现图像难度与预测表现的差异，多次独立训练所得测试均值的标准差则描述训练重复的波动。它们来自不同层级，表格中要写清统计的是图像还是实验。</p>
+<p>比较多个随机种子时，将同一组种子用于两种设置，逐次保留结果，并同时报告每次训练的数据划分与预算。一次训练中的上千张图并不等于上千次独立训练。若下一步需要置信区间或统计检验，还要明确抽样单位、同来源样本之间的关系，以及检验假设；当前练习先把逐图差异和重复次数交代清楚。</p>
+<h3 id="section-02-04">图表与结果说明</h3>
 <p>结果表至少写出方案、唯一改变项、训练预算、测试图像数和指标。图像对照采用相同样例与顺序；颜色表示应保持一致。若图中有忽略区，图注说明颜色含义与评价时的处理方式。</p>
 <p>图注应让读者知道数据是什么、比较了什么、颜色或符号是什么意思。正文指出图中的具体证据，例如“方案 B 在这个耳朵区域少漏了一块”，再说明它是否在更多样例中重复出现。不要让“效果更好”成为结果部分的全部内容。</p>
-<h2 id="section-06">Word 简短报告</h2>
-<p>报告可以安排为约 2—3 页，包含任务与数据、比较方案、结果、讨论和引用。篇幅用于集中说明一项比较；数据路径、完整配置和代码可以作为随附文件。开头交代为什么选择这个因素，并准确说明训练和测试使用的图片范围。</p>
-<p>在 Word 的“开始 → 样式”使用标题 1、标题 2 与正文样式，不通过反复加空格控制布局。插入图片后在“引用 → 插入题注”添加图号，正文通过交叉引用引用它。表格首行标明列名与单位，避免合并过多单元格。</p>
-<p>粘贴图表后检查清晰度和纵横比，正文图片优先采用嵌入型版式，减少文字绕排引起的位置变化。导出 PDF 后重新查看分页、图注是否紧邻图片、表格是否跨页断裂以及引用是否完整。保留可编辑 Word 和导出 PDF 两份文件。</p>
-<figure class="knowledge-figure"><a aria-label="放大图解：短报告的内容和版式示意。每张图与表都需要对应实际数据。" href="../assets/diagrams/report-layout.svg" target="_blank"><img alt="短报告的内容和版式示意。每张图与表都需要对应实际数据。" loading="lazy" src="../assets/diagrams/report-layout.svg"/></a><figcaption>短报告的内容和版式示意。每张图与表都需要对应实际数据。 <a href="../assets/diagrams/report-layout.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
-<h2 id="section-07">独立项目：宠物分割</h2>
+<p></p>
+<h2 id="tools-word">Word 图文排版实践</h2>
+<p>把分割实验整理成一份约 2—3 页的报告，可以同时练习文档结构、图表编号和排版。先准备任务与数据、比较方案、结果、讨论四部分文字，以及一张实际对照图和一张结果表。记录内容齐全以后，再处理字号、间距和分页，修改时更容易保持一致。</p>
+<p>下面的操作使用桌面版 Word 的常见菜单名称。引用截图保留原教程界面；图下注明版本与语言，中文和英文菜单在操作说明中对应列出。视频适合观察连续操作，正文适合完成任务时逐步查找。</p>
+<aside aria-label="配套教程" class="tutorial-box"><p class="tutorial-title">配套教程 · Word 入门与样式</p><ul><li><a href="https://www.bilibili.com/video/BV1NXC4YvEqB" rel="noreferrer" target="_blank"><span>B 站 · 左-岚 · 大学生扫盲课第 2 期</span><b>word排版介绍与论文格式书写（也适用于wps） ↗</b></a><p>约 46 分钟，学习 Word 排版与论文格式的整体思路。本文下面的操作步骤可配合官方图文逐项查阅。</p></li><li><a href="https://support.microsoft.com/en-us/word/customize-or-create-new-styles" rel="noreferrer" target="_blank"><span>Microsoft Support · 英语图文</span><b>Customize or create new styles ↗</b></a><p>对照样式库与“修改”入口；完成标题层级后，再统一字体与段落格式。</p></li></ul></aside>
+<h3 id="section-03-01">标题样式与导航窗格</h3>
+<p>“样式”把段落的用途和外观一起保存。给“实验方法”套用标题 1，Word 才能把它识别为一级标题；仅将几个字放大、加粗，通常仍是普通正文。这样建立的层级可以用于导航窗格、目录和统一改版。</p>
+<ol>
+<li>新建文档，先输入报告题目和四个部分的名称。在“开始 / Home → 样式 / Styles”中，给报告题目应用“标题”，给四个部分应用“标题 1”。某部分下面确有子主题时再用“标题 2”。</li>
+<li>选中普通段落，应用“正文 / Normal”。右键正文样式选择“修改 / Modify”，统一字体、字号和段后间距。例如用微软雅黑 11 磅、1.25 倍行距作为起点，再根据图片尺寸调整。</li>
+<li>通过“视图 / View → 导航窗格 / Navigation Pane”查看标题。点击“结果”，检查是否能直接定位；正文如果误入导航列表，检查是否套用了标题样式。</li>
+<li>修改“标题 1”的颜色或字号，观察所有同级标题一起变化。不要逐个重新设置外观，否则下次调整仍要重复操作。</li>
+</ol>
+<figure class="knowledge-figure office-figure" id="figure-word-styles"><a aria-label="放大界面图：Word“开始 / Home”选项卡的“样式 / Styles”库中，右键样式后选择“修改 / Modify”。" href="../assets/office/word-styles.png" target="_blank"><img alt="Word“开始 / Home”选项卡的“样式 / Styles”库中，右键样式后选择“修改 / Modify”。" height="214" loading="eager" src="../assets/office/word-styles.png" width="809"/></a><figcaption><strong>Word“开始 / Home”选项卡的“样式 / Styles”库中，右键样式后选择“修改 / Modify”。</strong> Word for Windows 桌面版旧界面示例（微软支持文档未注明具体版本），英语界面。© Microsoft。来源：<a href="https://support.microsoft.com/en-us/word/customize-or-create-new-styles" rel="noreferrer" target="_blank">Microsoft Support · Customize or create new styles</a>。<a href="../assets/office/word-styles.png" target="_blank">查看原图 ↗</a></figcaption></figure>
+<p><strong>就地练习：</strong> 把“比较方案”细分成“共同设置”和“改变因素”两个二级标题。观察导航中的缩进层级，再只修改一次“标题 2”样式。保存文档后重新打开，确认结构仍然存在。</p>
+<h3 id="section-03-02">图片、题注与正文引用</h3>
+<p>插入图片后，Word 需要决定它与文字的位置关系。嵌入型图片像一个较大的字符，随所在段落移动；浮动图片则具有环绕方式、锚点和位置设置。短报告先用嵌入型，通常更容易维护图与题注的顺序。</p>
+<ol>
+<li>将光标放到介绍该图的段落后，使用“插入 → 图片”选择自己导出的分割对照图。优先插入原始图片文件，避免反复经过聊天软件压缩。</li>
+<li>在图片旁的“布局选项 / Layout Options”选择“嵌入型 / In Line with Text”。进入图片的大小设置，保持纵横比，按页面正文宽度缩放。宽度不够时调整图的内部排版，不把图横向压扁。</li>
+<li>选中图片，使用“引用 / References → 插入题注 / Insert Caption”。标签选择“图”，位置放在所选项目下方，填写能说明数据、方案与颜色含义的图注。</li>
+<li>在正文需要提到图片的位置，使用“引用 → 交叉引用 / Cross-reference”，引用类型选“图”，插入“仅标签和编号”。之后插入新图或调整顺序，再更新域，引用编号就能一起更新。</li>
+</ol>
+<figure class="knowledge-figure office-figure" id="figure-word-caption"><a aria-label="放大界面图：Word“引用 / References → 插入题注 / Insert Caption”对话框，可选择 Figure、Table 等标签和题注位置。" href="../assets/office/word-caption.png" target="_blank"><img alt="Word“引用 / References → 插入题注 / Insert Caption”对话框，可选择 Figure、Table 等标签和题注位置。" height="243" loading="eager" src="../assets/office/word-caption.png" width="302"/></a><figcaption><strong>Word“引用 / References → 插入题注 / Insert Caption”对话框，可选择 Figure、Table 等标签和题注位置。</strong> Word 2016 for Windows 示例界面，英语界面。© Microsoft。来源：<a href="https://support.microsoft.com/en-us/word/add-format-or-delete-captions-in-word" rel="noreferrer" target="_blank">Microsoft Support · Add, format, or delete captions in Word</a>。<a href="../assets/office/word-caption.png" target="_blank">查看原图 ↗</a></figcaption></figure>
+<p>手工输入“图 1”属于普通文字，自动题注的编号属于可更新的域。做一个小实验：先在原图之前插入一张临时图片和题注，再在正文区域按 Ctrl+A、F9 更新域，观察原图与交叉引用编号的变化。确认后删除临时图及其题注，再次更新。笔记本电脑可能需要配合 Fn 使用 F9。</p>
+<figure class="knowledge-figure office-figure" id="figure-word-crossref"><a aria-label="放大界面图：Word“交叉引用 / Cross-reference”对话框，可选择引用类型、插入内容和目标标题。" href="../assets/office/word-crossref.png" target="_blank"><img alt="Word“交叉引用 / Cross-reference”对话框，可选择引用类型、插入内容和目标标题。" height="384" loading="eager" src="../assets/office/word-crossref.png" width="473"/></a><figcaption><strong>Word“交叉引用 / Cross-reference”对话框，可选择引用类型、插入内容和目标标题。</strong> Word 2013 for Windows 示例界面，英语界面。© Microsoft。来源：<a href="https://support.microsoft.com/en-us/word/create-a-cross-reference" rel="noreferrer" target="_blank">Microsoft Support · Create a cross-reference</a>。<a href="../assets/office/word-crossref.png" target="_blank">查看原图 ↗</a></figcaption></figure>
+<p>上图展示同一个交叉引用对话框引用标题时的状态。引用报告中的图片时，将“引用类型 / Reference type”改为“图 / Figure”，右侧选择“仅标签和编号 / Only label and number”，再从下方列表选中自己的题注。如果列表为空，先确认图片已经通过“插入题注”建立编号。</p>
+<h3 id="section-03-03">表格、单位与有效数字</h3>
+<p>结果表的第一列写方案名称，后面放唯一改变项、样本数、Dice 和 IoU。指标计算方式写在表格旁或表注中，例如“先逐图计算，再对测试图像取均值；待定边界像素不参与评价”。数值列保留一致的小数位，不通过增加位数暗示更高的测量精度。</p>
+<p>通过“插入 → 表格”创建表格，在“表格布局”中调整列宽与单元格对齐。段落中的空格和制表符不适合代替表格结构。长单元格可自然换行；数值列应有足够宽度，避免一个数被拆成两行。先将同一方案的图片、表格和正文名称统一，再调整边框和颜色。</p>
+<p>如果表格跨页，选中表头行，通过“表格布局 → 重复标题行”让下一页也显示列名。在“表格属性 → 行”中检查是否允许跨页断行；一个短记录通常适合放在同一页，一整张长表则不必强行挤进一页。表格完成后，用自动题注添加“表”编号。</p>
+<h3 id="section-03-04">段落分页与分节</h3>
+<p>在“开始”中显示段落标记 <code>¶</code>，可以看到回车、分页符等隐藏格式。连续敲很多次回车只能把后面的内容暂时推下去，一旦前文增加一句话，空白和分页就可能改变。</p>
+<p>想让一个新部分从下一页开始时，使用 Ctrl+Enter 插入分页符。想让短标题跟随后面的正文时，在“段落 → 换行和分页”中启用“与下段同页 / Keep with next”。图片所在段落也可以与下一段题注保持同页；随后检查是否出现过大的空白，必要时缩小图片或改变图的位置。</p>
+<figure class="knowledge-figure office-figure" id="figure-word-breaks"><a aria-label="放大界面图：Word“布局 / Layout → 分隔符 / Breaks”菜单中的分节符选项，包括下一页、连续、偶数页和奇数页。" href="../assets/office/word-breaks.png" target="_blank"><img alt="Word“布局 / Layout → 分隔符 / Breaks”菜单中的分节符选项，包括下一页、连续、偶数页和奇数页。" height="528" loading="eager" src="../assets/office/word-breaks.png" width="399"/></a><figcaption><strong>Word“布局 / Layout → 分隔符 / Breaks”菜单中的分节符选项，包括下一页、连续、偶数页和奇数页。</strong> Word 2016 for Windows 示例界面，英语界面。© Microsoft。来源：<a href="https://support.microsoft.com/en-us/word/insert-a-section-break" rel="noreferrer" target="_blank">Microsoft Support · Insert a section break</a>。<a href="../assets/office/word-breaks.png" target="_blank">查看原图 ↗</a></figcaption></figure>
+<p>分页符只安排新页；分节符还允许前后部分使用不同的页面设置。长报告若需要某一页横向放置宽表，可以在它前后插入“布局 → 分隔符 → 下一页分节符”，再仅改变当前节的纸张方向。修改页眉或页码时，注意“链接到前一节”的状态。两三页的分割短报告通常用不到复杂分节，可以在另一份练习文档里尝试，观察差别后再决定是否使用。</p>
+<h3 id="section-03-05">自动目录与 PDF 导出</h3>
+<p>报告扩展到更多页面后，可以在正文前通过“引用 → 目录 / Table of Contents”插入自动目录。它读取已经设置的标题样式。新增标题或更换页面位置后，右键目录选择“更新域”，需要更新标题文字时选择“更新整个目录”。本次短报告可以直接使用导航窗格，无须额外占一页放目录。</p>
+<figure class="knowledge-figure office-figure" id="figure-word-toc"><a aria-label="放大界面图：Word“目录 / Table of Contents”设置对话框，可预览目录、显示页码、设置制表符前导符和显示级别。" href="../assets/office/word-toc.png" target="_blank"><img alt="Word“目录 / Table of Contents”设置对话框，可预览目录、显示页码、设置制表符前导符和显示级别。" height="465" loading="eager" src="../assets/office/word-toc.png" width="519"/></a><figcaption><strong>Word“目录 / Table of Contents”设置对话框，可预览目录、显示页码、设置制表符前导符和显示级别。</strong> Word 2016 for Windows 示例界面，英语界面。© Microsoft。来源：<a href="https://support.microsoft.com/en-us/word/format-or-customize-a-table-of-contents-in-word" rel="noreferrer" target="_blank">Microsoft Support · Format or customize a table of contents in Word</a>。<a href="../assets/office/word-toc.png" target="_blank">查看原图 ↗</a></figcaption></figure>
+<p>保存可编辑 DOCX，再通过“文件 → 导出”或“另存为”生成 PDF。导出后重新打开 PDF，重点检查图中文字能否读清、题注是否跟随图片、表格是否断裂、引用编号是否一致。Word 中正常显示的内容，仍应在最终阅读文件里核对一次。</p>
+<aside aria-label="配套教程" class="tutorial-box"><p class="tutorial-title">配套教程 · 图表引用与长文档</p><ul><li><a href="https://support.microsoft.com/en-us/word/create-a-cross-reference" rel="noreferrer" target="_blank"><span>Microsoft Support · 英语图文</span><b>Create a cross-reference ↗</b></a><p>学习选择引用类型与目标，区别普通文字编号与自动交叉引用。</p></li><li><a href="https://support.microsoft.com/en-us/word/insert-a-section-break" rel="noreferrer" target="_blank"><span>Microsoft Support · 英语图文</span><b>Insert a section break ↗</b></a><p>理解分页与分节的区别，尝试在单独文档中设置一页横向宽表。</p></li><li><a href="https://support.microsoft.com/en-us/word/format-or-customize-a-table-of-contents-in-word" rel="noreferrer" target="_blank"><span>Microsoft Support · 英语图文</span><b>Format or customize a table of contents in Word ↗</b></a><p>在已有标题样式的基础上设置目录层级、页码和前导符。</p></li></ul></aside>
+<p><strong>本次实践产物：</strong> 一份含实际分割结果的 DOCX 和 PDF。正文具有标题样式，至少一张图具有自动题注和正文交叉引用，结果表列名与单位完整。用这些功能把自己的实验说明清楚即可，排版功能应服务于阅读。</p>
+<figure class="knowledge-figure" id="figure-report-layout"><a aria-label="放大图解：短报告的内容和版式示意。每张图与表都需要对应实际数据。" href="../assets/diagrams/report-layout.svg" target="_blank"><img alt="短报告的内容和版式示意。每张图与表都需要对应实际数据。" loading="lazy" src="../assets/diagrams/report-layout.svg"/></a><figcaption>短报告的内容和版式示意。每张图与表都需要对应实际数据。 <a href="../assets/diagrams/report-layout.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<h2 id="section-04">独立项目：宠物分割</h2>
 <p>自行建立 PyTorch 分割程序，使用 Oxford-IIIT Pet 的图像和 trimap。保留官方测试部分，从 trainval 中固定训练与验证划分；正确映射前景、背景与忽略区，图像和掩膜执行同步空间变换。选择一个可以生成像素预测的网络，自行组织训练、验证、检查点保存与测试。</p>
 <p>完成一次受控比较，明确一个改变因素，并使用同一测试集合比较逐图 Dice、IoU 与固定样例。保留原图、标注和预测的并排图，至少讨论一个漏分或误分区域。数据子集、训练次数和计算限制写入报告的实验条件。</p>
 <p>提交可重新运行的代码或 Notebook、配置与划分、权重、逐图指标、固定对照图，以及 Word/PDF 简短报告。报告必须使用实际结果；图像、表格和正文中的方案名称保持一致。你在猫狗阶段学到的尺寸、对齐和导出操作，可以继续用于制作清楚的结果图。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-04.html">对照实验设计 →</a><a class="outline-btn" href="../materials/template-10.html">分割短报告 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/lessons/03-segmentation.html"><span>← 上一节</span><b>图像分割</b></a><a href="../../../programs/member-training/lessons/05-pathology.html"><span>下一节 →</span><b>文献与病理图像</b></a></nav></div></div></main><div id="site-footer"></div></body></html>

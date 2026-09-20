@@ -1,0 +1,76 @@
+{
+  "ppt-start": {
+    "title": "配套教程 · 画布与对象",
+    "links": [
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Change the size of your PowerPoint slides",
+        "url": "https://support.microsoft.com/en-us/powerpoint/change-the-size-of-your-powerpoint-slides",
+        "note": "先看幻灯片大小与自定义尺寸；完成一张宽屏空白页，海报阶段再修改为 A1。"
+      },
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Change the size of a picture, shape, text box, or WordArt",
+        "url": "https://support.microsoft.com/en-us/office/graphics-visuals/change-the-size-of-a-picture-shape-text-box-or-wordart",
+        "note": "对照高度、宽度输入框，分别为一个形状和一张图片设置尺寸。"
+      }
+    ]
+  },
+  "ppt-advanced": {
+    "title": "配套教程 · 对齐、组合与母版",
+    "links": [
+      {
+        "label": "GCFGlobal / LearnFree · 英语图文",
+        "title": "PowerPoint 2016: Aligning, Ordering, and Grouping Objects",
+        "url": "https://www.learnfree.org/episode/powerpoint-2016/?id=16722",
+        "note": "阅读 Aligning objects、To distribute objects evenly 与 Grouping objects，练习对齐、分布、组合和图层顺序。"
+      },
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Customize a slide master",
+        "url": "https://support.microsoft.com/en-us/powerpoint/training/customize-a-slide-master",
+        "note": "学习统一版式中的共同元素；应用于学习海报或剑桥组的多页汇报。"
+      }
+    ]
+  },
+  "word-start": {
+    "title": "配套教程 · Word 入门与样式",
+    "links": [
+      {
+        "label": "B 站 · 左-岚 · 大学生扫盲课第 2 期",
+        "title": "word排版介绍与论文格式书写（也适用于wps）",
+        "url": "https://www.bilibili.com/video/BV1NXC4YvEqB",
+        "note": "约 46 分钟，学习 Word 排版与论文格式的整体思路。本文下面的操作步骤可配合官方图文逐项查阅。"
+      },
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Customize or create new styles",
+        "url": "https://support.microsoft.com/en-us/word/customize-or-create-new-styles",
+        "note": "对照样式库与“修改”入口；完成标题层级后，再统一字体与段落格式。"
+      }
+    ]
+  },
+  "word-advanced": {
+    "title": "配套教程 · 图表引用与长文档",
+    "links": [
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Create a cross-reference",
+        "url": "https://support.microsoft.com/en-us/word/create-a-cross-reference",
+        "note": "学习选择引用类型与目标，区别普通文字编号与自动交叉引用。"
+      },
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Insert a section break",
+        "url": "https://support.microsoft.com/en-us/word/insert-a-section-break",
+        "note": "理解分页与分节的区别，尝试在单独文档中设置一页横向宽表。"
+      },
+      {
+        "label": "Microsoft Support · 英语图文",
+        "title": "Format or customize a table of contents in Word",
+        "url": "https://support.microsoft.com/en-us/word/format-or-customize-a-table-of-contents-in-word",
+        "note": "在已有标题样式的基础上设置目录层级、页码和前导符。"
+      }
+    ]
+  }
+}

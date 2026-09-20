@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="770.378218pt" height="517.642531pt" viewBox="0 0 770.378218 517.642531" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-20T17:02:49.142846</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.0, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 517.642531
+L 770.378218 517.642531
+L 770.378218 0
+L 0 0
+z
+" style="fill: #f4f8fa"/>
+  </g>
+  <g id="axes_1">
+   <g id="table_1">
+    <g id="patch_2">
+     <path d="M 14.4 174.168
+L 183.181188 174.168
+L 183.181188 103.608
+L 14.4 103.608
+z
+" style="fill: #ffffff; stroke: #000000; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_1">
+     <text style="font-size: 16px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="98.790594" y="143.29425" transform="rotate(-0 98.790594 143.29425)">A: (1,2,3)</text>
+    </g>
+    <g id="patch_3">
+     <path d="M 183.181188 174.168
+L 351.962376 174.168
+L 351.962376 103.608
+L 183.181188 103.608
+z
+" style="fill: #ffffff; stroke: #000000; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_2">
+     <text style="font-size: 16px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="267.571782" y="143.29425" transform="rotate(-0 267.571782 143.29425)">B: (4,5,6)</text>
+    </g>
+    <g id="patch_4">
+     <path d="M 14.4 244.728
+L 183.181188 244.728
+L 183.181188 174.168
+L 14.4 174.168
+z
+" style="fill: #ffffff; stroke: #000000; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_3">
+     <text style="font-size: 16px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="98.790594" y="213.85425" transform="rotate(-0 98.790594 213.85425)">C: (7,8,9)</text>
+    </g>
+    <g id="patch_5">
+     <path d="M 183.181188 244.728
+L 351.962376 244.728
+L 351.962376 174.168
+L 183.181188 174.168
+z
+" style="fill: #ffffff; stroke: #000000; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_4">
+     <text style="font-size: 16px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="267.571782" y="213.85425" transform="rotate(-0 267.571782 213.85425)">D: (10,11,12)</text>
+    </g>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 16px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="183.181188" y="60.384" transform="rotate(-0 183.181188 60.384)">HWC：2 × 2 × 3；一个位置放三个通道值</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: start; fill: #183447" x="402.237624" y="115.956" transform="rotate(-0 402.237624 115.956)">permute(2,0,1)：重新安排轴的顺序</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: start; fill: #183447" x="402.237624" y="167.112" transform="rotate(-0 402.237624 167.112)">通道信息保留；R 平面聚集每个像素的第一个值。</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; fill: #183447" transform="translate(402.237624 201.699437)">reshape：按现有逻辑元素顺序重组形状</text>
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; fill: #183447" transform="translate(402.237624 225.324)">改变形状时，应重新核对每个位置的含义。</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="table_2">
+    <g id="patch_6">
+     <path d="M 28.764356 413.19
+L 86.221782 413.19
+L 86.221782 355.86
+L 28.764356 355.86
+z
+" style="fill: #ffe1dc; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_9">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="57.493069" y="390.583594" transform="rotate(-0 57.493069 390.583594)">1</text>
+    </g>
+    <g id="patch_7">
+     <path d="M 86.221782 413.19
+L 143.679208 413.19
+L 143.679208 355.86
+L 86.221782 355.86
+z
+" style="fill: #ffe1dc; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_10">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="114.950495" y="390.583594" transform="rotate(-0 114.950495 390.583594)">4</text>
+    </g>
+    <g id="patch_8">
+     <path d="M 28.764356 470.52
+L 86.221782 470.52
+L 86.221782 413.19
+L 28.764356 413.19
+z
+" style="fill: #ffe1dc; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_11">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="57.493069" y="447.913594" transform="rotate(-0 57.493069 447.913594)">7</text>
+    </g>
+    <g id="patch_9">
+     <path d="M 86.221782 470.52
+L 143.679208 470.52
+L 143.679208 413.19
+L 86.221782 413.19
+z
+" style="fill: #ffe1dc; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_12">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="114.950495" y="447.913594" transform="rotate(-0 114.950495 447.913594)">10</text>
+    </g>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="86.221782" y="310.872" transform="rotate(-0 86.221782 310.872)">R 平面</text>
+   </g>
+  </g>
+  <g id="axes_4">
+   <g id="table_3">
+    <g id="patch_10">
+     <path d="M 222.683168 413.19
+L 280.140594 413.19
+L 280.140594 355.86
+L 222.683168 355.86
+z
+" style="fill: #ddf3e9; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_14">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="251.411881" y="390.583594" transform="rotate(-0 251.411881 390.583594)">2</text>
+    </g>
+    <g id="patch_11">
+     <path d="M 280.140594 413.19
+L 337.59802 413.19
+L 337.59802 355.86
+L 280.140594 355.86
+z
+" style="fill: #ddf3e9; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_15">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="308.869307" y="390.583594" transform="rotate(-0 308.869307 390.583594)">5</text>
+    </g>
+    <g id="patch_12">
+     <path d="M 222.683168 470.52
+L 280.140594 470.52
+L 280.140594 413.19
+L 222.683168 413.19
+z
+" style="fill: #ddf3e9; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="251.411881" y="447.913594" transform="rotate(-0 251.411881 447.913594)">8</text>
+    </g>
+    <g id="patch_13">
+     <path d="M 280.140594 470.52
+L 337.59802 470.52
+L 337.59802 413.19
+L 280.140594 413.19
+z
+" style="fill: #ddf3e9; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_17">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="308.869307" y="447.913594" transform="rotate(-0 308.869307 447.913594)">11</text>
+    </g>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="280.140594" y="310.872" transform="rotate(-0 280.140594 310.872)">G 平面</text>
+   </g>
+  </g>
+  <g id="axes_5">
+   <g id="table_4">
+    <g id="patch_14">
+     <path d="M 416.60198 413.19
+L 474.059406 413.19
+L 474.059406 355.86
+L 416.60198 355.86
+z
+" style="fill: #e1ecfa; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_19">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="445.330693" y="390.583594" transform="rotate(-0 445.330693 390.583594)">3</text>
+    </g>
+    <g id="patch_15">
+     <path d="M 474.059406 413.19
+L 531.516832 413.19
+L 531.516832 355.86
+L 474.059406 355.86
+z
+" style="fill: #e1ecfa; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="502.788119" y="390.583594" transform="rotate(-0 502.788119 390.583594)">6</text>
+    </g>
+    <g id="patch_16">
+     <path d="M 416.60198 470.52
+L 474.059406 470.52
+L 474.059406 413.19
+L 416.60198 413.19
+z
+" style="fill: #e1ecfa; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_21">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="445.330693" y="447.913594" transform="rotate(-0 445.330693 447.913594)">9</text>
+    </g>
+    <g id="patch_17">
+     <path d="M 474.059406 470.52
+L 531.516832 470.52
+L 531.516832 413.19
+L 474.059406 413.19
+z
+" style="fill: #e1ecfa; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_22">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="502.788119" y="447.913594" transform="rotate(-0 502.788119 447.913594)">12</text>
+    </g>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="474.059406" y="310.872" transform="rotate(-0 474.059406 310.872)">B 平面</text>
+   </g>
+  </g>
+  <g id="axes_6">
+   <g id="table_5">
+    <g id="patch_18">
+     <path d="M 610.520792 413.19
+L 667.978218 413.19
+L 667.978218 355.86
+L 610.520792 355.86
+z
+" style="fill: #fff0d5; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_24">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="639.249505" y="390.583594" transform="rotate(-0 639.249505 390.583594)">1</text>
+    </g>
+    <g id="patch_19">
+     <path d="M 667.978218 413.19
+L 725.435644 413.19
+L 725.435644 355.86
+L 667.978218 355.86
+z
+" style="fill: #fff0d5; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_25">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="696.706931" y="390.583594" transform="rotate(-0 696.706931 390.583594)">2</text>
+    </g>
+    <g id="patch_20">
+     <path d="M 610.520792 470.52
+L 667.978218 470.52
+L 667.978218 413.19
+L 610.520792 413.19
+z
+" style="fill: #fff0d5; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_26">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="639.249505" y="447.913594" transform="rotate(-0 639.249505 447.913594)">3</text>
+    </g>
+    <g id="patch_21">
+     <path d="M 667.978218 470.52
+L 725.435644 470.52
+L 725.435644 413.19
+L 667.978218 413.19
+z
+" style="fill: #fff0d5; stroke: #b7cad3; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_27">
+     <text style="font-size: 22px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="696.706931" y="447.913594" transform="rotate(-0 696.706931 447.913594)">4</text>
+    </g>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 11px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="667.978218" y="500.508" transform="rotate(-0 667.978218 500.508)">数值顺序还在，颜色与位置关系变了</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="667.978218" y="310.872" transform="rotate(-0 667.978218 310.872)">直接 reshape 的第一层</text>
+   </g>
+  </g>
+  <g id="text_30">
+   <text style="font-weight: 700; font-size: 23px; font-family: 'Microsoft YaHei', sans-serif; text-anchor: middle; fill: #183447" x="365.4" y="32.785625" transform="rotate(-0 365.4 32.785625)">张量轴的次序与元素的空间含义</text>
+  </g>
+ </g>
+</svg>

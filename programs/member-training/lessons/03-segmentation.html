@@ -2,32 +2,65 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>图像分割｜KYDW新成员培训与考核</title><meta name="description" content="图像分割：知识讲解、Kaggle 练习与独立实践。">
 <link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
-</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与 PyTorch</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html" aria-current="page"><span>03</span>图像分割</a><div class="lesson-local-toc"><details class="lesson-topic"><summary><a href="#section-01">图像、掩膜与边界</a></summary></details><details class="lesson-topic"><summary><a href="#section-02">图像与掩膜的同步变换</a></summary></details><details class="lesson-topic"><summary><a href="#section-03">空间输出与概率图</a></summary></details><details class="lesson-topic"><summary><a href="#section-04">编码器、解码器与跳跃连接</a></summary></details><details class="lesson-topic"><summary><a href="#section-05">交集、并集、Dice 与 IoU</a></summary></details><details class="lesson-topic"><summary><a href="#section-06">像素损失与类别不平衡</a></summary></details><details class="lesson-topic"><summary><a href="#section-07">分割结果的阅读</a></summary></details></div></li><li><a class="lesson-course-link" href="04-experiments.html"><span>04</span>实验与短报告</a></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>3. 图像分割</h1><p>猫狗识别给整张照片一个类别。图像分割要求指出宠物位于哪些像素，因此目标变成一张与图像空间对应的标签图。接下来仍使用 Oxford-IIIT Pet，保留已经熟悉的照片，重点学习像素标签、空间输出与分割指标。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/02-classification.html"><span>← 上一节</span><b>猫狗识别</b></a><a href="../../../programs/member-training/lessons/04-experiments.html"><span>下一节 →</span><b>实验与短报告</b></a></nav><article class="card course-reader lesson-reader">
+<link rel="stylesheet" href="../course.css?v=20260920-depth"><script defer src="../../../content.js?v=20260920-depth"></script><script defer src="../../../site.js?v=20260920-depth"></script>
+</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与 PyTorch</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html" aria-current="page"><span>03</span>图像分割</a><div class="lesson-local-toc"><details class="lesson-topic has-subtopics"><summary><a href="#section-01">标注与像素预测</a></summary><nav aria-label="标注与像素预测"><a href="#section-01-01">空间标注与任务类型</a><a href="#section-01-02">掩膜与边界待定区</a><a href="#section-01-03">同步变换与位置对应</a><a href="#section-01-04">像素分数与阈值</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-02">分割网络</a></summary><nav aria-label="分割网络"><a href="#section-02-01">编码器与解码器</a><a href="#section-02-02">U-Net 与跳跃连接</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-03">分割评价</a></summary><nav aria-label="分割评价"><a href="#section-03-01">交集、并集与错误像素</a><a href="#section-03-02">指标与背景比例</a><a href="#section-03-03">逐图平均与合并统计</a><a href="#section-03-04">空区域与忽略区</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-04">损失与独立实践</a></summary><nav aria-label="损失与独立实践"><a href="#section-04-01">像素损失与类别不平衡</a><a href="#section-04-02">结果阅读与独立项目准备</a></nav></details></div></li><li><a class="lesson-course-link" href="04-experiments.html"><span>04</span>实验与短报告</a></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>3. 图像分割</h1><p>分类告诉我们照片中主要是猫还是狗，却没有说明动物位于哪些位置。图像分割需要为图中的每个像素给出类别信息，因此目标是一张与原图空间对应的标签图。本章继续使用 Oxford-IIIT Pet，重点学习标注、空间预测、分割网络和重叠指标。已经熟悉的张量、损失与参数更新仍然适用，但每项计算的对象需要重新确认。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/02-classification.html"><span>← 上一节</span><b>猫狗识别</b></a><a href="../../../programs/member-training/lessons/04-experiments.html"><span>下一节 →</span><b>实验与短报告</b></a></nav><article class="card course-reader lesson-reader">
 
-<h2 id="section-01">图像、掩膜与边界</h2>
-<figure class="knowledge-figure"><a href="../assets/pets/mask-explanation.png" target="_blank"><img alt="同一张宠物照片、真实 trimap 标注和叠加显示：前景、背景、待定边界" loading="lazy" src="../assets/pets/mask-explanation.png"/></a><figcaption>真实照片与官方 trimap 的着色显示：青绿色为宠物前景，深蓝为背景，橙色为待定边界。原始标签值分别为 1、2、3。来源：Oxford-IIIT Pet；此图展示标注，不是预测。</figcaption></figure>
-<p>掩膜中的数字是类别编码，不是普通照片中的亮度。Oxford-IIIT Pet 的 trimap 中，1 表示宠物，2 表示背景，3 表示边界待定区域。本课程将前景对应为 1、背景对应为 0，把原值 3 作为忽略区。先打印原始掩膜的不同取值，再显示颜色标注，检查处理结果是否与宠物轮廓一致。</p>
-<p>边界待定表示标注在这一带不够确定。训练损失和评价指标都应排除这些像素。只在损失中排除、却在 Dice 中计入，会使训练与评价针对不同的对象。</p>
-<h2 id="section-02">图像与掩膜的同步变换</h2>
-<p>调整图像大小可以使用双线性插值，它会根据邻近像素计算新颜色。掩膜需要最近邻插值，才能保留离散标签；双线性插值可能产生并不存在的新标签。翻转、裁剪或旋转时，图像和掩膜必须使用同一组空间变换。</p>
-<p>显示变换后的图像和掩膜叠加图，比只检查它们具有相同尺寸更可靠。形状相同的两张图也可能发生错位。训练增强可以改变外观，但不能让目标掩膜与图像中的动物位置分离。</p>
-<h2 id="section-03">空间输出与概率图</h2>
-<p>二分类分割模型可以输出 <code>[B,1,H,W]</code> 的 logits，每个位置表示前景判断的一个原始分数。Sigmoid 将分数映射到 0—1，再用阈值生成前景掩膜。默认阈值可以是 0.5，若准备调整阈值，应在验证集上选择并固定后再测试。</p>
-<p>前景概率较高的区域不一定拥有准确边缘。观察整张掩膜是否连贯、耳朵和细小结构是否保留、背景是否被误分，可以补充分数表中的信息。输出尺寸与标签不一致时，先检查模型的缩放过程和插值方式。</p>
-<h2 id="section-04">编码器、解码器与跳跃连接</h2>
-<figure class="knowledge-figure"><a aria-label="放大图解：编码器、解码器与跳跃连接的结构示意，方块表示不同尺度的特征。" href="../assets/diagrams/segmentation-model.svg" target="_blank"><img alt="编码器、解码器与跳跃连接的结构示意，方块表示不同尺度的特征。" loading="lazy" src="../assets/diagrams/segmentation-model.svg"/></a><figcaption>编码器、解码器与跳跃连接的结构示意，方块表示不同尺度的特征。 <a href="../assets/diagrams/segmentation-model.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
-<p>编码器逐步降低空间分辨率，以更大的观察范围识别对象。解码器提高分辨率，为每个位置产生预测。下采样会丢失部分细节；跳跃连接把较早层中的高分辨率特征提供给后面的解码器，是 U-Net 的重要结构。</p>
-<p>模型可以先从小型编码器—解码器开始，再考察增加跳跃连接的影响。模型复杂度不是任务完成的唯一标准。应能解释每一层改变了什么形状，以及最终输出怎样与像素标签对应。</p>
-<h2 id="section-05">交集、并集、Dice 与 IoU</h2>
-<p>把有效区域中的真实前景集合记为 A，预测前景集合记为 B。交集是两者共同包含的前景像素，并集是至少被其中一方包含的像素。IoU 等于交集大小除以并集大小；Dice 等于两倍交集大小除以两者大小之和。</p>
-<figure class="knowledge-figure"><a aria-label="放大图解：人为构造的像素重叠示例，用于理解指标，不是模型结果。" href="../assets/diagrams/metric-grid.svg" target="_blank"><img alt="人为构造的像素重叠示例，用于理解指标，不是模型结果。" loading="lazy" src="../assets/diagrams/metric-grid.svg"/></a><figcaption>人为构造的像素重叠示例，用于理解指标，不是模型结果。 <a href="../assets/diagrams/metric-grid.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
-<p>漏掉宠物区域会减少交集，多画背景也会增加分母。大片背景被正确判断并不会直接提高前景 Dice，因此它与逐像素准确率关注的内容不同。如果图像中背景占绝大多数，只报像素准确率可能掩盖宠物几乎没有被识别的问题。</p>
-<p>在所有图像上累加像素后计算一个 Dice，与先逐图计算再取平均并不完全相同。记录采用哪一种方式。对于真值和预测都没有前景的情况，也需要事先规定计分方式；课程知识练习会明确这一约定。</p>
+<h2 id="section-01">标注与像素预测</h2>
+<h3 id="section-01-01">空间标注与任务类型</h3>
+<p>同一张照片可以具有多种标注。整图类别说明主要对象是什么，矩形框给出大致位置，像素标签进一步指出边界和区域。像素标注通常更细致，也需要更多人工工作。图像分割模型学习的是现有标注所定义的区域，理解标注规则应当早于选择网络。</p>
+<p>语义分割给每个位置赋予类别，例如背景、猫、狗。同一类的不同个体可以使用同一类别值。如果照片里有两只狗，语义分割可以把它们都标成狗；实例分割还要区分哪一块属于第一只、哪一块属于第二只。实例编号表达对象身份，与猫狗类别编号含义不同。</p>
+<p>本项目采用二分类语义分割：所有宠物前景归为一类，其他有效区域归为背景。多类语义分割则可以区分更多互斥类别，模型和损失需要相应改变。先写出类别表，就能知道一张标签图中的每个数字应怎样解释。</p>
+<h3 id="section-01-02">掩膜与边界待定区</h3>
+<figure class="knowledge-figure" id="figure-pet-mask"><a href="../assets/pets/mask-explanation.png" target="_blank"><img alt="同一张宠物照片、真实 trimap 标注和叠加显示：前景、背景、待定边界" loading="lazy" src="../assets/pets/mask-explanation.png"/></a><figcaption>真实照片与官方 trimap 的着色显示：青绿色为宠物前景，深蓝为背景，橙色为待定边界。原始标签值分别为 1、2、3。来源：Oxford-IIIT Pet；此图展示标注，不是预测。</figcaption></figure>
+<p>分割掩膜可以看作与原图同样排列的二维数组。坐标相同的两个位置分别保存颜色和类别。掩膜里的值是编码，不能当作普通灰度亮度理解。显示时可以把前景涂成黄色、背景涂成紫色，但显示颜色不等于实际存储的类别编号。</p>
+<p>Oxford-IIIT Pet 的原始 trimap 中，1 表示宠物前景，2 表示背景，3 表示边界待定区。课程把有效前景对应为 1、背景对应为 0，并把原值 3 排除在损失和评价之外。毛发边缘、混合像素等位置可能难以给出确定标注，忽略区保留了这种标注约定。</p>
+<p>读取后先检查有哪些原始值，再核对宠物轮廓。不要直接把大于零的像素全部当成前景，因为原始背景编码也是正数。若在自己的文件中采用 255 表示忽略，需保存这份映射；模型的概率目标仍应是有效位置的 0 或 1，不能把 255 当作前景概率送进二元交叉熵。</p>
+<h3 id="section-01-03">同步变换与位置对应</h3>
+<p>照片和掩膜需要共同表达同一位置。缩放时可以对 RGB 照片使用双线性插值，标签图使用最近邻，以免插出不存在的类别值。随机裁剪、翻转和旋转则要共享相同空间参数，否则两张图虽然尺寸相同，动物位置却可能相反。</p>
+<p>例如，将照片水平翻转却不翻转掩膜，左侧的猫头会移动到右侧，训练目标仍留在原位。模型会收到互相矛盾的监督。最直接的检查是把处理后的掩膜半透明叠加在照片上，观察耳朵、背部和尾巴是否仍然对应。</p>
+<p>调整亮度等外观变换可以只作用于照片，目标位置仍由掩膜提供。裁剪如果移除了动物，可能形成没有前景的样本；补边又会增加人工区域。应说明这些位置如何标注和参与损失，不能让默认填充值悄悄改变任务含义。</p>
+<h3 id="section-01-04">像素分数与阈值</h3>
+<p>二分类分割可以让模型输出 <code>[B,1,H,W]</code>，每个位置保留一个前景 logit。经过 Sigmoid 后得到 0—1 数值，再按照阈值形成二值掩膜。例如 logit 为 0 时对应 0.5，约为 2 时对应 0.881，约为 −2 时对应 0.119。</p>
+<p>设定“概率不低于 0.5 判为前景”以后，就能统计预测区域。把阈值提高到 0.7，预测前景通常会缩小，可能减少误分，也可能漏掉较弱的真实前景。阈值是一项评价设置，需要在验证集上确定，测试阶段保持固定。</p>
+<p>另一种二分类实现可以输出两个类别 logits，并使用交叉熵；多类互斥分割通常输出 <code>[B,C,H,W]</code>，每个位置有 C 个类别分数，目标为 <code>[B,H,W]</code> 的整数类别。选择哪种表示都需要同时匹配输出、目标、损失和预测规则，不能只替换最后一层通道数。</p>
+<p>输出分辨率也会影响边界。模型在 32×32 网格上给出分数，再放大成 128×128，只是增加显示与评价的位置，并不自动获得原来未预测的细节。可以先将连续分数恢复到标签尺寸，再根据固定规则得到二值预测；若先变成二值掩膜再放大，边缘可能呈现不同形态。</p>
+<p>保存对照图时记录这些处理。细尾巴或毛发在缩小输入时可能已经消失，这类问题需要结合原图和处理后图像分析。保持输入尺寸、输出恢复方式和评价分辨率一致，才能更清楚地观察结构或训练设置带来的差异。</p>
+<h2 id="section-02">分割网络</h2>
+<h3 id="section-02-01">编码器与解码器</h3>
+<p>判断一个像素属于宠物，往往需要它周围的上下文。同样的浅色局部可能属于动物毛发，也可能属于沙发，较大范围的信息有助于区分。编码器逐步降低空间尺寸、组合局部特征，让后续计算观察更广的输入范围。</p>
+<p>一个简化示例可以让空间尺寸依次为 128×128、64×64、32×32，同时把特征通道设置为 16、32、64。空间位置减少，通道提供不同的学习特征。通道增加并不意味着自动获得新的真实测量，它只是改变模型内部表示容量。</p>
+<p>分割需要恢复到与标签对应的空间网格，因此还要有解码器。它逐步提高空间尺寸，并结合卷积计算新的特征。上采样可以使用插值再卷积，也可以采用转置卷积等可学习方法。提高尺寸只提供更多输出位置，已经在下采样中丢失的细节仍需要其他信息支持。</p>
+<figure class="knowledge-figure" id="figure-segmentation-model"><a aria-label="放大图解：编码器、解码器与跳跃连接的结构示意，方块表示不同尺度的特征。" href="../assets/diagrams/segmentation-model.svg" target="_blank"><img alt="编码器、解码器与跳跃连接的结构示意，方块表示不同尺度的特征。" loading="lazy" src="../assets/diagrams/segmentation-model.svg"/></a><figcaption>编码器、解码器与跳跃连接的结构示意，方块表示不同尺度的特征。 <a href="../assets/diagrams/segmentation-model.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<h3 id="section-02-02">U-Net 与跳跃连接</h3>
+<p>U-Net 将编码路径中较高分辨率的特征传给解码路径的相应尺度。这样的跳跃连接让较细的位置线索与较大范围的上下文共同参与计算，适合需要定位边界的任务。它传递的是网络特征，并不意味着把真实标签交给模型。</p>
+<p>假设解码特征为 32 个通道、64×64，编码器相应位置的特征为 16 个通道、64×64。沿通道方向拼接后得到 48 个通道、64×64，再通过卷积处理。若要使用逐元素相加，形状条件又不同；拼接与相加不能仅因都叫“融合”就混用。</p>
+<p>空间尺寸不匹配时，检查此前的步长、填充和上采样规则。原始 U-Net 与简化实现可能采用不同尺寸处理，因此画结构图时应标出自己模型的实际形状。初次项目可以从能够解释的小型编码器—解码器开始，再将跳跃连接作为有控制的比较因素。</p>
+<h2 id="section-03">分割评价</h2>
+<h3 id="section-03-01">交集、并集与错误像素</h3>
+<p>在有效像素范围内，把真实前景记为集合 A、预测前景记为集合 B。交集包含两者都认为是前景的位置，并集包含至少一方认为是前景的位置。真实前景被漏掉是漏分，背景被多画成前景是误分。它们分别对应假阴性和假阳性。</p>
+<p>设真实前景有 6 个像素，预测前景有 5 个，其中 4 个位置重合。那么正确前景有 4 个，漏分有 2 个，误分有 1 个，并集是 6+5−4=7 个。逐项计数以后，再看指标公式就能知道误差影响了哪一部分。</p>
+<figure class="knowledge-figure" id="figure-metric-grid"><a aria-label="放大图解：人为构造的像素重叠示例，用于理解指标，不是模型结果。" href="../assets/diagrams/metric-grid.svg" target="_blank"><img alt="人为构造的像素重叠示例，用于理解指标，不是模型结果。" loading="lazy" src="../assets/diagrams/metric-grid.svg"/></a><figcaption>人为构造的像素重叠示例，用于理解指标，不是模型结果。 <a href="../assets/diagrams/metric-grid.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<p>IoU 等于交集除以并集，本例为 4÷7，约 0.571。Dice 等于两倍交集除以两个前景集合大小之和，本例为 8÷11，约 0.727。二者都关注前景重叠，同一组像素上的 Dice 与 IoU 可以相互换算，但平均后的结果需要遵守各自的汇总方式。</p>
+<h3 id="section-03-02">指标与背景比例</h3>
+<p>逐像素准确率统计所有有效位置判对的比例，大片背景也计入正确数。假设一张图有 100 个有效像素，其中只有 5 个前景，全部预测为背景仍能得到 95% 的像素准确率，但宠物完全没有被分出。前景 Dice 和 IoU 会清楚显示这一问题。</p>
+<p>对于前面的 6、5、4 例子，如果总共 16 个有效像素，前景并集外还有 9 个位置，真实与预测都属于背景。像素准确率为 (4+9)÷16=81.25%，而 Dice 约为 72.7%。这些指标描述不同范围，不能把一个名称替换为另一个。</p>
+<p>提高指标时还要观察错误位置。漏掉一整只小耳朵与沿大躯干边缘出现少量偏移，可能带来相近像素误差，却影响不同结构。样例图和局部分析能够补充平均分数，并帮助选择下一项合理实验。</p>
+<h3 id="section-03-03">逐图平均与合并统计</h3>
+<p>逐图计算指标再平均，让每张图在平均数中具有相同权重。先合并所有图的交集和分母，再算一个指标，则让前景数量较多的图对统计有更大影响。它们分别常被称为图像层面的宏平均和微汇总，需要在报告中写清计算方式。</p>
+<p>用两张图手算：第一张的真实和预测前景各有 2 个，只重合 1 个，Dice 为 0.5、IoU 为 1÷3；第二张两者各有 18 个，并且完全重合，Dice 和 IoU 都为 1。逐图平均得到 Dice=0.75、IoU 约为 0.667。</p>
+<p>若合并统计，总交集为 19，真实与预测前景各为 20，因此 Dice=38÷40=0.95。两张图的并集总和为 3+18=21，IoU=19÷21，约为 0.905。较大的完整区域主导了汇总结果。许多工具中的 macro 还可能指类别平均，因此仅写一个术语不够，需说明平均的是图像还是类别。</p>
+<h3 id="section-03-04">空区域与忽略区</h3>
+<p>如果真实与预测都没有前景，Dice 和 IoU 的直接公式会出现零分母。本课程练习在存在有效像素的前提下，约定这种情况计为 1，因为两者对“无前景”的判断一致。也可以采用其他明确约定，但比较的各方案需要一致，报告需说明空区域数量。</p>
+<p>若没有任何有效像素，当前样本无法提供评价，应标记为不可计算并保留有效样本数。它与有有效背景、但没有前景的情况不同。不能为了让程序输出一个有限数字，就把所有这类情况直接写成 0 或 1。</p>
+<p>忽略像素要同时从真实和预测集合中排除。只在损失中忽略，却在评价中计入，会改变两者针对的对象。在练习中只修改忽略区内的预测，指标应保持不变；这是核对实现的一项局部检查。</p>
 <aside class="knowledge-practice" id="practice-03"><div><span class="card-kicker">Kaggle 知识练习 03</span><strong>像素标签与分割指标</strong><p>打开后复制到自己的账户，运行小例子，再修改其中一个条件。</p></div><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-03" rel="noreferrer" target="_blank">打开 Kaggle ↗</a></aside>
-<h2 id="section-06">像素损失与类别不平衡</h2>
-<p>二分类分割可以使用逐像素二元交叉熵，直接接收 logits。忽略区需要先生成有效像素掩码，再只对有效位置求平均。Dice 损失关注整体重叠，两种损失的优化行为不完全相同，选用或组合时需要说明计算方式。</p>
-<p>若前景很小，背景像素可能对平均损失贡献更多。可以检查前景比例、采样方式或损失权重。改变损失权重属于一次实验因素，不能同时改动数据划分、模型规模和多项超参数后再将差异归因于其中一项。</p>
-<h2 id="section-07">分割结果的阅读</h2>
-<p>把原图、真实掩膜和预测掩膜并排显示，保持同样的缩放与方向。再选一个局部，说明模型在哪些位置多画或少画。对所有方案使用相同样例，避免每个方案挑选不同的最佳图片。</p>
-<p>下一章会学习如何设计一次可解释的比较。先记录自己打算尝试的分割模型、输入输出与损失，列出需要检查的标签编码和空间对应关系，再开始独立实现。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-03.html">学习与实验记录 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/lessons/02-classification.html"><span>← 上一节</span><b>猫狗识别</b></a><a href="../../../programs/member-training/lessons/04-experiments.html"><span>下一节 →</span><b>实验与短报告</b></a></nav></div></div></main><div id="site-footer"></div></body></html>
+<h2 id="section-04">损失与独立实践</h2>
+<h3 id="section-04-01">像素损失与类别不平衡</h3>
+<p>逐像素二元交叉熵比较每个有效位置的前景 logit 与 0/1 目标。使用带 logits 的损失时，无需先做 Sigmoid。先得到每个位置的损失，再依据有效掩码求平均，能够明确排除边界待定区。目标、输出和有效掩码的空间位置必须一致。</p>
+<p>真实前景占比很小时，大量背景位置可能主导普通平均损失。可以考虑调整采样、前景权重或损失设计。提高前景权重会改变优化时对漏分和误分的相对重视程度，也可能让预测区域变大，不能只根据训练损失就判断效果改善。</p>
+<p>Dice 损失通常直接使用连续概率计算柔性的重叠量，再构成需要最小化的目标。评价时使用阈值后的二值集合，两者并不完全相同。若先用硬阈值生成 0/1 再当作普通可微损失，阈值操作会阻断所需的连续变化关系。实现时还要说明平滑项、有效区域和汇总范围。</p>
+<p>组合两种损失时，系数决定它们的相对作用。初次项目先选一项能够解释的设置，确认小批量计算正确，再将权重或损失作为单独因素比较，保持数据划分与评价规则一致。</p>
+<h3 id="section-04-02">结果阅读与独立项目准备</h3>
+<p>把原图、真实掩膜和预测掩膜并排显示，保持同样的尺寸、方向和类别颜色。选取一个漏分或误分位置，在原图中标明，再显示局部放大。对所有实验采用相同样例，另行记录困难样例的选取方式。</p>
+<p>写下自己模型的输入、输出、标签编码、损失、阈值与权重选择规则。然后在自己的 Kaggle Notebook 或本地独立建立 PyTorch 分割项目，保存数据划分、配置、权重和逐图结果。课程短练习负责解释局部知识，完整模型训练与评价由你自己组织。</p>
+<p>下一章“实验与短报告”会继续讲一次单变量比较和结果整理。独立项目使用 Oxford-IIIT Pet，保留官方测试部分，从 trainval 建立训练与验证集；完成两种设置的逐图 Dice、IoU 和固定样例比较，再提交可运行代码、配置与划分、权重、对照图，以及 Word/PDF 简短报告。报告中的解释以实际结果和具体位置为依据。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-03.html">学习与实验记录 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/lessons/02-classification.html"><span>← 上一节</span><b>猫狗识别</b></a><a href="../../../programs/member-training/lessons/04-experiments.html"><span>下一节 →</span><b>实验与短报告</b></a></nav></div></div></main><div id="site-footer"></div></body></html>

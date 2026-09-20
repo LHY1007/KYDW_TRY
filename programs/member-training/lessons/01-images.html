@@ -2,62 +2,80 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>图像与 PyTorch｜KYDW新成员培训与考核</title><meta name="description" content="图像与 PyTorch：知识讲解、Kaggle 练习与独立实践。">
 <link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../course.css?v=20260920-projects"><script defer src="../../../content.js?v=20260920-projects"></script><script defer src="../../../site.js?v=20260920-projects"></script>
-</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html" aria-current="page"><span>01</span>图像与 PyTorch</a><div class="lesson-local-toc"><details class="lesson-topic"><summary><a href="#section-01">猫狗照片与标签</a></summary></details><details class="lesson-topic"><summary><a href="#section-02">像素、颜色与张量</a></summary></details><details class="lesson-topic"><summary><a href="#section-03">Python 中的名字、列表与函数</a></summary></details><details class="lesson-topic"><summary><a href="#section-04">数值运算与广播</a></summary></details><details class="lesson-topic"><summary><a href="#section-05">张量检查练习</a></summary></details><details class="lesson-topic"><summary><a href="#section-06">资料与数据来源</a></summary></details></div></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-experiments.html"><span>04</span>实验与短报告</a></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>1. 图像与 PyTorch</h1><p>看到一张宠物照片，我们会根据耳朵、嘴部和身体形态判断它是猫还是狗。计算机读到的是各个像素的颜色数值。猫狗识别项目需要把照片整理成张量，让模型计算两个类别的分数，再用已有标签检查判断是否正确。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/index.html#course-sequence"><span>← 上一节</span><b>课程总览</b></a><a href="../../../programs/member-training/lessons/02-classification.html"><span>下一节 →</span><b>猫狗识别</b></a></nav><article class="card course-reader lesson-reader">
+<link rel="stylesheet" href="../course.css?v=20260920-depth"><script defer src="../../../content.js?v=20260920-depth"></script><script defer src="../../../site.js?v=20260920-depth"></script>
+</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html" aria-current="page"><span>01</span>图像与 PyTorch</a><div class="lesson-local-toc"><details class="lesson-topic has-subtopics"><summary><a href="#section-01">图像、颜色与文件</a></summary><nav aria-label="图像、颜色与文件"><a href="#section-01-01">数字图像与像素</a><a href="#section-01-02">空间分辨率与显示尺寸</a><a href="#section-01-03">灰度、RGB 与透明通道</a><a href="#section-01-04">数值类型与值域</a><a href="#section-01-05">图像文件与内存</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-02">图像处理</a></summary><nav aria-label="图像处理"><a href="#section-02-01">缩放、插值与裁剪</a><a href="#section-02-02">归一化与标准化</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-03">张量与运算</a></summary><nav aria-label="张量与运算"><a href="#section-03-01">标量、向量、矩阵与张量</a><a href="#section-03-02">轴、形状与索引</a><a href="#section-03-03">批量与对应标签</a><a href="#section-03-04">张量运算与汇总</a><a href="#section-03-05">广播与对齐</a><a href="#section-03-06">reshape 与 permute</a><a href="#section-03-07">设备、数据与参数</a></nav></details><details class="lesson-topic"><summary><a href="#section-04">猫狗数据与知识练习</a></summary></details></div></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-experiments.html"><span>04</span>实验与短报告</a></li><li><a class="lesson-course-link" href="05-pathology.html"><span>05</span>文献与病理图像</a></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>1. 图像与 PyTorch</h1><p>一张猫的照片既包含耳朵、毛发和背景，也包含许多个记录颜色的数值。人观察照片时会直接注意动物的形态；程序需要先读取这些数值，确定它们的位置和含义，才能进行后续计算。本章先认识数字图像，再学习 PyTorch 如何组织和处理它们。理解这些基础以后，看到一个张量形状或一张异常图片，就能够有依据地检查问题。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/index.html#course-sequence"><span>← 上一节</span><b>课程总览</b></a><a href="../../../programs/member-training/lessons/02-classification.html"><span>下一节 →</span><b>猫狗识别</b></a></nav><article class="card course-reader lesson-reader">
 
-<p>这门课程依次安排猫狗识别、宠物分割和 H&amp;E–IHC 虚拟染色。三个项目都需要你自己完成程序。每章的 Kaggle 练习提供一小段可运行的知识例子，练习之后再把这些知识用于自己的数据、模型和实验。猫狗阶段同时学习 PPT 绘图，分割阶段练习实验比较和简短报告，病理阶段学习文献与海报表达。</p>
-<h2 id="section-01">猫狗照片与标签</h2>
-<figure class="knowledge-figure"><div class="pet-gallery"><div><img alt="Oxford-IIIT Pet 真实猫照片" loading="lazy" src="../assets/pets/Abyssinian_1.jpg"/><p>猫 · species 1 → 类别 0</p></div><div><img alt="Oxford-IIIT Pet 真实狗照片" loading="lazy" src="../assets/pets/american_bulldog_2.jpg"/><p>狗 · species 2 → 类别 1</p></div></div><figcaption>真实照片与官方 species 标注。来源：<a href="https://www.robots.ox.ac.uk/~vgg/data/pets/">Oxford-IIIT Pet</a>（Parkhi 等，CVPR 2012）；<a href="../assets/pets/metadata.json">样本来源与使用许可</a>。少量教学样本用于观察，独立项目使用官方数据与划分。</figcaption></figure>
-<p>课程使用 Oxford-IIIT Pet 数据。它既提供宠物照片，也提供猫狗类别、品种和像素标注，可以支持前两个项目。猫和狗是本次分类任务的两个类别；数据中的 37 个品种是另一种更细的分类，不能把品种编号直接当成猫狗标签。</p>
-<p>官方标注文件中的 species 为 1（猫）或 2（狗）。传给本课程的二分类模型前，把它们对应为 0（猫）和 1（狗），并在自己的程序中保留这份对应关系。不能仅凭文件夹名称猜测标签；先显示几张图及其类别，人工确认。相同图像在分类与分割任务中使用不同目标：前者对应一个类别，后者对应一张像素标签图。</p>
-<p>照片中的背景、拍摄角度、光照和动物大小都有变化。模型可能利用草地、沙发等与类别偶然相关的线索，因此检查具体错分照片也很重要。目标是识别新的照片，训练照片上的正确率并不能独立说明这一能力。</p>
-<h2 id="section-02">像素、颜色与张量</h2>
-<p>RGB 图像的每个位置有红、绿、蓝三个数值。普通 8 位图像把每个通道存为 0—255 的整数。读入后通常转换为浮点数，并除以 255，使它们落在 0—1。这个操作改变数值表示，图像中的对象不会因此改变。</p>
-<figure class="knowledge-figure"><a aria-label="放大图解：图像、通道与批量的形状示意。维度顺序和像素含义要同时检查。" href="../assets/diagrams/tensor-shapes.svg" target="_blank"><img alt="图像、通道与批量的形状示意。维度顺序和像素含义要同时检查。" loading="lazy" src="../assets/diagrams/tensor-shapes.svg"/></a><figcaption>图像、通道与批量的形状示意。维度顺序和像素含义要同时检查。 <a href="../assets/diagrams/tensor-shapes.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
-<p>图片常以高×宽×通道排列，PyTorch 卷积通常接收批量×通道×高×宽。对于一张 128×128 的 RGB 图像，单张张量形状为 <code>[3,128,128]</code>；四张图组成一批后是 <code>[4,3,128,128]</code>。第一个维度表示这批有几张照片，通道维度表示颜色，后两个维度表示空间位置。调整维度顺序和改变图片大小是两种不同操作。</p>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>对象</th>
-<th>示例形状</th>
-<th>需要检查的内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>单张 RGB 图像</td>
-<td><code>[3,128,128]</code></td>
-<td>通道顺序、像素范围、长宽比例</td>
-</tr>
-<tr>
-<td>一批图像</td>
-<td><code>[4,3,128,128]</code></td>
-<td>批量大小、图片是否为相同尺寸</td>
-</tr>
-<tr>
-<td>猫狗标签</td>
-<td><code>[4]</code></td>
-<td>整数类型，每个数为 0 或 1</td>
-</tr>
-<tr>
-<td>分类分数</td>
-<td><code>[4,2]</code></td>
-<td>每张图两个分数，顺序与类别表相同</td>
-</tr>
-</tbody>
-</table></div>
-<p>缩放时，直接把长方形压成正方形会改变动物的比例。可以先按较短边缩放，再裁剪；也可以在保留比例的前提下补边。裁剪可能去掉耳朵或身体，因此应先显示处理后的图片，再决定尺寸与方法。</p>
-<h2 id="section-03">Python 中的名字、列表与函数</h2>
-<p>变量名用来引用一个对象，例如图像张量或类别列表。列表保存有顺序的对象；字典使用名称寻找对应的值，适合记录学习率、图片尺寸和种子。循环重复执行一小段操作，缩进标明哪些语句属于循环。</p>
-<p>函数把一项具体计算组织起来。读取图片、计算准确率、显示样例可以分别成为函数。输入是什么、输出是什么以及形状是什么，应能通过函数名称和使用位置看明白。遇到错误时，先检查出错这一行的输入，不必一次重写整个项目。</p>
-<p>PyTorch 的张量具有形状、数据类型和设备三个常用属性。颜色值通常用浮点数，类别标签通常用长整型。设备可以是 CPU 或 GPU；同一次计算中的图像和模型参数需要在同一设备上。Kaggle 中的短练习可用 CPU 完成，独立训练时再根据模型和数据量选择 GPU。</p>
-<h2 id="section-04">数值运算与广播</h2>
-<p>张量可以逐元素加减、求均值或矩阵相乘。计算所有像素的平均亮度和分别计算三个通道的均值，得到的形状不同。理解被汇总的是哪个维度，比只记住函数名称更有用。</p>
-<p>广播允许不同形状的张量在兼容维度上运算。例如给三个颜色通道分别减去一个均值，需要让三个数对齐通道维度。如果误对齐到宽度维度，程序有时也能运行，却执行了错误操作。用一张很小的图像检查几个具体像素，可以发现这种问题。</p>
+<p>课程依次使用猫狗识别、宠物分割和 H&amp;E–IHC 三个项目。网页解释知识，Kaggle 提供短小的计算练习；每个目标项目由你在自己的 Kaggle Notebook 或本地独立实现。本章出现的具体数值用于解释表示方式，真实实验结果仍要由自己的程序产生。</p>
+<h2 id="section-01">图像、颜色与文件</h2>
+<h3 id="section-01-01">数字图像与像素</h3>
+<p>相机接收的是来自场景的光。传感器在空间上排列许多感光位置，分别记录局部信息，再把测量结果转换成有限精度的数值。把连续空间按位置取样，称为空间采样；把测量强度记录为有限等级，称为量化。这两项操作共同决定数字图像能够保存什么信息。</p>
+<p>像素是数字图像网格中的一个位置。它可以记录一个亮度值，也可以记录多个颜色分量。像素没有固定的现实大小：一张近距离照片和一张远距离照片，即使都宽 500 个像素，每个像素覆盖的实际区域也可能不同。病理图像常需要另外记录每像素对应的微米数，日常照片则通常没有直接可用的物理尺度。</p>
+<p>先想象一张只有两行三列的灰度图。它一共有六个像素位置，可以用六个数字记录。把其中一个数调亮，只会改变对应位置的显示。大照片遵循相同原则，只是网格更加密集。后续的裁剪、缩放和卷积，都在这个有空间位置的网格上进行。</p>
+<h3 id="section-01-02">空间分辨率与显示尺寸</h3>
+<p>图像的宽和高说明它沿两个方向保存了多少采样位置。一张 600×400 的照片共有 240000 个像素；把它在网页上显示得更宽，并不会自动获得更多真实测量。显示软件只能使用已有数值安排屏幕上的颜色。把小图放得很大后看见方块或模糊边缘，正是采样信息有限的表现。</p>
+<p>将原图真正缩小为 60×40，会减少保存的位置数，也会丢失细小结构。再放大为 600×400，可以让画布恢复原尺寸，但已经丢失的毛发和边缘无法仅靠普通插值重新测得。图像的像素尺寸、屏幕上的显示宽度和现实对象的大小是三个不同概念，记录图片处理时要说明具体改变了哪一项。</p>
+<figure class="knowledge-figure" id="figure-image-sampling"><a aria-label="放大图解：同一张真实猫照片的局部采样、RGB 通道与像素值。局部原图为 144×144，低分辨率示例先缩至 12×12 再放大显示；示例像素 RGB 为 (155,116,77)。照片来源：Oxford-IIIT Pet。" href="../assets/knowledge/image-sampling.svg" target="_blank"><img alt="同一张真实猫照片的局部采样、RGB 通道与像素值。局部原图为 144×144，低分辨率示例先缩至 12×12 再放大显示；示例像素 RGB 为 (155,116,77)。照片来源：Oxford-IIIT Pet。" loading="lazy" src="../assets/knowledge/image-sampling.svg"/></a><figcaption>同一张真实猫照片的局部采样、RGB 通道与像素值。局部原图为 144×144，低分辨率示例先缩至 12×12 再放大显示；示例像素 RGB 为 (155,116,77)。照片来源：Oxford-IIIT Pet。 <a href="../assets/knowledge/image-sampling.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<p>观察同一处猫脸的放大区域：原始网格中相邻颜色存在细小变化，降低采样数量后，这些变化可能合并。图中的 RGB 通道可以分别显示同一位置的三个分量。对照这些视图，能够理解为什么查看一张图片时既要看整体对象，也要看原始尺寸和局部细节。</p>
+<h3 id="section-01-03">灰度、RGB 与透明通道</h3>
+<p>灰度图通常每个位置记录一个数。常见 8 位灰度图用 0 表示黑、255 表示白，中间数值显示不同深浅。这里的数值描述存储与显示约定；经过其他处理的科学图像也可能采用不同范围，需要读取来源说明。</p>
+<p>RGB 图像每个位置记录红、绿、蓝三个颜色分量。以常见 0—255 范围为例，(255,0,0) 显示红色，(0,255,0) 显示绿色，(0,0,255) 显示蓝色，(255,255,255) 显示白色。(80,80,80) 的三个分量相等，显示为较暗的灰色。RGB 三个通道中的同一坐标共同描述一个像素，不能把它们误认为三张不同对象的照片。</p>
+<p>RGBA 在 RGB 以外增加透明度通道 Alpha。完全透明的像素如何显示，还取决于它叠加的背景；将 RGBA 简单丢掉 Alpha，可能产生意外颜色。读取普通猫狗照片时通常明确转换为 RGB，避免一部分输入有三个通道、另一部分有四个通道。</p>
+<p>BGR 使用相同的三个颜色分量，但顺序为蓝、绿、红。某些图像库默认采用 BGR；直接按照 RGB 显示时，红蓝颜色会交换。灰度图还可能被保存为三个相同通道，因此仅凭肉眼看到“黑白照片”不能确定它的通道数。读取后检查通道数、通道顺序和实际显示，三者需要相互对应。</p>
+<h3 id="section-01-04">数值类型与值域</h3>
+<p>数值类型说明一个数如何存储，以及能够表示的范围和精度。常见图片文件解码后使用无符号 8 位整数，记为 uint8，可表示 0—255。神经网络计算通常使用浮点数，例如 float32，它能够表示小数和负数，适合权重、梯度与连续图像运算。</p>
+<p>把 uint8 转成 float32，只改变表示类型，原值 128 仍然是 128。再除以 255，才把这个数变成约 0.502。类型转换与范围变换需要分别理解。如果已经位于 0—1 的图像又除以 255，显示会很暗；如果本应使用 0—1 的计算收到了 0—255，输入尺度会相差 255 倍。</p>
+<p>有些医学或科学图像使用 16 位整数、浮点强度或特殊编码，不能看到“图片”就一律除以 255。本课程的猫狗 RGB 照片采用常见 8 位表示，仍要在读取后检查实际类型、最小值和最大值。类别标签则是离散编号：猫 0、狗 1，标签 1 不表示“比猫亮一点”。颜色与类别虽然都可以写成数字，含义不同。</p>
+<h3 id="section-01-05">图像文件与内存</h3>
+<p>JPEG、PNG 等格式决定图片怎样保存在磁盘上。JPEG 通常采用有损压缩，较高压缩程度可能带来块状或边缘伪影；PNG 使用无损压缩，能够恢复其保存的像素值，也适合保存离散标签图。把 JPEG 转存为 PNG，只能保存当前已经解码的像素，无法恢复此前压缩丢失的信息。</p>
+<p>磁盘上的文件大小不能直接说明模型读取后占多少内存。同样尺寸的两张 JPEG，会因纹理和压缩设置不同而大小不同。解码成张量后，内存主要取决于数值数量和类型。一张 256×256 的 RGB 图像包含 196608 个数，用 uint8 保存这些数约需 192 KiB，改成 float32 约需 768 KiB，尚未计算额外对象开销。</p>
+<p>十六张这样的 float32 图片，单是输入数值就约需 12 MiB。训练还要保存中间特征、参数和梯度，实际内存会更大。这也解释了为什么把边长翻倍，会让像素数量变成四倍；增大图片尺寸和批量大小都需要考虑计算条件。</p>
+<h2 id="section-02">图像处理</h2>
+<h3 id="section-02-01">缩放、插值与裁剪</h3>
+<p>模型常需要同一批图片具有一致尺寸。缩放要为新的网格位置确定数值，这项估计称为插值。最近邻直接采用附近一个像素的值，放大后容易看见块状边界；双线性插值根据附近四个位置的数值加权计算，颜色通常更平滑。缩小时还需要注意抗混叠处理，避免细密条纹形成不存在的纹路。</p>
+<p>RGB 照片可以使用适合连续颜色的插值。分割标签图中的 0、1、2 等表示类别，插出 1.4 没有对应类别，因此标签缩放通常使用最近邻。两种对象即使都是图像文件，也需要根据数值含义选择处理方式。</p>
+<p>将 600×400 直接改成 128×128，会分别压缩宽和高，动物的比例可能改变。常见选择包括保持比例缩放后裁剪，或者保持比例缩放后补边。裁剪会移除观察范围，补边会增加人工背景，各有影响。先显示处理后的图片，检查耳朵、身体和背景发生了什么，再为自己的项目确定方法。</p>
+<p>裁剪与缩放也会影响坐标。原图中一处位置经过裁剪后，起点改变；经过缩放后，位置间距改变。后面做图像分割时，照片与掩膜必须接受同样的空间变换，才能继续表示同一位置。</p>
+<h3 id="section-02-02">归一化与标准化</h3>
+<p>把 0—255 除以 255，是一种范围缩放。它让颜色数值处于容易处理的范围，但不会使每个通道的均值都等于零。“归一化”在不同资料中还可能指其他操作，阅读代码时要看实际算式。</p>
+<p>常见通道标准化按“当前值减去均值，再除以标准差”计算。假设某通道的值为 0.8，所用均值为 0.5、标准差为 0.25，处理结果就是 (0.8−0.5)÷0.25=1.2。出现大于 1 或小于 0 的数是这种变换的正常结果，不能据此判断图像损坏。</p>
+<p>自己估计均值和标准差时，使用训练数据并保存统计方式，验证和测试沿用同一规则。使用预训练模型时，读取该权重要求的颜色顺序、尺寸和标准化参数。展示标准化后的图片前，通常需要恢复相应颜色范围；直接把标准化张量交给显示函数，可能得到失真的颜色。</p>
+<h2 id="section-03">张量与运算</h2>
+<h3 id="section-03-01">标量、向量、矩阵与张量</h3>
+<p>一个温度值或一个损失值可以称为标量。按顺序排列的一组数是向量，例如三个颜色分量 (0.2,0.5,0.8)。按行和列排列的数形成矩阵，一张灰度图可以用高×宽矩阵表示。RGB 图片还要增加颜色通道这个方向，一批图片又增加样本这个方向。</p>
+<p>PyTorch 用张量统一表示这些对象。张量可以有零个、一个、两个或更多轴；标量也是零维张量。这里的“维度”指索引所需的轴数，并不等于有多少个数。一个含 1000 个元素的向量仍然只有一个轴，而形状为 2×2×3 的张量有三个轴、十二个数。</p>
+<p>每一根轴都需要有具体含义。对于图像，它可能表示样本、颜色通道、高度或宽度；对于其他数据，也可能表示时间或特征。程序只看到尺寸和运算规则，不会自动知道哪一根轴是“颜色”。这些含义需要在读取、变换和模型计算中保持一致。</p>
+<h3 id="section-03-02">轴、形状与索引</h3>
+<p>形状 shape 按轴的顺序列出每根轴有多长。一张 128×128 RGB 图片，可以按高、宽、通道排列为 <code>[128,128,3]</code>，也可以按通道、高、宽排列为 <code>[3,128,128]</code>。两者都包含 49152 个数，但访问同一像素时使用的索引位置不同。</p>
+<figure class="knowledge-figure" id="figure-tensor-shapes"><a aria-label="放大图解：图像、通道与批量的形状示意。维度顺序和像素含义要同时检查。" href="../assets/diagrams/tensor-shapes.svg" target="_blank"><img alt="图像、通道与批量的形状示意。维度顺序和像素含义要同时检查。" loading="lazy" src="../assets/diagrams/tensor-shapes.svg"/></a><figcaption>图像、通道与批量的形状示意。维度顺序和像素含义要同时检查。 <a href="../assets/diagrams/tensor-shapes.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<p>PyTorch 的二维卷积通常接收 <code>[B,C,H,W]</code>：B 为批量大小，C 为通道数，H 为高度，W 为宽度。四张 128×128 RGB 图片组成一批后，形状就是 <code>[4,3,128,128]</code>。这些字母是解释含义的约定，张量本身主要保存数值、形状、类型和设备等信息。</p>
+<p>索引通常从 0 开始。单张 CHW 图片中，<code>[0,2,5]</code> 表示红色通道、第 3 行、第 6 列的值。空间坐标习惯写成横向 x、纵向 y，而矩阵索引通常先行后列，因此它在图片上对应 x=5、y=2。把行列顺序写反，有时仍能得到一个数，却读错了位置。</p>
+<p>选择一个位置的全部通道，可以得到 RGB 向量；选择一整行，可以得到沿水平方向的一组像素。切片还可以选取一段范围，常见规则包含起点、不包含终点。因此第 2 行至第 4 行共三行，对应索引范围 1 至 4 的前闭后开区间。</p>
+<h3 id="section-03-03">批量与对应标签</h3>
+<p>批量 batch 是一次交给模型的一组样本。把多张相同尺寸的图片沿新的样本轴堆叠，能够让硬件同时处理它们。这个操作保留每张图的独立编号，不能把不同照片拼接成一张大照片再当成同一种输入。</p>
+<p>图片的次序与标签的次序必须一致。四张图片的输入形状可以为 <code>[4,3,128,128]</code>，猫狗标签为 <code>[4]</code>，模型分数为 <code>[4,2]</code>。第二个标签描述第二张图片，第二行分数也属于第二张图片。打乱样本时，需要让图像与标签一起移动。</p>
+<p>同一批中通常要求图片尺寸一致，因为普通堆叠操作要形成规则数组。原图大小不同时，先选择合适的缩放、裁剪或补边方法。数据集包含的总样本数与批量大小不同：数据集有几千张照片，一次只读取其中若干张。最后一批可能少于预设批量大小，模型不应依赖固定的样本数量。</p>
+<h3 id="section-03-04">张量运算与汇总</h3>
+<p>逐元素运算让相应位置分别计算，例如每个颜色值除以 255，或者两张同尺寸图像在相同位置相减。矩阵乘法则把某一行和某一列的元素相乘再相加，常用于加权组合。两种运算的规则与输出形状不同，不能只凭输入都是张量就互相替代。</p>
+<p>求均值需要明确汇总哪些轴。对于 <code>[B,C,H,W]</code>，仅汇总 H、W，会留下每张图、每个通道的均值，形状为 <code>[B,C]</code>；同时汇总 C、H、W，得到每张图一个总体均值，形状为 <code>[B]</code>。再把 B 汇总，才得到整批数据的一个均值。</p>
+<p>先预测输出形状，再运行一小段计算，是理解张量操作的有效方法。如果想得到三个通道各自的统计，却只得到一个数，说明颜色轴也被汇总掉了。保存均值时同时写清统计范围，能够避免以后把每图均值与训练集统计混用。</p>
+<h3 id="section-03-05">广播与对齐</h3>
+<p>广播允许形状不同、但某些轴兼容的张量一起进行逐元素计算。最简单的例子是让整张图减去一个标量，每个位置都使用同一个数。若要让红、绿、蓝通道分别减去不同均值，就需要把三个数放到通道轴对应的位置。</p>
+<p>对于 <code>[B,3,H,W]</code>，通道均值可以表示成 <code>[1,3,1,1]</code>。长度为 1 的轴表示这项数值沿该方向重复使用：所有样本和空间位置使用各自通道的均值。PyTorch 从右侧对齐各轴，同一位置的长度需要相同，或其中一个为 1。</p>
+<p>直接使用形状 <code>[3]</code>，三个数会先尝试对齐最右边的宽度轴。宽度恰好为 3 时，运算可能成功，却按列减去了三个数。用一个宽度为 3 的小张量比较两种写法，再检查每个位置，能够看见这种形状合法、含义错误的情况。</p>
+<h3 id="section-03-06">reshape 与 permute</h3>
+<p>reshape 重新解释元素的分组形状，元素总数保持不变。把 2×3 的灰度图整理成长度 6 的向量，是一个典型例子。这样做会暂时移除行列结构的明确表示；后续想恢复图像，需要知道原来的形状和排列方式。</p>
+<p>permute 改变轴的排列，用于将 HWC 表示调整为 CHW。观察一张 2×2 的 RGB 小图：四个像素依次为 A=(1,2,3)、B=(4,5,6)、C=(7,8,9)、D=(10,11,12)。正确调整后，红色通道的两行应为 (1,4) 和 (7,10)，绿色通道为 (2,5) 和 (8,11)，蓝色通道为 (3,6) 和 (9,12)。</p>
+<figure class="knowledge-figure" id="figure-tensor-axis-order"><a aria-label="放大图解：2×2 RGB 小图的轴排列。permute 保留每个像素的通道对应；直接 reshape 成相同形状会产生不同的数值分组。" href="../assets/knowledge/tensor-axis-order.svg" target="_blank"><img alt="2×2 RGB 小图的轴排列。permute 保留每个像素的通道对应；直接 reshape 成相同形状会产生不同的数值分组。" loading="lazy" src="../assets/knowledge/tensor-axis-order.svg"/></a><figcaption>2×2 RGB 小图的轴排列。permute 保留每个像素的通道对应；直接 reshape 成相同形状会产生不同的数值分组。 <a href="../assets/knowledge/tensor-axis-order.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
+<p>若把连续存放的 1 至 12 直接 reshape 为 <code>[3,2,2]</code>，第一层会变成 (1,2) 和 (3,4)，把不同颜色和位置混在一起。输出形状虽然相同，像素含义已经不同。因此轴重排需要使用明确的轴变换，不能只改 shape。某些变换还会改变张量的内存步幅；初学时先检查数值位置，遇到后续操作要求连续内存时再查看相应说明。</p>
+<h3 id="section-03-07">设备、数据与参数</h3>
+<p>CPU 和 GPU 都能保存张量并执行计算。设备信息说明当前数值位于哪里，它不会改变张量表示的是图片还是标签。同一次模型运算中，输入与参数通常需要放在兼容的设备上；仅把图片移到 GPU，而模型仍在 CPU，无法直接完成常见的前向计算。</p>
+<p>模型参数是将来要学习的权重，输入图片是用来计算的数据。二者都可以是浮点张量，但作用不同。类别标签通常采用整数类型，布尔掩码用于选择有效位置。保存和加载文件后，再检查类型、形状、设备以及类别对应，可以及时发现读取方式与训练时不一致的问题。</p>
+<p>Python 中的变量名用来引用这些对象；列表保存有顺序的项目，字典用名称保存设置，函数组织一项具体操作。Kaggle 练习会让你修改这些小例子，再将照片读成张量。暂时不熟悉语法时，先说清输入与输出是什么，有助于理解每一行正在处理哪个对象。</p>
+<h2 id="section-04">猫狗数据与知识练习</h2>
+<figure class="knowledge-figure" id="figure-pet-gallery"><div class="pet-gallery"><div><img alt="Oxford-IIIT Pet 真实猫照片" loading="lazy" src="../assets/pets/Abyssinian_1.jpg"/><p>猫 · species 1 → 类别 0</p></div><div><img alt="Oxford-IIIT Pet 真实狗照片" loading="lazy" src="../assets/pets/american_bulldog_2.jpg"/><p>狗 · species 2 → 类别 1</p></div></div><figcaption>真实照片与官方 species 标注。来源：<a href="https://www.robots.ox.ac.uk/~vgg/data/pets/">Oxford-IIIT Pet</a>（Parkhi 等，CVPR 2012）；<a href="../assets/pets/metadata.json">样本来源与使用许可</a>。少量教学样本用于观察，独立项目使用官方数据与划分。</figcaption></figure>
+<p>Oxford-IIIT Pet 提供宠物照片、猫狗 species、37 个品种及分割标注。本项目的猫狗分类使用 species：官方 1 为猫、2 为狗，对应模型标签 0 和 1。品种编号属于另一种任务，不能直接当成猫狗标签。先显示照片和对应名称，再建立自己的类别表。</p>
+<p>在官方数据页面取得 Images 和 Annotations 后，照片位于 <code>images</code>，标注说明与清单位于 <code>annotations</code>。<code>trainval.txt</code> 和 <code>test.txt</code> 给出官方划分，<code>trimaps</code> 保存分割标注。读取时核对记录中的图像名、品种与 species 含义，保留原始来源及具体文件列表。</p>
 <aside class="knowledge-practice" id="practice-00"><div><span class="card-kicker">Kaggle 知识练习 00</span><strong>图像与张量</strong><p>打开后复制到自己的账户，运行小例子，再修改其中一个条件。</p></div><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-00" rel="noreferrer" target="_blank">打开 Kaggle ↗</a></aside>
-<h2 id="section-05">张量检查练习</h2>
-<p>在自己的练习副本中选择一张猫和一张狗，分别记录原始大小、缩放后的形状、数值类型与最小/最大值。把两张图组成一批，再说明四个维度各自表示什么。改变输入尺寸后，重新检查张量形状与显示结果。</p>
-<p>练习中观察到的颜色和尺寸应该能与原照片对应。黑白颠倒、颜色异常、图片拉伸或通道数不符，都应先处理，再继续建立模型。保留这段读取和显示图片的代码，下一章需要用它核对分类数据。</p>
-<h2 id="section-06">资料与数据来源</h2>
-<p>Oxford-IIIT Pet 的照片、species 标注和分割标注来自<a href="https://www.robots.ox.ac.uk/~vgg/data/pets/">数据集官方页面</a>。下载完整数据时保留官方训练验证与测试划分；后续训练所需验证集应从官方训练验证部分划出。<a href="https://pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html">PyTorch 张量教程</a>可用于查阅维度和设备操作。</p>
-<p>在官方页面分别下载 Images 和 Annotations。解压后，<code>images</code> 保存照片，<code>annotations/list.txt</code> 记录图像名、品种编号和 species，<code>annotations/trainval.txt</code> 与 <code>test.txt</code> 给出官方划分，<code>annotations/trimaps</code> 保存分割标注。读取一条记录时先核对列名含义，再将不带扩展名的图像名与 <code>.jpg</code> 照片对应。Kaggle 练习只附少量观察样本，独立项目应另外取得完整数据，或在官方划分内选取有明确规则的子集。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-03.html">学习与实验记录 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/index.html#course-sequence"><span>← 上一节</span><b>课程总览</b></a><a href="../../../programs/member-training/lessons/02-classification.html"><span>下一节 →</span><b>猫狗识别</b></a></nav></div></div></main><div id="site-footer"></div></body></html>
+<p>在知识练习中选一张猫和一张狗，观察原始尺寸、RGB 数值和处理后的图像；再组成一批，解释每根轴，分别计算通道均值和整图均值。改变大小后重新查看图像，尝试用小数值数组核对轴重排。完整的计算代码与运行说明位于 Kaggle。</p>
+<p>独立项目需要另外取得完整数据，或在官方划分内选择规则明确的子集。先保存一份自己能够解释的数据读取与显示结果，再继续学习分类模型。这样，遇到预测异常时，就能先排查颜色、尺寸和标签，而不必一开始就怀疑网络结构。</p>
+<p>数据文件与标注说明可查阅 <a href="https://www.robots.ox.ac.uk/~vgg/data/pets/">Oxford-IIIT Pet 官方页面</a>。张量类型、轴和设备操作可查阅 <a href="https://pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html">PyTorch 张量教程</a>，具体练习仍在本章对应 Kaggle 页面中完成。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-03.html">学习与实验记录 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/index.html#course-sequence"><span>← 上一节</span><b>课程总览</b></a><a href="../../../programs/member-training/lessons/02-classification.html"><span>下一节 →</span><b>猫狗识别</b></a></nav></div></div></main><div id="site-footer"></div></body></html>
