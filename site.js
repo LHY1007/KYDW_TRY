@@ -363,7 +363,10 @@
 
   function contactMarkup(contact, options = {}) {
     if (!contact) return "";
-    const channels = (contact.channels || []).map((channel) => {
+    const visibleChannels = (contact.channels || []).filter((channel) =>
+      options.context === "home" ? !channel.projectOnly : !channel.homeOnly
+    );
+    const channels = visibleChannels.map((channel) => {
       const channelTitle = options.context === "home" && channel.homeTitle ? channel.homeTitle : channel.title;
       return `<figure class="contact-channel"><div class="contact-image-frame"><img src="${rootHref(channel.image)}" alt="${esc(channelTitle)}" loading="lazy" /></div><figcaption>${esc(channelTitle)}</figcaption></figure>`;
     }).join("");

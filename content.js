@@ -623,8 +623,9 @@ window.KYDW = {
       title: "答疑/反馈渠道",
       text: "参与项目的同学可以加入群聊、通过公众号后台私信、添加负责人微信或邮件联系等多种渠道进行提问和反馈，具体联系方式见页面最下方。",
       channels: [
-        { title: "KYDW项目公告群(新二群)二维码", image: "assets/contact/project-announcement-qr-cropped.png" },
-        { title: "本项目专属群聊二维码", homeTitle: "本科生科研入门体验项目专属群聊", image: "assets/contact/project-group-qr-cropped.png" },
+        { title: "KYDW项目公告群（一群）二维码", image: "assets/contact/project-announcement-group1-qr-cropped.png?v=20260920", homeOnly: true },
+        { title: "KYDW项目公告群（二群）二维码", image: "assets/contact/project-announcement-qr-cropped.png?v=20260920" },
+        { title: "本项目专属群聊二维码", image: "assets/contact/project-group-qr-cropped.png?v=20260920", projectOnly: true },
         { title: "微信公众号", image: "assets/contact/official-account-qr.jpg" },
         { title: "负责人微信二维码", image: "assets/contact/leader-wechat-qr-cropped.png" }
       ],
