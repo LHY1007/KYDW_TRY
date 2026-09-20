@@ -1287,6 +1287,10 @@ window.KYDW.modules.unshift({
 window.KYDW.homepage = { featuredActivityId: "member-training" };
 window.KYDW.experience.latestNews.projectActivity = { title: "新活动更新", lead: "KYDW新成员培训与考核已上线", links: [{title: "查看新活动", href: "programs/member-training/index.html"}] };
 window.KYDW.resourceCollections.find(c => c.id === "project-materials").items.unshift({title: "KYDW新成员培训与考核", text: "课程手册、Notebook 实践和考核材料。", href: "programs/member-training/index.html", home: true});
-window.KYDW.resourceCollections.find(c => c.id === "teaching-library").items.unshift({title: "KYDW新成员培养与发展指南", text: "考察与考核、成员支持、科研路径、核心成员条件及论文署名。", href: "resources/member-development.html", kind: "book"});
+window.KYDW.resourceCollections.find(c => c.id === "teaching-library").items.unshift(
+  {title: "KYDW新成员培养与发展指南", text: "考察与考核、成员支持、科研路径、核心成员条件及论文署名。", href: "resources/member-development.html", kind: "book"},
+  {title: "期刊与会议", text: "期刊论文、会议论文、SCI 分区、CCF 分级与常见投稿术语。", href: "resources/publications.html", kind: "book"},
+  {title: "论文署名", text: "第一作者、共同第一作者、作者顺序与核心成员的作者位置要求。", href: "resources/authorship.html", kind: "book"}
+);
 window.KYDW.collections.find(c => c.id === "programs").pages.push("member-training", "course-document");
 window.KYDW.collections.find(c => c.id === "resources").pages.push("resource-document");
