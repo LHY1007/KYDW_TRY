@@ -1258,10 +1258,7 @@ window.KYDW.experience.latestNews.projectActivity = { title: "新活动更新", 
 window.KYDW.resourceCollections.find(c => c.id === "project-materials").items.unshift({title: "KYDW新成员培训与考核", text: "图文知识、Kaggle 练习与独立项目材料。", href: "programs/member-training/index.html", home: true});
 window.KYDW.resourceCollections.find(c => c.id === "teaching-library").items.unshift(
   {title: "KYDW新成员培养与发展指南", text: "考察与考核、成员支持、科研路径、核心成员条件及论文署名。", href: "resources/member-development.html", kind: "book"},
-  {title: "解析：论文", text: "期刊与会议、SCI 与 EI、分区分级，以及论文对升学和综测的作用。", href: "resources/publications.html", kind: "book"},
-  {title: "解析：竞赛", text: "竞赛星级、比赛层级、时间投入与 KYDW 的竞赛成果。", href: "resources/competitions.html", kind: "book"},
-  {title: "解析：大创", text: "内容待补充。", href: "resources/innovation-projects.html", kind: "book"},
-  {title: "解析：软件著作权与专利", text: "内容待补充。", href: "resources/software-and-patents.html", kind: "book"},
+  {title: "解析：论文、竞赛、大创、软著与专利", text: "论文、竞赛、大创、软著与专利的成果水平与本科生参与经验。", href: "resources/publications.html", kind: "book"},
   {title: "论文署名", text: "第一作者、共同第一作者、作者顺序与核心成员的作者位置要求。", href: "resources/authorship.html", kind: "book"}
 );
 window.KYDW.collections.find(c => c.id === "programs").pages.push("member-training", "course-document");
