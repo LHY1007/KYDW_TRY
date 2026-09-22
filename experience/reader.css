@@ -1,0 +1,54 @@
+body[data-course-reader]{--ink:var(--text);--paper:var(--surface);--blue:var(--primary);--teal:var(--primary-2);--soft:var(--surface-2);color:var(--text);font-size:16px}
+body[data-course-reader] .layout{max-width:1320px;grid-template-columns:240px minmax(0,1fr);gap:25px}
+body[data-course-reader] .topbar{padding:0 28px;background:var(--bg);height:68px;font-size:14px;box-shadow:none}
+body[data-course-reader] .topbar .brand{min-width:0;width:auto;font-size:15px}
+body[data-course-reader] .sidebar{top:68px;height:calc(100vh - 68px);background:var(--bg);padding:28px 12px;border-right:1px solid var(--line)}
+body[data-course-reader] .sidebar a{border-radius:0;padding:8px 10px;font-size:12px;color:var(--muted)}
+body[data-course-reader] .sidebar a:hover{background:var(--accent-2);color:var(--primary)}
+body[data-course-reader] .main{padding:24px 30px 70px}
+body[data-course-reader] .reader{max-width:900px}
+body[data-course-reader] .hero{background:none;color:var(--text);border:0;border-bottom:1px solid var(--line);box-shadow:none;border-radius:0;padding:20px 0 32px;margin-bottom:24px}
+body[data-course-reader] .hero h1{font-size:42px;color:var(--text)}
+body[data-course-reader] .hero p{color:var(--muted);font-size:17px}
+body[data-course-reader] .lesson,body[data-course-reader] .visual{border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;padding:28px 0;margin:24px 0}
+body[data-course-reader] .lesson h2,body[data-course-reader] .lesson h3,body[data-course-reader] .visual h2{color:var(--text)}
+body[data-course-reader] .explain-grid article,body[data-course-reader] .object,body[data-course-reader] .data-card{border-radius:6px;background:var(--surface-2);box-shadow:none}
+body[data-course-reader] .lab{border-radius:6px;background:var(--surface-2)}
+body[data-course-reader] .lab-grid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}
+body[data-course-reader] .compare,body[data-course-reader] .data-table,body[data-course-reader] .worked-table{display:block;overflow-x:auto;width:100%}
+body[data-course-reader] .figure img{border-radius:5px;height:auto;object-fit:contain}
+body[data-course-reader] .question,body[data-course-reader] .example,body[data-course-reader] .boundary,body[data-course-reader] .practice{border-radius:5px}
+.advanced-review-note{display:flex;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px dashed var(--line);font-size:11px;color:var(--muted)}
+body[data-course-reader].dark{--bg:#111a16;--surface:#19251e;--paper:#19251e;--surface-2:#223028;--text:#eef3ee;--ink:#eef3ee;--muted:#b0bdb3;--line:#36483b;--primary:#a8d4a6;--primary-2:#98cab0;--accent-2:#263b30}
+@media(max-width:900px){body[data-course-reader] .layout{display:block}body[data-course-reader] .sidebar{top:68px;background:var(--surface)}body[data-course-reader] .main{padding:22px 20px 60px}body[data-course-reader] .hero h1{font-size:32px}body[data-course-reader] .lab-grid{grid-template-columns:1fr}body[data-course-reader] .topbar{padding:0 16px}body[data-course-reader] .topbar .edition{display:none}}
+@media(max-width:620px){body[data-course-reader] .hero p{font-size:15px}body[data-course-reader] .lesson{padding:24px 0}body[data-course-reader] .data-strip{grid-template-columns:1fr 1fr}.advanced-review-note{font-size:10px;gap:10px}body[data-course-reader] .meter{grid-template-columns:95px minmax(0,1fr) 45px}body[data-course-reader] .explain-grid,body[data-course-reader] .failure-grid{grid-template-columns:1fr}body[data-course-reader] .figure figcaption{font-size:12px}body[data-course-reader] .tools button{font-size:12px;padding:5px 7px}}
+
+body[data-course-reader] .advanced-review-note{display:none}
+
+/* Keep the course reader independent of the site shell and older inline themes. */
+body[data-course-reader] {font-size:calc(16px * var(--font-scale, 1));}
+body[data-course-reader] .layout {padding:0; margin:0 auto;}
+body[data-course-reader] .reader {padding:0; border:0; border-radius:0; box-shadow:none; background:transparent;}
+body[data-course-reader] .hero {background:transparent!important; color:var(--text)!important; border-bottom:1px solid var(--line)!important; box-shadow:none!important;}
+body[data-course-reader] .hero h1,
+body[data-course-reader] .hero .eyebrow {color:var(--text)!important; text-shadow:none;}
+body[data-course-reader] .hero p {color:var(--muted)!important;}
+body[data-course-reader] .hero-tags span {color:var(--text)!important; background:var(--surface-2)!important; border-color:var(--line)!important; border-radius:4px;}
+body[data-course-reader] .lesson::before {display:none;}
+body[data-course-reader] .topbar>div {display:flex; align-items:center; gap:8px;}
+body[data-course-reader] .topbar .brand {flex-shrink:0; white-space:nowrap;}
+body[data-course-reader] .topbar button,
+body[data-course-reader] .site-return {font:inherit; line-height:1.4; color:var(--text); background:var(--surface); border:1px solid var(--line); border-radius:5px; padding:6px 9px; white-space:nowrap;}
+body[data-course-reader] .topbar button {cursor:pointer;}
+@media(max-width:620px) {
+  body[data-course-reader] .topbar {height:auto; min-height:106px; padding:10px 16px; gap:8px; flex-wrap:wrap;}
+  body[data-course-reader] .topbar>div:first-child {flex:1 0 100%;}
+  body[data-course-reader] .topbar>.tools {flex:1 0 100%; justify-content:space-between; gap:5px;}
+  body[data-course-reader] .topbar button,
+  body[data-course-reader] .site-return {font-size:12px; padding:6px 7px;}
+  body[data-course-reader] .sidebar {top:106px; height:calc(100vh - 106px);}
+  body[data-course-reader] .main {padding-top:14px;}
+  body[data-course-reader] .lesson {scroll-margin-top:120px;}
+}
+
+body[data-course-reader] .topbar .site-return {display:inline-flex; align-items:center; margin-left:0;}

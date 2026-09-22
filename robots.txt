@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /experience/advanced
+Disallow: /experience/assets/results/advanced/
+Disallow: /content/
+Disallow: /docs/
+Disallow: /tools/
+Disallow: /_codex_state/
+Sitemap: https://lhy1007.github.io/KYDW_TRY/sitemap.xml

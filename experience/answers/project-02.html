@@ -7,7 +7,15 @@ main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margi
 .hero,.notebook-cell,.reference-results{background:#fff;border:1px solid #d9e2e6;border-radius:16px;margin:16px 0;box-shadow:0 8px 24px rgba(31,55,66,.06)}
 .hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
 .notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
-</style></head><body><main>
+</style>
+<meta name="description" content="下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。">
+<link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/experience/answers/project-02.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="实践参考答案 01：MRI 脑肿瘤图像分割｜KYDW">
+<meta property="og:description" content="下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。">
+<meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/experience/answers/project-02.html">
+<meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
+</head><body><main>
 <section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 01：MRI 脑肿瘤图像分割</h1><p>下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
 <article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 01：MRI 脑肿瘤图像分割</h1>
 <p>这份 Notebook 从配对的二维 MRI 切片和肿瘤 mask 开始，完成数据核对、患者级划分、三通道同步预处理、轻量 U-Net、前景感知采样、训练、阈值选择和测试评价。源 TIFF 的三个已配准通道共同作为模型输入，mask 是训练和评价时表示肿瘤区域的目标。</p>

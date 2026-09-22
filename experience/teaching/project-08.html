@@ -84,8 +84,16 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 .source-asset-missing{display:none!important}
 @media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
 @media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
-</style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/></head>
-<body><header class="topbar"><div><button class="mobile-menu tools" id="menuBtn">目录</button><span class="brand">KYDW 科研体验</span><span class="edition">项目 07</span></div><div class="tools"><button id="fontMinus">字号 −</button><button id="fontPlus">字号 +</button><button id="widthBtn">宽阅读</button><button id="themeBtn">明暗</button><a class="site-return" href="../project-08.html?preview=1">返回项目详情</a></div></header>
+</style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/><link rel="stylesheet" href="../../styles.css?v=review-20260922"><link rel="stylesheet" href="../reader.css?v=review-20260922">
+<meta name="description" content="惯性传感器活动识别利用多位置加速度和角速度信号描述姿态、周期运动和活动强度。传感器方向、佩戴位置、采样条件和个体差异都会改变波形。">
+<link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/experience/teaching/project-08.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="惯性传感器活动识别｜KYDW">
+<meta property="og:description" content="惯性传感器活动识别利用多位置加速度和角速度信号描述姿态、周期运动和活动强度。传感器方向、佩戴位置、采样条件和个体差异都会改变波形。">
+<meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/experience/teaching/project-08.html">
+<meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
+</head>
+<body data-course-reader="true"><header class="topbar"><div><button class="mobile-menu tools" id="menuBtn">目录</button><span class="brand">KYDW 科研体验</span><span class="edition">项目 07</span></div><div class="tools"><button id="fontMinus">字号 −</button><button id="fontPlus">字号 +</button><button id="widthBtn">宽阅读</button><button id="themeBtn">明暗</button><a class="site-return" href="../project-08.html">返回项目详情</a></div></header>
 <div class="layout"><aside class="sidebar"><div class="side-title">本章目录</div><a href="#s1">1. 人体活动识别与应用</a><a href="#s2">2. 惯性传感器与坐标系</a><a href="#s3">3. 采样、滤波与信号质量</a><a href="#s4">4. 时间窗口与活动标签</a><a href="#s5">5. 分组划分与数据泄漏</a><a href="#s6">6. 特征表达与活动识别模型</a><a href="#s7">7. 评价指标与部署边界</a><a href="#s8">8. Opportunity 数据与预处理</a><a href="#s9">9. 基线模型与保存结果</a><a href="#s10">10. 实践项目：Opportunity 活动识别</a><a href="#sources">资料来源与延伸阅读</a></aside><main class="main"><div class="reader">
 <section class="hero"><div class="eyebrow">本科生科研入门体验项目 · 项目 07</div><h1>惯性传感器活动识别</h1><p>惯性传感器活动识别利用多位置加速度和角速度信号描述姿态、周期运动和活动强度。传感器方向、佩戴位置、采样条件和个体差异都会改变波形。</p><div class="hero-tags"><span>时间序列</span><span>惯性传感器</span><span>活动分类</span><span>分组评价</span></div></section>
 <section class="lesson" id="s1"><h2>1. 人体活动识别与应用</h2>

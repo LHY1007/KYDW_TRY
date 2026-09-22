@@ -84,8 +84,16 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 .source-asset-missing{display:none!important}
 @media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
 @media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
-</style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/></head>
-<body><header class="topbar"><div><button class="mobile-menu tools" id="menuBtn">目录</button><span class="brand">KYDW 科研体验</span><span class="edition">项目 06</span></div><div class="tools"><button id="fontMinus">字号 −</button><button id="fontPlus">字号 +</button><button id="widthBtn">宽阅读</button><button id="themeBtn">明暗</button><a class="site-return" href="../project-07.html?preview=1">返回项目详情</a></div></header>
+</style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/><link rel="stylesheet" href="../../styles.css?v=review-20260922"><link rel="stylesheet" href="../reader.css?v=review-20260922">
+<meta name="description" content="空间转录组把细胞的基因表达、二维位置和组织结构放在同一份数据中。细胞通讯分析关注配体、受体、细胞位置和组织区域之间的关系，再用统计和图模型整理值得验证的候选信号。">
+<link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/experience/teaching/project-07.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="空间细胞通讯分析｜KYDW">
+<meta property="og:description" content="空间转录组把细胞的基因表达、二维位置和组织结构放在同一份数据中。细胞通讯分析关注配体、受体、细胞位置和组织区域之间的关系，再用统计和图模型整理值得验证的候选信号。">
+<meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/experience/teaching/project-07.html">
+<meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
+</head>
+<body data-course-reader="true"><header class="topbar"><div><button class="mobile-menu tools" id="menuBtn">目录</button><span class="brand">KYDW 科研体验</span><span class="edition">项目 06</span></div><div class="tools"><button id="fontMinus">字号 −</button><button id="fontPlus">字号 +</button><button id="widthBtn">宽阅读</button><button id="themeBtn">明暗</button><a class="site-return" href="../project-07.html">返回项目详情</a></div></header>
 <div class="layout"><aside class="sidebar"><div class="side-title">本章目录</div><a href="#s1">1. 细胞间通讯的基本对象</a><a href="#s2">2. 空间转录组数据层级</a><a href="#s3">3. 配体—受体资源库与证据</a><a href="#s4">4. 表达预处理与质量控制</a><a href="#s5">5. 空间邻域与候选关系</a><a href="#s6">6. 细胞通讯推断方法</a><a href="#s7">7. 统计汇总、结果解释与实验验证</a><a href="#s8">8. 小鼠肾脏数据与图模型</a><a href="#s9">9. 肾小球案例与保存结果</a><a href="#s10">10. 实践项目：小鼠肾脏候选通讯分析</a><a href="#sources">资料来源与延伸阅读</a></aside><main class="main"><div class="reader">
 <section class="hero"><div class="eyebrow">本科生科研入门体验项目 · 项目 06</div><h1>空间细胞通讯分析</h1><p>空间转录组把细胞的基因表达、二维位置和组织结构放在同一份数据中。细胞通讯分析关注配体、受体、细胞位置和组织区域之间的关系，再用统计和图模型整理值得验证的候选信号。</p><div class="hero-tags"><span>空间转录组</span><span>配体—受体</span><span>候选关系</span><span>图模型</span></div></section>
 <section class="lesson" id="s1"><h2>1. 细胞间通讯的基本对象</h2>
@@ -206,7 +214,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
   <p>空间连线图只显示便于阅读的候选边子集；分析时先核对完整边表，再绘制局部高分关系。</p>
   <p>每项任务都应保存输入核对、核心计算、结果图和边界说明；完成后再打开实践参考答案核对实现与解释。</p>
   <p class="files">材料入口：<a href="../practice/project-07.ipynb">打开实践项目</a>　<a href="../answers/project-07.ipynb">查看实践参考答案</a></p>
-</section><section class="lesson" id="sources"><h2>资料来源与延伸阅读</h2><p class="lecture-open">下列资料用于核对数据对象、方法名称和研究背景。本页图像、指标与实践参考答案使用同一数据范围。</p><ul><li>项目源码包中的 <code>docs/01_CCC概念入门.md</code>、<code>docs/02_数据与预筛选.md</code> 和 <code>docs/03_遮边自监督图模型.md</code>。</li><li>项目源码包中的四个下游实验说明：空间候选通讯、细胞类型方向、LR 对×方向和 Vegfa–Flt1/Kdr 案例。</li><li><a href="https://squidpy.readthedocs.io/en/stable/">Squidpy 文档</a>：空间数据对象、邻域图和空间统计。</li><li><a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(19)30321-4">CellPhoneDB 相关方法说明</a>：配体—受体候选关系的统计解释。</li></ul><p class="static-note">阅读论文或官方文档时，优先关注数据单位、评价对象和结果边界，再把相同概念放回当前项目的数据表和图像中。</p></section>
+</section><section class="lesson" id="sources"><h2>资料来源与延伸阅读</h2><p class="lecture-open">下列资料用于核对数据对象、方法名称和研究背景。本页图像、指标与实践参考答案使用同一数据范围。</p><ul><li>项目源码包中的 <code>docs/01_CCC概念入门.md</code>、<code>docs/02_数据与预筛选.md</code> 和 <code>docs/03_遮边自监督图模型.md</code>。</li><li>项目源码包中的四个下游实验说明：空间候选通讯、细胞类型方向、LR 对×方向和 Vegfa–Flt1/Kdr 案例。</li><li><a href="https://squidpy.readthedocs.io/en/stable/">Squidpy 文档</a>：空间数据对象、邻域图和空间统计。</li><li><a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(19)30321-4">CellPhoneDB 相关方法说明</a>：配体—受体候选关系的统计解释。</li></ul><p class="static-note">Squidpy 文档可用于核对空间对象和邻域图的定义；CellPhoneDB 方法说明可用于了解配体—受体候选关系的统计解释。</p></section>
 </div></main></div>
 <script>
 const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];
