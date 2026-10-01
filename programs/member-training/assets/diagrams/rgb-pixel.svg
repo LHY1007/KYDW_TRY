@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" role="img" aria-labelledby="title desc">
+<title id="title">一个像素由红绿蓝三个数共同表示</title>
+<desc id="desc">左侧是两行三列的示意像素网格，右侧将一个橙色像素拆成红、绿、蓝三个数值，再组合为同一个颜色。</desc>
+<rect width="960" height="400" rx="24" fill="#f4f8fb"/>
+<text x="40" y="56" fill="#173344" font-family="Microsoft YaHei, sans-serif" font-size="28" font-weight="700">一张小图：2 行 × 3 列</text>
+<g stroke="#fff" stroke-width="5">
+<rect x="48" y="100" width="112" height="112" fill="#e97846"/><rect x="160" y="100" width="112" height="112" fill="#85bbaa"/><rect x="272" y="100" width="112" height="112" fill="#2f668d"/>
+<rect x="48" y="212" width="112" height="112" fill="#f0c46b"/><rect x="160" y="212" width="112" height="112" fill="#a8b5ca"/><rect x="272" y="212" width="112" height="112" fill="#476b5d"/>
+</g>
+<rect x="47" y="99" width="114" height="114" rx="4" fill="none" stroke="#a85025" stroke-width="5"/>
+<text x="48" y="360" fill="#526979" font-family="Microsoft YaHei, sans-serif" font-size="18">框出的像素位于第 1 行、第 1 列</text>
+<path d="M417 209h65" stroke="#718c9b" stroke-width="3"/><path d="m482 209-11-8v16z" fill="#718c9b"/>
+<text x="511" y="105" fill="#173344" font-family="Microsoft YaHei, sans-serif" font-size="23" font-weight="700">这个位置保存三个颜色值</text>
+<g font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700">
+<text x="513" y="157" fill="#a94b3f">R 233</text><text x="513" y="222" fill="#3d8071">G 120</text><text x="513" y="287" fill="#356b9e">B 70</text>
+</g>
+<rect x="602" y="134" width="234" height="24" rx="12" fill="#e2e9ee"/><rect x="602" y="134" width="213" height="24" rx="12" fill="#e97846"/>
+<rect x="602" y="199" width="234" height="24" rx="12" fill="#e2e9ee"/><rect x="602" y="199" width="110" height="24" rx="12" fill="#78b087"/>
+<rect x="602" y="264" width="234" height="24" rx="12" fill="#e2e9ee"/><rect x="602" y="264" width="64" height="24" rx="12" fill="#618cbb"/>
+<text x="511" y="353" fill="#526979" font-family="Microsoft YaHei, sans-serif" font-size="18">三个通道共同决定这一个像素的颜色</text>
+</svg>

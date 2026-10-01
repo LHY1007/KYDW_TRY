@@ -1,138 +1,19 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>分割短报告｜KYDW新成员培训与考核</title><meta name="description" content="分割短报告：知识讲解、Kaggle 练习与独立实践。">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../course.css?v=20260920-illustrated"><script defer src="../../../content.js?v=review-20260922"></script><script defer src="../../../site.js?v=review-20260922"></script>
+<!DOCTYPE html>
 
-<link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-10.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分割短报告｜KYDW新成员培训与考核">
-<meta property="og:description" content="分割短报告：知识讲解、Kaggle 练习与独立实践。">
-<meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-10.html">
-<meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
-</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>分割短报告</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
-<p><a href="../lessons/04-experiments.html#tools-word">打开Word 图文排版教程</a></p>
-<p>配合第 4 章，将自己完成的一次宠物分割比较整理成约 2—3 页报告。保留 Word 与 PDF。正文说明实验问题及证据，完整代码、配置和逐图结果随项目提交。</p>
-<h2 id="section-01">任务与数据</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>内容</th>
-<th>填写</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>报告题目与作者</td>
-<td></td>
-</tr>
-<tr>
-<td>准备比较的问题</td>
-<td></td>
-</tr>
-<tr>
-<td>数据来源、实际训练/验证/测试数量</td>
-<td></td>
-</tr>
-<tr>
-<td>子集与划分规则</td>
-<td></td>
-</tr>
-<tr>
-<td>前景、背景和忽略区编码</td>
-<td></td>
-</tr>
-<tr>
-<td>图像尺寸与同步变换</td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>用一个短段落介绍 Oxford-IIIT Pet、像素分割目标和本次改变的因素。注明官方测试部分的保留方式，以及验证集怎样从 trainval 划出。</p>
-<h2 id="section-02">比较方案</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>方案</th>
-<th>唯一改变项</th>
-<th>共同设置</th>
-<th>验证权重选择规则</th>
-<th>训练预算与运行次数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>B</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>说明模型输出、损失、分割阈值和忽略区处理。两个方案使用相同测试集合；若计算条件限制了数据量或重复次数，写入实际实验条件。</p>
-<h2 id="section-03">实际结果</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>方案</th>
-<th>测试图像数</th>
-<th>Dice</th>
-<th>IoU</th>
-<th>原始指标表</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>B</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>写明指标是逐图计算后平均，还是先累加像素后计算。展示同一张图上的方案差值及固定样例。原图、真实掩膜和两个预测保持相同尺寸、方向和排列；图注说明忽略区颜色。</p>
-<h2 id="section-04">观察与讨论</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>观察</th>
-<th>表格或图像依据</th>
-<th>可能解释</th>
-<th>还需要检查的内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>总体指标</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>一个漏分或误分区域</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>先说实际发生了什么，再讨论原因。没有改善也应如实保留。结尾用几句话说明本次比较回答了什么，以及下一次准备改变什么。</p>
-<h2 id="section-05">Word 排版</h2>
-<p>使用“开始—样式”设置标题与正文；图片采用嵌入型并保持比例。通过“引用—插入题注”添加图号，在正文中使用交叉引用。表格首行写清列名，使用文献资料时在相应句子后插入引用。</p>
-<p>导出 PDF 后检查分页、图注位置、表格断行和参考文献。报告中的实验名、数字和样本编号与原始结果一致。</p></article></main><div id="site-footer"></div></body></html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>分割短报告｜KYDW本科生培养项目 / 进阶教学篇</title><meta content="分割短报告：知识讲解、Kaggle 练习与独立实践。" name="description"/>
+<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
+<link href="../course.css?v=20260920-illustrated" rel="stylesheet"/><script defer="" src="../../../content.js?v=review-20260922"></script><script defer="" src="../../../site.js?v=review-20260922"></script>
+<link href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-10.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="分割短报告｜KYDW本科生培养项目 / 进阶教学篇" property="og:title"/>
+<meta content="分割短报告：知识讲解、Kaggle 练习与独立实践。" property="og:description"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-10.html" property="og:url"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg" property="og:image"/>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><header class="lesson-heading"><div class="eyebrow">KYDW本科生培养项目 / 进阶教学篇 / 配套材料</div><h1>分割短报告</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader"><p>一份图像分割报告应让读者找到比较问题、实验条件、结果和解释。Word 的样式负责统一文字层级，表格承载指标，题注与交叉引用把正文和图片连接起来。</p><p>下方给定的掩膜错位实验可用于排版练习。标准答案完整写出该实验；代码实践项目报告沿用相同结构，改写为自己的模型、训练设置与真实结果。</p><p><a href="../lessons/04-experiments.html#tools-word">打开完整网页教程 →</a></p><h3 id="word-page">页面与统一格式</h3>
+<ol><li>在“布局 → 纸张大小”选择 A4，在“页边距 → 自定义页边距”把上、下、左、右设为 2.5 cm。</li><li>在“开始 → 样式”右键“正文”，选择“修改”。字体设为微软雅黑 11 pt，颜色为深灰或黑色。</li><li>在该对话框左下角的“格式 → 段落”设置 1.25 倍行距，段前 0、段后 6 pt。正文段落不靠空行拉开距离。</li><li>修改“标题 1”为微软雅黑 14 pt、加粗；报告题目应用“标题”样式并设为 20 pt。题注样式设为 10 pt。</li><li>通过“插入 → 页码”在页脚插入页码。检查正文宽度是否足以容纳对照图和结果表。</li></ol>
+<p>正文、题注和表格内文字可能分别使用不同样式。修改正文样式后，检查表格和题注是否也采用了指定字体。打开“视图 → 导航窗格”，报告的四个一级标题应在同一层级。</p>
+<h3 id="word-writing">报告每一部分写什么</h3><div class="course-table-wrap" tabindex="0"><table><thead><tr><th>部分</th><th>需要写清楚的内容</th><th>可用的句子形式</th></tr></thead><tbody><tr><td>任务与数据</td><td>比较问题、数据来源、样本量和标签含义</td><td>本实验比较……，使用……幅图像，前景定义为……。</td></tr><tr><td>方法</td><td>共同设置、唯一改变项、指标计算方式</td><td>A 与 B 使用相同……，仅将……由……改为……。</td></tr><tr><td>结果</td><td>数值、差值以及对应的图表</td><td>A 的平均 Dice 为……，B 为……；图 1 中……。</td></tr><tr><td>讨论</td><td>由结果支持的解释、尚未验证的问题</td><td>在这组图像中……。进一步比较……可以检验……。</td></tr></tbody></table></div><p>结果段只描述已经得到的观察。把“模型显著提升了性能”改成实际指标与实验条件；只有进行了相应统计检验，才写统计意义上的“显著”。讨论中的原因如果只是猜测，要与观察分开。</p>
+<h3 id="word-numbering">完整建立一处图表引用</h3>
+<ol><li>在正文说明实验结果后插入对照图，图片布局选“嵌入型”，锁定纵横比，宽度不超过正文的 16 cm。</li><li>选中图片，在“引用 → 插入题注”中建立标签“图”。保留自动编号，后面写图片内容、列顺序、颜色含义和数据来源。</li><li>把光标放在正文引用位置，在“引用 → 交叉引用”中选择“图”，插入“仅标签和编号”。</li><li>图片所在段落设置“与下段同页”，题注段落不强制与下一段同页。这样图与题注一起排版，不会把后面所有内容连成一块。</li><li>表格使用原生单元格；表题放在表格上方。指标列保留相同小数位，在表注或方法中说明平均方式。</li><li>保存前按 Ctrl+A、F9 更新域。若看见 SEQ 或 REF 代码，按 Alt+F9 恢复显示结果。</li></ol><h3 id="word-task">任务：一份完整分割报告</h3>
+<p>排版练习使用给定的四幅宠物标注和 <code>segmentation_metrics.csv</code>。方案 A 把前景向右平移 5 像素，方案 B 平移 15 像素；两者均忽略原标注值为 3 的像素。这是确定性掩膜实验，未训练模型。</p><div class="course-table-wrap" tabindex="0"><table><thead><tr><th>项目</th><th>明确要求</th></tr></thead><tbody><tr><td>篇幅与结构</td><td>2—3 页 A4，包含题目、任务与数据、方法、结果、讨论和数据出处。无需封面与目录。</td></tr><tr><td>方法</td><td>写明四个样本、原始尺寸不变、前景与忽略区定义、唯一改变项；解释 Dice / IoU 逐图计算再平均。</td></tr><tr><td>结果</td><td>插入 A / B 两行结果表，列出图像数、Dice、IoU，指标保留 3 位小数；正文给出一项数值差异。</td></tr><tr><td>配图</td><td>至少两个样本，按原图 / 参考掩膜 / A / B 排列，统一方向与比例；图注解释颜色和教学构造。</td></tr><tr><td>Word 功能</td><td>使用标题样式、原生表格、自动图表题注、至少一处正文交叉引用与页码；图片和题注同页。</td></tr><tr><td>格式</td><td>四周页边距 2.5 cm；正文微软雅黑 11 pt、1.25 倍行距、段后 6 pt；题目 20 pt，一级标题 14 pt，题注 10 pt。</td></tr><tr><td>提交</td><td>姓名_图像分割_报告.docx 及同名 PDF，放入 02_图像分割 文件夹。代码实践报告替换为自己两种方案的实测结果。</td></tr></tbody></table></div><p>完整标准答案包含写好的正文、结果表、对照图、自动编号和交叉引用。注释版保留完整报告，在后面解释样式、分页、图表格式、实验文字及修改方法。</p><div class="practice-actions"><a class="solid-btn" download="" href="../downloads/office-reference/segmentation-report-standard.docx">下载完整标准答案</a><a class="outline-btn" download="" href="../downloads/office-reference/segmentation-report-annotated.docx">下载注释版</a><a class="outline-btn" download="" href="../downloads/office-reference/office-practice-data.zip">下载练习数据与图片</a></div><figure class="knowledge-figure"><img alt="同一宠物图像的参考掩膜与两种确定性错位结果" height="720" loading="lazy" src="../assets/office-reference/mask-shift-comparison.png" width="1440"/><figcaption>练习数据中的对照图。绿为前景，白为背景，灰为忽略区；两种结果由官方掩膜平移得到，未训练网络。</figcaption></figure></article></main><div id="site-footer"></div></body></html>

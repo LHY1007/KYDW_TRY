@@ -1,0 +1,63 @@
+{
+  "means": {
+    "5": {
+      "dice": 0.9634555104433817,
+      "iou": 0.9299623361422265
+    },
+    "15": {
+      "dice": 0.8946547059954739,
+      "iou": 0.8122177957043092
+    }
+  },
+  "rows": [
+    {
+      "sample_id": "Abyssinian_1",
+      "shift_px": 5,
+      "dice": 0.9645879883539847,
+      "iou": 0.931598221292179
+    },
+    {
+      "sample_id": "Abyssinian_1",
+      "shift_px": 15,
+      "dice": 0.9041658704376075,
+      "iou": 0.8250937309268462
+    },
+    {
+      "sample_id": "Abyssinian_2",
+      "shift_px": 5,
+      "dice": 0.9746793339292767,
+      "iou": 0.9506092739401066
+    },
+    {
+      "sample_id": "Abyssinian_2",
+      "shift_px": 15,
+      "dice": 0.9219571370804691,
+      "iou": 0.8552138034508627
+    },
+    {
+      "sample_id": "american_bulldog_2",
+      "shift_px": 5,
+      "dice": 0.9781018447393611,
+      "iou": 0.9571421963178832
+    },
+    {
+      "sample_id": "american_bulldog_2",
+      "shift_px": 15,
+      "dice": 0.9328693420208303,
+      "iou": 0.8741847449003192
+    },
+    {
+      "sample_id": "american_bulldog_3",
+      "shift_px": 5,
+      "dice": 0.9364528747509041,
+      "iou": 0.880499653018737
+    },
+    {
+      "sample_id": "american_bulldog_3",
+      "shift_px": 15,
+      "dice": 0.8196264744429882,
+      "iou": 0.6943789035392088
+    }
+  ],
+  "source": "Oxford-IIIT Pet: four official trimaps; foreground=1, ignore=3. Shifted masks are constructed demonstrations, not trained predictions."
+}

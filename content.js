@@ -60,7 +60,7 @@ window.KYDW = {
     "lead": "学生自主运营的跨校、跨学科科研协作团队。",
     "paragraphs": [
       "KYDW 由东北大学生物医学工程专业学生发起，2023 年 12 月成立。成员来自不同高校，合作开展医学、工程、计算机、人工智能与生物信息学等方向的研究，分享课程、代码和科研机会。",
-      "这里可以了解团队活动，学习本科生科研入门体验项目和新成员培训课程，也可以查阅专业解读与教学资料。",
+      "这里可以了解团队活动，学习 KYDW本科生培养项目，也可以查阅专业解读与教学资料。",
       "团队由学生自发组织、自主运营。成员来自不同学校、专业和课题组，按项目组成协作小组，持续维护网站内容、实践材料和专题交流。"
     ],
     "facts": [
@@ -515,9 +515,9 @@ window.KYDW = {
       "homeOrder": 2,
       "items": [
         {
-          "title": "KYDW新成员培训与考核",
-          "text": "图文知识、Kaggle 练习与独立项目材料。",
-          "href": "programs/member-training/index.html",
+          "title": "KYDW本科生培养项目",
+          "text": "快速上手篇、实践体验篇与进阶教学篇。",
+          "href": "programs/undergraduate/index.html",
           "home": true
         },
         {
@@ -528,7 +528,7 @@ window.KYDW = {
         },
         {
           "title": "KYDW科研入门培训",
-          "text": "历史课程，保留电脑操作、文献阅读、Python 和人工智能等入门材料。当前培训请阅读“KYDW新成员培训与考核”。",
+          "text": "历史课程，保留电脑操作、文献阅读、Python 和人工智能等入门材料。当前课程请查看“KYDW本科生培养项目”。",
           "href": "programs/training.html",
           "home": true
         },
@@ -577,8 +577,8 @@ window.KYDW = {
           "kind": "book"
         },
         {
-          "title": "科研基础环境准备",
-          "text": "网络访问、账户注册和 Kaggle 代码项目构成科研实践前的环境准备。",
+          "title": "学习基础",
+          "text": "实践体验与进阶教学的网络、账户及 Kaggle 环境准备。",
           "href": "resources/environment.html",
           "kind": "book"
         }
@@ -587,17 +587,17 @@ window.KYDW = {
   ],
   "modules": [
     {
-      "id": "member-training",
-      "label": "新成员培训与考核",
-      "title": "KYDW新成员培训与考核",
-      "subtitle": "科研基础、图像实践与成果表达",
-      "text": "通过猫狗识别、宠物分割和 H&E–IHC 学习 PyTorch、实验比较与文献阅读；练习 PPT 绘图、短报告和学习海报，并独立实现三个项目。",
-      "audience": "参加 KYDW 新成员培训与考核的同学",
-      "date": "2026 年 9 月 20 日更新",
-      "status": "新活动",
-      "href": "programs/member-training/index.html",
+      "id": "undergraduate-program",
+      "label": "本科生培养项目",
+      "title": "KYDW本科生培养项目",
+      "subtitle": "快速上手篇 · 实践体验篇 · 进阶教学篇",
+      "text": "",
+      "audience": "本科生",
+      "date": "",
+      "status": "",
+      "href": "programs/undergraduate/index.html",
       "order": -1,
-      "period": "新活动",
+      "period": "",
       "home": true
     },
     {
@@ -605,12 +605,12 @@ window.KYDW = {
       "label": "科研入门培训",
       "title": "KYDW科研入门培训",
       "subtitle": "科研基础、人工智能与研究实践",
-      "text": "历史课程，保留电脑操作、文献阅读、Python 和人工智能等入门材料。当前培训请阅读“KYDW新成员培训与考核”。",
+      "text": "历史课程，保留电脑操作、文献阅读、Python 和人工智能等入门材料。当前课程请查看“KYDW本科生培养项目”。",
       "audience": "大一至大三、来自不同专业和院校的本科生",
       "date": "历史课程",
       "status": "已停止更新",
       "href": "programs/training.html",
-      "currentHref": "programs/member-training/index.html",
+      "currentHref": "programs/undergraduate/index.html",
       "currentLabel": "查看当前培训",
       "order": 2,
       "period": "历史项目",
@@ -779,7 +779,7 @@ window.KYDW = {
     "title": "KYDW科研入门培训",
     "lead": "基础知识、人工智能和科研实践覆盖研究任务所需的知识、工具与方法。",
     "paragraphs": [
-      "这是已停止更新的历史课程，已有章节保留查阅。新成员学习与考核使用“KYDW新成员培训与考核”。",
+      "这是已停止更新的历史课程，已有章节保留查阅。当前课程请查看“KYDW本科生培养项目”。",
       "科研入门培训面向准备接触科研的本科生，内容包括电脑、文献和数据等基本工作，以及 Python、人工智能、深度学习和研究实践。每个章节对应一组可以继续阅读或动手完成的内容。",
       "培训内容包括基础知识、文献阅读、代码环境、挑战赛和实战项目。学习时可以按章节顺序阅读，也可以根据已有基础选择需要的模块。"
     ],
@@ -1049,10 +1049,10 @@ window.KYDW = {
     }
   },
   "experience": {
-    "title": "本科生科研入门体验项目",
-    "label": "项目与活动 / 本科生科研入门",
+    "title": "实践体验篇",
+    "label": "KYDW本科生培养项目 / 实践体验篇",
     "environment": {
-      "title": "项目环境准备",
+      "title": "学习基础",
       "short": "检查网络访问，注册 Kaggle 账户，学习复制和运行 Notebook。",
       "href": "resources/environment.html"
     },
@@ -1080,12 +1080,12 @@ window.KYDW = {
     "latestNews": {
       "title": "近期消息",
       "projectActivity": {
-        "title": "新活动更新",
-        "lead": "KYDW新成员培训与考核已上线",
+        "title": "课程与实践",
+        "lead": "KYDW本科生培养项目",
         "links": [
           {
-            "title": "查看新活动",
-            "href": "programs/member-training/index.html"
+            "title": "查看项目",
+            "href": "programs/undergraduate/index.html"
           }
         ]
       },
@@ -1093,7 +1093,7 @@ window.KYDW = {
         "2026.8"
       ]
     },
-    "lead": "面向 0 基础本科生，内容涉及医学影像、计算病理、生物信息学与人工智能，阅读讲解并完成相应练习。",
+    "lead": "医学影像、生理信号、表格与空间数据实践",
     "date": "计划开放时间：2026 年 8 月 2 日—十月中旬",
     "simulationNote": "本页下方的“参考输出”用于对照实践步骤。网页代码单元格只能阅读，不能直接填写；要得到自己的结果，请在 Kaggle 中打开公开 Notebook，点击“复制并编辑”保存到自己的账户后运行和修改。",
     "practiceGuidance": "实践项目优先在 Kaggle 中运行：打开对应的公开 Notebook，点击“复制并编辑”保存到自己的账户，再按单元格逐步运行、修改并观察结果。也可以下载到自己的电脑上运行；遇到不理解的代码时，结合单元格说明和公开资料逐步理解。需要对照时，可以打开实践参考答案核对。",
@@ -1235,8 +1235,8 @@ window.KYDW = {
       "project-05": [
         {
           "task": "任务 1：样本单位和输入变量",
-          "fill": "核对每行受试者、四类标签、变量类型、ID 列和缺失率。",
-          "basis": "ID 只用于识别，label 是 CTL、AD、PD、DEP 四分类目标。",
+          "fill": "核对每行模拟记录、四类标签、变量类型、ID 列和缺失率。",
+          "basis": "ID 用于识别模拟记录；label 中 CTL 为健康对照，AD 为阿尔茨海默病，PD 为帕金森病，DEP 为抑郁症。",
           "check": "确认类别数量、数值列、类别列和缺失总数与 Data.csv 一致。"
         },
         {
@@ -1316,10 +1316,10 @@ window.KYDW = {
           "check": "确认热图标签完整，并能区分平均分数和边数。"
         },
         {
-          "task": "任务 4：空间候选关系与结果边界",
+          "task": "任务 4：空间候选关系与模型评价",
           "fill": "绘制高分局部候选边、训练曲线并保存遮边测试指标。",
           "basis": "空间图用于核对组织位置，遮边测试用于评价隐藏候选关系的排序与误差。",
-          "check": "确认图像和结果 JSON 已生成，并说明候选关系仍需实验验证。"
+          "check": "确认图像和结果 JSON 已生成，说明高分候选关系由哪些表达、距离与模型得分支持。"
         }
       ],
       "project-08": [
@@ -1338,7 +1338,7 @@ window.KYDW = {
         {
           "task": "任务 3：训练集管道与验证集选型",
           "fill": "在训练集拟合标准化和逻辑回归，用验证集宏平均 F1 选择正则化参数。",
-          "basis": "验证集用于模型选择，标准化参数不能读取验证集或测试集。",
+          "basis": "标准化参数由训练集估计；验证集用于比较 C，C 越小表示逻辑回归的正则化约束越强。",
           "check": "确认三个候选参数均有验证结果，并保存得分最高的管道。"
         },
         {
@@ -1351,18 +1351,18 @@ window.KYDW = {
           "task": "任务 5：错误窗口与模型比较",
           "fill": "绘制测试错误窗口，比较简化基线、完整统计基线和 LSTM。",
           "basis": "错误波形用于查看活动过渡与相近动作，模型复杂度需要由相同划分下的结果评价。",
-          "check": "确认错误数量、三组宏平均 F1 和结果边界写入摘要。"
+          "check": "在摘要中保存错误数量、三组宏平均 F1，以及本次比较使用的采集运行与窗口划分。"
         }
       ],
       "project-09": [
         {
           "task": "任务 1：官方数据对象核对",
           "fill": "读取 ODBB 官方胼胝体预览派生包，记录 MRI FA、MD、PLI Retardance 的 shape、范围、物理尺度和有效区域，并绘制数据图。",
-          "basis": "数据层先固定来源和字段；PLI Retardance 是本次可运行的结构目标，独立 GFAP 图不作为配对监督。",
+          "basis": "输入为同一预览对象的 MRI FA、MD 和坐标，目标为配对整理的 PLI Retardance 图；独立 GFAP 图用于认识免疫染色。",
           "check": "确认官方数据身份、数组 shape、切片和掩膜比例均已保存，三张图来自同一教学网格。"
         },
         {
-          "task": "任务 2：透明的 MRI→PLI 基线",
+          "task": "任务 2：MRI 特征与 PLI 岭回归基线",
           "fill": "用 FA、MD 和归一化片内坐标拟合 StandardScaler + Ridge，并绘制 PLI 目标、预测和绝对误差。",
           "basis": "标准化、岭回归和轻度平滑都可单独检查，模型只估计粗尺度 PLI 结构代理。",
           "check": "确认训练特征、Ridge α、预测范围和输出图均已保存。"
@@ -2363,13 +2363,13 @@ window.KYDW = {
     }
   },
   "memberTraining": {
-    "title": "KYDW新成员培训与考核",
-    "lead": "通过猫狗识别、宠物分割和 H&E–IHC 学习 PyTorch、实验比较与文献阅读；练习 PPT 绘图、短报告和学习海报，并独立实现三个项目。",
+    "title": "进阶教学篇",
+    "lead": "用猫狗识别、图像分割和 H&E–IHC 图像翻译练习读取图像、训练模型、比较结果，并展示自己的实验。",
     "chapters": [
       {
         "no": "01",
-        "title": "图像与 PyTorch",
-        "description": "用真实猫狗照片认识像素、标签、张量与批量。",
+        "title": "图像与深度学习框架基础",
+        "description": "用真实猫狗照片认识像素、颜色、张量和 PyTorch 输入。",
         "href": "programs/member-training/lessons/01-images.html",
         "notebooks": [
           "00"
@@ -2377,8 +2377,8 @@ window.KYDW = {
       },
       {
         "no": "02",
-        "title": "猫狗识别",
-        "description": "学习分类计算、评价与模型保存，独立完成猫狗识别并绘制 PPT 流程图。",
+        "title": "分类算法",
+        "description": "学习分类模型、训练和评价，完成猫狗识别。",
         "href": "programs/member-training/lessons/02-classification.html",
         "notebooks": [
           "01",
@@ -2387,7 +2387,7 @@ window.KYDW = {
       },
       {
         "no": "03",
-        "title": "图像分割",
+        "title": "像素标注与分割网络",
         "description": "认识像素标签、编码器与解码器，计算 Dice 和 IoU。",
         "href": "programs/member-training/lessons/03-segmentation.html",
         "notebooks": [
@@ -2396,7 +2396,7 @@ window.KYDW = {
       },
       {
         "no": "04",
-        "title": "实验与短报告",
+        "title": "实验比较与短报告",
         "description": "独立完成宠物分割与一次受控比较，用图表和简短报告说明结果。",
         "href": "programs/member-training/lessons/04-experiments.html",
         "notebooks": [
@@ -2405,7 +2405,7 @@ window.KYDW = {
       },
       {
         "no": "05",
-        "title": "文献与病理图像",
+        "title": "病理图像与文献",
         "description": "认识 H&E、HER2-IHC 与配对数据，学习检索、阅读和管理文献。",
         "href": "programs/member-training/lessons/05-pathology.html",
         "notebooks": [
@@ -2414,7 +2414,7 @@ window.KYDW = {
       },
       {
         "no": "06",
-        "title": "虚拟染色与学习海报",
+        "title": "图像翻译与结果展示",
         "description": "学习配对重建与评价，独立完成 H&E–IHC 项目和学习海报。",
         "href": "programs/member-training/lessons/06-reconstruction.html",
         "notebooks": [
@@ -2475,75 +2475,42 @@ window.KYDW = {
     ],
     "templates": [
       {
-        "title": "工具与协作来源记录",
-        "href": "programs/member-training/materials/template-01.html"
-      },
-      {
-        "title": "图表与证据索引",
-        "href": "programs/member-training/materials/template-02.html"
-      },
-      {
-        "title": "学习与实验记录",
-        "href": "programs/member-training/materials/template-03.html"
-      },
-      {
-        "title": "对照实验设计",
-        "href": "programs/member-training/materials/template-04.html"
-      },
-      {
-        "title": "最终提交说明",
-        "href": "programs/member-training/materials/template-05.html"
-      },
-      {
-        "title": "数据卡",
-        "href": "programs/member-training/materials/template-06.html"
-      },
-      {
-        "title": "文献证据表",
-        "href": "programs/member-training/materials/template-07.html"
-      },
-      {
         "title": "猫狗流程图与结果页",
         "href": "programs/member-training/materials/template-08.html"
       },
       {
-        "title": "学习海报",
+        "title": "图像分割短报告",
+        "href": "programs/member-training/materials/template-10.html"
+      },
+      {
+        "title": "图像翻译学习海报",
         "href": "programs/member-training/materials/template-09.html"
       },
       {
-        "title": "分割短报告",
-        "href": "programs/member-training/materials/template-10.html"
+        "title": "提交文件命名",
+        "href": "programs/member-training/materials/template-05.html"
       }
     ],
-    "exercises": [
-      {
-        "title": "分类知识提示",
-        "href": "programs/member-training/materials/exercise-01.html"
-      },
-      {
-        "title": "分割知识提示",
-        "href": "programs/member-training/materials/exercise-02.html"
-      }
-    ],
+    "exercises": [],
     "development": {
       "title": "KYDW新成员培养与发展指南",
       "href": "resources/member-development.html",
       "achievementsHref": "team/news.html",
       "text": "了解考察与考核、成员支持、科研路径、核心成员条件及论文署名。"
     },
-    "download": "programs/member-training/downloads/KYDW_member_training_student_materials.zip",
+    "download": null,
     "highlights": [
       {
         "title": "猫狗识别",
         "text": "图像、PyTorch 分类与 PPT 绘图。"
       },
       {
-        "title": "宠物分割",
-        "text": "像素标签、指标、对照实验与短报告。"
+        "title": "图像分割",
+        "text": "像素标注、分割网络、实验比较与短报告。"
       },
       {
-        "title": "H&E–IHC",
-        "text": "文献、配对重建与学习海报。"
+        "title": "图像翻译",
+        "text": "配对病理图像、文献、重建评价与学习海报。"
       }
     ],
     "appendix": {
@@ -2555,7 +2522,29 @@ window.KYDW = {
     },
     "assessmentHref": "programs/member-training/materials/template-05.html"
   },
+  "undergraduateProgram": {
+    "title": "KYDW本科生培养项目",
+    "href": "programs/undergraduate/index.html",
+    "foundationHref": "resources/environment.html",
+    "tracks": [
+      {
+        "title": "快速上手篇",
+        "href": "programs/member-training/foundation/index.html",
+        "text": "电脑基础、文献、人工智能与科研海报"
+      },
+      {
+        "title": "实践体验篇",
+        "href": "experience/index.html",
+        "text": "医学影像、生理信号、表格与空间数据实践"
+      },
+      {
+        "title": "进阶教学篇",
+        "href": "programs/member-training/index.html",
+        "text": "猫狗识别、图像分割、图像翻译与成果表达"
+      }
+    ]
+  },
   "homepage": {
-    "featuredActivityId": "member-training"
+    "featuredActivityId": "undergraduate-program"
   }
 };

@@ -1,0 +1,13 @@
+﻿sample_id,truth,prediction,data_type
+demo_01,cat,cat,constructed teaching example
+demo_02,cat,dog,constructed teaching example
+demo_03,cat,cat,constructed teaching example
+demo_04,cat,cat,constructed teaching example
+demo_05,cat,cat,constructed teaching example
+demo_06,cat,cat,constructed teaching example
+demo_07,dog,dog,constructed teaching example
+demo_08,dog,dog,constructed teaching example
+demo_09,dog,cat,constructed teaching example
+demo_10,dog,dog,constructed teaching example
+demo_11,dog,dog,constructed teaching example
+demo_12,dog,dog,constructed teaching example

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/><title>实践参考答案 01：MRI 脑肿瘤图像分割｜KYDW</title>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><link href="data:," rel="icon"/><title>实践项目参考答案 01：MRI 脑肿瘤图像分割｜KYDW</title>
 <style>
 body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
 main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.3rem}
@@ -8,37 +8,18 @@ main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margi
 .hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
 .notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
 </style>
-<meta name="description" content="下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。">
+<meta name="description" content="参考代码与说明按实践任务排列，可结合图像、指标和输出文件核对自己的实现。">
 <link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/experience/answers/project-02.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="实践参考答案 01：MRI 脑肿瘤图像分割｜KYDW">
-<meta property="og:description" content="下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。">
+<meta property="og:title" content="实践项目参考答案 01：MRI 脑肿瘤图像分割｜KYDW">
+<meta property="og:description" content="参考代码与说明按实践任务排列，可结合图像、指标和输出文件核对自己的实现。">
 <meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/experience/answers/project-02.html">
 <meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
 </head><body><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 01：MRI 脑肿瘤图像分割</h1><p>下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
-<article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 01：MRI 脑肿瘤图像分割</h1>
-<p>这份 Notebook 从配对的二维 MRI 切片和肿瘤 mask 开始，完成数据核对、患者级划分、三通道同步预处理、轻量 U-Net、前景感知采样、训练、阈值选择和测试评价。源 TIFF 的三个已配准通道共同作为模型输入，mask 是训练和评价时表示肿瘤区域的目标。</p>
-<p>Kaggle Notebook 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按顺序运行单元格；下载到电脑运行是补充方式。每个任务都写明了输入、输出和需要填写的位置。</p>
-<p>生成的图像和 JSON 只用于自己的观察和复盘。</p>
-<p><strong>参考答案阅读方式：</strong> 先看数据 shape、输入输出说明和断言，再按任务顺序阅读完整实现和当前数据产生的结果。</p>
-<h2>任务总览</h2>
-<ol>
-<li>查找 MRI 与 mask 并确认一一配对。</li>
-<li>统计患者数量、阳性 mask 数量和空 mask 比例。</li>
-<li>按患者划分训练集、验证集和测试集。</li>
-<li>对三个 MRI 通道分别归一化，训练集只增加水平翻转。</li>
-<li>补全 Dice 和 U-Net 卷积块。</li>
-<li>完成训练更新并保存训练曲线。</li>
-<li>只用验证集选择阈值，再在测试集展示预测结果。</li>
-</ol></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>02</span></div><div class="notebook-markdown"><h2>需要保存的结果</h2>
-<ul>
-<li><code>task1_data_check.png</code>：一张 MRI、对应 mask 和叠加图。</li>
-<li><code>task1_training_curve.png</code>：训练/验证损失和 Dice 曲线。</li>
-<li><code>task1_prediction.png</code>：测试图像、真实 mask 和预测 mask。</li>
-<li><code>task1_result.json</code>：数据规模、阈值、指标和空 mask 统计。</li>
-</ul>
-<p>这些文件由 Notebook 自动写入 <code>OUT</code> 指向的工作目录，用于自己的观察和复盘。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>03</span></div><pre class="notebook-code"><code># 输入：无；输出：数据读取、训练和结果保存所需的库与路径。
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 01：MRI 脑肿瘤图像分割</h1><p>参考代码与说明按实践任务排列，可结合图像、指标和输出文件核对自己的实现。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>01</span></span></div><div class="notebook-markdown"><h3>实践项目 01：MRI 脑肿瘤图像分割</h3><p>这份 Notebook 从配对的二维 MRI 切片和肿瘤 mask 开始，完成数据核对、患者级划分、三通道同步预处理、轻量 U-Net、前景感知采样、训练、阈值选择和测试评价。源 TIFF 的三个已配准通道共同作为模型输入，mask 是训练和评价时表示肿瘤区域的目标。</p><p>Kaggle Notebook 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按顺序运行单元格；下载到电脑运行是补充方式。每个任务都写明了输入、输出和参考计算。</p><p>生成的图像和 JSON 只用于自己的观察和复盘。</p><p><strong>参考答案阅读方式：</strong> 先看数据 shape、输入输出说明和断言，再按任务顺序阅读完整实现和当前数据产生的结果。</p><h4>任务总览</h4><p>1. 查找 MRI 与 mask 并确认一一配对。 2. 统计患者数量、阳性 mask 数量和空 mask 比例。 3. 按患者划分训练集、验证集和测试集。 4. 对三个 MRI 通道分别归一化，训练集只增加水平翻转。 5. 实现 Dice 和 U-Net 卷积块。 6. 完成训练更新并保存训练曲线。 7. 只用验证集选择阈值，再在测试集展示预测结果。</p></div></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>02</span></span></div><div class="notebook-markdown"><h4>需要保存的结果</h4><ul><li><code>task1_data_check.png</code>：一张 MRI、对应 mask 和叠加图。</li><li><code>task1_training_curve.png</code>：训练/验证损失和 Dice 曲线。</li><li><code>task1_prediction.png</code>：测试图像、真实 mask 和预测 mask。</li><li><code>task1_result.json</code>：数据规模、阈值、指标和空 mask 统计。</li></ul><p>这些文件由 Notebook 自动写入 <code>OUT</code> 指向的工作目录，用于自己的观察和复盘。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>03</span></span></div><pre class="notebook-code"><code># 输入：无；输出：数据读取、训练和结果保存所需的库与路径。
 from pathlib import Path  # 导入路径工具
 import json, random, re  # 导入 JSON、随机数和正则表达式工具
 import numpy as np  # 导入数组计算工具
@@ -56,10 +37,9 @@ DEVICE=torch.device('cuda' if CUDA_OK else 'cpu')  # 使用兼容 GPU，否则�
 OUT=Path('/kaggle/working') if Path('/kaggle/working').exists() else Path.cwd()/'kydw_outputs'  # 设置输出目录
 OUT.mkdir(parents=True,exist_ok=True)  # 创建输出目录
 print('device:',DEVICE)  # 显示运行设备
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>04</span></div><div class="notebook-markdown"><h2>1. 查找并配对图像与 mask</h2>
-<p><strong>输入：</strong> 推荐挂载 <code>lgg-mri-segmentation</code> 数据集。每个 TIFF 含三个已配准 MRI 通道，MRI 文件与 mask 文件在文件名上只相差 <code>_mask</code>，患者标识取自 mask 的上级文件夹。</p>
-<p><strong>处理：</strong> 代码按路径排序后遍历数据目录，把每个 mask 与去掉 <code>_mask</code> 后仍然存在的 MRI 配成一项 <code>(image_path, mask_path, patient_id)</code>。</p>
-<p><strong>输出：</strong> <code>pairs</code> 列表和 <code>paired slices</code> 数量。完整数据应得到 3929 对；断言用来检查数据路径和文件名规则。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>05</span></div><pre class="notebook-code"><code># 输入：数据集根目录；输出：每项 (image_path, mask_path, patient_id) 的 pairs。
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>04</span></span></div><div class="notebook-markdown"><h4>1. 查找并配对图像与 mask</h4><p><strong>输入：</strong> 推荐挂载 <code>lgg-mri-segmentation</code> 数据集。每个 TIFF 含三个已配准 MRI 通道，MRI 文件与 mask 文件在文件名上只相差 <code>_mask</code>，患者标识取自 mask 的上级文件夹。</p><p><strong>处理：</strong> 代码按路径排序后遍历数据目录，把每个 mask 与去掉 <code>_mask</code> 后仍然存在的 MRI 配成一项 <code>(image_path, mask_path, patient_id)</code>。</p><p><strong>输出：</strong> <code>pairs</code> 列表和 <code>paired slices</code> 数量。完整数据应得到 3929 对；断言用来检查数据路径和文件名规则。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>05</span></span></div><pre class="notebook-code"><code># 输入：数据集根目录；输出：每项 (image_path, mask_path, patient_id) 的 pairs。
 kaggle_root=Path('/kaggle/input')  # Kaggle 数据集挂载根目录
 local_root=Path.cwd()/'_codex_state'/'lgg_full'/'extracted'/'kaggle_3m'  # 本地复核数据目录
 ROOT=kaggle_root if kaggle_root.exists() and any(kaggle_root.rglob('*_mask.tif')) else local_root  # 选择实际可用的数据根目录
@@ -76,31 +56,28 @@ for m in mask_paths:  # 逐个处理 mask
         pairs.append((img,m,patient))  # 保存 MRI、mask 和患者标识
 print('paired slices:',len(pairs))  # 显示配对切片数量
 assert len(pairs)==3929, f'期望 3929 对 MRI/mask，实际找到 {len(pairs)}；请检查数据集挂载。'  # 检查完整数据集
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>06</span></div><div class="notebook-markdown"><h2>任务 1：完成数据核对</h2>
-<p>这一步先确认输入数据真的可以使用。阳性 mask 表示其中至少有一个前景像素；空 mask 表示整张 mask 没有前景。</p>
-<p><strong>本单元格说明：</strong> 根据 <code>pairs</code> 中的患者标识和每个 mask 的实际像素，计算唯一患者数 <code>patient_count</code>、阳性 mask 数 <code>positive_masks</code> 和空 mask 比例 <code>empty_ratio</code>。</p>
-<p><strong>输入与输出：</strong> 输入是 <code>pairs</code>；输出是三个标量，以及一张 MRI、mask 和 overlay 图。单张 <code>img</code> 与 <code>mask</code> 都应是 <code>[H, W]</code>，尺寸必须一致。</p>
-<p><strong>检查：</strong> 统计只能来自当前文件；运行后应打印三个统计量，并保存 <code>task1_data_check.png</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>07</span></div><pre class="notebook-code"><code># 参考实现：
-patient_count = len({patient_id for _, _, patient_id in pairs})  # 保存当前步骤使用的中间结果
-mask_nonempty = [bool(np.asarray(Image.open(mask_path).convert('L')).max() &gt; 0) for _, mask_path, _ in pairs]  # 读取本任务需要的数据
-positive_masks = int(np.sum(mask_nonempty))  # 保存当前步骤使用的中间结果
-empty_ratio = float(1.0 - positive_masks / len(mask_nonempty))  # 保存当前步骤使用的中间结果
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>06</span></span></div><div class="notebook-markdown"><h4>任务 1：完成数据核对</h4><p>这一步先确认输入数据真的可以使用。阳性 mask 表示其中至少有一个前景像素；空 mask 表示整张 mask 没有前景。</p><p><strong>计算与核对：</strong> 根据 <code>pairs</code> 中的患者标识和每个 mask 的实际像素，计算唯一患者数 <code>patient_count</code>、阳性 mask 数 <code>positive_masks</code> 和空 mask 比例 <code>empty_ratio</code>。</p><p><strong>输入与输出：</strong> 输入是 <code>pairs</code>；输出是三个标量，以及一张 MRI、mask 和 overlay 图。单张 <code>img</code> 与 <code>mask</code> 都应是 <code>[H, W]</code>，尺寸必须一致。</p><p><strong>检查：</strong> 统计只能来自当前文件；运行后应打印三个统计量，并保存 <code>task1_data_check.png</code>。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>07</span></span></div><pre class="notebook-code"><code># 参考实现：
+patient_count = len({patient_id for _, _, patient_id in pairs})  # 统计互不重复的患者标识
+mask_nonempty = [bool(np.asarray(Image.open(mask_path).convert('L')).max() &gt; 0) for _, mask_path, _ in pairs]
+positive_masks = int(np.sum(mask_nonempty))  # 统计含肿瘤前景的切片数量
+empty_ratio = float(1.0 - positive_masks / len(mask_nonempty))  # 计算无肿瘤前景的切片比例
 
-sample_img_path, sample_mask_path, _ = pairs[len(pairs)//2]  # 保存当前步骤使用的中间结果
-img=np.array(Image.open(sample_img_path).convert('L'))  # 读取本任务需要的数据
-mask=np.array(Image.open(sample_mask_path).convert('L'))&gt;0  # 读取本任务需要的数据
-print(patient_count, positive_masks, empty_ratio, img.shape, mask.shape)  # 显示便于检查的关键信息
+sample_img_path, sample_mask_path, _ = pairs[len(pairs)//2]  # 选取一对 MRI 图像与人工掩膜
+img=np.array(Image.open(sample_img_path).convert('L'))
+mask=np.array(Image.open(sample_mask_path).convert('L'))&gt;0
+print(patient_count, positive_masks, empty_ratio, img.shape, mask.shape)
 
-fig,ax=plt.subplots(1,3,figsize=(10,3))  # 绘制当前步骤的结果图
-ax[0].imshow(img,cmap='gray'); ax[0].set_title('MRI')  # 绘制当前步骤的结果图
-ax[1].imshow(mask,cmap='gray'); ax[1].set_title('mask')  # 绘制当前步骤的结果图
-ax[2].imshow(img,cmap='gray'); ax[2].imshow(mask,alpha=.4,cmap='viridis'); ax[2].set_title('overlay')  # 绘制当前步骤的结果图
-for a in ax:a.axis('off')  # 逐批或逐样本执行当前步骤
-plt.tight_layout(); plt.savefig(OUT/'task1_data_check.png',dpi=160); plt.show()  # 绘制当前步骤的结果图
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>08</span></div><div class="notebook-markdown"><h2>2. 患者级划分</h2>
-<p>同一患者可能有多张切片。如果把同一患者的切片拆到不同集合，测试评价会偏乐观。因此这里先按 <code>patient_id</code> 分组，再划分训练、验证和测试集，不截断切片列表。</p>
-<p><strong>输入：</strong> <code>pairs</code> 中的图像、mask 和患者标识。</p>
-<p><strong>输出：</strong> <code>tr_idx</code>、<code>va_idx</code>、<code>test_idx</code> 三组切片索引，以及三个互不重叠的患者集合。交集断言必须通过。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>09</span></div><pre class="notebook-code"><code># 输入：pairs 中的患者分组；输出：患者不重叠的 tr_idx、va_idx、test_idx。
+fig,ax=plt.subplots(1,3,figsize=(10,3))
+ax[0].imshow(img,cmap='gray'); ax[0].set_title('MRI')  # 显示图像数组或矩阵
+ax[1].imshow(mask,cmap='gray'); ax[1].set_title('mask')  # 显示图像数组或矩阵
+ax[2].imshow(img,cmap='gray'); ax[2].imshow(mask,alpha=.4,cmap='viridis'); ax[2].set_title('overlay')  # 显示图像数组或矩阵
+for a in ax:a.axis('off')
+plt.tight_layout(); plt.savefig(OUT/'task1_data_check.png',dpi=160); plt.show()  # 将当前图像写入结果目录
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>08</span></span></div><div class="notebook-markdown"><h4>2. 患者级划分</h4><p>同一患者可能有多张切片。如果把同一患者的切片拆到不同集合，测试评价会偏乐观。因此这里先按 <code>patient_id</code> 分组，再划分训练、验证和测试集，不截断切片列表。</p><p><strong>输入：</strong> <code>pairs</code> 中的图像、mask 和患者标识。</p><p><strong>输出：</strong> <code>tr_idx</code>、<code>va_idx</code>、<code>test_idx</code> 三组切片索引，以及三个互不重叠的患者集合。交集断言必须通过。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>09</span></span></div><pre class="notebook-code"><code># 输入：pairs 中的患者分组；输出：患者不重叠的 tr_idx、va_idx、test_idx。
 groups=np.array([item[2] for item in pairs]); idx=np.arange(len(pairs))  # 建立患者分组和切片索引
 gss=GroupShuffleSplit(n_splits=1,test_size=.20,random_state=SEED)  # 固定 20% 患者用于测试
 train_idx,test_idx=next(gss.split(idx,groups=groups))  # 先划分训练开发集和测试集
@@ -110,7 +87,8 @@ tr_rel,va_rel=next(gss2.split(train_idx,groups=train_groups))  # 获得相对索
 tr_idx=train_idx[tr_rel]; va_idx=train_idx[va_rel]  # 转回完整切片索引
 assert not (set(groups[tr_idx]) &amp; set(groups[va_idx]) | set(groups[tr_idx]) &amp; set(groups[test_idx]) | set(groups[va_idx]) &amp; set(groups[test_idx]))  # 检查患者无交叉
 print(len(tr_idx),len(va_idx),len(test_idx),len(set(groups[tr_idx])),len(set(groups[va_idx])),len(set(groups[test_idx])))  # 显示切片和患者数量
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code># 输入：pairs 和三组切片索引；输出：训练、验证、测试 DataLoader。
+</code></pre></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>10</span></span></div><pre class="notebook-code"><code># 输入：pairs 和三组切片索引；输出：训练、验证、测试 DataLoader。
 def normalize_channels(array):  # 对每个 MRI 通道分别进行百分位归一化
     array=array.astype(np.float32); output=np.zeros_like(array,dtype=np.float32)  # 准备输出数组
     brain=array.max(axis=2)&gt;0  # 用非零区域近似脑区
@@ -142,25 +120,23 @@ sampler=WeightedRandomSampler(sample_weights,num_samples=1200,replacement=True,g
 train_loader=DataLoader(train_ds,batch_size=32,sampler=sampler,num_workers=2)  # 建立训练批次
 val_loader=DataLoader(val_ds,batch_size=32,shuffle=False,num_workers=2)  # 建立验证批次
 test_loader=DataLoader(test_ds,batch_size=32,shuffle=False,num_workers=2)  # 建立测试批次
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>11</span></div><div class="notebook-markdown"><h2>任务 2：补全 Dice</h2>
-<p>Dice 用预测前景与真实前景的重叠程度评价分割结果。<code>prob</code> 是模型经过 sigmoid 后的概率图，<code>target</code> 是 0/1 mask；概率大于等于 <code>threshold</code> 的像素属于预测前景。</p>
-<p><strong>本单元格说明：</strong> 在 <code>dice_score</code> 的参考代码段中完成阈值化、交集、预测面积和真实面积的计算，并返回 batch 内样本 Dice 的平均值。</p>
-<p><strong>输入与输出：</strong> <code>prob</code>、<code>target</code> 和 <code>pred</code> 的 shape 都是 <code>[batch, 1, H, W]</code>；沿空间维度求和后，每个样本得到一个 Dice，函数最后输出一个标量。</p>
-<p><strong>检查：</strong> 使用给定的 <code>threshold</code>、<code>eps</code> 和空间维度；<code>soft_dice_score</code> 已提供给训练损失使用。后面的训练应能得到有限的 Dice。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>12</span></div><pre class="notebook-code"><code>def dice_score(prob,target,threshold=.5,eps=1e-6):  # 定义可重复调用的计算步骤
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>11</span></span></div><div class="notebook-markdown"><h4>任务 2：实现 Dice</h4><p>Dice 用预测前景与真实前景的重叠程度评价分割结果。<code>prob</code> 是模型经过 sigmoid 后的概率图，<code>target</code> 是 0/1 mask；概率大于等于 <code>threshold</code> 的像素属于预测前景。</p><p><strong>计算与核对：</strong> <code>dice_score</code> 依次计算阈值化结果、交集、预测面积与真实面积，返回 batch 内样本 Dice 的平均值。</p><p><strong>输入与输出：</strong> <code>prob</code>、<code>target</code> 和 <code>pred</code> 的 shape 都是 <code>[batch, 1, H, W]</code>；沿空间维度求和后，每个样本得到一个 Dice，函数最后输出一个标量。</p><p><strong>检查：</strong> 使用给定的 <code>threshold</code>、<code>eps</code> 和空间维度；<code>soft_dice_score</code> 已提供给训练损失使用。后面的训练应能得到有限的 Dice。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>12</span></span></div><pre class="notebook-code"><code>def dice_score(prob,target,threshold=.5,eps=1e-6):
     # 参考实现：阈值化、计算交集与两侧面积
-    pred = (prob &gt;= threshold).float()  # 计算模型输出或预测概率
-    dims = tuple(range(1, pred.ndim))  # 保存当前步骤使用的中间结果
-    intersection = (pred * target).sum(dims)  # 保存当前步骤使用的中间结果
-    denominator = pred.sum(dims) + target.sum(dims)  # 保存当前步骤使用的中间结果
-    return ((2 * intersection + eps) / (denominator + eps)).mean()  # 返回当前步骤的计算结果
+    pred = (prob &gt;= threshold).float()
+    dims = tuple(range(1, pred.ndim))  # 指定除批次外需要求和的维度
+    intersection = (pred * target).sum(dims)  # 计算预测前景与真实前景的交集面积
+    denominator = pred.sum(dims) + target.sum(dims)  # 计算预测面积与真实面积之和
+    return ((2 * intersection + eps) / (denominator + eps)).mean()
 
-def soft_dice_score(prob,target,eps=1e-6):  # 定义可重复调用的计算步骤
-    dims=tuple(range(1,prob.ndim))  # 计算模型输出或预测概率
-    inter=(prob*target).sum(dims)  # 计算模型输出或预测概率
-    return (2*inter+eps)/(prob.sum(dims)+target.sum(dims)+eps)  # 返回当前步骤的计算结果
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>13</span></div><div class="notebook-markdown"><h2>任务 3 参考实现：补全 U-Net 卷积块</h2>
-<p><code>DoubleConv</code> 是 U-Net 中重复使用的小模块：两次 <code>3×3</code> 卷积，每次卷积后进行 GroupNorm 和 SiLU。<code>padding=1</code> 让高度和宽度保持不变，便于后面与跳跃连接拼接。</p>
-<p><strong>输入与输出：</strong> 输入是 <code>[batch, cin, H, W]</code>，输出是 <code>[batch, cout, H, W]</code>。模型读取三个 MRI 通道，并使用 8、16、32 个通道构成可在普通环境运行的两层 U-Net。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>14</span></div><pre class="notebook-code"><code>class DoubleConv(nn.Module):  # 定义 U-Net 重复卷积块
+def soft_dice_score(prob,target,eps=1e-6):
+    dims=tuple(range(1,prob.ndim))  # 指定除批次外需要求和的维度
+    inter=(prob*target).sum(dims)
+    return (2*inter+eps)/(prob.sum(dims)+target.sum(dims)+eps)
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>13</span></span></div><div class="notebook-markdown"><h4>任务 3 参考实现：实现 U-Net 卷积块</h4><p><code>DoubleConv</code> 是 U-Net 中重复使用的小模块：两次 <code>3×3</code> 卷积，每次卷积后进行 GroupNorm 和 SiLU。<code>padding=1</code> 让高度和宽度保持不变，便于后面与跳跃连接拼接。</p><p><strong>输入与输出：</strong> 输入是 <code>[batch, cin, H, W]</code>，输出是 <code>[batch, cout, H, W]</code>。模型读取三个 MRI 通道，并使用 8、16、32 个通道构成可在普通环境运行的两层 U-Net。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>14</span></span></div><pre class="notebook-code"><code>class DoubleConv(nn.Module):  # 定义 U-Net 重复卷积块
     def __init__(self,cin,cout):  # 设置输入和输出通道
         super().__init__()  # 初始化父类
         self.block = nn.Sequential(  # 参考实现
@@ -190,9 +166,9 @@ class TinyUNet(nn.Module):  # 定义两层轻量 U-Net
 
 model=TinyUNet().to(DEVICE)  # 把模型放到运行设备
 print('parameters:',sum(p.numel() for p in model.parameters()))  # 显示参数量
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>15</span></div><div class="notebook-markdown"><h2>任务 4 参考实现：补全一次训练更新</h2>
-<p>训练分支每批先清空旧梯度，再计算 logits 和组合损失，反向传播、裁剪梯度并更新参数。验证分支只计算损失和阳性切片软 Dice。每轮使用前景感知采样固定抽取 1200 张切片，完整训练预算为 14 轮。</p>
-<p><strong>输入与输出：</strong> <code>x</code> 是 <code>[batch, 3, H, W]</code>，<code>y</code> 和 <code>logits</code> 是 <code>[batch, 1, H, W]</code>；输出为训练/验证损失与阳性切片软 Dice。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>16</span></div><pre class="notebook-code"><code>bce=nn.BCEWithLogitsLoss(pos_weight=torch.tensor(6.0,device=DEVICE))  # 提高肿瘤像素在 BCE 中的权重
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>15</span></span></div><div class="notebook-markdown"><h4>任务 4 参考实现：实现一次训练更新</h4><p>训练分支每批先清空旧梯度，再计算 logits 和组合损失，反向传播、裁剪梯度并更新参数。验证分支只计算损失和阳性切片软 Dice。每轮使用前景感知采样固定抽取 1200 张切片，完整训练预算为 14 轮。</p><p><strong>输入与输出：</strong> <code>x</code> 是 <code>[batch, 3, H, W]</code>，<code>y</code> 和 <code>logits</code> 是 <code>[batch, 1, H, W]</code>；输出为训练/验证损失与阳性切片软 Dice。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>16</span></span></div><pre class="notebook-code"><code>bce=nn.BCEWithLogitsLoss(pos_weight=torch.tensor(6.0,device=DEVICE))  # 提高肿瘤像素在 BCE 中的权重
 opt=torch.optim.AdamW(model.parameters(),lr=1e-3,weight_decay=1e-4)  # 配置 AdamW
 scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(opt,T_max=14)  # 逐轮降低学习率
 
@@ -221,15 +197,16 @@ for epoch in range(14):  # 固定训练 14 轮
     if vd&gt;best_d: best_d=vd; best={k:v.detach().cpu().clone() for k,v in model.state_dict().items()}  # 只按验证阳性软 Dice 选模型
     scheduler.step()  # 更新下一轮学习率
 model.load_state_dict(best)  # 载入最佳验证模型
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>17</span></div><pre class="notebook-code"><code># 输入：history 中每轮的 loss 和 Dice；输出：task1_training_curve.png。
-h=np.array(history)  # 保存当前步骤使用的中间结果
-fig,ax=plt.subplots(1,2,figsize=(9,3.5))  # 绘制当前步骤的结果图
-ax[0].plot(h[:,0],label='train'); ax[0].plot(h[:,2],label='validation'); ax[0].set_title('loss'); ax[0].legend()  # 计算训练目标并传递梯度
-ax[1].plot(h[:,1],label='train'); ax[1].plot(h[:,3],label='validation'); ax[1].set_title('Dice'); ax[1].legend()  # 计算用于比较的评价指标
-plt.tight_layout(); plt.savefig(OUT/'task1_training_curve.png',dpi=160); plt.show()  # 绘制当前步骤的结果图
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>18</span></div><div class="notebook-markdown"><h2>任务 5 参考实现：验证集阈值与测试评价</h2>
-<p>模型输出概率图。验证集比较 0.25—0.85 的候选阈值，并把阳性切片平均 Dice 最高的阈值固定下来。测试阶段同时对原图和水平翻转图推理，翻回后平均概率；测试集不能参与阈值选择。</p>
-<p><strong>输入与输出：</strong> 输入是最佳验证模型、<code>val_loader</code> 和候选阈值；输出是 <code>val_dices</code>、<code>best_threshold</code>、测试 Dice/IoU、像素指标、空 mask 统计和阳性预测示例。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>19</span></div><pre class="notebook-code"><code># 输入：model、val_loader 和候选 thresholds；输出：val_dices、best_threshold。
+</code></pre></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>17</span></span></div><pre class="notebook-code"><code># 输入：history 中每轮的 loss 和 Dice；输出：task1_training_curve.png。
+h=np.array(history)  # 将训练记录转换为便于绘图的数组
+fig,ax=plt.subplots(1,2,figsize=(9,3.5))
+ax[0].plot(h[:,0],label='train'); ax[0].plot(h[:,2],label='validation'); ax[0].set_title('loss'); ax[0].legend()  # 绘制各轮指标或输入信号的变化
+ax[1].plot(h[:,1],label='train'); ax[1].plot(h[:,3],label='validation'); ax[1].set_title('Dice'); ax[1].legend()  # 绘制各轮指标或输入信号的变化
+plt.tight_layout(); plt.savefig(OUT/'task1_training_curve.png',dpi=160); plt.show()  # 将当前图像写入结果目录
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>18</span></span></div><div class="notebook-markdown"><h4>任务 5 参考实现：验证集阈值与测试评价</h4><p>模型输出概率图。验证集比较 0.25—0.85 的候选阈值，并把阳性切片平均 Dice 最高的阈值固定下来。测试阶段同时对原图和水平翻转图推理，翻回后平均概率；测试集不能参与阈值选择。</p><p><strong>输入与输出：</strong> 输入是最佳验证模型、<code>val_loader</code> 和候选阈值；输出是 <code>val_dices</code>、<code>best_threshold</code>、测试 Dice/IoU、像素指标、空 mask 统计和阳性预测示例。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>19</span></span></div><pre class="notebook-code"><code># 输入：model、val_loader 和候选 thresholds；输出：val_dices、best_threshold。
 thresholds=[round(float(value),2) for value in np.arange(.25,.86,.05)]  # 只在验证集比较候选阈值
 val_dices={}  # 保存阈值和阳性切片 Dice
 
@@ -263,13 +240,14 @@ for threshold in thresholds:  # 遍历候选阈值
     val_dices[threshold]=float(stats['positive_dice'] or 0.0)  # 记录阳性切片 Dice
 best_threshold=max(val_dices,key=val_dices.get)  # 固定验证集最佳阈值
 print('validation thresholds:',val_dices,'selected:',best_threshold)  # 显示选择结果
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>20</span></div><div class="notebook-markdown"><h2>测试集评价与结果保存</h2>
-<p>阈值确定后，下面的 <code>evaluate</code> 才读取测试集。它返回总体 Dice/IoU、阳性切片指标、像素 TP/FP/FN 指标、可视化样本和空 mask 统计。</p>
-<p><strong>输出：</strong> <code>task1_prediction.png</code> 和 <code>task1_result.json</code>。图像用于观察边界偏差，JSON 保存本次真实运行的数据规模、患者级划分、阈值和指标。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>21</span></div><pre class="notebook-code"><code># evaluate 已在上一个代码单元格提供；这里使用选出的阈值评价测试集。
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>20</span></span></div><div class="notebook-markdown"><h4>测试集评价与结果保存</h4><p>阈值确定后，下面的 <code>evaluate</code> 才读取测试集。它返回总体 Dice/IoU、阳性切片指标、像素 TP/FP/FN 指标、可视化样本和空 mask 统计。</p><p><strong>输出：</strong> <code>task1_prediction.png</code> 和 <code>task1_result.json</code>。图像用于观察边界偏差，JSON 保存本次真实运行的数据规模、患者级划分、阈值和指标。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>21</span></span></div><pre class="notebook-code"><code># evaluate 已在上一个代码单元格提供；这里使用选出的阈值评价测试集。
 
-test_dice,test_iou,examples,test_stats=evaluate(test_loader,best_threshold)  # 计算用于比较的评价指标
-print(best_threshold,test_dice,test_iou)  # 计算用于比较的评价指标
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>22</span></div><pre class="notebook-code"><code># 输入：examples、best_threshold 和测试指标；输出：预测图和 task1_result.json。
+test_dice,test_iou,examples,test_stats=evaluate(test_loader,best_threshold)
+print(best_threshold,test_dice,test_iou)
+</code></pre></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>22</span></span></div><pre class="notebook-code"><code># 输入：examples、best_threshold 和测试指标；输出：预测图和 task1_result.json。
 fig,ax=plt.subplots(len(examples),3,figsize=(8,2.5*len(examples)))  # 建立预测图
 for r,(x,y,p) in enumerate(examples):  # 逐张显示
     ax[r,0].imshow(x,cmap='gray'); ax[r,0].set_title('FLAIR')  # 显示 FLAIR
@@ -281,7 +259,53 @@ plt.tight_layout(); plt.savefig(OUT/'task1_prediction.png',dpi=160); plt.show() 
 result={'paired_slices':len(pairs),'patients':len(set(groups)),'train_slices':len(train_ds),'validation_slices':len(val_ds),'test_slices':len(test_ds),'train_patients':len(set(groups[tr_idx])),'validation_patients':len(set(groups[va_idx])),'test_patients':len(set(groups[test_idx])),'input':'source RGB TIFF three registered MRI channels','training_samples_per_epoch':1200,'epochs':14,'best_threshold':best_threshold,'validation_thresholds':val_dices,'test_dice':test_dice,'test_iou':test_iou,'test_mask_stats':test_stats,'seed':SEED,'boundary':'patient-level held-out test; educational small U-Net, not external or clinical validation'}  # 汇总真实运行结果
 (OUT/'task1_result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')  # 保存结果 JSON
 result  # 显示结果
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>23</span></div><div class="notebook-markdown"><h2>结果说明</h2>
-<p>参考运行使用 110 名患者的 3929 对 MRI/mask，先按患者划分训练、验证和测试，再只用验证集选择阈值。三通道轻量 U-Net 在测试集真实阳性切片上的平均 Dice 为 0.6890、IoU 为 0.5877；全局像素 Dice 为 0.6973。结果图依次显示 FLAIR、人工 mask 和阈值化预测叠加。该结果用于学习患者级划分、训练与评价，不属于外部或临床验证。</p></div></article>
+</code></pre><div class="notebook-output"><span>Notebook 输出</span><pre>{
+  "paired_slices": 3929,
+  "patients": 110,
+  "train_slices": 2604,
+  "validation_slices": 547,
+  "test_slices": 778,
+  "train_patients": 70,
+  "validation_patients": 18,
+  "test_patients": 22,
+  "input": "source RGB TIFF three registered MRI channels",
+  "training_samples_per_epoch": 1200,
+  "epochs": 14,
+  "best_threshold": 0.85,
+  "validation_thresholds": {
+    "0.25": 0.5669932961463928,
+    "0.3": 0.6239100098609924,
+    "0.35": 0.6530409455299377,
+    "0.4": 0.6722827553749084,
+    "0.45": 0.6871464848518372,
+    "0.5": 0.6984095573425293,
+    "0.55": 0.7070823907852173,
+    "0.6": 0.7153955101966858,
+    "0.65": 0.7214332818984985,
+    "0.7": 0.7259964346885681,
+    "0.75": 0.7294155359268188,
+    "0.8": 0.7327895164489746,
+    "0.85": 0.7340612411499023
+  },
+  "test_dice": 0.5568733215332031,
+  "test_iou": 0.5184810161590576,
+  "test_mask_stats": {
+    "total": 778,
+    "empty_true": 483,
+    "empty_pred": 238,
+    "both_empty": 230,
+    "positive_true": 295,
+    "positive_dice": 0.6889742612838745,
+    "positive_iou": 0.5877225995063782,
+    "pixel_dice": 0.6973107860585053,
+    "pixel_iou": 0.5352856065724394,
+    "pixel_precision": 0.7028194922907121,
+    "pixel_recall": 0.691887762829504
+  },
+  "seed": 42,
+  "boundary": "patient-level held-out test; educational small U-Net, not external or clinical validation"
+}
+</pre></div></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>23</span></span></div><div class="notebook-markdown"><h4>结果说明</h4><p>参考运行使用 110 名患者的 3929 对 MRI/mask，先按患者划分训练、验证和测试，再只用验证集选择阈值。三通道轻量 U-Net 在测试集真实阳性切片上的平均 Dice 为 0.6890、IoU 为 0.5877；全局像素 Dice 为 0.6973。结果图依次显示 FLAIR、人工 mask 和阈值化预测叠加。该结果用于学习患者级划分、训练与评价，不属于外部或临床验证。</p></div></article>
 <section class="reference-results"><h2>参考输出</h2><p>参考运行使用 110 名患者的 3929 对 MRI/mask，按患者划分训练、验证和测试。测试集阳性切片 Dice 为 0.6890，IoU 为 0.5877；全局像素 Dice 为 0.6973。阈值只由验证集选择，结果不属于外部或临床验证。</p><div class="results"><figure><img alt="参考结果：MRI、阳性 mask 与叠加图" loading="lazy" src="../assets/results/project-02/task1_data_check.png"/><figcaption>MRI、阳性 mask 与叠加图</figcaption></figure><figure><img alt="参考结果：训练与验证损失、Dice 曲线" loading="lazy" src="../assets/results/project-02/task1_training_curve.png"/><figcaption>训练与验证损失、Dice 曲线</figcaption></figure><figure><img alt="参考结果：FLAIR、人工 mask 与预测叠加" loading="lazy" src="../assets/results/project-02/task1_prediction.png"/><figcaption>FLAIR、人工 mask 与预测叠加</figcaption></figure></div></section>
 </main></body></html>

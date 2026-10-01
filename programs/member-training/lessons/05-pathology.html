@@ -1,105 +1,71 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>文献与病理图像｜KYDW新成员培训与考核</title><meta name="description" content="文献与病理图像：知识讲解、Kaggle 练习与独立实践。">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../course.css?v=20260920-illustrated"><script defer src="../../../content.js?v=review-20260922"></script><script defer src="../../../site.js?v=review-20260922"></script>
+<!DOCTYPE html>
 
-<link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/05-pathology.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="文献与病理图像｜KYDW新成员培训与考核">
-<meta property="og:description" content="文献与病理图像：知识讲解、Kaggle 练习与独立实践。">
-<meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/05-pathology.html">
-<meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
-</head><body data-page="course-document" data-root="../../../" data-course-lesson="true"><div id="site-header"></div><main id="page-content" class="page"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 课程总览</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与 PyTorch</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>猫狗识别</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>图像分割</a></li><li><a class="lesson-course-link" href="04-experiments.html"><span>04</span>实验与短报告</a></li><li><a class="lesson-course-link" href="05-pathology.html" aria-current="page"><span>05</span>文献与病理图像</a><div class="lesson-local-toc"><details class="lesson-topic has-subtopics"><summary><a href="#section-01">病理图像与配对</a></summary><nav aria-label="病理图像与配对"><a href="#section-01-01">组织、切片与图块</a><a href="#section-01-02">H&amp;E 的形态信息</a><a href="#section-01-03">IHC、HER2 与显色</a><a href="#section-01-04">配对、配准与参考图</a></nav></details><details class="lesson-topic"><summary><a href="#section-02">BCI 数据与样本划分</a></summary></details><details class="lesson-topic has-subtopics"><summary><a href="#section-03">文献检索与阅读</a></summary><nav aria-label="文献检索与阅读"><a href="#section-03-01">检索问题与关键词</a><a href="#section-03-02">论文类型与阅读顺序</a><a href="#section-03-03">论文阅读证据表</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-04">文献管理与写作</a></summary><nav aria-label="文献管理与写作"><a href="#section-04-01">Zotero 条目与引用</a><a href="#section-04-02">文献背景与学习记录</a></nav></details></div></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>虚拟染色与学习海报</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核</div><h1>5. 文献与病理图像</h1><p>猫狗识别和宠物分割使用日常照片。接下来的项目使用染色后的组织图像：输入是一张 H&amp;E 图像，目标是预测与它对应的 HER2-IHC 图像。开始处理数据前，需要认识图中的对象，也需要查清数据和方法的来源。本章会用真实病理图像建立基本概念，再练习检索、阅读和管理文献。</p></header><nav class="lesson-pagination" aria-label="顶部章节导航"><a href="../../../programs/member-training/lessons/04-experiments.html"><span>← 上一节</span><b>实验与短报告</b></a><a href="../../../programs/member-training/lessons/06-reconstruction.html"><span>下一节 →</span><b>虚拟染色与学习海报</b></a></nav><article class="card course-reader lesson-reader">
-
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>病理图像与文献｜KYDW本科生培养项目 / 进阶教学篇</title><meta content="病理图像与文献：知识讲解、Kaggle 练习与独立实践。" name="description"/>
+<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
+<link href="../course.css?v=20260930" rel="stylesheet"/><script defer="" src="../../../content.js?v=20260929-course"></script><script defer="" src="../../../site.js?v=20260929-course"></script>
+<link href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/05-pathology.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="病理图像与文献｜KYDW本科生培养项目 / 进阶教学篇" property="og:title"/>
+<meta content="病理图像与文献：知识讲解、Kaggle 练习与独立实践。" property="og:description"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/programs/member-training/lessons/05-pathology.html" property="og:url"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg" property="og:image"/>
+<link href="../visual-labs.css?v=20260930-r2" rel="stylesheet"/><script defer="" src="../visual-labs.js?v=20260930"></script></head><body data-course-lesson="true" data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><div class="course-reading-layout lesson-layout"><aside class="course-toc lesson-sidebar"><details class="lesson-menu" open=""><summary>课程目录</summary><a class="lesson-overview" href="../index.html#course-sequence">← 进阶教学篇</a><nav aria-label="课程章节"><ol><li><a class="lesson-course-link" href="01-images.html"><span>01</span>图像与深度学习框架基础</a></li><li><a class="lesson-course-link" href="02-classification.html"><span>02</span>分类算法</a></li><li><a class="lesson-course-link" href="03-segmentation.html"><span>03</span>像素标注与分割网络</a></li><li><a class="lesson-course-link" href="04-experiments.html"><span>04</span>实验比较与短报告</a></li><li><a aria-current="page" class="lesson-course-link" href="05-pathology.html"><span>05</span>病理图像与文献</a><div class="lesson-local-toc"><details class="lesson-topic has-subtopics"><summary><a href="#section-01">病理图像与配对</a></summary><nav aria-label="病理图像与配对"><a href="#section-01-01">组织、切片与图块</a><a href="#section-01-02">H&amp;E 的形态信息</a><a href="#section-01-03">IHC、HER2 与显色</a><a href="#section-01-04">配对、配准与参考图</a></nav></details><details class="lesson-topic"><summary><a href="#section-02">BCI 数据与样本划分</a></summary></details><details class="lesson-topic has-subtopics"><summary><a href="#section-03">文献检索与阅读</a></summary><nav aria-label="文献检索与阅读"><a href="#section-03-01">检索问题与关键词</a><a href="#section-03-02">论文类型与阅读顺序</a><a href="#section-03-03">论文中的证据</a></nav></details><details class="lesson-topic has-subtopics"><summary><a href="#section-04">文献管理与写作</a></summary><nav aria-label="文献管理与写作"><a href="#section-04-01">Zotero 条目与引用</a><a href="#section-04-02">文献背景与学习记录</a></nav></details></div></li><li><a class="lesson-course-link" href="06-reconstruction.html"><span>06</span>图像翻译与结果展示</a></li></ol></nav><a class="lesson-overview" href="glossary.html">术语与参考资料</a></details></aside><div class="lesson-main"><header class="lesson-heading"><div class="eyebrow">KYDW本科生培养项目 / 进阶教学篇</div><h1>5. 病理图像与文献</h1><p>猫狗识别和宠物分割使用日常照片。接下来的项目使用染色后的组织图像：输入是一张 H&amp;E 图像，目标是预测与它对应的 HER2-IHC 图像。开始处理数据前，需要认识图中的对象，也需要查清数据和方法的来源。本章会用真实病理图像建立基本概念，再练习检索、阅读和管理文献。</p></header><nav aria-label="顶部章节导航" class="lesson-pagination"><a href="../../../programs/member-training/lessons/04-experiments.html"><span>← 上一节</span><b>实验比较与短报告</b></a><a href="../../../programs/member-training/lessons/06-reconstruction.html"><span>下一节 →</span><b>图像翻译与结果展示</b></a></nav><article class="card course-reader lesson-reader">
 <h2 id="section-01">病理图像与配对</h2>
+<p>H&amp;E 染色显示组织形态，IHC 通过特定标记呈现目标蛋白的分布。同一组织的两种染色能够提供不同信息；配对图像中的细胞位置和组织结构，是理解图像翻译任务的具体参照。</p><figure class="knowledge-figure" id="figure-pathology-pair"><a href="../assets/bci-official-preview.png" target="_blank"><img alt="BCI 数据集作者发布的 H&amp;E 与 HER2-IHC 染色外观预览拼图" height="541" loading="lazy" src="../assets/bci-official-preview.png" style="aspect-ratio:1542/541;" width="1542"/></a><figcaption>BCI 数据集作者公开的预览拼图，用于观察两种染色的外观。图中含文字与拼版裁切；独立训练、配准检查和评价使用原始配对图像。来源：<a href="https://github.com/bupt-ai-cz/BCI">BCI 数据集</a>。</figcaption></figure>
 <h3 id="section-01-01">组织、切片与图块</h3>
-<p>组织由细胞及其周围成分组成。细胞核、细胞质、细胞之间的排列和周围间质，都可能在病理图像中留下可见结构。组织经过固定、制片、染色等处理后，可以在显微镜下观察，也可以用数字扫描设备保存为图像。</p>
+<p>一个图块只覆盖切片的一小片区域；一张切片来自某次取材，同一患者又可能提供多个组织样本。图块、切片、组织样本和患者属于不同层级。 组织由细胞及其周围成分组成。细胞核、细胞质、细胞之间的排列和周围间质，都可能在病理图像中留下可见结构。组织经过固定、制片、染色等处理后，可以在显微镜下观察，也可以用数字扫描设备保存为图像。</p>
 <p>数字全切片图像常写作 WSI，即 whole-slide image。它覆盖一张切片中的较大组织范围，尺寸通常远大于模型一次能够处理的输入。研究者因此将它切成较小的图块，英文是 patch。模型看到的一个 256×256 图块，只是原切片中的一个局部。</p>
-<p>一个患者可能有多个组织块和多张切片，一张切片又能产生许多图块。因此，患者数、切片数和图块数需要分别记录。例如，增加同一张切片中的裁剪位置会增加图块数量，却不会增加独立患者。理解这些层级，才能判断训练和测试是否真正使用了不同来源的样本。</p>
+<p>一个患者可能有多个组织块和多张切片，一张切片又能产生许多图块。因此，患者数、切片数和图块数需要分别记录。例如，增加同一张切片中的裁剪位置会增加图块数量，却不会增加独立患者。理解这些层级，才能判断训练和测试是否真正使用了不同来源的样本。</p><figure class="knowledge-figure"><a aria-label="放大图解：来源关系示意：患者、切片与图块属于不同层级。仅用于解释计数和分组关系，不表示 BCI 已提供完整患者标识。" href="../assets/visual-learning/tissue-hierarchy.png"><img alt="来源关系示意：患者、切片与图块属于不同层级。仅用于解释计数和分组关系，不表示 BCI 已提供完整患者标识。" loading="lazy" src="../assets/visual-learning/tissue-hierarchy.png"/></a><figcaption>来源关系示意：患者、切片与图块属于不同层级。仅用于解释计数和分组关系，不表示 BCI 已提供完整患者标识。</figcaption></figure>
 <h3 id="section-01-02">H&amp;E 的形态信息</h3>
-<p>H&amp;E 是苏木精—伊红染色，英文为 hematoxylin and eosin staining。苏木精相关染色使细胞核等结构常呈蓝紫色，伊红使许多细胞质和间质成分呈粉红色。实际颜色深浅还会受到组织、制片、染色及扫描条件影响。</p>
+<p>预览中的组织呈现蓝紫色与粉红色。蓝紫色较密集的位置和周围较浅的组织，为观察细胞排列提供了线索；这些颜色来自 H&amp;E 染色。 H&amp;E 是苏木精—伊红染色，英文为 hematoxylin and eosin staining。苏木精相关染色使细胞核等结构常呈蓝紫色，伊红使许多细胞质和间质成分呈粉红色。实际颜色深浅还会受到组织、制片、染色及扫描条件影响。</p>
 <p>观察 H&amp;E 时，先找到蓝紫色较密集的区域，再看周围粉红色组织、空隙和组织边缘。试着用可见特征描述一处位置，例如“右侧核较密集”“中央有一片较大的空隙”。这类描述能让另一位同学找到同一区域，也适合写入后面的图像检查记录。</p>
 <p>图像分辨率会改变能观察到的细节。把较大的组织图块整体缩小，保留了原来的覆盖范围，但细胞边缘可能变得模糊；直接裁出小窗口，则改变了观察范围。处理数据时应同时记录原始尺寸、模型输入尺寸和采用的缩放或裁剪方式。</p>
 <h3 id="section-01-03">IHC、HER2 与显色</h3>
-<p>免疫组织化学简称 IHC，英文为 immunohistochemistry。它利用抗体识别组织中的特定抗原，再通过检测系统把相关位置转化为可观察的信号。抗原常是研究关注的蛋白。选择不同抗体和检测目标，就会得到不同含义的 IHC 图像。</p>
+<p>另一种染色中，部分位置会出现棕色。我们需要知道它检测的对象，以及显色位置与组织的关系，才能理解模型正在尝试预测什么。 免疫组织化学简称 IHC，英文为 immunohistochemistry。它利用抗体识别组织中的特定抗原，再通过检测系统把相关位置转化为可观察的信号。抗原常是研究关注的蛋白。选择不同抗体和检测目标，就会得到不同含义的 IHC 图像。</p>
 <p>本项目的目标是 HER2-IHC。HER2 是人表皮生长因子受体 2，是一种与细胞生长信号有关的受体蛋白。常见明场 IHC 中，DAB 显色呈棕色，苏木精复染提供蓝色或蓝紫色的核背景。HER2、DAB 和 RGB 分别指目标蛋白、显色体系及数字图像的颜色表示，阅读论文时要分清这三个层面。</p>
 <p>棕色出现在哪里、强度如何、是否与相应组织结构对应，都值得观察。HER2 的病理评价涉及细胞膜染色等信息，单纯统计所有棕色像素的数量只能描述一种图像现象。后面的图像指标用于评价预测与参考的相似程度，不能直接换算成 HER2 临床分级。</p>
-<figure class="knowledge-figure" id="figure-pathology-pair"><a href="../assets/bci-official-preview.png" target="_blank"><img alt="BCI 作者发布的 H&amp;E 与 HER2-IHC 染色外观预览拼图" height="541" loading="lazy" src="../assets/bci-official-preview.png" style="aspect-ratio:1542/541;" width="1542"/></a><figcaption>BCI 作者的公开预览拼图，用于观察两种染色的外观。图中含文字与拼版裁切；独立训练、配准检查和评价使用原始配对图像。来源：<a href="https://github.com/bupt-ai-cz/BCI">BCI 数据集</a>。</figcaption></figure>
 <p>上图用于辨认两种染色的外观。取得官方原始配对图后，先确认两栏的染色名称和样本编号，再寻找较大的组织边缘、空隙及核密集区域。颜色差异属于两种染色的特点；空间位置是否对应，则关系到配对图像能否用于训练。</p>
-<h3 id="section-01-04">配对、配准与参考图</h3>
-<p>配对表示两张图被组织成对应的输入和目标。配准表示通过空间变换，使两张图中的组织结构尽量对齐。两个文件名相同可以帮助配对，但不能证明组织位置已经对齐。旋转、尺度差异、局部拉伸、组织折叠和缺失，都可能影响空间对应关系。</p>
+<h3 id="section-01-04">配对、配准与参考图</h3><p>编号相同的两张图中，同一空隙与组织边缘提供了空间对应的线索。若它们的位置有偏移，文件虽然配成一对，逐像素计算仍会受到错位影响。 配对表示两张图被组织成对应的输入和目标。配准表示通过空间变换，使两张图中的组织结构尽量对齐。两个文件名相同可以帮助配对，但不能证明组织位置已经对齐。旋转、尺度差异、局部拉伸、组织折叠和缺失，都可能影响空间对应关系。</p>
+<figure class="knowledge-figure"><a aria-label="放大图解：核对配对病理图像的空间位置" href="../assets/diagrams/paired-region.svg" target="_blank"><img alt="H&amp;E 与 HER2-IHC 配对图像的组织边缘和空隙位置示意" loading="lazy" src="../assets/diagrams/paired-region.svg" width="960"/></a><figcaption>示意图：同编号只是配对的第一步；对照组织边缘、空隙和局部结构，才能了解两张图的空间关系。 <a href="../assets/diagrams/paired-region.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
 <p>例如，H&amp;E 中的一个空隙位于图像中央，而 IHC 中对应空隙略微偏右。模型可能根据 H&amp;E 画出合理边界，逐像素评价仍会得到较大误差。查看配对时，至少选择几组图像，把大结构和局部位置分别放大比较，记录编号、位置和看到的现象。</p>
 <p>真实 IHC 来自实验染色与成像，是训练和评价的参考；生成 IHC 来自模型计算。图片标题统一写清“H&amp;E 输入”“真实参考 HER2-IHC”“生成 HER2-IHC”，报告和海报沿用相同名称。观察到一张图“颜色像 IHC”以后，还需要检查信号是否出现在参考中的相应位置。</p>
 <p>同一切片的重复处理和相邻切片的对应关系不同。数据说明中怎样描述采集与配准，就怎样记录，不能仅凭“配对数据”四个字推断两张图在每个细胞位置上完全一致。</p>
 <h2 id="section-02">BCI 数据与样本划分</h2>
+<p>认识两种染色后，还要落实到这次实际使用的数据。BCI 数据集给出配对图像；在训练之前，你需要确认文件怎样组织、哪些图像来自同一来源，以及训练与测试是否会遇到同一组织的信息。</p>
 <p>BCI 提供乳腺癌 H&amp;E 与 HER2-IHC 的配对图像，是本项目的数据来源。先阅读数据集论文和作者的数据说明，记下论文名称、下载来源、取得日期、文件组织方式以及使用要求。保存原始文件，后续裁剪、缩放和选取子集另存为处理记录。</p>
-<p>打开 <a href="https://github.com/bupt-ai-cz/BCI">BCI 官方仓库</a>，按 <a href="https://github.com/bupt-ai-cz/BCI/blob/main/download_dataset.md">download_dataset.md</a> 中的链接取得配对图像，并阅读 <a href="https://github.com/bupt-ai-cz/BCI/blob/main/BCI_LICENSE.md">BCI 使用许可</a>。解压后先浏览官方训练和测试目录，定位同编号的 H&amp;E 与 IHC；若某一下载格式将两图左右拼接，先依据作者说明确认哪一侧为 H&amp;E，再记录拆分方法。下载说明、论文和实际文件组织应逐项核对，不凭目录名推断患者信息。</p>
-<p>训练集用于调整参数，验证集用于选择模型设置和权重，测试集用于最终评价。如果能够取得可靠的患者标识，应按患者分组；只有可靠切片标识时，按切片核查。同一组的图块不能同时出现在训练和测试中。来源未给出患者或切片对应关系时，保留官方划分并如实记录当前掌握的是图块层级，不能把文件名前缀直接当成患者编号。</p>
+<p>项目 Kaggle 已附配对数据。需要核对原始来源时，打开 <a href="https://github.com/bupt-ai-cz/BCI">BCI 官方仓库</a>，按 <a href="https://github.com/bupt-ai-cz/BCI/blob/main/download_dataset.md">download_dataset.md</a> 中的链接取得配对图像，并阅读 <a href="https://github.com/bupt-ai-cz/BCI/blob/main/BCI_LICENSE.md">BCI 使用许可</a>。解压后先浏览官方训练和测试目录，定位同编号的 H&amp;E 与 IHC；若某一下载格式将两图左右拼接，先依据作者说明确认哪一侧为 H&amp;E，再记录拆分方法。下载说明、论文和实际文件组织应逐项核对，不凭目录名推断患者信息。</p>
+<p>训练集用于调整参数，验证集用于选择模型设置和权重，测试集用于最终评价。先保留官方训练和测试来源记录，再核对各图块的患者或切片标识。有可靠患者标识时按患者分组；只有可靠切片标识时按切片分组。划分训练、验证和测试集时，同一组的全部图块放入同一个集合，并保存分组清单。来源未给出患者或切片对应关系时，沿用官方训练与测试划分，在官方训练部分固定划出验证集，并记录目前只能核实图块层级的划分；患者编号须有来源说明支持。</p>
 <p>检查配对时，先统计输入和目标是否一一对应，再查看尺寸、重复文件和空间关系。最后形成一份可重复使用的清单，至少包含配对编号、两张图的路径、所属集合、原始尺寸，以及能够核实的患者或切片标识。后续不同实验共用这份清单，避免方法比较时悄悄换了样本。</p>
-<aside class="knowledge-practice" id="practice-05"><div><span class="card-kicker">Kaggle 知识练习 05</span><strong>配对图像与数据划分</strong><p>打开后复制到自己的账户，运行小例子，再修改其中一个条件。</p></div><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-05" rel="noreferrer" target="_blank">打开 Kaggle ↗</a></aside>
-<p>在 Kaggle 知识练习中，观察官方染色预览，用数值图练习同步变换，用人工清单检查集合交叉。练习后，针对自己取得的原始配对图像整理数据说明表，写清输入、目标、样本单位、来源和划分依据。实现目标项目时继续使用这些信息。</p>
+<aside class="knowledge-practice" id="practice-05"><div><span class="card-kicker">Kaggle 知识练习 05</span><strong>配对图像与数据划分</strong><p>查看 BCI 染色预览，用坐标算例比较同步翻转，再操作分组清单检查集合交叉。</p></div><a class="solid-btn" href="https://www.kaggle.com/code/liuhanyu1007/kydw-member-training-05" target="_blank" rel="noopener">在 Kaggle 运行 ↗</a></aside><div class="practice-actions"><a class="plain-btn" download="" href="../downloads/kydw-member-training-05.ipynb">下载练习 05</a></div>
+<p>在练习中观察染色预览，给一对图像做相同的空间变换，再检查训练与测试编号是否交叉。处理真实数据时沿用同样的配对与编号检查。</p>
 <h2 id="section-03">文献检索与阅读</h2>
+<p>关于染色转换的论文会交代使用了哪些组织图像、怎样配对、如何评价预测。相似的标题可能对应不同数据与实验设计，检索得到的文献需要结合图表和方法部分阅读。</p>
 <h3 id="section-03-01">检索问题与关键词</h3>
-<p>检索前先把问题拆成输入、目标和方法。本项目的输入词包括 H&amp;E、hematoxylin and eosin；目标词包括 HER2、ERBB2、immunohistochemistry；方法词包括 virtual staining、image-to-image translation、deep learning。不同文章可能使用不同术语，保留同义词能减少漏检。</p>
+<p>H&amp;E、HER2-IHC 和图像翻译分别对应输入、目标与方法，也可以组成文献检索词。本项目的输入词包括 H&amp;E、hematoxylin and eosin；目标词包括 HER2、ERBB2、immunohistochemistry；方法词包括 virtual staining、image-to-image translation、deep learning。不同文章可能使用不同术语，保留同义词能减少漏检。</p>
 <p>打开 PubMed，在搜索框中先输入 <code>"virtual staining" AND HER2</code>。浏览标题和摘要，确认结果研究的是哪一种输入及目标。需要扩大范围时，可以尝试 <code>hematoxylin AND immunohistochemistry AND "deep learning"</code>；需要把检索限制在题名和摘要时，可以使用 <code>"virtual staining"[Title/Abstract] AND (HER2[Title/Abstract] OR ERBB2[Title/Abstract])</code>。每次修改只调整一项条件，并记录它怎样改变了结果。</p>
 <p>在 Google Scholar 中，可以搜索 <code>"virtual staining" HER2</code>，也可以使用论文完整题名定位原始文章。找到 BCI 后，再搜索 <code>"Breast Cancer Immunohistochemical Image Generation through Pyramid Pix2pix"</code>，核对题名、作者和发表信息。使用“被引用”查看后续研究，使用论文参考文献寻找较早的方法与数据来源。检索平台给出的排序只帮助寻找文章，具体结论需要阅读全文确认。</p>
 <p>记录平台、日期、检索式、保留文章和保留理由。例如，“摘要明确使用 H&amp;E 预测 HER2-IHC，因此保留”比“标题看起来相关”更有用。如果结果主要是未染色组织生成 H&amp;E，就需要加入 HER2 或 immunohistochemistry 等目标词。</p>
 <h3 id="section-03-02">论文类型与阅读顺序</h3>
-<p>综述适合了解常见任务和方法；数据集论文重点解释数据怎样取得、组织和划分；原创方法论文说明模型及验证实验；软件文档用于核对具体实现。预印本和正式发表版本可能存在差异，保存时记录版本和日期。</p>
+<p>检索结果里会同时出现综述、数据集文章和方法论文。当前要核对数据来源时，优先读数据集说明；想理解模型结构时，再读对应方法原文。 综述适合了解常见任务和方法；数据集论文重点解释数据怎样取得、组织和划分；原创方法论文说明模型及验证实验；软件文档用于核对具体实现。预印本和正式发表版本可能存在差异，保存时记录版本和日期。</p>
 <p>本章先读 BCI 数据集与方法文章，弄清任务、配对数据和主要实验。再读 U-Net 的结构说明，联系已经做过的分割项目理解编码器、解码器和跳跃连接。希望继续学习对抗训练时，再读 pix2pix，即 <em>Image-to-Image Translation with Conditional Adversarial Networks</em>，重点辨认输入、生成器、判别器和损失之间的关系。</p>
 <p>第一次阅读先看摘要、主要图表和图注，写下“研究输入是什么、输出是什么、主要证据是什么”。第二次选择与自己项目最接近的一项实验，阅读数据划分、预处理、比较条件和指标。第三次把需要引用的结论与原文位置对应起来，留下页码、章节或图表编号。</p>
 <p>遇到公式，先写变量含义，再看计算比较了哪些对象。遇到不熟悉的术语，优先查文章自己的定义。读完一篇文章的目标是能够解释一项有证据的结论，以及它会怎样影响自己的数据检查或实验设计。</p>
-<h3 id="section-03-03">论文阅读证据表</h3>
-<p>阅读记录要能支持后续写作。只记“方法效果好”容易忘记比较对象与条件；记录具体数据、方法差异和图表位置，写报告时才能准确引用。</p>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>记录项</th>
-<th>应写内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>文献信息</td>
-<td>完整题名、作者、年份、期刊或会议、DOI 或稳定标识</td>
-</tr>
-<tr>
-<td>研究问题</td>
-<td>作者希望回答的具体问题</td>
-</tr>
-<tr>
-<td>输入与输出</td>
-<td>图像怎样获得，预测目标是什么</td>
-</tr>
-<tr>
-<td>数据与划分</td>
-<td>样本单位、规模、来源及训练和测试关系</td>
-</tr>
-<tr>
-<td>关键方法</td>
-<td>相比参照方法增加或改变的部分</td>
-</tr>
-<tr>
-<td>证据位置</td>
-<td>图表编号、页码或小节，及它实际支持的结论</td>
-</tr>
-<tr>
-<td>对自己的作用</td>
-<td>据此需要检查的数据问题、可比较的设置或值得补充的实验</td>
-</tr>
-</tbody>
-</table></div>
+<h3 id="section-03-03">论文中的证据</h3>
+<p>“某方法更好”需要具体比较对象与证据。原文使用的数据、评价指标和图表位置，说明这一判断依据什么结果。 阅读记录要能支持后续写作。只记“方法效果好”容易忘记比较对象与条件；记录具体数据、方法差异和图表位置，写报告时才能准确引用。</p>
+<p>读 BCI 原文时，选一个结果图或结果表，写下它比较了哪两种方法、使用什么样本，以及图中实际观察到了什么。记下题名和图表编号，后面在海报中引用时就能找到依据。</p>
 <figure class="knowledge-figure" id="figure-paper-evidence"><a aria-label="放大图解：将论文中的结论、具体图表和自己的记录对应起来。" href="../assets/diagrams/paper-evidence.svg" target="_blank"><img alt="将论文中的结论、具体图表和自己的记录对应起来。" height="530" loading="lazy" src="../assets/diagrams/paper-evidence.svg" style="aspect-ratio:1000.0/530.0;" width="1000"/></a><figcaption>将论文中的结论、具体图表和自己的记录对应起来。 <a href="../assets/diagrams/paper-evidence.svg" target="_blank">放大图解 ↗</a></figcaption></figure>
 <p>把作者报告的结果和自己的想法分开记录。例如，“表中报告方法 A 的 MAE 较低”属于原文结果；“这种差异可能与配准有关”如果来自自己的判断，就写为待验证解释。文献中的图块数、病人数和切片数按原文单位记录，不互相替换。</p>
-<p>完成三份简短阅读记录：一份 BCI 数据与方法，一份 U-Net 结构，一份自己检索到的虚拟染色或配准研究。每份至少定位一张图或一张表，并写出它支持什么。选择第三篇时，先确认能取得全文并能核对实验细节。</p>
+<p>先读 BCI 数据与方法文章，找到一处能够解释配对数据或实验结果的图表。理解自己所用模型后，可再查阅 U-Net 或相关图像翻译方法的原文。</p><p>例如，一篇文章在结果表中报告模型 B 的平均误差低于 A，阅读记录就应同时保存表号、所用测试样本和误差计算方式。“平均误差更低”是表格支持的判断；“每张图都更好”还需要逐图结果，“能准确判断蛋白分级”则需要相应分级实验。</p>
 <h2 id="section-04">文献管理与写作</h2>
 <h3 id="section-04-01">Zotero 条目与引用</h3>
+<p>读过的几篇文章散在浏览器和下载目录里，写作时很容易找不到原来的出处。Zotero 可以把题录、PDF 和阅读笔记收在一起，并在写作时插入引用。 找到论文后，需要保留准确的题名、作者、年份和原文位置，写海报时才知道哪句话由哪篇文章支持。Zotero 是保存和整理这些题录、PDF 与笔记的工具，也能在 Word 中插入引用。本项目先收好 BCI 原文及几篇直接相关的论文，核对信息，再在有依据的句子后插入引用。</p>
+<aside aria-label="Zotero 使用教程" class="tutorial-box"><p class="tutorial-title">Zotero 入门教程</p><ul><li><a href="https://www.zotero.org/support/quick_start_guide" rel="noreferrer" target="_blank"><span>Zotero 官方 · 英语图文</span><b>Quick Start Guide ↗</b></a><p>先看安装、保存论文和整理条目，再用一篇真实论文练习核对题录与 PDF。</p></li><li><a href="https://www.zotero.org/support/word_processor_plugin_usage" rel="noreferrer" target="_blank"><span>Zotero 官方 · 英语图文</span><b>Word Processor Plugin Usage ↗</b></a><p>需要在 Word 中写文献背景时，再看插入引文、生成参考文献表与更新引用。</p></li></ul></aside>
 <p>在 Zotero 左侧文库中新建集合，命名为“H&amp;E–IHC 学习”。安装浏览器连接器后，在论文页面点击保存按钮；也可以点击 Zotero 工具栏中的“通过标识符添加条目”，输入 DOI、PMID 等标识。直接拖入 PDF 时，要检查它是否已经关联到完整题录条目。</p>
 <p>选中条目，逐项核对题名、作者顺序、年份、期刊或会议、卷期页码及 DOI。会议论文不要误记为期刊文章；预印本不要填写成尚未确认的正式发表版本。将 PDF 放在对应条目下，在笔记中记录代码和数据页面。使用 dataset、model、registration、evaluation 等简短标签，也可以用中文标签，只要含义一致即可。</p>
 <p>发现同一篇文章出现两次时，先比较 DOI、题名和版本，再在“重复条目”中合并。保留正式发表信息时，也要确认已有笔记和附件没有遗漏。将论文中的关键段落高亮，并在批注里补上自己的解释，比保存很多未读 PDF 更便于查找。</p>
 <p>在 Word 中把光标放到需要引用的句子后，通过 Zotero 选项卡的 Add/Edit Citation 插入引文。在文末使用 Add/Edit Bibliography 生成参考文献表；增加、删除或调整正文引用后，使用 Refresh 更新。最后逐条检查引文是否对应支持这句话的原文，核对参考文献表中的题名与作者信息。编号格式由软件处理，内容对应关系仍需要阅读确认。</p>
 <h3 id="section-04-02">文献背景与学习记录</h3>
-<p>用三到五个短段落介绍准备完成的 H&amp;E–IHC 项目。先解释两种染色及目标蛋白，再说明配对预测任务，接着介绍与计划有关的方法，最后提出一个自己能够检验的问题。依赖文献的具体事实后面放上对应引用，自己的计划使用将要执行的表述。</p>
-<p>保存检索记录、三份阅读证据表和带引用的背景说明。再选择一对有来源的 H&amp;E/IHC 图像，为它写一段图注，交代染色类型、配对编号、来源和观察位置。这些材料会用于学习海报，也能帮助后续同学理解你使用的数据。</p>
-<p>完成本章后，应当能够看着一组配对图解释输入与目标，找到一项方法的原始出处，并指出论文中支撑某个结论的具体图表。下一章将学习配对图像重建和评价，再由你独立搭建目标项目。</p><aside class="knowledge-tools"><p>本章配套材料</p><div class="practice-actions"><a class="outline-btn" href="../materials/template-06.html">数据卡 →</a><a class="outline-btn" href="../materials/template-07.html">文献证据表 →</a></div></aside></article><nav class="lesson-pagination" aria-label="底部章节导航"><a href="../../../programs/member-training/lessons/04-experiments.html"><span>← 上一节</span><b>实验与短报告</b></a><a href="../../../programs/member-training/lessons/06-reconstruction.html"><span>下一节 →</span><b>虚拟染色与学习海报</b></a></nav></div></div></main><div id="site-footer"></div></body></html>
+<p>H&amp;E–IHC 项目的背景需要说明两种染色提供的信息、配对预测的用途，以及本次实验准备检验的具体问题。 用三到五个短段落介绍计划开展的 H&amp;E–IHC 项目。先解释两种染色及目标蛋白，再说明配对预测任务，接着介绍与计划有关的方法，最后提出一个自己能够检验的问题。引用文献支持其中的具体事实；描述尚未开展的工作时，明确写出计划做什么。</p>
+<p>为学习海报选择一对有来源的 H&amp;E/IHC 图像，在图注中写明染色类型、配对编号和来源。引用论文中的具体图表时，写清那张图表支持哪一句说明。</p>
+</article><nav aria-label="底部章节导航" class="lesson-pagination"><a href="../../../programs/member-training/lessons/04-experiments.html"><span>← 上一节</span><b>实验比较与短报告</b></a><a href="../../../programs/member-training/lessons/06-reconstruction.html"><span>下一节 →</span><b>图像翻译与结果展示</b></a></nav></div></div></main><div id="site-footer"></div></body></html>

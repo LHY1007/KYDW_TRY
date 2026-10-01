@@ -107,7 +107,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <p>研究问题决定输出形式。窗口分类适合快速建立基线，序列标注为每个时刻分配状态，动作检测同时预测类别和起止时间，连续回归则估计速度、关节角度或能量消耗。评价指标应与输出形式一致。</p>
 <div class="grid3"><div class="card"><strong>信号</strong>加速度和角速度随时间变化。</div><div class="card"><strong>语义</strong>一段时间内的主活动或活动转换。</div><div class="card"><strong>应用</strong>监测、康复、交互和运动分析。</div></div>
 </section><section class="lesson" id="s2"><h2>2. 惯性传感器与坐标系</h2>
-<p>加速度计测量三个方向上的比力，读数通常同时包含身体运动和重力投影；陀螺仪测量绕三个轴的角速度，更直接地反映旋转。两类信号一起使用时，可以同时观察平移、姿态和旋转变化。</p>
+<p>加速度计测量三个方向上的比力，即传感器受到的非重力作用力除以质量。传感器静放在桌面上时仍有约 1 g 的读数，自由下落时理想读数接近零；身体佩戴时，读数随运动和姿态变化。陀螺仪测量绕三个轴的角速度，更直接地反映旋转。两类信号一起使用时，可以同时观察平移、姿态和旋转变化。</p>
 <p>传感器坐标轴随设备转动，身体坐标系则与躯干、上肢和下肢方向有关。同一个人把设备旋转后，三个轴的波形会重新分配，活动本身却没有改变。重力方向可以帮助估计姿态，但快速运动、震动和传感器噪声会让姿态分离变得困难。</p>
 <p>校准、坐标变换和佩戴位置记录决定了波形能否比较。常见处理包括去除静态偏置、估计重力分量、把设备坐标转换到身体坐标，以及保留位置、轴和传感器类型的字段。</p>
 <p>多传感器融合可以在原始通道、特征或决策层完成。融合前需要检查时间同步和单位，融合后仍要保留每个位置、轴和传感器类型的可追溯名称，避免把方向变化误当成活动变化。</p>
@@ -169,7 +169,7 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 </section><section class="lesson" id="s7"><h2>7. 评价指标与部署边界</h2>
 <p>四分类结果不能只看总体准确率。Precision 关注预测为某类的窗口中有多少确实属于该类，Recall 关注真实某类的窗口中有多少被找回，Macro-F1 让每一类权重相同，Balanced Accuracy 是各类召回率的平均。</p>
 <p>混淆矩阵可以与活动语义结合阅读。站立和坐可能共享姿态信号，行走包含周期变化，少数类的支持数会影响指标不确定性。错误窗口、标签纯度和每类支持数应与总体分数一起保存。</p>
-<p>连续监测还需要考虑报警阈值、连续窗口平滑、设备断连和错误代价。离线窗口预测不等于临床运动评估或安全事件判断，部署前需要跨人群验证、人工复核和明确的风险控制。</p>
+<p>连续监测还需要评价报警阈值、连续窗口平滑、设备断连和错误代价。用于运动评估或事件报警时，应在目标人群和实际佩戴条件下记录检测延迟、误报和漏报。</p>
 <p>每类指标都应给出支持数和不确定性。宏平均指标可以避免多数类主导，但在少数类样本很少时仍会波动；概率阈值、校准曲线和连续事件级评价可以补充窗口级混淆矩阵。</p>
 <p>实际系统还可以报告事件级召回、检测延迟、每小时误报数和断连恢复时间。安全或医疗场景需要预先规定可接受的错误代价，模型阈值和人工复核流程应在部署前固定并记录。</p>
 <p>活动识别的前沿方向包括跨设备自适应、少样本学习、联邦训练和隐私保护。它们改变了数据收集和模型更新方式，也带来新的评估要求，例如不同设备的校准一致性、受试者隐私和持续漂移监测。</p>
@@ -180,14 +180,14 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 <p>可穿戴数据能够暴露作息、位置和健康状态。数据最小化、本地推理、加密传输、访问控制和删除期限属于系统设计的一部分。联邦学习可以减少原始数据集中传输，也需要评估设备差异、通信开销和成员推断等风险。</p>
 <div class="lab"><div class="lab-head">分类阈值和错误代价</div><div class="controls"><label for="harThreshold07">少数类召回权重：<span id="harThreshold07Value">1.0</span></label><input id="harThreshold07" type="range" min="5" max="20" value="10" step="1"></div><div class="output" id="harThreshold07Output"></div></div>
 </section><section class="lesson" id="s8"><h2>8. Opportunity 数据与预处理</h2>
-<div class="lecture-open">Opportunity 原始记录包含约 210,029 行和 251 列，主标签列为 <code>Locomotion</code>，时间列为 <code>MILLISEC</code>。当前材料固定使用五个身体位置的 30 个 IMU 通道和四类活动标签。</div>
-<p>源码审计得到核心时间间隔中位数约 33 ms，采样率约 30.303 Hz。窗口包含 90 个时间点、持续约 2.97 秒，步长为 45 个点，数组形状写作 <code>[窗口数, 90, 30]</code>。</p>
+<div class="lecture-open">Opportunity 原始记录包含约 210,029 行和 251 列，主标签列为 <code>Locomotion</code>，时间列为 <code>MILLISEC</code>。当前材料使用五个身体位置的惯性测量单元（IMU），共 30 个通道和四类活动标签。每个位置包含 accX、accY、accZ 三轴加速度与 gyroX、gyroY、gyroZ 三轴角速度；数据字段依次以 BACK、RUA、RLA、LUA、LLA 标识背部、右上臂、右下臂、左上臂和左下臂。</div>
+<p>根据时间戳计算，相邻采样点的时间间隔中位数约为 33 ms，对应采样率约 30.303 Hz。窗口包含 90 个时间点、持续约 2.97 秒，步长为 45 个点，数组形状写作 <code>[窗口数, 90, 30]</code>。</p>
 <p>清洗过程根据时间戳回退、重复和大跳跃识别采集运行和不可跨越的 <code>recording_id</code>，插值只在同一记录段内进行。全通道缺失的 849 行按配置删除，窗口标签要求多数标签纯度至少为 0.80。</p>
 <figure class="figure wide"><img loading="lazy" src="../assets/results/project-08/task1_sensor_windows.png" alt="四类活动的传感器窗口"><figcaption>参考结果使用同一时间轴显示四类活动的背部加速度和角速度。单个轴的波形需要与其他轴和其他身体位置一起阅读。</figcaption></figure>
 </section><section class="lesson" id="s9"><h2>9. 基线模型与保存结果</h2>
-<p>当前数据共有 7 个父采集运行和 89 个不可跨越的 <code>recording_id</code>。正式划分按 <code>source_run_id</code> 进行，训练、验证和测试集合分别包含 1,952、556 和 491 个窗口，三个集合的运行标识没有交集。</p>
-<p>基线为每通道计算 14 个统计特征，得到 420 维输入，再使用训练集标准化和 <code>class_weight='balanced'</code> 的逻辑回归，在验证集比较 <code>C=0.1、1、10</code>。配套源码还训练隐藏维度 64、dropout 0.2 的小型 LSTM。</p>
-<p>统计特征基线测试 Macro-F1 为 0.9702、Accuracy 为 0.9674；小型 LSTM 测试 Macro-F1 为 0.9086、Accuracy 为 0.9145。指标只描述当前分组和配置，不能替代跨人群验证。</p>
+<p>当前数据包含 7 个采集运行，以 <code>source_run_id</code> 标识。每个运行可进一步分成多个连续记录段，全包共 89 段，以 <code>recording_id</code> 标识。插值和切窗各自在同一记录段内完成；训练、验证和测试则按采集运行 <code>source_run_id</code> 划分，训练、验证和测试集合分别包含 1,952、556 和 491 个窗口，三个集合的运行标识没有交集。</p>
+<p>基线为每通道计算 14 个统计特征，得到 420 维输入，再使用训练集标准化和 <code>class_weight='balanced'</code> 的逻辑回归，在验证集比较 <code>C=0.1、1、10</code>。C 是逻辑回归正则化强度的倒数：C 越小，对模型参数的约束越强。用验证集选择 C 后，再用固定模型评价测试集。配套源码还训练隐藏维度 64、dropout 0.2 的小型 LSTM。</p>
+<p>统计特征基线测试 Macro-F1 为 0.9702、Accuracy 为 0.9674；小型 LSTM 测试 Macro-F1 为 0.9086、Accuracy 为 0.9145。这些指标来自按采集运行划分的测试集；评价新受试者的表现时，需按受试者编号留出独立测试组。</p>
 <figure class="figure"><img loading="lazy" src="../assets/results/project-08/task4_confusion_matrix.png" alt="四分类测试混淆矩阵"><figcaption>测试集按采集运行分组后得到的混淆矩阵。矩阵需要结合每类窗口数量和窗口纯度一起阅读。</figcaption></figure>
 <figure class="figure wide"><img loading="lazy" src="../assets/results/project-08/task5_error_windows.png" alt="测试错误窗口"><figcaption>错误窗口的代表波形。波形相似、标签纯度较低或活动正在转换时，更容易出现混淆。</figcaption></figure>
 <div class="lab"><div class="lab-head">模型容量与结果阅读</div><div class="controls"><label for="harModel07">模型：</label><select id="harModel07"><option value="baseline">统计特征逻辑回归</option><option value="lstm">小型 LSTM</option><option value="random">随机窗口反例</option></select></div><div class="output" id="harModel07Output"></div></div>
@@ -197,8 +197,8 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
   <div class="lecture-open">实践使用 Opportunity 数据集中整理的真实 90×30 窗口，完成波形和类别核对、采集运行分组检查、时域特征、逻辑回归、测试评价、错误窗口和 LSTM 对照。</div>
   <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的图像、流程图和示意结果用于阅读概念；代码运行、训练时间和个人结果请在 Kaggle Notebook 中完成。打开题目 Notebook 后复制到自己的账户，再按单元格填写和运行。</div>
   <div class="project-list"><div><strong>任务 1</strong><br>输出训练、验证和测试的窗口数与四类计数，绘制四类代表波形。</div><div><strong>任务 2</strong><br>检查三个集合的 source_run_id 交集，并实现每通道统计特征。</div><div><strong>任务 3</strong><br>只用训练集拟合标准化和逻辑回归，在验证集比较 C=0.1、1、10。</div><div><strong>任务 4</strong><br>固定模型后评价测试集，输出 Accuracy、Macro-F1 和混淆矩阵。</div><div><strong>任务 5</strong><br>绘制错误窗口，保存结果摘要，并与源码包 LSTM 的 Macro-F1 对照。</div></div>
-  <p>本页图像展示真实窗口、混淆矩阵和错误窗口。运行时先检查数组形状与采集运行分组，再进入模型训练。</p>
-  <p>每项任务都应保存输入核对、核心计算、结果图和边界说明；完成后再打开实践参考答案核对实现与解释。</p>
+  <p>本页图像展示真实窗口、混淆矩阵和错误窗口。运行时先检查数组形状与采集运行分组，再训练模型。</p>
+  <p>保存各集合的采集运行编号、特征计算、分类指标和错误窗口，记录窗口长度、步长及活动标签规则。这里按采集运行划分；评价不同受试者之间的表现需要另有受试者编号。完成后打开实践参考答案核对实现与解释。</p>
   <p class="files">材料入口：<a href="../practice/project-08.ipynb">打开实践项目</a>　<a href="../answers/project-08.ipynb">查看实践参考答案</a></p>
 </section><section class="lesson" id="sources"><h2>资料来源与延伸阅读</h2><p class="lecture-open">下列资料用于核对数据对象、方法名称和研究背景。本页图像、指标与实践参考答案使用同一数据范围。</p><ul><li>SmartHAR-OPP 源码包 README、STATUS 和 <code>src/features.py</code>、<code>src/train.py</code>。</li><li><a href="https://archive.ics.uci.edu/dataset/226/opportunity+activity+recognition">UCI / Opportunity Activity Recognition</a> 数据说明。</li><li><a href="https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression">scikit-learn LogisticRegression 文档</a>。</li><li><a href="https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html">PyTorch LSTM 文档</a>。</li></ul><p class="static-note">阅读论文或官方文档时，优先关注数据单位、评价对象和结果边界，再把相同概念放回当前项目的数据表和图像中。</p></section>
 </div></main></div>

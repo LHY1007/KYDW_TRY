@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" role="img" aria-labelledby="title desc">
+<title id="title">图像文件读入并转换为 PyTorch 张量</title>
+<desc id="desc">示意流程：JPEG 或 PNG 文件经解码成为高度、宽度、颜色通道排列的像素数组；除以 255 后改变数值范围，再调整轴顺序供 PyTorch 模型使用。</desc>
+<rect width="960" height="330" rx="24" fill="#f4f8fb"/>
+<text x="34" y="52" fill="#173344" font-family="Microsoft YaHei, sans-serif" font-size="27" font-weight="700">文件、像素和张量是三个不同状态</text>
+<g font-family="Microsoft YaHei, sans-serif" text-anchor="middle">
+<rect x="35" y="96" width="180" height="148" rx="15" fill="#fff" stroke="#c6d9e3" stroke-width="2"/>
+<text x="125" y="151" fill="#173344" font-size="25" font-weight="700">照片文件</text><text x="125" y="190" fill="#526979" font-size="17">JPEG / PNG</text>
+<rect x="273" y="96" width="180" height="148" rx="15" fill="#fff" stroke="#c6d9e3" stroke-width="2"/>
+<text x="363" y="151" fill="#173344" font-size="25" font-weight="700">像素数组</text><text x="363" y="190" fill="#526979" font-size="17">[高, 宽, 3]</text>
+<rect x="511" y="96" width="180" height="148" rx="15" fill="#fff" stroke="#c6d9e3" stroke-width="2"/>
+<text x="601" y="151" fill="#173344" font-size="25" font-weight="700">数值转换</text><text x="601" y="190" fill="#526979" font-size="17">0–255 → 0–1</text>
+<rect x="749" y="96" width="180" height="148" rx="15" fill="#e2f3ef" stroke="#98cabd" stroke-width="2"/>
+<text x="839" y="151" fill="#173344" font-size="25" font-weight="700">模型输入</text><text x="839" y="190" fill="#526979" font-size="17">[3, 高, 宽]</text>
+</g>
+<g stroke="#67988d" stroke-width="3" fill="#67988d"><path d="M223 170h36"/><path d="m259 170-10-7v14z"/><path d="M461 170h36"/><path d="m497 170-10-7v14z"/><path d="M699 170h36"/><path d="m735 170-10-7v14z"/></g>
+<g fill="#526979" font-family="Microsoft YaHei, sans-serif" font-size="16" text-anchor="middle"><text x="241" y="278">解码</text><text x="479" y="278">检查类型和值域</text><text x="717" y="278">调整轴顺序</text></g>
+</svg>

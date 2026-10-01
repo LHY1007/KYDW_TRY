@@ -85,36 +85,36 @@ body{background:#edf3f6;color:var(--ink);font-family:"Microsoft YaHei","Noto San
 @media(max-width:850px){.topbar{padding:0 10px}.topbar>div:first-child{min-width:0;display:flex;align-items:center;flex:1}.topbar .mobile-menu{font-size:11px;padding:4px 5px;min-width:30px;width:auto;white-space:nowrap}.topbar .brand{font-size:12px;white-space:nowrap}.topbar .edition{display:none}.topbar>div.tools{gap:3px;display:flex;align-items:center}.topbar>div.tools button{font-size:11px;padding:5px 4px;margin-left:0;white-space:nowrap}.topbar .site-return{font-size:11px;padding:7px 7px;margin-left:3px}}
 @media(max-width:700px){.site-return{font-size:11px;padding:5px 8px;margin-left:6px}.topbar .tools{gap:4px}.topbar .site-return{order:5}}
 </style><link href="../../favicon.svg" rel="icon" type="image/svg+xml"/><link rel="stylesheet" href="../../styles.css?v=review-20260922"><link rel="stylesheet" href="../reader.css?v=review-20260922">
-<meta name="description" content="人体生理信号以时间序列记录器官活动。ECG 把体表导联中的心脏电活动记录下来，R 峰、采样时间、滤波和人工标注共同构成一次可核对的信号分析。">
+<meta name="description" content="人体生理信号以时间序列记录器官活动。心电图（ECG）把体表导联中的心脏电活动记录下来，R 峰、采样时间、滤波和人工标注共同构成一次可核对的信号分析。">
 <link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/experience/teaching/project-10.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="人体生理信号分析：ECG｜KYDW">
-<meta property="og:description" content="人体生理信号以时间序列记录器官活动。ECG 把体表导联中的心脏电活动记录下来，R 峰、采样时间、滤波和人工标注共同构成一次可核对的信号分析。">
+<meta property="og:description" content="人体生理信号以时间序列记录器官活动。心电图（ECG）把体表导联中的心脏电活动记录下来，R 峰、采样时间、滤波和人工标注共同构成一次可核对的信号分析。">
 <meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/experience/teaching/project-10.html">
 <meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
 </head>
 <body data-course-reader="true"><header class="topbar"><div><button class="mobile-menu tools" id="menuBtn">目录</button><span class="brand">KYDW 科研体验</span><span class="edition">项目 09</span></div><div class="tools"><button id="fontMinus">字号 −</button><button id="fontPlus">字号 +</button><button id="widthBtn">宽阅读</button><button id="themeBtn">明暗</button><a class="site-return" href="../project-10.html">返回项目详情</a></div></header>
-<div class="layout"><aside class="sidebar"><div class="side-title">本章目录</div><a href="#s1">1. 生理信号与时间序列</a><a href="#s2">2. ECG 导联与波形对象</a><a href="#s3">3. 采样率、时间轴与数据层级</a><a href="#s4">4. 噪声、质量与滤波</a><a href="#s5">5. R 峰检测方法</a><a href="#s6">6. 标注匹配与评价指标</a><a href="#s7">7. RR 间期与下游分析</a><a href="#s8">8. 验证设计与临床边界</a><a href="#s9">9. MIT-BIH 跨记录结果</a><a href="#s10">10. 实践项目：ECG R 峰检测</a><a href="#sources">资料来源与延伸阅读</a></aside><main class="main"><div class="reader">
-<section class="hero"><div class="eyebrow">本科生科研入门体验项目 · 项目 09</div><h1>人体生理信号分析：ECG</h1><p>人体生理信号以时间序列记录器官活动。ECG 把体表导联中的心脏电活动记录下来，R 峰、采样时间、滤波和人工标注共同构成一次可核对的信号分析。</p><div class="hero-tags"><span>生理信号</span><span>ECG</span><span>R 峰检测</span><span>结果评价</span></div></section>
+<div class="layout"><aside class="sidebar"><div class="side-title">本章目录</div><a href="#s1">1. 生理信号与时间序列</a><a href="#s2">2. ECG 导联与波形对象</a><a href="#s3">3. 采样率、时间轴与数据层级</a><a href="#s4">4. 噪声、质量与滤波</a><a href="#s5">5. R 峰检测方法</a><a href="#s6">6. 标注匹配与评价指标</a><a href="#s7">7. RR 间期与下游分析</a><a href="#s8">8. 验证设计与临床评价</a><a href="#s9">9. MIT-BIH 跨记录结果</a><a href="#s10">10. 实践项目：ECG R 峰检测</a><a href="#sources">资料来源与延伸阅读</a></aside><main class="main"><div class="reader">
+<section class="hero"><div class="eyebrow">本科生科研入门体验项目 · 项目 09</div><h1>人体生理信号分析：ECG</h1><p>人体生理信号以时间序列记录器官活动。心电图（ECG）把体表导联中的心脏电活动记录下来，R 峰、采样时间、滤波和人工标注共同构成一次可核对的信号分析。</p><div class="hero-tags"><span>生理信号</span><span>ECG</span><span>R 峰检测</span><span>结果评价</span></div></section>
 <section class="lesson" id="s1"><h2>1. 生理信号与时间序列</h2>
 <div class="lecture-open">生理信号是随时间变化、由传感器或电极记录的身体活动。分析前先明确测量对象、通道、采样率和时间单位，波形才有可复查的含义。</div>
-<p>ECG 记录心脏电活动在体表导联方向上的综合变化；EEG 记录头皮电位差；EMG 记录肌肉电活动；PPG 通过光学方式记录血容量变化。它们都可以写成“时间点 × 通道”的数组，峰值和频段的解释取决于测量方式。</p>
+<p>心电图（ECG）记录心脏电活动在体表导联方向上的综合变化；脑电图（EEG）记录头皮电位差；肌电图（EMG）记录肌肉电活动；光电容积脉搏波（PPG）通过光学方式记录血容量变化。它们都可以写成“时间点 × 通道”的数组，峰值和频段的解释取决于测量方式。</p>
 <p>连续信号中的一个样本只对应某一时刻。记录对象除了数值数组，还包括采样率、通道名称、记录编号、传感器条件和人工标注；缺少这些字段，索引就无法可靠地转换成时间或事件。</p>
 <p>生理信号同时包含目标活动、测量噪声、运动伪影和设备状态变化。峰值算法回答的是当前记录中检测到了哪些事件，疾病判断还需要患者背景、其他导联、独立验证和专业判断。</p>
 <table class="mini-table"><thead><tr><th>信号</th><th>主要测量方式</th><th>常见观察对象</th></tr></thead><tbody><tr><td>ECG</td><td>体表电极与导联</td><td>波形、R 峰、RR 间期</td></tr><tr><td>EEG</td><td>头皮电极</td><td>节律、频段、事件变化</td></tr><tr><td>EMG</td><td>肌电电极</td><td>收缩区间、振幅、疲劳</td></tr><tr><td>PPG</td><td>光学传感器</td><td>脉搏波、血容量变化</td></tr></tbody></table>
-<div class="flow"><div>电极或传感器</div><i>→</i><div>连续采样</div><i>→</i><div>波形与通道</div><i>→</i><div>事件标注</div><i>→</i><div>指标与边界</div></div>
+<div class="flow"><div>电极或传感器</div><i>→</i><div>连续采样</div><i>→</i><div>波形与通道</div><i>→</i><div>事件标注</div><i>→</i><div>指标与错误分析</div></div>
 <div class="lab"><div class="lab-head">信号类型与常见观察对象</div><div class="controls"><label for="ecgSignal09">选择信号：</label><select id="ecgSignal09"><option value="ecg">ECG</option><option value="eeg">EEG</option><option value="emg">EMG</option><option value="ppg">PPG</option></select></div><div class="output" id="ecgSignal09Output"></div></div>
 </section><section class="lesson" id="s2"><h2>2. ECG 导联与波形对象</h2>
 <div class="lecture-open">ECG 的导联由电极位置和电位差方向共同决定。同一心脏活动在不同导联上会呈现不同振幅、极性和清晰度，导联名称必须和波形一起保存。</div>
 <p>一次心搏的典型形态包括 P 波、QRS 波群和 T 波。P 波与心房去极化相关，QRS 波群反映心室去极化，T 波与心室复极化相关；个体解剖、心率、噪声和滤波会改变它们的外观。</p>
 <p>R 峰通常是 QRS 波群中较突出的局部峰，适合用作心搏时间标记。R 峰是一个定位点，不等于整段 QRS 的起止或全部形态；研究 ST 段、T 波或波群边界时需要额外规则和标注。</p>
 <table class="mini-table"><thead><tr><th>波形对象</th><th>常见含义</th><th>阅读重点</th></tr></thead><tbody><tr><td>P 波</td><td>心房电活动的可见变化</td><td>一个心搏由多个波段组成</td></tr><tr><td>QRS 波群</td><td>心室去极化相关的快速变化</td><td>R 峰是定位候选</td></tr><tr><td>T 波</td><td>心室复极化相关波段</td><td>观察滤波是否改变形态</td></tr><tr><td>RR 间期</td><td>相邻 R 峰的时间差</td><td>计算心率和节律变化</td></tr></tbody></table>
-<figure class="figure wide"><img loading="lazy" src="../assets/results/project-10/future09_summary.png" alt="MIT-BIH ECG 原始波形、滤波峰值和 RR 间期结果"><figcaption>真实 MIT-BIH record 100 的三层结果：原始 MLII 波形、滤波后的检测峰与人工标注、检测 RR 间期分布。图中三个视图对应本页的波形、事件和间期对象。</figcaption></figure>
+<figure class="figure wide"><img loading="lazy" src="../assets/results/project-10/future09_summary.png" alt="MIT-BIH ECG 原始波形、滤波峰值和 RR 间期结果"><figcaption>MIT-BIH 心律失常数据库中编号为 100 的记录（record 100）的三层结果：原始 MLII 波形、滤波后的检测峰与人工标注、检测 RR 间期分布。图中三个视图对应本页的波形、事件和间期对象。</figcaption></figure>
 <div class="lab"><div class="lab-head">导联与波形解释</div><div class="controls"><label for="ecgLead09">当前解释对象：</label><select id="ecgLead09"><option value="mlii">MLII 导联</option><option value="other">其他导联</option><option value="multi">多导联比较</option></select></div><div class="output" id="ecgLead09Output"></div></div>
 </section><section class="lesson" id="s3"><h2>3. 采样率、时间轴与数据层级</h2>
 <div class="lecture-open">采样率把离散样本索引转换为时间，shape、记录编号、导联名称和标注字段共同描述数据来源。读取数据时要把这些信息放在一起核对。</div>
 <p>采样率 360 Hz 表示每秒采集 360 个点。从零开始计数时，第 <code>i</code> 个样本的时间为 <code>i / fs</code> 秒；绘图需要使用与数组长度一致的时间轴，并确认标注索引的起点。</p>
-<p>本地数据包含 MIT-BIH record 100 前 5 分钟的两个导联，信号数组为 <code>[108000, 2]</code>。原始标注表有 372 条事件，按心搏符号筛选后得到 371 个心搏标注；两者差异来自节律或其他非心搏事件。</p>
+<p>配套数据包含 MIT-BIH 数据库中编号为 100 的记录前 5 分钟的两个导联，信号数组为 <code>[108000, 2]</code>。原始标注表有 372 条事件，按心搏符号筛选后得到 371 个心搏标注；两者差异来自节律或其他非心搏事件。</p>
 <table class="mini-table"><thead><tr><th>对象</th><th>当前值</th><th>阅读含义</th></tr></thead><tbody><tr><td><code>signal</code></td><td><code>[108000, 2]</code></td><td>前 5 分钟的两个 ECG 导联</td></tr><tr><td><code>fs</code></td><td>360 Hz</td><td>每秒 360 个采样点</td></tr><tr><td><code>ann_sample</code></td><td>372 条事件</td><td>筛选心搏后为 371 个</td></tr><tr><td>实践导联</td><td>MLII</td><td>本次 R 峰检测使用的导联</td></tr></tbody></table>
 <div class="code">time = np.arange(signal.shape[0]) / fs
 lead_mlii = signal[:, lead_index]
@@ -129,8 +129,8 @@ beat_time = ann_sample / fs</div>
 <div class="lab"><div class="lab-head">滤波目的与保留信息</div><div class="controls"><label for="ecgFilter09">选择目的：</label><select id="ecgFilter09"><option value="peak">R 峰检测</option><option value="morphology">波形形态阅读</option><option value="quality">信号质量检查</option></select></div><div class="output" id="ecgFilter09Output"></div></div>
 </section><section class="lesson" id="s5"><h2>5. R 峰检测方法</h2>
 <div class="lecture-open">R 峰检测把连续波形转换为事件位置。阈值、峰间最小距离、峰突出度和局部形态共同决定候选峰，参数需要和采样率、滤波及记录质量一起解释。</div>
-<p>透明的基线方法是在滤波波形上寻找局部最大值，再用幅度阈值和最小峰间距离去除小波动。<code>find_peaks</code> 的 <code>distance</code> 限制相邻候选峰的最小样本间隔，<code>prominence</code> 描述峰相对周围基线的突出程度。</p>
-<p>Pan–Tompkins 类方法通过带通、微分、平方和移动窗口积分突出 QRS 能量；小波方法利用多时间尺度；深度学习方法从多记录标注中学习波形和上下文。数据量越小，越需要优先使用透明规则并检查错误片段。</p>
+<p>一种基础方法是在滤波波形上寻找局部最大值，再用幅度阈值和最小峰间距离去除小波动。<code>find_peaks</code> 的 <code>distance</code> 限制相邻候选峰的最小样本间隔，<code>prominence</code> 描述峰相对周围基线的突出程度。</p>
+<p>Pan–Tompkins 类方法通过带通、微分、平方和移动窗口积分突出 QRS 能量；小波方法利用多时间尺度；深度学习方法从多记录标注中学习波形和上下文。数据量越小，越适合先使用可逐步检查的峰值规则，并查看错误片段。</p>
 <p>候选峰检测和波形定位可以分成两步：先获得较高召回率的候选，再用时间、幅度、形态或节律规则筛选。降低阈值可能减少漏检，也可能增加噪声误检，需要同时看灵敏度、阳性预测值和时间误差。</p>
 <table class="mini-table"><thead><tr><th>方法路线</th><th>主要输入</th><th>优点</th><th>补充验证</th></tr></thead><tbody><tr><td>局部峰与固定阈值</td><td>滤波波形、幅度、峰间距离</td><td>透明、容易定位错误</td><td>低幅度心搏和噪声记录</td></tr><tr><td>Pan–Tompkins 类</td><td>滤波、微分、平方、积分</td><td>利用 QRS 能量</td><td>采样率、节律和参数变化</td></tr><tr><td>小波方法</td><td>多尺度系数与局部峰</td><td>兼顾时间和频率</td><td>小波基与跨数据库稳定性</td></tr><tr><td>深度学习方法</td><td>多记录波形与标注</td><td>学习上下文和复杂形态</td><td>患者级划分与独立测试</td></tr></tbody></table>
 <div class="flow"><div>原始 ECG</div><i>→</i><div>任务滤波</div><i>→</i><div>候选峰</div><i>→</i><div>时间与形态约束</div><i>→</i><div>R 峰序列</div></div>
@@ -138,9 +138,9 @@ beat_time = ann_sample / fs</div>
 </section><section class="lesson" id="s6"><h2>6. 标注匹配与评价指标</h2>
 <div class="lecture-open">检测峰和人工标注可能相差几个采样点，因此要预先规定时间容差，并让每个标注和检测峰只参与一次匹配。</div>
 <p>在尚未使用的检测峰中寻找容差内候选，并选择时间差最小者。成功配对为 TP，未匹配的人工标注为 FN，未匹配的检测峰为 FP；一对一规则可以避免一次检测被重复计数。</p>
-<p>灵敏度为 <code>TP / (TP + FN)</code>，表示人工标注心搏中被找到的比例；阳性预测值为 <code>TP / (TP + FP)</code>，表示检测峰中与标注配对的比例。比较方法时还要报告时间误差、错误片段和逐记录结果。</p>
+<p>灵敏度（sensitivity，也称召回率）为 <code>TP / (TP + FN)</code>，表示人工标注心搏中被找到的比例；阳性预测值（positive predictive value，PPV，也称精确率）为 <code>TP / (TP + FP)</code>，表示检测峰中与标注配对的比例。F1 为二者的调和平均，可写成 <code>2TP / (2TP + FP + FN)</code>，同时反映漏检与误检。比较方法时还要报告时间误差、错误片段和逐记录结果。</p>
 <p>本练习使用 0.1 秒容差；在 360 Hz 下约等于 36 个采样点。容差变大可能增加配对数，也会放宽定位误差，因此采样率、标注精度和任务目标要共同决定这个参数。</p>
-<figure class="figure"><div class="flow"><div>人工标注<br><code>100, 200</code></div><i>⇄</i><div>容差窗口<br><code>±10 点</code></div><i>⇄</i><div>检测峰<br><code>95, 205, 500</code></div><i>→</i><div>TP 2 · FP 1 · FN 0</div></div><figcaption>一对一匹配的示意例子；数字不是 record 100 的保存结果。</figcaption></figure>
+<figure class="figure"><div class="flow"><div>人工标注<br><code>100, 200</code></div><i>⇄</i><div>容差窗口<br><code>±10 点</code></div><i>⇄</i><div>检测峰<br><code>95, 205, 500</code></div><i>→</i><div>TP 2 · FP 1 · FN 0</div></div><figcaption>用于说明一对一匹配的假设例子，标注和检测位置均以采样点编号表示。</figcaption></figure>
 <table class="mini-table"><thead><tr><th>对象</th><th>定义</th><th>阅读方式</th></tr></thead><tbody><tr><td>TP</td><td>容差内成功配对</td><td>检测到的真实心搏</td></tr><tr><td>FN</td><td>没有检测峰匹配的标注</td><td>漏检，查看低幅度或噪声片段</td></tr><tr><td>FP</td><td>没有标注匹配的检测峰</td><td>误检，查看噪声或异常波形</td></tr><tr><td>时间误差</td><td>匹配峰与标注之间的采样点差</td><td>评价定位稳定性</td></tr></tbody></table>
 <div class="lab"><div class="lab-head">检测容差的影响</div><div class="controls"><label for="ecgTolerance09">容差：<span id="ecgTolerance09Value">0.10</span> 秒</label><input id="ecgTolerance09" type="range" min="0.03" max="0.20" value="0.10" step="0.01"></div><div class="output" id="ecgTolerance09Output"></div></div>
 </section><section class="lesson" id="s7"><h2>7. RR 间期与下游分析</h2>
@@ -150,28 +150,28 @@ beat_time = ann_sample / fs</div>
 <p>R 峰还可以作为心搏切片的时间基准，用于比较不同标注类型的波形。下游统计会继承上游峰序列的错误，因此先抽查峰位置和错误片段，再计算 RR 分布。</p>
 <table class="mini-table"><thead><tr><th>下游对象</th><th>计算基础</th><th>解释时需要注意</th></tr></thead><tbody><tr><td>平均心率</td><td><code>60 / mean(RR)</code></td><td>受漏检、误检和记录时长影响</td></tr><tr><td>SDNN</td><td>RR 间期的标准差</td><td>明确记录长度和伪影处理</td></tr><tr><td>RMSSD</td><td>相邻 RR 差值的均方根</td><td>对异常峰和短时记录敏感</td></tr><tr><td>心搏切片</td><td>以 R 峰为中心截取窗口</td><td>窗口位置不等于完整波形标注</td></tr></tbody></table>
 <div class="lab"><div class="lab-head">RR 间期转换</div><div class="controls"><label for="ecgRR09">示意 RR：<span id="ecgRR09Value">0.80</span> 秒</label><input id="ecgRR09" type="range" min="0.40" max="1.40" value="0.80" step="0.05"></div><div class="output" id="ecgRR09Output"></div></div>
-</section><section class="lesson" id="s8"><h2>8. 验证设计与临床边界</h2>
+</section><section class="lesson" id="s8"><h2>8. 验证设计与临床评价</h2>
 <div class="lecture-open">一个记录上的高分只描述该记录、导联、滤波设置和标注规则。面对新的患者、节律、设备和噪声条件，需要记录级或患者级的独立验证。</div>
 <p>随机打散窗口会让同一患者或同一采集运行的相似波形同时进入训练和测试，结果可能高估泛化。按 record、采集会话或患者划分，能更接近实际使用场景。</p>
 <p>验证集用于选择滤波参数、峰间距离、prominence、阈值和后处理规则，测试集在方案固定后使用一次。报告应包含逐记录错误数量、时间偏差、不同心搏类型和噪声条件下的分层结果。</p>
-<p>跨数据库验证可以检查设备、导联、采样率、标注规范和人群变化。R 峰检测可以支持心率、节律和心搏分类研究，不能单独承担心律失常诊断或临床安全性结论。</p>
+<p>跨数据库验证可以检查设备、导联、采样率、标注规范和人群变化。R 峰检测为心率、节律和心搏分类提供时间标记。心律失常研究还需要波形形态、诊断标签和患者资料，并在独立患者上评价。</p>
 <div class="grid3"><div class="card"><strong>记录层证据</strong>每条记录的峰数、匹配数、时间误差和错误片段。</div><div class="card"><strong>患者层证据</strong>按患者汇总，避免大量相关心搏替代独立样本。</div><div class="card"><strong>临床层证据</strong>结合症状、病史、其他导联和专业标准判断。</div></div>
 <table class="mini-table"><thead><tr><th>验证层级</th><th>划分单位</th><th>推荐报告</th></tr></thead><tbody><tr><td>记录内检查</td><td>固定 record 的不同片段</td><td>峰数、匹配数、时间误差和错误片段</td></tr><tr><td>跨记录验证</td><td>record 或采集会话</td><td>逐记录指标和总体汇总</td></tr><tr><td>跨患者验证</td><td>患者级留出</td><td>新患者泛化、节律分层和置信区间</td></tr><tr><td>外部验证</td><td>不同数据库或设备</td><td>导联、采样率、标注和噪声变化</td></tr></tbody></table>
 </section><section class="lesson" id="s9"><h2>9. MIT-BIH 跨记录结果</h2>
 <div class="lecture-open">课程数据包含 7 条独立记录的前 5 分钟。record 100 只用于选择能量阈值和最小峰间距，record 101、103、105、106、108、109 在参数冻结后用于检查新记录上的漏检和误检。</div>
 <p>检测流程对选定导联进行 5—18 Hz 带通滤波，再计算 0.08 秒窗口内的短时能量。能量阈值由 record 100 的分位数确定，测试阶段不根据单条记录重新调参。</p>
-<p>六条冻结测试记录共包含 2161 个标注心搏，检测匹配 2125 个，出现 2 个误检和 36 个漏检。总体 sensitivity 为 0.9833，positive predictive value 为 0.9991，F1 为 0.9911。</p>
-<div class="real-data-note">结果边界：这些数字来自 MIT-BIH 的 7 条记录和固定 5 分钟片段，比单记录自检更能说明规则的可迁移性，仍不代表跨数据库、跨设备或临床部署验证。</div>
+<p>六条冻结测试记录共包含 2161 个标注心搏，检测匹配 2125 个，出现 2 个误检和 36 个漏检。总体灵敏度（sensitivity）为 0.9833，阳性预测值（PPV）为 0.9991，F1 为 0.9911。</p>
+<div class="real-data-note">评价范围：参数在记录 100 上选择，结果来自另外六条记录各自前 5 分钟的冻结测试。跨数据库或设备的评价需使用相应来源的独立记录，并核对导联、采样率和标注规则。</div>
 <figure class="figure wide"><img loading="eager" src="../assets/results/project-10/future09_multirecord_summary.png" alt="MIT-BIH ECG 跨记录 R 峰检测结果"><figcaption>上图比较六条冻结测试记录的 F1；下图展示最低 F1 记录的代表波形、检测峰和人工标注。逐记录差异比单一总体分数更能提示错误来源。</figcaption></figure>
 <div class="flow"><div>record 100<br>参数选择</div><i>→</i><div>固定阈值与峰间距</div><i>→</i><div>六条独立记录</div><i>→</i><div>逐记录 TP / FN / FP</div><i>→</i><div>错误记录分析</div></div>
-<table class="mini-table"><thead><tr><th>评价集合</th><th>记录</th><th>结果</th></tr></thead><tbody><tr><td>开发记录</td><td>100</td><td>选择能量分位数和最小峰间距</td></tr><tr><td>冻结测试</td><td>101、103、105、106、108、109</td><td>sensitivity 0.9833；PPV 0.9991；F1 0.9911</td></tr><tr><td>测试错误</td><td>TP 2125；FP 2；FN 36</td><td>record 106 和 109 的漏检更多</td></tr></tbody></table>
+<table class="mini-table"><thead><tr><th>评价集合</th><th>记录</th><th>结果</th></tr></thead><tbody><tr><td>开发记录</td><td>100</td><td>选择能量分位数和最小峰间距</td></tr><tr><td>冻结测试</td><td>101、103、105、106、108、109</td><td>灵敏度 0.9833；阳性预测值 0.9991；F1 0.9911</td></tr><tr><td>测试错误</td><td>TP 2125；FP 2；FN 36</td><td>record 106 和 109 的漏检更多</td></tr></tbody></table>
 <div class="lab"><div class="lab-head">选择一个结果指标</div><div class="controls"><label for="ecgMetric09">指标：</label><select id="ecgMetric09"><option value="sensitivity">灵敏度</option><option value="ppv">阳性预测值</option><option value="rr">平均 RR 间期</option><option value="boundary">结果边界</option></select></div><div class="output" id="ecgMetric09Output"></div></div>
 </section>
 <section class="lesson project" id="s10">
   <h2>10. 实践项目：人体生理信号分析：ECG</h2>
   <div class="lecture-open">实践使用 MIT-BIH 的 7 条记录，完成数据核对、滤波和短时能量、record 100 参数选择、冻结参数后的跨记录评价以及错误记录分析。</div>
   <div class="simulation-note"><b>模拟运行的注意事项</b><br>页面中的图像、流程图和示意结果用于阅读概念；代码运行和个人结果请在 Notebook 中完成。打开题目 Notebook 后复制到自己的账户，再按单元格填写和运行。</div>
-  <div class="project-list"><div><strong>任务 1</strong><br>核对 7 条记录的导联、采样率、时长和人工标注数。</div><div><strong>任务 2</strong><br>使用 5—18 Hz 带通滤波和 0.08 秒短时能量构造候选信号。</div><div><strong>任务 3</strong><br>只在 record 100 选择能量分位数和最小峰间距。</div><div><strong>任务 4</strong><br>固定参数后评价六条独立记录，保存 sensitivity、PPV、F1、TP、FP 和 FN。</div><div><strong>任务 5</strong><br>查看最低 F1 记录的代表波形，说明漏检与结果边界。</div></div>
+  <div class="project-list"><div><strong>任务 1</strong><br>核对 7 条记录的导联、采样率、时长和人工标注数。</div><div><strong>任务 2</strong><br>使用 5—18 Hz 带通滤波和 0.08 秒短时能量构造候选信号。</div><div><strong>任务 3</strong><br>只在 record 100 选择能量分位数和最小峰间距。</div><div><strong>任务 4</strong><br>固定参数后评价六条独立记录，保存灵敏度（sensitivity）、阳性预测值（PPV）、F1、匹配数 TP、误检数 FP 和漏检数 FN。</div><div><strong>任务 5</strong><br>查看最低 F1 记录的代表波形，描述漏检发生的波形位置、振幅和噪声特点。</div></div>
   <p>先核对输入规模和参数冻结规则，再抽查峰位置、匹配结果和逐记录指标；个人结果与参考值不同，优先检查导联、标注筛选、滤波边界和容差。</p>
   <p class="files">材料入口：<a href="../practice/project-10.ipynb">打开实践项目</a>　<a href="../answers/project-10.ipynb">查看实践参考答案</a></p>
 </section><section class="lesson" id="sources"><h2>资料来源与延伸阅读</h2><p class="lecture-open">下列资料用于核对数据对象、方法名称和研究背景。本页图像、指标与实践参考答案使用同一数据范围。</p><ul><li><a href="https://physionet.org/content/mitdb/1.0.0/" rel="noopener noreferrer" target="_blank">PhysioNet MIT-BIH Arrhythmia Database</a>：记录、采样率和人工标注来源。</li><li><a href="https://pubmed.ncbi.nlm.nih.gov/6378485/" rel="noopener noreferrer" target="_blank">MIT-BIH Arrhythmia Database 论文</a>：数据库和标注背景。</li><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html" rel="noopener noreferrer" target="_blank">SciPy find_peaks</a>：局部峰、峰间距离和 prominence 参数说明。</li><li><a href="https://ieeexplore.ieee.org/document/4122029" rel="noopener noreferrer" target="_blank">PhysioNet/CinC Challenge 2006</a>：心电信号和心搏检测评价背景。</li></ul><p class="static-note">MIT-BIH 数据库说明用于核对导联、采样率和心搏标注；SciPy 文档用于查阅峰值检测的参数与返回结果。</p></section>

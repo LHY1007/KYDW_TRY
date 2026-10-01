@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" role="img" aria-labelledby="title desc">
+<title id="title">ReLU 激活函数保留正值并将负值设为零</title>
+<desc id="desc">同一组权重下，左侧输入产生加权和 0.2，ReLU 输出 0.2；右侧改变一个输入后加权和为负 0.4，ReLU 输出 0。</desc>
+<rect width="960" height="330" rx="24" fill="#f4f8fb"/>
+<text x="34" y="53" fill="#173344" font-family="Microsoft YaHei, sans-serif" font-size="27" font-weight="700">ReLU 对加权和做了什么</text>
+<g font-family="Microsoft YaHei, sans-serif" text-anchor="middle">
+<rect x="35" y="88" width="420" height="181" rx="18" fill="#fff" stroke="#b7d5cf" stroke-width="2"/>
+<text x="245" y="125" fill="#3b806e" font-size="19" font-weight="700">加权和为正</text>
+<text x="245" y="178" fill="#173344" font-size="26">z = 0.2</text><path d="M198 199h94" stroke="#67988d" stroke-width="3"/><path d="m292 199-10-7v14z" fill="#67988d"/>
+<text x="245" y="243" fill="#3b806e" font-size="23" font-weight="700">ReLU(z) = 0.2</text>
+<rect x="505" y="88" width="420" height="181" rx="18" fill="#fff" stroke="#e3c9bc" stroke-width="2"/>
+<text x="715" y="125" fill="#a16445" font-size="19" font-weight="700">加权和为负</text>
+<text x="715" y="178" fill="#173344" font-size="26">z = −0.4</text><path d="M668 199h94" stroke="#c68e70" stroke-width="3"/><path d="m762 199-10-7v14z" fill="#c68e70"/>
+<text x="715" y="243" fill="#a16445" font-size="23" font-weight="700">ReLU(z) = 0</text>
+</g>
+<text x="480" y="305" fill="#526979" font-family="Microsoft YaHei, sans-serif" font-size="18" text-anchor="middle">同一套权重；只改变第二个输入，输出就落在不同一侧</text>
+</svg>

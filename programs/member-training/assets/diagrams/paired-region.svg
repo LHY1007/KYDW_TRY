@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+<title id="title">核对两张配对病理图像的空间位置</title>
+<desc id="desc">左侧 H&amp;E 与右侧 HER2-IHC 的示意组织区域具有相似边缘和空隙。配对编号相同以后，还要对照这些空间结构。</desc>
+<rect width="960" height="350" rx="24" fill="#f4f8fb"/>
+<text x="36" y="51" fill="#173344" font-family="Microsoft YaHei, sans-serif" font-size="27" font-weight="700">同编号的两张图，还要检查空间位置</text>
+<g font-family="Microsoft YaHei, sans-serif" text-anchor="middle" font-size="20" font-weight="700"><text x="245" y="92" fill="#665381">H&amp;E 输入</text><text x="715" y="92" fill="#89663f">HER2-IHC 参考</text></g>
+<rect x="55" y="107" width="380" height="178" rx="13" fill="#f5e6ed" stroke="#decbd9" stroke-width="2"/>
+<rect x="525" y="107" width="380" height="178" rx="13" fill="#eee6d7" stroke="#dcccb1" stroke-width="2"/>
+<path d="M72 240 Q115 148 169 172 T276 148 Q328 127 415 198 L419 260 Q345 268 302 245 T194 261 Q130 273 72 240Z" fill="#bb91b7" opacity=".8"/>
+<path d="M542 240 Q585 148 639 172 T746 148 Q798 127 885 198 L889 260 Q815 268 772 245 T664 261 Q600 273 542 240Z" fill="#bf986d" opacity=".85"/>
+<ellipse cx="227" cy="216" rx="42" ry="24" fill="#fff" opacity=".95"/><ellipse cx="697" cy="216" rx="42" ry="24" fill="#fff" opacity=".95"/>
+<circle cx="121" cy="216" r="8" fill="#554474"/><circle cx="169" cy="194" r="7" fill="#554474"/><circle cx="307" cy="193" r="9" fill="#554474"/>
+<circle cx="591" cy="216" r="8" fill="#806041"/><circle cx="639" cy="194" r="7" fill="#806041"/><circle cx="777" cy="193" r="9" fill="#806041"/>
+<path d="M435 193h75" stroke="#648b85" stroke-width="3"/><path d="m510 193-11-8v16z" fill="#648b85"/>
+<text x="480" y="321" fill="#526979" font-family="Microsoft YaHei, sans-serif" font-size="18" text-anchor="middle">示意：比较组织边缘、空隙与局部结构，再判断这对图能否逐像素比较</text>
+</svg>

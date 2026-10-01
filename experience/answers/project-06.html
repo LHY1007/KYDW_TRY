@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践参考答案 05：空间转录组与表达超分辨率｜KYDW</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>实践项目参考答案 05：空间转录组与表达超分辨率｜KYDW</title>
 <style>
 body{margin:0;background:#f3f6f7;color:#17242b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.75}
 main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margin:.2em 0}h2{font-size:1.3rem}
@@ -7,79 +7,70 @@ main{max-width:1100px;margin:auto;padding:28px 20px 64px}h1{font-size:2rem;margi
 .hero{padding:22px}.note{border-left:4px solid #287d86;background:#edf7f7;padding:12px 14px;border-radius:8px}
 .notebook-cell{overflow:hidden}.notebook-cell-head{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #d9e2e6;background:#edf4f8;color:#5c6f82;font-size:12px}.notebook-markdown{padding:15px 17px}.notebook-markdown h1,.notebook-markdown h2,.notebook-markdown h3{margin-top:5px;color:#173d5b}.notebook-code{margin:0;overflow:auto;background:#17222b;color:#e9f2f5;padding:17px;line-height:1.65;white-space:pre;font:13px/1.65 Consolas,"SFMono-Regular",monospace}.reference-results{padding:20px}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}figure{margin:0}figure img{display:block;width:auto;max-width:100%;max-height:620px;margin:auto;object-fit:contain;border:1px solid #d9e2e6;border-radius:12px}figcaption{font-size:.86rem;color:#58717d;margin-top:6px}@media(max-width:720px){.results{grid-template-columns:1fr}}
 </style>
-<meta name="description" content="下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。">
+<meta name="description" content="参考代码与说明按实践任务排列，可结合图像、指标和输出文件核对自己的实现。">
 <link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/experience/answers/project-06.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="实践参考答案 05：空间转录组与表达超分辨率｜KYDW">
-<meta property="og:description" content="下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。">
+<meta property="og:title" content="实践项目参考答案 05：空间转录组与表达超分辨率｜KYDW">
+<meta property="og:description" content="参考代码与说明按实践任务排列，可结合图像、指标和输出文件核对自己的实现。">
 <meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/experience/answers/project-06.html">
 <meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
 </head><body><main>
-<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践参考答案 05：空间转录组与表达超分辨率</h1><p>下面按实践 Notebook 的顺序列出一份参考填写结果；每个代码单元格前后都保留输入、处理、输出和结果说明。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
-<article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>01</span></div><div class="notebook-markdown"><h1>实践项目 05：空间转录组表达超分辨率</h1>
-<p>本 Notebook 使用课程准备的配对 H&amp;E、LR、HR 和 split 数据。LR 表示 16 μm Snap25 输入，HR 表示 2 μm 参考表达图，模型学习在细网格上估计一个高表达基因的局部表达。</p>
-<p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按单元格顺序运行。下载 Notebook 到电脑运行是补充方式。</p>
-<p>代码单元格保留行末注释，说明每一步的输入、处理和输出；参考实现与实践顺序对应。</p>
-<h2>任务总览</h2>
-<ol>
-<li>核对四个字段的 shape、split 数量和 Snap25 表达范围。</li>
-<li>选择中心区域，查看同一位置的大图、小图、H&amp;E、LR 和 HR。</li>
-<li>补全 H&amp;E 与粗尺度表达联合输入的轻量网络。</li>
-<li>完成 log 空间损失和 8×8 区域总量约束。</li>
-<li>比较模型与插值基线的 MAE、相关性、聚合误差和空间图。</li>
-</ol>
-<h2>需要保存的结果</h2>
-<p><code>task5_data_visualization.png</code>、<code>task5_scale_overview.png</code>、<code>task5_training_curve.png</code>、<code>task5_prediction_visualization.png</code>、<code>task5_result.json</code>。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>02</span></div><pre class="notebook-code"><code>from pathlib import Path  # 导入当前步骤需要的工具
-import json, random  # 导入当前步骤需要的工具
-import numpy as np  # 导入当前步骤需要的工具
-import matplotlib.pyplot as plt  # 导入当前步骤需要的工具
-import torch  # 导入当前步骤需要的工具
-import torch.nn as nn  # 导入当前步骤需要的工具
-from torch.utils.data import Dataset, DataLoader  # 导入当前步骤需要的工具
+<section class="hero"><div>KYDW 本科生科研入门体验项目</div><h1>实践项目参考答案 05：空间转录组与表达超分辨率</h1><p>参考代码与说明按实践任务排列，可结合图像、指标和输出文件核对自己的实现。</p><p class="note">运行后把图像、指标和输出文件与自己的结果放在一起阅读。</p></section>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>01</span></span></div><div class="notebook-markdown"><h3>实践项目 05：空间转录组表达超分辨率</h3><p>本 Notebook 使用课程准备的配对 H&amp;E、LR、HR 和 split 数据。LR 表示 16 μm Snap25 输入，HR 表示 2 μm 参考表达图，模型学习在细网格上估计一个高表达基因的局部表达。</p><p>Kaggle 是本项目的首选实践入口。打开公开 Notebook 后，点击“复制并编辑”保存到自己的账户，再按单元格顺序运行。下载 Notebook 到电脑运行是补充方式。</p><p>代码单元格保留行末注释，说明每一步的输入、处理和输出；参考实现与实践顺序对应。</p><h4>任务总览</h4><p>1. 核对四个字段的 shape、split 数量和 Snap25 表达范围。 2. 选择中心区域，查看同一位置的大图、小图、H&amp;E、LR 和 HR。 3. 实现 H&amp;E 与粗尺度表达联合输入的轻量网络。 4. 完成 log 空间损失和 8×8 区域总量约束。 5. 比较模型与插值基线的 MAE、相关性、聚合误差和空间图。</p><h4>需要保存的结果</h4><p><code>task5_data_visualization.png</code>、<code>task5_scale_overview.png</code>、<code>task5_training_curve.png</code>、<code>task5_prediction_visualization.png</code>、<code>task5_result.json</code>。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>02</span></span></div><pre class="notebook-code"><code>from pathlib import Path  # 用 Path 处理文件和目录路径
+import json, random
+import numpy as np  # 导入数组和数值运算工具
+import matplotlib.pyplot as plt  # 导入绘图工具
+import torch  # 导入张量、模型或数据加载工具
+import torch.nn as nn  # 导入张量、模型或数据加载工具
+from torch.utils.data import Dataset, DataLoader  # 导入张量、模型或数据加载工具
 
 SEED = 42; random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)  # 固定随机状态以便复现实验
-DEVICE = torch.device(&#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;)  # 保存当前步骤使用的中间结果
-OUT = Path(&#x27;/kaggle/working&#x27;); OUT.mkdir(exist_ok=True)  # 保存输出文件目录
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  # 选择可用的计算设备
+OUT = Path('/kaggle/working'); OUT.mkdir(exist_ok=True)  # 保存输出文件目录
 DATA_PATH = None  # 可在本地填写课程 NPZ 路径；Kaggle 自动查找固定文件名
-candidates = sorted(Path(&#x27;/kaggle/input&#x27;).rglob(&#x27;kydw-try-a05-paired-patches.npz&#x27;))  # 读取本任务需要的数据
-if DATA_PATH is None and candidates: DATA_PATH = candidates[0]  # 根据当前条件选择处理分支
-assert DATA_PATH is not None, &#x27;请挂载包含 kydw-try-a05-paired-patches.npz 的课程数据集。&#x27;  # 执行当前步骤并保留结果
-data = np.load(DATA_PATH, allow_pickle=True)  # 读取本任务需要的数据
-required = {&#x27;he&#x27;,&#x27;lr&#x27;,&#x27;hr&#x27;,&#x27;split&#x27;}  # 核对输入字段
-assert required.issubset(data.files), required - set(data.files)  # 执行当前步骤并保留结果
-he = data[&#x27;he&#x27;].astype(np.float32) / 255.0  # 读取 H&amp;E 图像并归一化
-lr = data[&#x27;lr&#x27;].astype(np.float32)  # 读取 16 μm 粗尺度表达总量
-hr = data[&#x27;hr&#x27;].astype(np.float32)  # 读取 2 μm 参考表达图
-split = data[&#x27;split&#x27;].astype(str)  # 读取预先划分的数据集合
-print(&#x27;he/lr/hr:&#x27;, he.shape, lr.shape, hr.shape, &#x27;splits:&#x27;, {k: int((split == k).sum()) for k in np.unique(split)})  # 显示核对结果
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>03</span></div><div class="notebook-markdown"><h2>任务 1：核对输入字段与空间划分</h2>
-<p>H&amp;E、LR 和 HR 覆盖同一空间区域。LR 在每个 8×8 区域内记录粗尺度总量；<code>split</code> 是课程数据预先提供的空间划分。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>04</span></div><pre class="notebook-code"><code>summary = {
-    &#x27;shapes&#x27;: {&#x27;he&#x27;: list(he.shape), &#x27;lr&#x27;: list(lr.shape), &#x27;hr&#x27;: list(hr.shape)},
-    &#x27;split_counts&#x27;: {kind: int((split == kind).sum()) for kind in (&#x27;train&#x27;, &#x27;validation&#x27;, &#x27;test&#x27;)},
-    &#x27;lr_nonzero_ratio&#x27;: float((lr &gt; 0).mean()),
-    &#x27;hr_nonzero_ratio&#x27;: float((hr &gt; 0).mean()),
-    &#x27;lr_max&#x27;: float(lr.max()), &#x27;hr_max&#x27;: float(hr.max()),
+candidates = sorted(Path('/kaggle/input').rglob('kydw-try-a05-paired-patches.npz'))
+if DATA_PATH is None and candidates: DATA_PATH = candidates[0]
+assert DATA_PATH is not None, '请挂载包含 kydw-try-a05-paired-patches.npz 的课程数据集。'  # 核对数据或计算结果是否符合预期条件
+data = np.load(DATA_PATH, allow_pickle=True)
+required = {'he','lr','hr','split'}  # 核对输入字段
+assert required.issubset(data.files), required - set(data.files)  # 核对数据或计算结果是否符合预期条件
+he = data['he'].astype(np.float32) / 255.0  # 读取 H&amp;E 图像并归一化
+lr = data['lr'].astype(np.float32)  # 读取 16 μm 粗尺度表达总量
+hr = data['hr'].astype(np.float32)  # 读取 2 μm 参考表达图
+split = data['split'].astype(str)  # 读取预先划分的数据集合
+print('he/lr/hr:', he.shape, lr.shape, hr.shape, 'splits:', {k: int((split == k).sum()) for k in np.unique(split)})  # 显示核对结果
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>03</span></span></div><div class="notebook-markdown"><h4>任务 1：核对输入字段与空间划分</h4><p>H&amp;E、LR 和 HR 覆盖同一空间区域。LR 在每个 8×8 区域内记录粗尺度总量；<code>split</code> 是课程数据预先提供的空间划分。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>04</span></span></div><pre class="notebook-code"><code>summary = {
+    'shapes': {'he': list(he.shape), 'lr': list(lr.shape), 'hr': list(hr.shape)},
+    'split_counts': {kind: int((split == kind).sum()) for kind in ('train', 'validation', 'test')},
+    'lr_nonzero_ratio': float((lr &gt; 0).mean()),
+    'hr_nonzero_ratio': float((hr &gt; 0).mean()),
+    'lr_max': float(lr.max()), 'hr_max': float(hr.max()),
 }
-assert set(np.unique(split)) &lt;= {&#x27;train&#x27;, &#x27;validation&#x27;, &#x27;test&#x27;}
+assert set(np.unique(split)) &lt;= {'train', 'validation', 'test'}
 print(summary)
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>05</span></div><div class="notebook-markdown"><h2>任务 2：配对大图、小图与表达图</h2>
-<p>从 train 样本中选择组织覆盖较完整、表达信号可见的一项，把 H&amp;E、LR 粗尺度密度和 HR 参考表达图放在同一行，再截取中心区域放大。三列来自同一个空间区域，色标可以分别设置。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>06</span></div><pre class="notebook-code"><code>train_ids = np.where(split == &#x27;train&#x27;)[0]  # 选择训练样本
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>05</span></span></div><div class="notebook-markdown"><h4>任务 2：配对大图、小图与表达图</h4><p>从 train 样本中选择组织覆盖较完整、表达信号可见的一项，把 H&amp;E、LR 粗尺度密度和 HR 参考表达图放在同一行，再截取中心区域放大。三列来自同一个空间区域，色标可以分别设置。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>06</span></span></div><pre class="notebook-code"><code>train_ids = np.where(split == 'train')[0]  # 选择训练样本
 coverage_score = (he[train_ids].mean(axis=1) &lt; .98).mean(axis=(1, 2)) + 2 * (hr[train_ids] &gt; 0).mean(axis=(1, 2, 3))  # 优先选择组织覆盖和表达信号清晰的区域
 sample_index = int(train_ids[np.argmax(coverage_score)])
 lr_density = lr[sample_index, 0] / 64.0; hr_reference = hr[sample_index, 0]
 fig, axes = plt.subplots(1, 3, figsize=(13, 4.4))
-for axis, value, title, cmap in zip(axes, [np.moveaxis(he[sample_index], 0, -1), lr_density, hr_reference], [&#x27;H&amp;E&#x27;, &#x27;16 μm LR Snap25&#x27;, &#x27;2 μm HR Snap25&#x27;], [None, &#x27;magma&#x27;, &#x27;magma&#x27;]):
-    axis.imshow(value, cmap=cmap); axis.set_title(title); axis.axis(&#x27;off&#x27;)
-fig.tight_layout(); fig.savefig(OUT / &#x27;task5_data_visualization.png&#x27;, dpi=180); plt.close(fig)
+for axis, value, title, cmap in zip(axes, [np.moveaxis(he[sample_index], 0, -1), lr_density, hr_reference], ['H&amp;E', '16 μm LR Snap25', '2 μm HR Snap25'], [None, 'magma', 'magma']):
+    axis.imshow(value, cmap=cmap); axis.set_title(title); axis.axis('off')
+fig.tight_layout(); fig.savefig(OUT / 'task5_data_visualization.png', dpi=180); plt.close(fig)
 crop = (slice(48, 208), slice(48, 208))
 fig, axes = plt.subplots(2, 3, figsize=(13, 8))
 for column, value in enumerate([np.moveaxis(he[sample_index], 0, -1), lr_density, hr_reference]):
-    axes[0, column].imshow(value, cmap=None if column == 0 else &#x27;magma&#x27;); axes[1, column].imshow(value[crop], cmap=None if column == 0 else &#x27;magma&#x27;)
-    axes[0, column].set_title(&#x27;full 256×256&#x27;); axes[1, column].set_title(&#x27;center 160×160&#x27;); axes[0, column].axis(&#x27;off&#x27;); axes[1, column].axis(&#x27;off&#x27;)
-fig.tight_layout(); fig.savefig(OUT / &#x27;task5_scale_overview.png&#x27;, dpi=180); plt.close(fig)
-print(&#x27;sample index:&#x27;, sample_index)
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>07</span></div><div class="notebook-markdown"><h2>任务 3：补全融合网络</h2>
-<p>输入为 4 个通道（H&amp;E 三通道和 LR 密度），输出为 1 个通道的细尺度表达预测。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>08</span></div><pre class="notebook-code"><code>class STDataset(Dataset):
+    axes[0, column].imshow(value, cmap=None if column == 0 else 'magma'); axes[1, column].imshow(value[crop], cmap=None if column == 0 else 'magma')
+    axes[0, column].set_title('full 256×256'); axes[1, column].set_title('center 160×160'); axes[0, column].axis('off'); axes[1, column].axis('off')
+fig.tight_layout(); fig.savefig(OUT / 'task5_scale_overview.png', dpi=180); plt.close(fig)
+print('sample index:', sample_index)
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>07</span></span></div><div class="notebook-markdown"><h4>任务 3：实现融合网络</h4><p>输入为 4 个通道（H&amp;E 三通道和 LR 密度），输出为 1 个通道的细尺度表达预测。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>08</span></span></div><pre class="notebook-code"><code>class STDataset(Dataset):
     def __init__(self, kind):
         self.ids = np.where(split == kind)[0]  # 保存当前划分的样本编号
     def __len__(self):
@@ -106,8 +97,9 @@ class SRNet(nn.Module):
 
 model = SRNet().to(DEVICE)  # 创建模型并放到计算设备
 print(model)  # 查看模型结构
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>09</span></div><div class="notebook-markdown"><h2>任务 4：损失和 8×8 总量约束</h2>
-<p>预测值按 8×8 区域求和后，应与 LR 中的粗尺度总量接近；这项约束让输出保留观测到的总量。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>10</span></div><pre class="notebook-code"><code>def aggregate8(x):
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>09</span></span></div><div class="notebook-markdown"><h4>任务 4：损失和 8×8 总量约束</h4><p>预测值按 8×8 区域求和后，应与 LR 中的粗尺度总量接近；这项约束让输出保留观测到的总量。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>10</span></span></div><pre class="notebook-code"><code>def aggregate8(x):
     return torch.nn.functional.avg_pool2d(x, 8, 8) * 64  # 计算每个 8×8 区域的表达总量
 
 def loss_fn(pred_log, target_log, lr_raw):
@@ -117,14 +109,15 @@ def loss_fn(pred_log, target_log, lr_raw):
     observed = torch.nn.functional.avg_pool2d(lr_raw, 8, 8) * 64  # 计算 LR 在对应区域的总量
     consistency = (aggregate8(pred) - observed).abs().mean()  # 计算空间聚合一致性
     return l1 + .1 * consistency  # 合并像素误差与区域约束
-</code></pre></article><article class="notebook-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span>11</span></div><div class="notebook-markdown"><h2>任务 5：训练与结果比较</h2>
-<p>完成训练后，比较模型与插值基线的 MAE、Pearson 相关性和 8×8 聚合误差，并查看预测、参考和误差图。</p></div></article><article class="notebook-cell"><div class="notebook-cell-head"><span>代码单元格</span><span>12</span></div><pre class="notebook-code"><code># ===== 项目05·任务5·参考实现（开始） =====
+</code></pre></article>
+<article class="notebook-cell notebook-markdown-cell"><div class="notebook-cell-head"><span>Markdown 单元格</span><span class="notebook-cell-head-right"><span>11</span></span></div><div class="notebook-markdown"><h4>任务 5：训练与结果比较</h4><p>完成训练后，比较模型与插值基线的 MAE、Pearson 相关性和 8×8 聚合误差，并查看预测、参考和误差图。</p></div></article>
+<article class="notebook-cell notebook-code-cell"><div class="notebook-cell-head"><span>代码单元格</span><span class="notebook-cell-head-right"><span>12</span></span></div><pre class="notebook-code"><code># ===== 项目05·任务5·参考实现（开始） =====
 # 参考实现：完成训练、验证选模、模型与插值基线比较，以及结果保存。
-train_loader = DataLoader(STDataset(&#x27;train&#x27;), batch_size=4, shuffle=True)  # 建立训练批次
-val_loader = DataLoader(STDataset(&#x27;validation&#x27;), batch_size=4, shuffle=False)  # 建立验证批次
+train_loader = DataLoader(STDataset('train'), batch_size=4, shuffle=True)  # 建立训练批次
+val_loader = DataLoader(STDataset('validation'), batch_size=4, shuffle=False)  # 建立验证批次
 optimizer = torch.optim.Adam(model.parameters(), lr=2e-3, weight_decay=1e-4)  # 配置优化器
 history = []  # 保存训练和验证损失
-best_val = float(&#x27;inf&#x27;)  # 初始化验证集最佳损失
+best_val = float('inf')  # 初始化验证集最佳损失
 best_state = None  # 保存最佳模型参数
 for epoch in range(60):
     model.train()  # 切换到训练模式
@@ -153,13 +146,13 @@ for epoch in range(60):
 if best_state is not None:
     model.load_state_dict(best_state)  # 使用验证集最佳参数
 fig, axis = plt.subplots(figsize=(6.5, 3.8))  # 准备训练曲线
-axis.plot([item[0] for item in history], label=&#x27;train loss&#x27;)  # 绘制训练损失
-axis.plot([item[1] for item in history], label=&#x27;validation loss&#x27;)  # 绘制验证损失
-axis.set(xlabel=&#x27;epoch&#x27;, ylabel=&#x27;loss&#x27;, title=&#x27;Snap25 model training&#x27;)  # 标注坐标轴
+axis.plot([item[0] for item in history], label='train loss')  # 绘制训练损失
+axis.plot([item[1] for item in history], label='validation loss')  # 绘制验证损失
+axis.set(xlabel='epoch', ylabel='loss', title='Snap25 model training')  # 标注坐标轴
 axis.legend()  # 显示图例
-fig.tight_layout(); fig.savefig(OUT / &#x27;task5_training_curve.png&#x27;, dpi=160); plt.close(fig)  # 保存训练曲线
+fig.tight_layout(); fig.savefig(OUT / 'task5_training_curve.png', dpi=160); plt.close(fig)  # 保存训练曲线
 model.eval()  # 固定评价模式
-test_ids = np.where(split == &#x27;test&#x27;)[0]  # 选择测试样本
+test_ids = np.where(split == 'test')[0]  # 选择测试样本
 with torch.no_grad():
     test_features = np.concatenate([he[test_ids], np.log1p(lr[test_ids] / 64.0)], axis=1)  # 组织测试输入
     x = torch.from_numpy(test_features).to(DEVICE)  # 转换测试张量
@@ -172,22 +165,22 @@ fig, axes = plt.subplots(len(display_rows), 5, figsize=(14, 3.2 * len(display_ro
 axes = np.atleast_2d(axes)  # 统一坐标轴形状
 for row, local_index in enumerate(display_rows):
     values = [np.moveaxis(he[test_ids[local_index]], 0, -1), interpolation[local_index], target[local_index], prediction[local_index], np.abs(prediction[local_index] - target[local_index])]  # 准备五列图像
-    titles = [&#x27;H&amp;E&#x27;, &#x27;16 μm LR Snap25&#x27;, &#x27;2 μm HR reference&#x27;, &#x27;model prediction&#x27;, &#x27;absolute error&#x27;]  # 设置图像标题
+    titles = ['H&amp;E', '16 μm LR Snap25', '2 μm HR reference', 'model prediction', 'absolute error']  # 设置图像标题
     for column, (value, title) in enumerate(zip(values, titles)):
-        axes[row, column].imshow(value, cmap=None if column == 0 else (&#x27;viridis&#x27; if column == 4 else &#x27;magma&#x27;))  # 显示输入、参考和误差
-        axes[row, column].set_title(title, fontsize=8); axes[row, column].axis(&#x27;off&#x27;)  # 标注当前图像
-fig.tight_layout(); fig.savefig(OUT / &#x27;task5_prediction_visualization.png&#x27;, dpi=160); plt.close(fig)  # 保存预测结果图
+        axes[row, column].imshow(value, cmap=None if column == 0 else ('viridis' if column == 4 else 'magma'))  # 显示输入、参考和误差
+        axes[row, column].set_title(title, fontsize=8); axes[row, column].axis('off')  # 标注当前图像
+fig.tight_layout(); fig.savefig(OUT / 'task5_prediction_visualization.png', dpi=160); plt.close(fig)  # 保存预测结果图
 aggregation_error = np.abs(torch.nn.functional.avg_pool2d(torch.from_numpy(prediction[:, None]), 8, 8).numpy() * 64 - torch.nn.functional.avg_pool2d(torch.from_numpy(lr[test_ids]), 8, 8).numpy() * 64).mean()  # 计算聚合误差
 def safe_corr(left, right):
     return float(np.corrcoef(left.ravel(), right.ravel())[0, 1]) if np.std(left) &gt; 0 and np.std(right) &gt; 0 else 0.0  # 计算稳定的 Pearson 相关性
 result = {
-    &#x27;gene&#x27;: &#x27;Snap25&#x27;,  # 记录预测基因
-    &#x27;test_mae_model&#x27;: float(np.abs(prediction - target).mean()),  # 记录模型 MAE
-    &#x27;test_mae_interpolation&#x27;: float(np.abs(interpolation - target).mean()),  # 记录插值基线 MAE
-    &#x27;test_pearson_model&#x27;: safe_corr(prediction, target),  # 记录模型相关性
-    &#x27;test_8x8_aggregation_mae&#x27;: float(aggregation_error),  # 记录聚合一致性
+    'gene': 'Snap25',  # 记录预测基因
+    'test_mae_model': float(np.abs(prediction - target).mean()),  # 记录模型 MAE
+    'test_mae_interpolation': float(np.abs(interpolation - target).mean()),  # 记录插值基线 MAE
+    'test_pearson_model': safe_corr(prediction, target),  # 记录模型相关性
+    'test_8x8_aggregation_mae': float(aggregation_error),  # 记录聚合一致性
 }
-(OUT / &#x27;task5_result.json&#x27;).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding=&#x27;utf-8&#x27;)  # 保存结果 JSON
+(OUT / 'task5_result.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')  # 保存结果 JSON
 print(result)  # 查看结果
 </code></pre></article>
 <section class="reference-results"><h2>参考输出</h2><p>当前 Notebook 固定预测 Snap25 一个基因；结果 JSON 记录模型 MAE、插值基线 MAE 与像素相关性，空间聚合一致性用于补充检查。该结果不代表恢复了多基因表达或完整的细尺度空间转录组。</p><div class="results"><figure><img loading="lazy" src="../assets/results/project-06/task5_data_visualization.png" alt="参考结果：同一空间区域的 H&amp;E、16 μm LR Snap25 和 2 μm HR Snap25"><figcaption>同一空间区域的 H&amp;E、16 μm LR Snap25 和 2 μm HR Snap25</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_scale_overview.png" alt="参考结果：配对大图和中心小图的空间范围"><figcaption>配对大图和中心小图的空间范围</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_training_curve.png" alt="参考结果：模型训练损失与验证比较"><figcaption>模型训练损失与验证比较</figcaption></figure><figure><img loading="lazy" src="../assets/results/project-06/task5_prediction_visualization.png" alt="参考结果：Snap25 表达预测与参考图比较"><figcaption>Snap25 表达预测与参考图比较</figcaption></figure></div></section>

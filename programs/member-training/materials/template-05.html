@@ -1,129 +1,33 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>最终提交说明｜KYDW新成员培训与考核</title><meta name="description" content="最终提交说明：知识讲解、Kaggle 练习与独立实践。">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../styles.css">
-<link rel="stylesheet" href="../course.css?v=20260920-illustrated"><script defer src="../../../content.js?v=review-20260922"></script><script defer src="../../../site.js?v=review-20260922"></script>
+<!DOCTYPE html>
 
-<link rel="canonical" href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-05.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="最终提交说明｜KYDW新成员培训与考核">
-<meta property="og:description" content="最终提交说明：知识讲解、Kaggle 练习与独立实践。">
-<meta property="og:url" content="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-05.html">
-<meta property="og:image" content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg">
-</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main id="page-content" class="page"><header class="lesson-heading"><div class="eyebrow">KYDW新成员培训与考核 / 配套材料</div><h1>最终提交说明</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
-<p>按三个独立项目整理材料。代码可以保存在 Kaggle 或本地，提交时注明版本与运行入口；结果文件需要实际保存，并能对应到数据划分和设置。</p>
-<h2 id="section-01">项目材料</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>项目</th>
-<th>需要提交的内容</th>
-<th>我的文件或地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>猫狗识别</td>
-<td>可运行代码或 Notebook、配置与划分、所选权重、训练和验证曲线、逐图预测、测试数量、准确率、混淆矩阵与错误样例</td>
-<td></td>
-</tr>
-<tr>
-<td>猫狗表达练习</td>
-<td>一张可编辑 PPT 流程图、一页含指标及具体样例的结果展示，保存 PPTX 和阅读版本</td>
-<td></td>
-</tr>
-<tr>
-<td>宠物分割</td>
-<td>可运行代码或 Notebook、配置与划分、权重、受控比较、逐图 Dice/IoU、原图与标注及预测对照、局部错误记录</td>
-<td></td>
-</tr>
-<tr>
-<td>分割短报告</td>
-<td>约 2—3 页的 Word 与 PDF，包含数据、比较条件、实际结果、讨论和引用</td>
-<td></td>
-</tr>
-<tr>
-<td>H&amp;E–IHC</td>
-<td>可运行代码或 Notebook、数据说明与划分、配置、权重、训练及验证记录、明确参照、单变量比较、逐图 RGB MAE 与汇总表、固定对照图及失败记录、简短实验说明</td>
-<td></td>
-</tr>
-<tr>
-<td>文献与学习海报</td>
-<td>检索记录、三份文献证据表、带引用的背景说明、学习海报 PPTX 与 PDF</td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>基础 PPT 绘图和结果页由全员完成。<strong>加入剑桥组的同学需要完成汇报 PPT。</strong> 这部分另交汇报 PPTX、展示 PDF 和简短讲述提纲，其他同学不需要提交这份汇报。</p>
-<h2 id="section-02">运行信息</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>字段</th>
-<th>填写</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>项目代码位置与版本</td>
-<td></td>
-</tr>
-<tr>
-<td>数据来源与添加方式</td>
-<td></td>
-</tr>
-<tr>
-<td>PyTorch / torchvision 版本及设备</td>
-<td></td>
-</tr>
-<tr>
-<td>运行入口与配置位置</td>
-<td></td>
-</tr>
-<tr>
-<td>权重和主要结果位置</td>
-<td></td>
-</tr>
-<tr>
-<td>借鉴来源与协作记录位置</td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>选取一份保存的权重，重新加载后检查一组预测。确认类别表、掩膜编码或回归数值范围与训练时相同。项目应保留自己的实现，课程局部知识练习不能代替完整项目。</p>
-<h2 id="section-03">材料检查</h2>
-<div aria-label="知识表格" class="course-table-wrap" role="region" tabindex="0"><table>
-<thead>
-<tr>
-<th>检查内容</th>
-<th>结果与需要补充的内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>三个项目都有实际保存的配置、划分、代码与输出</td>
-<td></td>
-</tr>
-<tr>
-<td>每次比较的改变因素清楚，测试集没有用于选权重</td>
-<td></td>
-</tr>
-<tr>
-<td>图表、正文和结果表中的实验名称及数字一致</td>
-<td></td>
-</tr>
-<tr>
-<td>图片能找到样本编号，文献事实能找到原始出处</td>
-<td></td>
-</tr>
-<tr>
-<td>PPT、Word 源文件可编辑，PDF 字体及分页正常</td>
-<td></td>
-</tr>
-<tr>
-<td>汇报 PPT 的提交人群正确</td>
-<td></td>
-</tr>
-</tbody>
-</table></div>
-<p>没有采用的可选分析不用补写结果。实验未达到预期时，保留真实输出并说明已检查的问题。</p></article></main><div id="site-footer"></div></body></html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>提交文件命名｜KYDW本科生培养项目 / 进阶教学篇</title><meta content="一份压缩包、三个项目文件夹：查看代码、结果、PPT、报告与海报的命名示例。" name="description"/>
+<link href="../../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../../styles.css" rel="stylesheet"/>
+<link href="../course.css?v=20260929-course" rel="stylesheet"/><script defer="" src="../../../content.js?v=20260929-course"></script><script defer="" src="../../../site.js?v=20260929-course"></script>
+<link href="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-05.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="提交文件命名｜KYDW本科生培养项目 / 进阶教学篇" property="og:title"/>
+<meta content="一份压缩包、三个项目文件夹：查看代码、结果、PPT、报告与海报的命名示例。" property="og:description"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/programs/member-training/materials/template-05.html" property="og:url"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg" property="og:image"/>
+</head><body data-page="course-document" data-root="../../../"><div id="site-header"></div><main class="page" id="page-content"><header class="lesson-heading"><div class="eyebrow">KYDW本科生培养项目 / 进阶教学篇 / 配套材料</div><h1>提交文件命名</h1></header><div class="practice-actions"><a class="outline-btn" href="../index.html#course-materials">返回课程材料</a></div><article class="card course-reader">
+<p>把三个项目放进一份压缩包，命名为 <code>KYDW_姓名_培训考核.zip</code>。每个文件夹只放该项目的代码、主要结果和表达材料。</p>
+<pre class="submission-tree"><code>KYDW_姓名_培训考核.zip
+├─ 01_猫狗识别/
+│  ├─ 猫狗识别.ipynb
+│  ├─ 结果/                    预测表、混淆矩阵和错误样例
+│  ├─ 流程图与结果.pptx
+│  └─ 流程图与结果.pdf
+├─ 02_图像分割/
+│  ├─ 图像分割.ipynb
+│  ├─ 结果/                    分割对照图和逐图指标
+│  ├─ 短报告.docx
+│  └─ 短报告.pdf
+└─ 03_图像翻译/
+   ├─ 图像翻译.ipynb
+   ├─ 结果/                    输入、参考、预测与逐图指标
+   ├─ 学习海报.pptx
+   └─ 学习海报.pdf</code></pre>
+<p>在本地写程序的同学，可将对应的 <code>.ipynb</code> 换成 <code>.py</code> 文件；有多个脚本时放进该项目的 <code>代码</code> 文件夹，并用简短的 <code>运行说明.md</code> 写明入口和数据来源。</p>
+<p>结果只保留说明主要发现所需的表和图。图中的样本编号与代码输出对应，报告和海报中的数字也能在结果文件中找到。</p>
+</article></main><div id="site-footer"></div></body></html>

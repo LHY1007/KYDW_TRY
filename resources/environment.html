@@ -1,43 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://lhy1007.github.io/KYDW_TRY/favicon.svg" />
-  <title>科研基础环境准备｜KYDW</title>
-  <style>
-    :root { color-scheme: light; --ink: #182433; --muted: #657284; --line: #dfe6ee; --paper: #fff; --wash: #f5f8fb; --accent: #176b87; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--wash); color: var(--ink); font: 16px/1.85 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; }
-    .doc-shell { max-width: 980px; margin: 0 auto; padding: 32px 22px 56px; }
-    .doc-top, .doc-body { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 14px 34px rgba(31, 52, 73, .06); }
-    .doc-top { padding: 28px 32px 24px; margin-bottom: 18px; }
-    .doc-top p { margin: 0; color: var(--muted); }
-    .doc-top h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 44px); line-height: 1.25; letter-spacing: -.02em; }
-    .doc-body { padding: 28px 32px 42px; }
-    h2 { margin: 34px 0 12px; font-size: 25px; line-height: 1.35; }
-    p { margin: 12px 0; }
-    ul, ol { padding-left: 1.5em; }
-    li { margin: 7px 0; }
-    a { color: var(--accent); }
-    figure { margin: 20px 0 28px; text-align: center; }
-    img { display: block; max-width: 100%; height: auto; margin: 0 auto; border: 1px solid var(--line); border-radius: 10px; }
-    figcaption { margin-top: 7px; color: var(--muted); font-size: 13px; }
-    .image-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; margin: 20px 0 28px; }
-    .doc-notice { margin: 18px 0 24px; padding: 16px 18px; border: 1px solid #e7c66a; border-left: 5px solid #c58a18; border-radius: 12px; background: #fff8df; color: #59440d; }
-    .doc-notice strong, .doc-notice span, .doc-notice small { display: block; }
-    .doc-notice strong { font-size: 18px; }
-    .doc-notice small { margin-top: 4px; color: #7b6a3c; }
-    .image-column figure { margin: 0; }
-    .doc-footer { padding-top: 20px; margin-top: 26px; border-top: 1px solid var(--line); }
-    .back-link { display: inline-block; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; background: #fff; }
-    @media (max-width: 680px) { .doc-shell { padding: 16px 12px 36px; } .doc-top, .doc-body { padding: 22px 18px 30px; border-radius: 14px; } .image-grid { grid-template-columns: 1fr; } }
-  </style>
-</head>
-<body>
-  <div class="doc-shell">
-    <header class="doc-top"><h1>科研基础环境准备</h1></header>
-    <main class="doc-body"><p>开始科研之前，我们首先要做好实践的前期工作，也就是准备好一个基本的工作环境。我们考虑到本教程受众包含纯0基础的同学，因此工作环境的构建会尽可能简单，也会更偏向短期可用，如果你之后想要继续做一些有趣的项目，那可以在这个基础上做更完备的环境准备。</p><p>具体来说，我们要通过kaggle平台学会一些基础的编程，项目文件，数据管理等任务基础实践知识，并确保大家的设备可以正常的访问和使用该平台，这听起来很简单，但kaggle本身是一个面向海外用户的平台，所以现在我们就像刚来到中国的外国人想要使用wechat一样需要很多的麻烦操作，但不要着急，我们现在开始一步一步来：</p><h2>整体流程介绍</h2><p>Kaggle平台的网址是：<a href="https://www.kaggle.com/" target="_blank" rel="noreferrer">https://www.kaggle.com/</a></p><figure><img src="assets/environment/image-01.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>如果你拥有vpn，那么可以直接跳转到第4节内容</p><p>如果你都没有，那么可以跟着接下来的流程进行</p><h2>获取海外网络访问权限</h2><p>Kaggle本身并没有被中国大陆禁止访问，但和多数海外网站一样，其没有在中国大陆设立服务器，所以我们想要访问会遇到各种各样的网络状况，并且在注册时会遇到谷歌人机验证，这也就导致我们必须要在电脑上开启海外网络访问的权限。一般情况下，我们可以通过海外服务器的网络代理或者VPN软件进行，为了简化流程，这里我们选定一个有免费公益性质的VPN软件进行示范。</p><p>网址：<a href="https://web4.52pokemon.cc/" target="_blank" rel="noreferrer">宝可梦免费加速</a></p><ol><li>点击进入并注册新账户</li></ol><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-02.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-03.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><ol><li>通过兑换码获取0元套餐</li></ol><div class="doc-notice"><strong>九月兑换码：吉利蛋</strong><span>兑换码每月更新，每个月都会有新的免费会员。</span><small>图片中的“小火马”属于此前月份的示例，当前使用吉利蛋。</small></div><figure><img src="assets/environment/image-04.png" alt="科研基础环境准备配图" loading="lazy" /></figure><figure><img src="assets/environment/image-05.png" alt="科研基础环境准备配图" loading="lazy" /></figure><figure><img src="assets/environment/image-06.png" alt="科研基础环境准备配图" loading="lazy" /></figure><figure><img src="assets/environment/image-07.png" alt="科研基础环境准备配图" loading="lazy" /></figure><ol><li>返回主页，根据电脑/平板/手机情况选择所需要的客户端</li></ol><figure><img src="assets/environment/image-08.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>如果你使用的是鸿蒙/Linux等系统，可以在文档中心查看相应的下载方式(优先使用专属客户端)</p><figure><img src="assets/environment/image-09.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>下载安装包后自行安装到本地路径即可，安装过程不进行演示了</p><ol><li>打开软件，选择节点</li></ol><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-10.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-11.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>节点信息很多，这里做简介，省时间可以跳过：</p><ul><li>直连 (1x - 2x) 最基础的线路。你的数据从本地直接通过网络到达海外服务器，没有经过额外的线路优化</li><li>V6 (1x) 通过 IPv6 地址连接的节点。在某些只有 IPv4 或 IPv4 线路拥堵的环境下，IPv6 线路可能更通畅。如果你的网络有 IPv6，可以试试，倍率也是 1</li><li>三网优化 (2x) 对这个节点到中国大陆的电信、联通、移动三大运营商的路由，都做了优化。比普通直连稳定，能有效避开拥堵线路。倍率 2，性价比不错，适合对稳定性有要求但不想消耗太高倍率的用户。</li><li>专线 (3x - 6x)你的流量会先进入服务商在国内的“中转服务器”，再通过优化的专有网络（非公网）转发到落地国家。能很大程度上缓解晚高峰的丢包和卡顿，延迟更低，体验有明显提升</li><li>IPLC / 游戏专线 (10x) IPLC 指国际私有专线，数据不走公共互联网，通过物理/虚拟专线直接在国内和境外之间传输。延迟最低、最稳定、几乎不受晚高峰影响，能有效应对网络时断时续的情况</li><li>家宽 (2x，6x) IP 地址是当地电信运营商分配给家庭用户的，不是云服务厂商的机房 IP。适合注册或登录要求高或对IP类型敏感的服务</li></ul><p>如果你在中国大陆，那么日常使用选择 V6，三网优化，专线(3x版)，家宽(2x版) 基本可以保证日常的高速网络访问，对于需要验证银行卡，IP地址(如Claude等严格限制属地的网站)的用户可以考虑家宽(6x版) 或IPLC / 游戏专线 (10x)。其中1x-10x是流量消耗的倍率，一般我们会综合选择一个1x-3x，延迟100ms以内且非直连的节点</p><p>选择好后，回到界面开启vpn (如电脑关机，则需要手动关闭开关，否则下次开机后除了qq和微信，大部分网站和联网应用都将无法使用，需要再手动打开vpn软件关闭后再打开，但这个状态下打开软件需要很久的时间)</p><figure><img src="assets/environment/image-12.png" alt="科研基础环境准备配图" loading="lazy" /></figure><p>看到这个状态就是完成了</p><h2>注册谷歌账户</h2><p>科研学习离不开谷歌账户，虽然并非所有平台都强制使用谷歌账户登录，但考虑通用性，便捷性和绝大多数浏览器适配情况，还是建议使用谷歌账户来避免以未知麻烦。但这个过程在近年以来变得极为繁琐，如果没有海外手机号的话需要花费大量时间进行，并且不属于必选项，这里不做流程演示，感兴趣的同学可以自行上网搜索教程。</p><p>不使用谷歌账户的同学可以使用其他邮箱注册Kaggle，但不要使用学校邮箱(国内许多高校邮箱系统接收验证码有阻碍，且毕业后会收回，导致绑定账户无法登录)。</p><h2>注册Kaggle</h2><p>开启VPN后，在<a href="https://www.kaggle.com/" target="_blank" rel="noreferrer">https://www.kaggle.com/</a> 界面选择注册，确定刷出了人机验证，否则填写完也无法进入</p><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-13.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-14.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>注册完看到这个界面就是成功了</p><figure><img src="assets/environment/image-15.png" alt="科研基础环境准备配图" loading="lazy" /></figure><h2>创建一个代码项目</h2><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-16.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-17.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>在这里选择显卡，否则只能用CPU运行。这里可能需要绑定一个手机号(绑定时全程开启vpn，否则会被卡验证，可以开启全局模式和tun模式)，绑定后才会看到选项：</p><div class="image-grid"><div class="image-column"><figure><img src="assets/environment/image-18.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div><div class="image-column"><figure><img src="assets/environment/image-19.png" alt="科研基础环境准备配图" loading="lazy" /></figure></div></div><p>新账户有30小时每周的显卡使用限制，常使用的话会升级到40小时</p><p>到这里，最基础的环境就完成了</p><p>如果你学习过一些Python或者R的编程语言，可以尝试运行些程序熟悉下操作。如果没有学习过也没关系，在下一节中我们会尝试带同学们了解基本的Python编程语法并做一些简单实践项目。在此之前，你可以自己先熟悉一下这个平台的各项操作和内容。</p><footer class="doc-footer"><a class="back-link" href="https://lhy1007.github.io/KYDW_TRY/resources/index.html">返回资源中心</a></footer></main>
-  </div>
-</body>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="实践体验与进阶教学的环境准备：网络访问、账户注册、Kaggle Notebook 与显卡设置。快速上手篇无需阅读。" name="description"/>
+<link href="../favicon.svg" rel="icon"/>
+<title>学习基础｜KYDW本科生培养项目</title>
+
+<link href="https://lhy1007.github.io/KYDW_TRY/resources/environment.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="学习基础｜KYDW本科生培养项目" property="og:title"/>
+<meta content="实践体验与进阶教学的环境准备：网络访问、账户注册、Kaggle Notebook 与显卡设置。快速上手篇无需阅读。" property="og:description"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/resources/environment.html" property="og:url"/>
+<meta content="https://lhy1007.github.io/KYDW_TRY/experience/assets/experience/meningioma-histology.jpg" property="og:image"/>
+<link href="../styles.css" rel="stylesheet"/><link href="environment.css?v=20261001" rel="stylesheet"/><script defer="" src="../content.js?v=20260930"></script><script defer="" src="../site.js?v=20260930"></script></head>
+<body data-page="course-document" data-root="../"><div id="site-header"></div><main class="page environment-page" id="page-content"><header class="doc-top">
+<div class="eyebrow">KYDW本科生培养项目</div><h1>学习基础</h1>
+<p class="env-audience"><strong>快速上手篇的学习者无需阅读本页，可直接开始<a href="../programs/member-training/foundation/index.html">快速上手篇</a>。</strong></p>
+<p>本页为实践体验篇和进阶教学篇准备 Kaggle 运行环境，包含网络访问、账户注册、Notebook 创建与显卡设置。Kaggle 提供在线编程环境，入门实践无需在本地安装 Python 或 Anaconda。</p>
+<div class="doc-actions"><a href="../programs/undergraduate/index.html">返回培养项目</a><a href="#kaggle-account">已有网络，直接注册 Kaggle</a></div>
+</header>
+<div class="env-layout"><aside class="env-toc"><nav aria-label="本页目录"><a href="#overview">1. 整体流程</a><a href="#network">2. 网络访问</a><a href="#google-account">3. Google 账户</a><a href="#kaggle-account">4. 注册 Kaggle</a><a href="#notebook">5. 创建代码项目</a></nav></aside>
+<article class="card course-reader env-reader">
+<section id="overview"><h2>1. 整体流程介绍</h2>
+<p>Kaggle 将代码、数据和运行结果放在同一个网页工作区中。后续实践会用它运行 Python、读取项目数据并查看图像和指标。准备环境的主要工作，是让浏览器能够稳定访问平台，并创建一个可以保存代码的个人账户。</p>
+<p>打开 <a href="https://www.kaggle.com/" target="_blank" rel="noopener noreferrer">Kaggle 首页</a>。准备过程依次为网络连接、账户注册、创建 Notebook 和选择计算设备。Notebook 是由代码块、说明文字和运行结果组成的交互式笔记本。</p>
+<figure class="env-figure"><a href="assets/environment/step-01.png" target="_blank" rel="noopener" aria-label="放大截图：Kaggle 首页：右上角 Register 是注册入口，Sign in 是登录入口。"><img src="assets/environment/step-01.png" alt="Kaggle 首页：右上角 Register 是注册入口，Sign in 是登录入口。" width="2559" height="1439" loading="lazy"></a><figcaption>Kaggle 首页：右上角 Register 是注册入口，Sign in 是登录入口。 <a href="assets/environment/step-01.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<p>已有可用网络连接的同学，可以直接阅读<a href="#kaggle-account">第 4 节</a>。没有 Google 账户也可以用邮箱注册 Kaggle；第 3 节介绍两种账户方式。</p>
+<p class="env-source-note">本页操作截图来自配套《环境准备》文档，保留其中的菜单位置与标注；截图中的日期、价格和账户信息为当时的演示内容。点击图片可查看原尺寸。</p></section>
+<section id="network"><h2>2. 获取海外网络访问条件</h2>
+<p>Kaggle 页面、登录服务和人机验证可能使用不同的网络资源。首页能打开，但注册验证一直无法加载时，通常还需要检查网络连接。原教程使用“宝可梦免费加速”演示代理客户端的配置；已有稳定连接的同学可以继续使用现有工具。</p>
+<h3>注册与领取套餐</h3>
+<p>打开<a href="https://web4.52pokemon.cc/" target="_blank" rel="noopener noreferrer">宝可梦免费加速</a>，点击“注册账户”，填写自己的邮箱、验证码和密码。注册后登录服务主页。</p>
+<div class="env-image-pair"><figure class="env-figure"><a href="assets/environment/step-02.png" target="_blank" rel="noopener" aria-label="放大截图：登录页底部的“注册账户”入口。"><img src="assets/environment/step-02.png" alt="登录页底部的“注册账户”入口。" width="831" height="1148" loading="lazy"></a><figcaption>登录页底部的“注册账户”入口。 <a href="assets/environment/step-02.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure><figure class="env-figure"><a href="assets/environment/step-03.png" target="_blank" rel="noopener" aria-label="放大截图：注册页：填写邮箱并接收验证码，设置账户密码。"><img src="assets/environment/step-03.png" alt="注册页：填写邮箱并接收验证码，设置账户密码。" width="831" height="1286" loading="lazy"></a><figcaption>注册页：填写邮箱并接收验证码，设置账户密码。 <a href="assets/environment/step-03.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure></div>
+<p>在“购买订阅”中打开入门套餐，选择月付选项，在优惠码栏填写兑换码并应用。示例中的月付金额会被优惠抵扣为 0 元；核对订单金额后再提交。</p>
+<figure class="env-figure"><a href="assets/environment/step-04.png" target="_blank" rel="noopener" aria-label="放大截图：购买订阅：打开入门套餐的详情。"><img src="assets/environment/step-04.png" alt="购买订阅：打开入门套餐的详情。" width="1751" height="1167" loading="lazy"></a><figcaption>购买订阅：打开入门套餐的详情。 <a href="assets/environment/step-04.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<p><strong>文档提供的兑换码：吉利蛋。</strong>兑换码按月更换，领取时查看网站公告中的当月代码。下图的“小火马”为更早的兑换示例。</p>
+<figure class="env-figure"><a href="assets/environment/step-05.png" target="_blank" rel="noopener" aria-label="放大截图：选择月付，在下方优惠码栏填写兑换码并点击应用。"><img src="assets/environment/step-05.png" alt="选择月付，在下方优惠码栏填写兑换码并点击应用。" width="1751" height="1167" loading="lazy"></a><figcaption>选择月付，在下方优惠码栏填写兑换码并点击应用。 <a href="assets/environment/step-05.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<figure class="env-figure"><a href="assets/environment/step-06.png" target="_blank" rel="noopener" aria-label="放大截图：优惠码应用成功后，检查月付与订单应付金额。"><img src="assets/environment/step-06.png" alt="优惠码应用成功后，检查月付与订单应付金额。" width="1751" height="1320" loading="lazy"></a><figcaption>优惠码应用成功后，检查月付与订单应付金额。 <a href="assets/environment/step-06.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<figure class="env-figure"><a href="assets/environment/step-07.png" target="_blank" rel="noopener" aria-label="放大截图：完成后的订单页面：示例订单通过优惠抵扣，实付为 0 元。"><img src="assets/environment/step-07.png" alt="完成后的订单页面：示例订单通过优惠抵扣，实付为 0 元。" width="1245" height="834" loading="lazy"></a><figcaption>完成后的订单页面：示例订单通过优惠抵扣，实付为 0 元。 <a href="assets/environment/step-07.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<h3>下载与安装客户端</h3>
+<p>返回服务主页，在下载区域选择与电脑、平板或手机系统对应的客户端。Windows、macOS、Android 和 iOS 使用不同安装方式；鸿蒙、Linux 等系统可在“文档中心”查看相应说明。</p>
+<figure class="env-figure"><a href="assets/environment/step-08.png" target="_blank" rel="noopener" aria-label="放大截图：主页中的客户端下载区域，按操作系统选择。"><img src="assets/environment/step-08.png" alt="主页中的客户端下载区域，按操作系统选择。" width="1751" height="1320" loading="lazy"></a><figcaption>主页中的客户端下载区域，按操作系统选择。 <a href="assets/environment/step-08.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<figure class="env-figure"><a href="assets/environment/step-09.png" target="_blank" rel="noopener" aria-label="放大截图：文档中心提供不同系统的安装和使用教程。"><img src="assets/environment/step-09.png" alt="文档中心提供不同系统的安装和使用教程。" width="1751" height="1320" loading="lazy"></a><figcaption>文档中心提供不同系统的安装和使用教程。 <a href="assets/environment/step-09.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<p>下载对应安装包，按安装程序提示完成安装，然后打开客户端并登录刚注册的账户。使用通用客户端时，按文档中心的说明导入订阅；订阅包含账户可用的节点列表。</p>
+<h3>选择节点</h3>
+<p>节点是客户端用于连接的服务器入口。点击主页的节点卡片，可以查看地区、线路类型、延迟和流量倍率。</p>
+<div class="env-image-pair"><figure class="env-figure"><a href="assets/environment/step-10.png" target="_blank" rel="noopener" aria-label="放大截图：客户端主页：点击下方节点卡片，打开节点列表。"><img src="assets/environment/step-10.png" alt="客户端主页：点击下方节点卡片，打开节点列表。" width="584" height="1040" loading="lazy"></a><figcaption>客户端主页：点击下方节点卡片，打开节点列表。 <a href="assets/environment/step-10.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure><figure class="env-figure"><a href="assets/environment/step-11.png" target="_blank" rel="noopener" aria-label="放大截图：节点列表：地区、线路名称、延迟与倍率分别显示。"><img src="assets/environment/step-11.png" alt="节点列表：地区、线路名称、延迟与倍率分别显示。" width="584" height="1040" loading="lazy"></a><figcaption>节点列表：地区、线路名称、延迟与倍率分别显示。 <a href="assets/environment/step-11.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure></div>
+<p>延迟常用毫秒（ms）表示，数值越小，往返等待通常越短。“1x”“2x”等表示服务商计算流量消耗的倍率，例如传输 1 GB 数据，2x 节点可能按 2 GB 扣除套餐流量。倍率不表示速度倍数。</p>
+<div class="env-table-scroll" tabindex="0" role="region" aria-label="节点名称说明"><table><thead><tr><th>节点名称</th><th>含义与选择方法</th></tr></thead><tbody>
+<tr><td>直连</td><td>客户端直接连接境外节点，通常不经过服务商另设的中转线路。访问表现与本地网络和跨境路由有关。</td></tr>
+<tr><td>V6</td><td>通过 IPv6 地址连接。当前网络支持 IPv6 时可以尝试；列表显示超时的节点不适合作为当前连接。</td></tr>
+<tr><td>三网优化</td><td>服务商对电信、联通、移动线路的路由优化标记。可以与普通线路对比网页加载和连接稳定性。</td></tr>
+<tr><td>专线</td><td>服务商提供的专用或优化传输线路，通常标注较高倍率。先用低倍率节点，遇到明显卡顿再比较。</td></tr>
+<tr><td>IPLC / 游戏专线</td><td>IPLC 指国际私有租用线路；节点名中的“游戏专线”是服务商标签。此类节点可能采用较高流量倍率，普通网页学习通常无需优先选择。</td></tr>
+<tr><td>家宽</td><td>表示出口地址被服务商标注为住宅网络地址。它描述出口类型，本身不表示速度更快，也不能代替网站要求的账户验证。</td></tr>
+</tbody></table></div>
+<p>日常学习可以从 1x—3x 的低倍率节点中，选择延迟较低、能够稳定加载 Kaggle 的一个。支持 IPv6 时可尝试 V6，也可比较三网优化或低倍率专线。相同节点在不同网络和时段的表现可能不同，实际网页能否连续打开比名称更有用。</p>
+<h3>开启连接与断网处理</h3>
+<p>选好节点后，返回客户端主页，点击开关。显示“已连接”后，用浏览器重新打开 Kaggle 和注册页面。</p>
+<figure class="env-figure env-figure-narrow"><a href="assets/environment/step-12.png" target="_blank" rel="noopener" aria-label="放大截图：客户端显示“已连接”，主开关处于开启状态。"><img src="assets/environment/step-12.png" alt="客户端显示“已连接”，主开关处于开启状态。" width="584" height="1040" loading="lazy"></a><figcaption>客户端显示“已连接”，主开关处于开启状态。 <a href="assets/environment/step-12.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<p>如果验证页面的部分资源仍无法加载，可以检查客户端的路由设置。“全局模式”会让更多流量经过代理；“TUN 模式”通过虚拟网卡处理流量。需要排查连接时可按客户端教程尝试，连接正常后恢复日常设置。</p>
+<p>退出客户端或关机前，先断开连接。若下次开机后浏览器无法联网，而 QQ、微信等仍可使用，可能是系统代理仍指向未运行的客户端。重新打开客户端并关闭代理开关；在 Windows 中也可检查“设置 → 网络和 Internet → 代理”，关闭由该客户端留下的手动代理，再测试网页访问。</p></section>
+<section id="google-account"><h2>3. 注册 Google 账户（可选）</h2>
+<p>Google 账户可以用于登录 Kaggle 等学习平台，也方便使用其他 Google 服务。它不是注册 Kaggle 的必选条件：没有 Google 账户，可以直接使用自己的长期邮箱。</p>
+<p>需要创建账户时，打开 <a href="https://accounts.google.com/signup" target="_blank" rel="noopener noreferrer">Google 账户注册页</a>，选择个人用途，填写基本信息并完成页面要求的验证。也可以使用已有的非 Gmail 邮箱创建 Google 账户，具体步骤见 <a href="https://support.google.com/accounts/answer/27441?hl=zh-Hans" target="_blank" rel="noopener noreferrer">Google 账户帮助</a>。</p>
+<p>绑定 Kaggle 的邮箱建议使用个人长期邮箱。部分学校邮箱收取外部验证码较慢，毕业后也可能停用；如果已经使用学校邮箱，需确认毕业后的邮箱保留方式。</p></section>
+<section id="kaggle-account"><h2>4. 注册 Kaggle</h2>
+<p>打开 <a href="https://www.kaggle.com/" target="_blank" rel="noopener noreferrer">Kaggle</a> 并点击 <strong>Register</strong>。已有 Google 账户可以选择对应登录方式，也可以点击 <strong>Register with Email</strong> 使用邮箱注册。</p>
+<ol><li>填写邮箱、密码、姓名和个人主页用户名。用户名会用于个人主页和 Notebook 链接。</li><li>完成页面显示的人机验证。如果验证区域始终空白，先检查网络，再刷新注册页。</li><li>点击 Next，按提示完成邮件验证及后续注册步骤。</li></ol>
+<div class="env-image-pair"><figure class="env-figure"><a href="assets/environment/step-13.png" target="_blank" rel="noopener" aria-label="放大截图：邮箱注册表单：填写账户信息并完成下方人机验证。"><img src="assets/environment/step-13.png" alt="邮箱注册表单：填写账户信息并完成下方人机验证。" width="663" height="1191" loading="lazy"></a><figcaption>邮箱注册表单：填写账户信息并完成下方人机验证。 <a href="assets/environment/step-13.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure><figure class="env-figure"><a href="assets/environment/step-14.png" target="_blank" rel="noopener" aria-label="放大截图：人机验证窗口示例：题目内容会变化，按自己页面的提示完成。"><img src="assets/environment/step-14.png" alt="人机验证窗口示例：题目内容会变化，按自己页面的提示完成。" width="597" height="864" loading="lazy"></a><figcaption>人机验证窗口示例：题目内容会变化，按自己页面的提示完成。 <a href="assets/environment/step-14.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure></div>
+<p>注册并登录后，可以看到个人主页，以及左侧的 Create、Datasets、Code 等入口。</p>
+<figure class="env-figure"><a href="assets/environment/step-15.png" target="_blank" rel="noopener" aria-label="放大截图：已登录的 Kaggle 主页：左侧可创建 Notebook、浏览数据与代码。"><img src="assets/environment/step-15.png" alt="已登录的 Kaggle 主页：左侧可创建 Notebook、浏览数据与代码。" width="1989" height="1148" loading="lazy"></a><figcaption>已登录的 Kaggle 主页：左侧可创建 Notebook、浏览数据与代码。 <a href="assets/environment/step-15.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+</section>
+<section id="notebook"><h2>5. 创建一个代码项目</h2>
+<p>一个 Notebook 可以同时保存代码、解释文字和输出图片。它在 Kaggle 的计算环境中运行，浏览器负责编辑和查看结果，电脑本地无需另装 Python。</p>
+<h3>创建与运行</h3>
+<p>在主页左侧点击 <strong>Create → Notebook</strong>，创建一个空白代码项目。修改页面上方的标题，例如 <code>my-first-notebook</code>。</p>
+<figure class="env-figure env-figure-narrow"><a href="assets/environment/step-16.png" target="_blank" rel="noopener" aria-label="放大截图：Create 菜单中的 Notebook 入口。"><img src="assets/environment/step-16.png" alt="Create 菜单中的 Notebook 入口。" width="411" height="558" loading="lazy"></a><figcaption>Create 菜单中的 Notebook 入口。 <a href="assets/environment/step-16.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<p>点击代码块左侧的三角按钮可以运行该块；顶部 <strong>Run All</strong> 会从上到下运行全部代码。下方的 <strong>+ Code</strong> 添加代码块，<strong>+ Markdown</strong> 添加说明文字。右侧 <strong>Add Input</strong> 用于添加数据集，<strong>Output</strong> 区域查看程序生成的文件。</p>
+<figure class="env-figure"><a href="assets/environment/step-17.png" target="_blank" rel="noopener" aria-label="放大截图：Notebook 编辑器：代码运行、添加单元格、添加数据与输出区域。"><img src="assets/environment/step-17.png" alt="Notebook 编辑器：代码运行、添加单元格、添加数据与输出区域。" width="1613" height="1148" loading="lazy"></a><figcaption>Notebook 编辑器：代码运行、添加单元格、添加数据与输出区域。 <a href="assets/environment/step-17.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure>
+<p>可以在一个代码块中输入下面两行，再点击运行。输出应为 <code>样本数量： 12</code>；把 12 改为其他数字并再次运行，结果会随之变化。</p>
+<pre><code>sample_count = 12
+print("样本数量：", sample_count)</code></pre>
+<p>后续课程提供了现成的项目 Notebook。打开项目后，点击 <strong>Copy &amp; Edit</strong> 保存到自己的账户，再按单元格顺序修改和运行。出现“变量未定义”时，检查定义该变量的上方代码块是否已经运行。</p>
+<h3>选择显卡</h3>
+<p>打印文字、读取小表格等操作使用 CPU 即可。训练深度学习模型时，在右侧 <strong>Session options</strong> 或设置面板中找到 <strong>Accelerator</strong>，选择可用的 GPU。本网站的 PyTorch 实践优先选择 <strong>GPU T4 ×2</strong>。</p>
+<div class="env-image-pair"><figure class="env-figure"><a href="assets/environment/step-19.png" target="_blank" rel="noopener" aria-label="放大截图：Session options 中的 Accelerator 设置入口。"><img src="assets/environment/step-19.png" alt="Session options 中的 Accelerator 设置入口。" width="612" height="921" loading="lazy"></a><figcaption>Session options 中的 Accelerator 设置入口。 <a href="assets/environment/step-19.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure><figure class="env-figure"><a href="assets/environment/step-18.png" target="_blank" rel="noopener" aria-label="放大截图：Accelerator 下拉菜单示例。图中的性能与稳定性评语为旧截图标注；本课程选择可用的 T4。"><img src="assets/environment/step-18.png" alt="Accelerator 下拉菜单示例。图中的性能与稳定性评语为旧截图标注；本课程选择可用的 T4。" width="459" height="356" loading="lazy"></a><figcaption>Accelerator 下拉菜单示例。图中的性能与稳定性评语为旧截图标注；本课程选择可用的 T4。 <a href="assets/environment/step-18.png" target="_blank" rel="noopener">查看大图 ↗</a></figcaption></figure></div>
+<p>如果 GPU 选项不可用，检查账户设置中的 <strong>Phone verification</strong>，按提示绑定手机号并完成验证。验证过程中保持网络连接稳定；遇到验证码无法加载或提交失败时，先处理网络或页面提示的问题。</p>
+<p>GPU 有每周使用额度，可在 Notebook 设置和会话管理页面查看剩余时长。完成练习后停止会话，避免空闲会话继续占用资源。额度用完时，仍可用 CPU 做轻量操作；账户额度的查看方法见 <a href="https://www.kaggle.com/docs/efficient-gpu-usage" target="_blank" rel="noopener noreferrer">Kaggle GPU 使用说明</a>。</p>
+<h3>保存代码与继续学习</h3>
+<p>点击右上角 <strong>Save Version</strong> 保存版本。需要从头运行并保存输出时，选择 <strong>Save &amp; Run All</strong>；使用快速保存时，注意它不会重新执行全部代码。Notebook 界面功能可查阅 <a href="https://www.kaggle.com/docs/notebooks" target="_blank" rel="noopener noreferrer">Kaggle 官方说明</a>。</p>
+<p>能够登录、创建 Notebook 并运行一个代码块后，基础环境就已准备完成。刚开始学习 Python 的同学可以阅读<a href="../programs/member-training/index.html#project-00">项目 00：AI Python 入门</a>；已有基础的同学可以打开相应的<a href="../experience/index.html">实践体验项目</a>。</p>
+</section>
+<footer class="doc-footer"><a href="../resources/index.html">返回资源中心</a><a href="../programs/undergraduate/index.html">KYDW本科生培养项目</a></footer>
+</article></div></main><div id="site-footer"></div></body>
 </html>
