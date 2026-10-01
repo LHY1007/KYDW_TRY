@@ -2189,9 +2189,9 @@ body[data-page="course-document"] .knowledge-figure {
   .featured-showcase .training-feature-image img {max-height:none;}
 }
 
-/* Local homepage mascot */
-.home-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,.8fr);gap:44px;align-items:center;}
-.home-mascot{justify-self:end;width:min(100%,360px);line-height:0;}
-.home-mascot img{display:block;width:100%;height:auto;max-height:410px;object-fit:contain;mix-blend-mode:multiply;}
-html[data-theme="dark"] .home-mascot img{mix-blend-mode:normal;border-radius:18px;}
-@media(max-width:700px){.home-hero{grid-template-columns:1fr;gap:20px;}.home-mascot{justify-self:center;width:min(58vw,250px);}.home-mascot img{max-height:275px;}}
+/* Homepage mascot trio */
+.home-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:32px;align-items:center;}
+.home-mascot{display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:center;justify-self:end;width:100%;max-width:600px;line-height:0;}
+.home-mascot img{display:block;width:100%;height:auto;object-fit:contain;mix-blend-mode:multiply;}
+html[data-theme="dark"] .home-mascot img{mix-blend-mode:normal;border-radius:12px;}
+@media(max-width:800px){.home-hero{grid-template-columns:1fr;gap:24px;}.home-mascot{justify-self:center;width:100%;max-width:520px;}}
