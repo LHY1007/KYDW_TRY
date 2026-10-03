@@ -1,51 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="570" viewBox="0 0 1000 570" role="img" aria-labelledby="title desc" style="font-family:Microsoft YaHei, Segoe UI, sans-serif;">
-<title id="title">U-Net 分割模型：编码器、解码器与跳跃连接</title><desc id="desc">抽象展示空间分辨率下降、瓶颈、恢复和同尺度跳跃连接，输出每个位置的前景判断。</desc>
-<defs>
-<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 z" fill="#245B78"/></marker>
-<marker id="arrow-teal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 z" fill="#2F7F89"/></marker>
-<pattern id="gridline" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#E8F1F7"/><path d="M18 0H0V18" fill="none" stroke="#DFE7F1" stroke-width="1"/></pattern>
-</defs>
-<rect width="1000" height="570" fill="#F4F7FB"/>
-<text x="40" y="42" text-anchor="start" font-size="29px" font-weight="750" fill="#245B78" style="">U-Net 分割模型：编码器、解码器与跳跃连接</text>
-<rect x="35" y="100" width="130" height="76" rx="12" fill="#E8F1F7" stroke="#245B78" stroke-width="2"/>
-<text x="100.0" y="130" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">输入图像</text>
-<text x="100.0" y="159" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">[B,3,H,W]</text>
-<rect x="205" y="150" width="130" height="76" rx="12" fill="#D9EEF0" stroke="#245B78" stroke-width="2"/>
-<text x="270.0" y="180" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">编码器 E1</text>
-<text x="270.0" y="209" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">高分辨率</text>
-<rect x="375" y="220" width="130" height="76" rx="12" fill="#D9EEF0" stroke="#245B78" stroke-width="2"/>
-<text x="440.0" y="250" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">编码器 E2</text>
-<text x="440.0" y="279" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">更大感受野</text>
-<rect x="545" y="290" width="130" height="76" rx="12" fill="#D9EEF0" stroke="#245B78" stroke-width="2"/>
-<text x="610.0" y="320" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">编码器 E3</text>
-<text x="610.0" y="349" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">空间更小</text>
-<rect x="425" y="400" width="150" height="82" rx="12" fill="#EEE9F8" stroke="#245B78" stroke-width="2"/>
-<text x="500.0" y="430" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">瓶颈</text>
-<text x="500.0" y="459" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">压缩特征</text>
-<rect x="700" y="290" width="130" height="76" rx="12" fill="#E9F6EF" stroke="#245B78" stroke-width="2"/>
-<text x="765.0" y="320" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">解码器 D3</text>
-<text x="765.0" y="349" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">上采样</text>
-<rect x="840" y="220" width="130" height="76" rx="12" fill="#E9F6EF" stroke="#245B78" stroke-width="2"/>
-<text x="905.0" y="250" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">解码器 D2</text>
-<text x="905.0" y="279" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">恢复位置</text>
-<rect x="850" y="100" width="115" height="76" rx="12" fill="#E8F1F7" stroke="#245B78" stroke-width="2"/>
-<text x="907.5" y="130" text-anchor="middle" font-size="22px" font-weight="700" fill="#142033" style="">输出掩膜</text>
-<text x="907.5" y="159" text-anchor="middle" font-size="22px" font-weight="600" fill="#5D6B7F" style="">[B,1,H,W]</text>
-<line x1="165" y1="138" x2="200" y2="183" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<line x1="335" y1="188" x2="370" y2="253" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<line x1="505" y1="258" x2="540" y2="323" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<line x1="610" y1="366" x2="500" y2="397" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<line x1="580" y1="441" x2="695" y2="328" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<line x1="830" y1="328" x2="835" y2="260" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<line x1="900" y1="215" x2="905" y2="181" stroke="#245B78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<path d="M270 150 C390 90 730 95 895 220" fill="none" stroke="#2F7F89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7" marker-end="url(#arrow-teal)"/>
-<path d="M440 220 C520 135 645 155 765 290" fill="none" stroke="#2F7F89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7" marker-end="url(#arrow-teal)"/>
-<path d="M610 290 C655 245 685 250 700 310" fill="none" stroke="#2F7F89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7" marker-end="url(#arrow-teal)"/>
-<text x="520" y="112" text-anchor="middle" font-size="23px" font-weight="700" fill="#2F7F89" style="">跳跃连接：传递同尺度的高分辨率特征</text>
-<rect x="85" y="505" width="250" height="45" rx="22.5" fill="#E8F1F7" stroke="#245B78" stroke-width="2"/>
-<text x="210.0" y="535.2" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">下采样：空间变小</text>
-<rect x="370" y="505" width="250" height="45" rx="22.5" fill="#E9F6EF" stroke="#2F7F89" stroke-width="2"/>
-<text x="495.0" y="535.2" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">上采样：空间恢复</text>
-<rect x="655" y="505" width="260" height="45" rx="22.5" fill="#D9EEF0" stroke="#2F7F89" stroke-width="2"/>
-<text x="785.0" y="535.2" text-anchor="middle" font-size="22px" font-weight="650" fill="#142033" style="">输出：每个像素的 logits</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="1000" height="620" role="img" aria-labelledby="title desc">
+<title id="title">小型 U-Net 的空间网格与预测过程</title><desc id="desc">128、64、32 三个空间尺寸，解码放大后拼接编码特征；输出 logits 经 Sigmoid 与阈值形成二值掩膜。</desc>
+<defs><pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#d9eef0"/><path d="M12 0H0V12" fill="none" stroke="#96bcc5"/></pattern><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#245b78"/></marker></defs>
+<rect width="1000" height="620" fill="#f4f7fb"/><g font-family="Microsoft YaHei,Arial,sans-serif" fill="#142033" font-size="21">
+<text x="34" y="40" font-size="27" font-weight="700">小型 U-Net：网格尺寸与通道数量分别变化</text>
+<rect x="40" y="85" width="144" height="144" fill="url(#grid)"/><text x="40" y="263">a：8 × 128 × 128</text>
+<rect x="250" y="160" width="108" height="108" fill="url(#grid)"/><text x="238" y="301">b：16 × 64 × 64</text>
+<rect x="440" y="240" width="72" height="72" fill="url(#grid)"/><text x="400" y="348">c：32 × 32 × 32</text>
+<rect x="620" y="160" width="108" height="108" fill="url(#grid)"/><text x="594" y="301">16 × 64 × 64</text>
+<rect x="810" y="85" width="144" height="144" fill="url(#grid)"/><text x="786" y="263">8 × 128 × 128</text>
+<g stroke="#245b78" stroke-width="2.5" fill="none" marker-end="url(#arr)"><path d="M188 165L245 205"/><path d="M360 245L435 275"/><path d="M518 275L615 225"/><path d="M730 200L805 150"/></g>
+<g stroke="#2f7f89" stroke-width="2.5" fill="none" stroke-dasharray="7 5" marker-end="url(#arr)"><path d="M110 85V58H885V80"/><path d="M306 160V124H674V155"/></g>
+<text x="375" y="113" fill="#2f7f89">b 跳跃连接：32+16=48 通道</text><text x="600" y="377" fill="#2f7f89">a 跳跃连接：16+8=24 通道</text>
+<text x="32" y="414">网格表示空间位置；每个网格叠有多张特征图。图中省略批量轴 B。</text>
+<path d="M885 275V454" stroke="#245b78" stroke-width="2.5" marker-end="url(#arr)"/>
+<g text-anchor="middle"><rect x="34" y="466" width="220" height="110" rx="12" fill="#e8f1f7"/><text x="144" y="496">输出 logits</text><text x="144" y="526">1 × 128 × 128</text><text x="144" y="556">可为正或负</text>
+<rect x="390" y="466" width="220" height="110" rx="12" fill="#d9eef0"/><text x="500" y="496">前景概率</text><text x="500" y="526">1 × 128 × 128</text><text x="500" y="556">范围 0—1</text>
+<rect x="748" y="466" width="220" height="110" rx="12" fill="#e9f6ef"/><text x="858" y="496">二值掩膜</text><text x="858" y="526">1 × 128 × 128</text><text x="858" y="556">仅有 0 或 1</text></g>
+<path d="M885 454H144V461" stroke="#245b78" fill="none" stroke-width="2.5" marker-end="url(#arr)"/>
+<path d="M259 525H384M615 525H742" stroke="#245b78" stroke-width="2.5" marker-end="url(#arr)"/><text x="271" y="503">Sigmoid</text><text x="645" y="503">阈值</text>
+<text x="34" y="607" font-size="17">结构示意，尺寸对应项目默认 SIZE=128；网格颜色不代表真实激活值。</text></g></svg>
